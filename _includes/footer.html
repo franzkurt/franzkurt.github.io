@@ -1,0 +1,12 @@
+<footer class="site-foot">
+  <div class="wrap site-foot__inner">
+    <p class="site-foot__copy">© {{ site.time | date: "%Y" }} {{ site.author.name | default: site.title }}</p>
+    <p class="site-foot__links">
+      {%- for s in site.social %}
+      <a href="{{ s.url }}" rel="me noopener">{{ s.name }}</a>
+      {%- endfor %}
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      <a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a>
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,22 @@
+<article class="card">
+  <time class="card__date" datetime="{{ include.post.date | date_to_xmlschema }}">
+    {%- include date.html date=include.post.date -%}
+  </time>
+  <h2 class="card__title">
+    <a href="{{ include.post.url | relative_url }}">{{ include.post.title | escape }}</a>
+  </h2>
+  {%- assign resumo = include.post.description | default: include.post.excerpt -%}
+  {%- if resumo %}
+  <p class="card__excerpt">{{ resumo | strip_html | normalize_whitespace | truncate: 220 }}</p>
+  {%- endif %}
+  <p class="card__foot">
+    <span class="card__time">{% include reading-time.html content=include.post.content %}</span>
+    {%- if include.post.tags.size > 0 -%}
+    <span class="card__tags">
+      {%- for tag in include.post.tags -%}
+      <a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>
+      {%- endfor -%}
+    </span>
+    {%- endif -%}
+  </p>
+</article>

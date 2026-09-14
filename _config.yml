@@ -1,0 +1,66 @@
+# ─────────────────────────────────────────────────────────────
+#  Identidade do site — edite livremente
+# ─────────────────────────────────────────────────────────────
+title: Franz Kurt
+tagline: Notas sobre software, dados e o ofício de construir coisas
+description: >-
+  Artigos sobre engenharia de software, automação e as decisões
+  pequenas que fazem diferença no resultado final.
+author:
+  name: Franz Kurt
+
+url: "https://franzkurt.github.io"
+baseurl: ""
+lang: pt-BR
+timezone: America/Sao_Paulo
+
+# Links do rodapé (remova ou acrescente o que quiser)
+social:
+  - name: GitHub
+    url: https://github.com/franzkurt
+
+# ─────────────────────────────────────────────────────────────
+#  Build — plugins abaixo são os homologados pelo GitHub Pages
+# ─────────────────────────────────────────────────────────────
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+
+paginate: 8
+paginate_path: "/pagina/:num/"
+
+permalink: /:year/:month/:title/
+excerpt_separator: "<!--more-->"
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+sass:
+  style: compressed
+
+feed:
+  path: /feed.xml
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - .jekyll-cache
+  - .jekyll-metadata

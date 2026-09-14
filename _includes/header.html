@@ -1,0 +1,34 @@
+<header class="site-head">
+  <div class="wrap site-head__inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand__name">{{ site.title }}</span>
+      {%- if site.tagline %}<span class="brand__tagline">{{ site.tagline }}</span>{% endif -%}
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      {%- assign p = page.url -%}
+      <a href="{{ '/' | relative_url }}" {% if p == '/' %}aria-current="page"{% endif %}>Artigos</a>
+      <a href="{{ '/tags/' | relative_url }}" {% if p contains '/tags' %}aria-current="page"{% endif %}>Tags</a>
+      <a href="{{ '/sobre/' | relative_url }}" {% if p contains '/sobre' %}aria-current="page"{% endif %}>Sobre</a>
+      <a href="{{ '/feed.xml' | relative_url }}" class="nav__rss" title="Assinar o RSS">
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
+          <circle cx="6.2" cy="17.8" r="2.2" fill="currentColor"/>
+          <path d="M4 10.2a9.8 9.8 0 0 1 9.8 9.8" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+          <path d="M4 4.2A15.8 15.8 0 0 1 19.8 20" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+        </svg>
+        <span>RSS</span>
+      </a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+          </g>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" focusable="false">
+          <path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>

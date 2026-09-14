@@ -1,0 +1,37 @@
+---
+layout: default
+title: Tags
+description: Todos os assuntos publicados no blog, reunidos por tag.
+---
+
+<header class="page__head">
+  <h1 class="page__title">Tags</h1>
+  <p class="page__lead">Tudo o que já foi publicado, reunido por assunto.</p>
+</header>
+
+{%- assign tags = site.tags | sort -%}
+
+{%- if tags.size > 0 %}
+<ul class="tagcloud">
+  {%- for t in tags %}
+  <li><a href="#{{ t[0] | slugify }}">{{ t[0] }} <span>{{ t[1].size }}</span></a></li>
+  {%- endfor %}
+</ul>
+
+{%- for t in tags %}
+<section class="tag-group" id="{{ t[0] | slugify }}">
+  <h2 class="tag-group__title">{{ t[0] }}</h2>
+  <ul class="tag-list">
+    {%- for post in t[1] %}
+    <li>
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d.%m.%Y" }}</time>
+      <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endfor %}
+
+{%- else %}
+<p class="page__lead">Nenhuma tag ainda — ela aparece aqui assim que o primeiro artigo for marcado.</p>
+{%- endif %}

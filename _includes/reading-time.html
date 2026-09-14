@@ -1,0 +1,4 @@
+{%- assign palavras = include.content | number_of_words -%}
+{%- assign minutos = palavras | divided_by: 200 -%}
+{%- if minutos < 1 %}{% assign minutos = 1 %}{% endif -%}
+{{- minutos }} min de leitura

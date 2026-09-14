@@ -1,0 +1,51 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="https://schema.org/BlogPosting">
+  <header class="post__head">
+    <p class="post__kicker">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- include date.html date=page.date -%}
+      </time>
+      <span class="sep" aria-hidden="true">·</span>
+      <span>{% include reading-time.html content=content %}</span>
+    </p>
+    <h1 class="post__title p-name" itemprop="headline">{{ page.title | escape }}</h1>
+    {%- if page.description %}
+    <p class="post__lead">{{ page.description }}</p>
+    {%- endif %}
+  </header>
+
+  <div class="prose e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <footer class="post__foot">
+    {%- if page.tags.size > 0 %}
+    <p class="post__tags">
+      {%- for tag in page.tags -%}
+      <a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>
+      {%- endfor -%}
+    </p>
+    {%- endif %}
+
+    <nav class="post__nav" aria-label="Outros artigos">
+      {%- if page.previous %}
+      <a class="post__nav-item post__nav-item--prev" href="{{ page.previous.url | relative_url }}">
+        <span class="post__nav-label">← Anterior</span>
+        <span class="post__nav-title">{{ page.previous.title | escape }}</span>
+      </a>
+      {%- endif %}
+      {%- if page.next %}
+      <a class="post__nav-item post__nav-item--next" href="{{ page.next.url | relative_url }}">
+        <span class="post__nav-label">Próximo →</span>
+        <span class="post__nav-title">{{ page.next.title | escape }}</span>
+      </a>
+      {%- endif %}
+    </nav>
+
+    <p class="post__subscribe">
+      Gostou? Assine o <a href="{{ '/feed.xml' | relative_url }}">feed RSS</a> para receber os próximos.
+    </p>
+  </footer>
+</article>

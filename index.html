@@ -1,1 +1,35 @@
-Hello World
+---
+layout: default
+description: >-
+  Artigos sobre engenharia de software, automação e as decisões pequenas
+  que fazem diferença no resultado final.
+---
+
+<section class="hero">
+  <h1 class="hero__title">{{ site.tagline }}</h1>
+  <p class="hero__text">{{ site.description }}</p>
+</section>
+
+{%- assign lista = paginator.posts | default: site.posts -%}
+
+{%- if lista.size > 0 %}
+<div class="cards">
+  {%- for post in lista %}
+  {% include post-card.html post=post %}
+  {%- endfor %}
+</div>
+{%- else %}
+<p class="hero__text">Ainda não há artigos publicados por aqui. Em breve.</p>
+{%- endif %}
+
+{%- if paginator and paginator.total_pages > 1 %}
+<nav class="pager" aria-label="Paginação">
+  {%- if paginator.previous_page %}
+  <a href="{{ paginator.previous_page_path | relative_url }}" rel="prev">← Mais recentes</a>
+  {%- else %}<span class="pager__spacer"></span>{% endif %}
+  <span class="pager__status">Página {{ paginator.page }} de {{ paginator.total_pages }}</span>
+  {%- if paginator.next_page %}
+  <a href="{{ paginator.next_page_path | relative_url }}" rel="next">Mais antigos →</a>
+  {%- else %}<span class="pager__spacer"></span>{% endif %}
+</nav>
+{%- endif %}
