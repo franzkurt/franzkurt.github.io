@@ -195,6 +195,12 @@ img, svg, video { max-width: 100%; height: auto; }
 .nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
 
 .nav__rss { display: inline-flex; align-items: center; gap: .35rem; }
+.nav__icone {
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 0 !important;      /* ícone não ganha sublinhado de link */
+}
+.nav__icone:hover { color: var(--accent); }
 
 .theme-toggle {
   appearance: none;

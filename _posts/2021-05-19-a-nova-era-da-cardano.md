@@ -5,6 +5,8 @@ tags: [cardano, charles-hoskinson, ethereum-blockchain, taproot, bitcoin]
 description: "Para aqueles que andam dormindo no mundo das criptomoedas relembro que recentemente o Bitcoin despencou 40% e o mundo (aquele que conhece e investe no Bitcoin) se desesperou na…"
 canonical_url: https://franzkurt.medium.com/a-nova-era-da-cardano-6e7eff88bf64
 medium_url: https://franzkurt.medium.com/a-nova-era-da-cardano-6e7eff88bf64
+audio: /assets/audio/a-nova-era-da-cardano.mp3
+audio_duracao: "9:08"
 ---
 ### Um desacoplamento foi percebido na última crise do bitcoin
 

@@ -5,6 +5,8 @@ tags: [hbo, pirataria, propriedade-intelectual, falsificação, cópia]
 description: "Segundo a imprensa mediática a pirataria na Internet se reduz a jovens hackers que roubam filmes, livros e músicas as disponibilizam na internet para auferir grandes somas de…"
 canonical_url: https://franzkurt.medium.com/pirataria-e-a-difus%C3%A3o-da-cultura-ae393fe1e7dd
 medium_url: https://franzkurt.medium.com/pirataria-e-a-difus%C3%A3o-da-cultura-ae393fe1e7dd
+audio: /assets/audio/pirataria-e-a-difusao-da-cultura.mp3
+audio_duracao: "2:34"
 ---
 Segundo a imprensa mediática a pirataria na Internet se reduz a jovens hackers que roubam filmes, livros e músicas as disponibilizam na internet para auferir grandes somas de dinheiro através de publicidade enquanto as grandes produtoras sofrem graves golpes financeiros, enquanto pagam pelas despezas de produção. Mas não será que é assim mesmo?
 
