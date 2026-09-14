@@ -5,6 +5,8 @@ tags: [hacker, python, cracking, wifi, scrapy]
 description: "O protocolo 802.11x ou sinal Wi-fi está presente em quase todas as residências e empresas que frequentamos diariamente. Fornecem toda a estrutura física e a lógica de redes…"
 canonical_url: https://franzkurt.medium.com/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy-8a3dae8b8b2c
 medium_url: https://franzkurt.medium.com/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy-8a3dae8b8b2c
+audio: /assets/audio/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy.mp3
+audio_duracao: "13:10"
 ---
 ### Entendendo o 4 Way Handshake de redes Wireless em Python
 

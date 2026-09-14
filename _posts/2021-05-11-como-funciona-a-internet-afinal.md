@@ -5,6 +5,8 @@ tags: [mosaic, internet, redes, network, browsers]
 description: "Neste post iremos aprender a desbravar os tópicos de redes na raça!"
 canonical_url: https://franzkurt.medium.com/como-funciona-a-internet-afinal-ff6182c0ec7a
 medium_url: https://franzkurt.medium.com/como-funciona-a-internet-afinal-ff6182c0ec7a
+audio: /assets/audio/como-funciona-a-internet-afinal.mp3
+audio_duracao: "6:33"
 ---
 Neste post iremos aprender a desbravar os tópicos de redes na raça!
 

@@ -5,6 +5,8 @@ tags: [games, ensino-médio, ensino, gamefication, ludificacao]
 description: "Quem nunca foi criticado por jogar video-game enquanto deveria estar fazendo o tema de casa ou estudando para uma prova importante não teve infância. Embora parecesse pouco…"
 canonical_url: https://franzkurt.medium.com/gamefica%C3%A7%C3%A3o-e-motiva%C3%A7%C3%A3o-para-adultos-657254133d23
 medium_url: https://franzkurt.medium.com/gamefica%C3%A7%C3%A3o-e-motiva%C3%A7%C3%A3o-para-adultos-657254133d23
+audio: /assets/audio/gameficacao-e-motivacao-para-adultos.mp3
+audio_duracao: "13:04"
 ---
 Quem nunca foi criticado por jogar video-game enquanto deveria estar fazendo o tema de casa ou estudando para uma prova importante não teve infância. Embora parecesse pouco produtivo para a época de nossos pais, aqueles que mantiveram jogos em sua rotina e hoje realizam streamings ou participam das acirradas partidas de League of Legends recebem uma boa quantia pelas habilidades adquiridas. Mas este não é o assunto deste tópico.
 

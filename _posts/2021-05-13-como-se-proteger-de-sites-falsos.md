@@ -5,6 +5,8 @@ tags: [compras, fraude, segurança, compras-online, online]
 description: "Se você encontrar um site duvidoso na internet aconselho agir de acordo com os passos abaixo. Utilizo de meu conhecimento em software para demonstrar como uma pessoa qualquer…"
 canonical_url: https://franzkurt.medium.com/como-se-proteger-de-sites-falsos-7f3196d539f0
 medium_url: https://franzkurt.medium.com/como-se-proteger-de-sites-falsos-7f3196d539f0
+audio: /assets/audio/como-se-proteger-de-sites-falsos.mp3
+audio_duracao: "8:57"
 ---
 ### E pesquisá-los corretamente!
 

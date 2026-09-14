@@ -19,6 +19,24 @@ import argparse, re, shutil, subprocess, sys, tempfile, unicodedata, wave
 from pathlib import Path
 
 SILENCIO_POR_FRASE = 0.35      # padrão do piper é 0,2 e cola as frases
+
+# ── Qwen3-TTS: parâmetros APROVADOS pelo Franz em 14/09/2026 ────────────────
+# Ele ouviu quatro variantes da mesma frase (temp 0.9 padrão, 0.6, 0.35 e uma
+# acelerada 12%) e escolheu esta. Não mexer sem ele pedir.
+# Temperatura menor deixa a fala mais LENTA (13,1 s a 0.9 contra 15,7 s a
+# 0.35 no mesmo texto); se a fala soar arrastada, acelere com ATEMPO abaixo,
+# não suba a temperatura — isso afasta o timbre da referência.
+QWEN_DIR = Path("~/.local/qwentts").expanduser()
+QWEN_MODELO = "qwen-talker-0.6b-base-Q8_0.gguf"
+QWEN_CODEC = "qwen-tokenizer-12hz-Q8_0.gguf"
+QWEN_VOZ = QWEN_DIR / "voz" / "franz.wav"
+QWEN_TEMP = 0.35
+QWEN_SUB_TEMP = 0.35
+QWEN_TOP_K = 20
+QWEN_IDIOMA = "Portuguese"
+QWEN_IMAGEM = "localhost/qwentts-run"
+QWEN_PALAVRAS_POR_BLOCO = 110   # ~45 s de fala; o modelo tem teto de ~163 s
+ATEMPO = 1.0                    # 1.0 = sem alteração; >1 acelera sem mudar o tom
 PAUSA_ENTRE_SECOES = 0.75      # maior que a pausa de frase: marca a mudança de assunto
 BITRATE = "48k"               # fala mono: 48 kbps basta, e o MP3 fica no histórico do git para sempre
 PIPER_DIR = Path("~/.local/piper").expanduser()
@@ -166,6 +184,48 @@ def limpa_inline(t):
 
 
 # ── síntese ──────────────────────────────────────────────────────────────────
+def falar_qwen(texto, saida):
+    """Qwen3-TTS com a voz do Franz, via qwentts.cpp em contêiner."""
+    r = subprocess.run(
+        ["podman", "run", "--rm", "-i",
+         "-v", f"{QWEN_DIR}:/q", "-v", f"{saida.parent}:/out",
+         "-w", "/q", "-e", "LD_LIBRARY_PATH=/q/build",
+         QWEN_IMAGEM, "./build/qwen-tts",
+         "--model", f"models/{QWEN_MODELO}",
+         "--codec", f"models/{QWEN_CODEC}",
+         "--ref-wav", f"voz/{QWEN_VOZ.name}",
+         "--lang", QWEN_IDIOMA,
+         "--temp", str(QWEN_TEMP), "--sub-temp", str(QWEN_SUB_TEMP),
+         "--top-k", str(QWEN_TOP_K),
+         "--max-new", "700",   # teto de frames: 700/12.5 = 56s/bloco. O default
+                               # 2048 (163s) enche de silêncio quando a parada
+                               # do modelo não é limpa — causou 79% de padding.
+         "-o", f"/out/{saida.name}"],
+        input=texto, capture_output=True, text=True, timeout=1800)
+    if r.returncode != 0 or not saida.exists():
+        return None, (r.stderr or r.stdout or "").strip()[-200:]
+    return saida, None
+
+
+def agrupa_para_qwen(blocos, teto=QWEN_PALAVRAS_POR_BLOCO):
+    """Junta blocos curtos numa mesma chamada — cada chamada recarrega o modelo.
+
+    Não junta através de um título de seção: é ali que a pausa longa precisa
+    cair, e a pausa vem da montagem dos WAV, não do modelo.
+    """
+    grupos, atual, n = [], [], 0
+    for b in blocos:
+        curto = len(b.split()) < 12 and b.endswith(".") and len(b) < 90
+        if atual and (n + len(b.split()) > teto or curto):
+            grupos.append(" ".join(atual)); atual, n = [], 0
+        atual.append(b); n += len(b.split())
+        if curto and atual:
+            grupos.append(" ".join(atual)); atual, n = [], 0
+    if atual:
+        grupos.append(" ".join(atual))
+    return grupos
+
+
 def falar(texto, saida):
     exe = PIPER_DIR / "piper" / "piper"
     modelo = next(PIPER_DIR.glob("*.onnx"), None)
@@ -192,10 +252,14 @@ def juntar(partes, destino, pausa=PAUSA_ENTRE_SECOES):
 
 
 def para_mp3(wav, mp3):
+    af = "silenceremove=stop_periods=-1:stop_duration=0.5:stop_threshold=-38dB:detection=peak"
+    if ATEMPO != 1.0:
+        af += f",atempo={ATEMPO}"
+    filtros = ["-af", af]
     r = subprocess.run(
         ["podman", "run", "--rm", "-v", f"{wav.parent}:/a", "-w", "/a",
          IMAGEM_FFMPEG, "ffmpeg", "-y", "-loglevel", "error",
-         "-i", wav.name, "-codec:a", "libmp3lame", "-b:a", BITRATE,
+         "-i", wav.name, *filtros, "-codec:a", "libmp3lame", "-b:a", BITRATE,
          "-ac", "1", mp3.name],
         capture_output=True, text=True, timeout=900)
     return mp3.exists(), (r.stderr or "").strip()[:200]
@@ -266,10 +330,12 @@ def processa(post, args, autor):
     destino.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
+        sintetizar = falar_qwen if args.motor == "qwen" else falar
+        unidades = agrupa_para_qwen(blocos) if args.motor == "qwen" else blocos
         partes, falhas = [], []
-        for n, bloco in enumerate(blocos):
+        for n, bloco in enumerate(unidades):
             alvo = tmp / f"{n:04d}.wav"
-            ok, erro = falar(bloco, alvo)
+            ok, erro = sintetizar(bloco, alvo)
             if ok:
                 partes.append(alvo)
             else:
@@ -278,7 +344,7 @@ def processa(post, args, autor):
             print(f"  [ERRO] {slug}: nenhum bloco sintetizado")
             return False
         if falhas:                       # falha por bloco é reportada, não engolida
-            print(f"  [ERRO] {slug}: {len(falhas)} de {len(blocos)} blocos falharam")
+            print(f"  [ERRO] {slug}: {len(falhas)} de {len(unidades)} blocos falharam")
             for n, erro, trecho in falhas[:3]:
                 print(f"         bloco {n}: {erro} — “{trecho}…”")
             return False
@@ -307,9 +373,18 @@ def main():
     ap.add_argument("--texto", action="store_true", help="imprime o roteiro, não gera áudio")
     ap.add_argument("--refazer", action="store_true")
     ap.add_argument("--autor", default="Franz Kurt")
+    ap.add_argument("--motor", choices=("piper", "qwen"), default="qwen",
+                    help="qwen = voz do Franz (padrão); piper = voz sintética faber")
     args = ap.parse_args()
 
-    if not args.texto:
+    if not args.texto and args.motor == "qwen":
+        if not (QWEN_DIR / "build" / "qwen-tts").exists():
+            sys.exit(f"qwentts.cpp não encontrado em {QWEN_DIR}/build")
+        if not QWEN_VOZ.exists():
+            sys.exit(f"gravação de referência ausente: {QWEN_VOZ}")
+        if subprocess.run(["podman", "image", "exists", QWEN_IMAGEM]).returncode != 0:
+            sys.exit(f"imagem {QWEN_IMAGEM} não existe")
+    if not args.texto and args.motor == "piper":
         exe = PIPER_DIR / "piper" / "piper"
         if not exe.exists() or next(PIPER_DIR.glob("*.onnx"), None) is None:
             sys.exit(f"piper não encontrado em {PIPER_DIR} (binário e modelo .onnx)")

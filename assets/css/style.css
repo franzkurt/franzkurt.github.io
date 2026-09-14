@@ -145,15 +145,15 @@ img, svg, video { max-width: 100%; height: auto; }
 
 .site-head__inner {
   display: flex;
-  align-items: center;
+  align-items: baseline;          /* o nav alinha com "Franz Kurt", não com o meio */
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: .25rem 1.5rem;
   min-height: 4.25rem;
   flex-wrap: wrap;
-  padding-block: .75rem;
+  padding-block: .85rem;
 }
 
-.brand { text-decoration: none; display: block; line-height: 1.25; }
+.brand { text-decoration: none; display: block; line-height: 1.2; }
 
 .brand__name {
   display: block;

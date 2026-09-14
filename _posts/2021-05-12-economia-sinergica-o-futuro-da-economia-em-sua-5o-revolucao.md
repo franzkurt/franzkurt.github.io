@@ -5,6 +5,8 @@ tags: [gameficação, adam-smith, economia, economia-colaborativa, colaborativa]
 description: "Temos alguns momentos interessantes na história da humanidade como é o caso do surgimento da economia e o estudo técnico do comércio pelas universidades. Desde o início os…"
 canonical_url: https://franzkurt.medium.com/economia-sin%C3%A9rgica-o-futuro-da-economia-em-sua-5%C2%BA-revolu%C3%A7%C3%A3o-689604663bb2
 medium_url: https://franzkurt.medium.com/economia-sin%C3%A9rgica-o-futuro-da-economia-em-sua-5%C2%BA-revolu%C3%A7%C3%A3o-689604663bb2
+audio: /assets/audio/economia-sinergica-o-futuro-da-economia-em-sua-5o-revolucao.mp3
+audio_duracao: "18:31"
 ---
 ## Economia Sinérgica — O futuro da economia em sua 5º revolução
 

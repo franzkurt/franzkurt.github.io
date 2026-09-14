@@ -5,6 +5,8 @@ tags: [ethereum-blockchain, cardano, bitcoin, ethereum, blockchain]
 description: "Neste post iremos aprender porque a Cardano merece destaque entre os milhares de projetos que são desenvolvidos no universo das blockchains e porque devemos apoiar o seu progresso."
 canonical_url: https://franzkurt.medium.com/cardano-est%C3%A1-moldando-o-futuro-das-criptomoedas-e-tamb%C3%A9m-das-na%C3%A7%C3%B5es-1cebdc788088
 medium_url: https://franzkurt.medium.com/cardano-est%C3%A1-moldando-o-futuro-das-criptomoedas-e-tamb%C3%A9m-das-na%C3%A7%C3%B5es-1cebdc788088
+audio: /assets/audio/cardano-esta-moldando-o-futuro-das-criptomoedas-e-tambem-das-nacoes.mp3
+audio_duracao: "5:06"
 ---
 Neste post iremos aprender porque a Cardano merece destaque entre os milhares de projetos que são desenvolvidos no universo das blockchains e porque devemos apoiar o seu progresso.
 

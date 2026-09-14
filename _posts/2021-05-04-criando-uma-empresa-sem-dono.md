@@ -5,6 +5,8 @@ tags: [startup, negocios, comunidade, economia, descentralização]
 description: "Através de livros como ‘A Biblioteca de Coisas’ e ‘Sharing Cities’ da Ong Shareable é possível encontrar diversos exemplos de boa convivência na comunidade e através de alguns…"
 canonical_url: https://franzkurt.medium.com/criando-uma-empresa-sem-dono-4c57a78df96a
 medium_url: https://franzkurt.medium.com/criando-uma-empresa-sem-dono-4c57a78df96a
+audio: /assets/audio/criando-uma-empresa-sem-dono.mp3
+audio_duracao: "15:53"
 ---
 Através de livros como ‘***A Biblioteca de Coisas’*** e ‘***Sharing Cities’*** da Ong **Shareable** é possível encontrar diversos exemplos de boa convivência na comunidade e através de alguns conceitos foi possível que eu criasse uma estratégia efetiva para empregar a comunidade inteira e arrecadar recursos de modo que a desvantagem monetária pode ser compensada pelo número de participantes.
 
