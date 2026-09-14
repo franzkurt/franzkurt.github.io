@@ -112,7 +112,7 @@ Utilizando o GMK, uma chave privada gravada no AP, e um GNonce gerado aleatoriam
 
 **Desde que a lista de senhas contenha a chave certa.*
 
-Parte Prática: *Em breve disponibilizo no Github o código fonte Vamos instalar as bibliotecas e o nosso manipulador de pacotes de rede Scapy. Primeiro vamos aprender a filtrar pacotes da rede com o scapy. A função sniff() realiza uma escuta na placa de rede e armazena os pacotes na memória assim como o wireshark.
+Parte Prática: *Em breve disponibilizo no Github o código fonte Vamos instalar as bibliotecas e o nosso manipulador de pacotes de rede [Scapy](https://scapy.net). Primeiro vamos aprender a filtrar pacotes da rede com o scapy. A função sniff() realiza uma escuta na placa de rede e armazena os pacotes na memória assim como o wireshark.
 
 Antes de utilizar a placa é necessário garantir que ela está em modo monitor e no canal correto ou você não irá capturar pacotes. Pode rodar um airmong-ng caso tenha duvidas sobre os parametros da rede. Com o script rodando ligue e desligue o modo avião o celular.
 
@@ -183,7 +183,7 @@ MAC_ST = a2b_hex(“7c8bb518374f”)
   <img src="/assets/img/medium/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy/07.png" alt="">
 </figure>
 
-Com estes valores, os mesmo que serão extraídos pela ferramenta aircrack-ng de um arquivo pcap, seremos capazes de fazer a quebra da PassPhrase.
+Com estes valores, os mesmo que serão extraídos pela ferramenta [aircrack-ng](https://www.aircrack-ng.org) de um arquivo pcap, seremos capazes de fazer a quebra da PassPhrase.
 
 Para gerar o MIC iremos gerar o MIC na ordem:
 

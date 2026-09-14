@@ -8,6 +8,25 @@ medium_url: https://franzkurt.medium.com/a-nova-era-da-cardano-6e7eff88bf64
 audio: /assets/audio/a-nova-era-da-cardano.mp3
 audio_duracao: "9:08"
 ---
+<div class="nota-editorial" markdown="1">
+<span class="nota-editorial__rotulo">Nota de 2026</span>
+Este texto é de maio de 2021, no calor de uma queda de 40% do Bitcoin, e faz
+previsões que o tempo já resolveu. Vale a leitura com o desfecho em mãos:
+
+- A pergunta central de Mark Cuban — *"por que não há contratos inteligentes?"* — foi
+  respondida em **13 de setembro de 2021**, quando o hard fork
+  [Alonzo](https://www.coindesk.com/tech/2021/09/12/cardano-gains-smart-contract-capability-following-alonzo-hard-fork)
+  trouxe os smart contracts (via Plutus) à [Cardano](https://cardano.org), quatro meses depois deste artigo.
+- O projeto na Etiópia de fato avançou: o sistema de identidade Atala PRISM passou a
+  emitir credenciais acadêmicas a cerca de **cinco milhões de estudantes**.
+- O otimismo do texto, porém, não sobreviveu ao ano seguinte. Veio o maior *crypto
+  winter* da história: o colapso da Terra/Luna (maio de 2022) e a falência da FTX
+  (novembro de 2022). A própria Tesla
+  [vendeu 75% dos seus bitcoins](https://www.cnbc.com/2022/07/20/tesla-converted-75percent-of-bitcoin-purchases-to-fiat-currency-in-q2-2022.html)
+  no segundo trimestre de 2022.
+</div>
+
+
 ## Um desacoplamento foi percebido na última crise do bitcoin
 
 Para aqueles que andam dormindo no mundo das criptomoedas relembro que recentemente o Bitcoin despencou 40% e o mundo (aquele que conhece e investe no Bitcoin) se desesperou na noite deste 18 de maio de 2021.
@@ -48,7 +67,7 @@ Após alguns tweets de sua conta fica aparente que sendo o queridinho das cripto
 
 Após uma série de tweets o diretor da Tesla (aparentemente) descobriu que o Bitcoin contraria seus princípios ecológicos de energia renovável e causa muitos danos ao meio ambiente. Este gasto para a mineração é o que permite a confiança da rede blockchain e já foi provado que embora ainda ineficiênte gasta muito menos que todos os sistemas mundiais somados. O que é uma falácia! — é uma propriedade que sempre existiu mas somente agora parece ter tido relevância a empresa Tesla que removeu a aceitação da criptomoeda Bitcoin para a compra de carros e ainda promoveu uma moeda meme — chamada dogecoin!
 
-Quem estuda os fundamentos criptográficos e a teoria por trás de projetos relevantes como XRP, Ethereum e Cardano rapidamente percebeu que estavam diante de uma manipulação descarada (uma vez que o código da dogecoin é praticamente o mesmo do bitcoin original e portanto apresenta o mesmo gasto energético) de uma celebridade e desistiram de dar importância a suas contas sociais.
+Quem estuda os fundamentos criptográficos e a teoria por trás de projetos relevantes como XRP, [Ethereum](https://ethereum.org) e Cardano rapidamente percebeu que estavam diante de uma manipulação descarada (uma vez que o código da dogecoin é praticamente o mesmo do bitcoin original e portanto apresenta o mesmo gasto energético) de uma celebridade e desistiram de dar importância a suas contas sociais.
 
 Além disso ainda passou a colecionar haters que criaram um token chamado $FUCKELON.
 

@@ -8,7 +8,7 @@ medium_url: https://franzkurt.medium.com/cardano-est%C3%A1-moldando-o-futuro-das
 audio: /assets/audio/cardano-esta-moldando-o-futuro-das-criptomoedas-e-tambem-das-nacoes.mp3
 audio_duracao: "5:06"
 ---
-Neste post iremos aprender porque a Cardano merece destaque entre os milhares de projetos que são desenvolvidos no universo das blockchains e porque devemos apoiar o seu progresso.
+Neste post iremos aprender porque a [Cardano](https://cardano.org) merece destaque entre os milhares de projetos que são desenvolvidos no universo das blockchains e porque devemos apoiar o seu progresso.
 
 Apesar de ser a nova moda de investimento de economistas e especuladores após a descoberta de milionários jovens que apostaram cedo na teoria do bitcoin, ***o Blockchain*** hoje representa a tecnologia futurista que promete derrubar governos. Mas quanto disso é hype?
 
@@ -20,7 +20,25 @@ Caso seu interesse seja apenas voltado ao estudo da Cardano indico [***este outr
   <img src="/assets/img/medium/cardano-esta-moldando-o-futuro-das-criptomoedas-e-tambem-das-nacoes/01.jpeg" alt="">
 </figure>
 
-Muito diferente das rivais, sendo a que mais se aproxima de sua proposta é a rede Ethereum, ablockchain Cardano apresenta uma irresistível resiliência técnica trespassada por seu time que em grande parte trabalha como pesquisador de universidades renomadas.
+Muito diferente das rivais, sendo a que mais se aproxima de sua proposta é a rede [Ethereum](https://ethereum.org), ablockchain Cardano apresenta uma irresistível resiliência técnica trespassada por seu time que em grande parte trabalha como pesquisador de universidades renomadas.
+
+<div class="nota-editorial" markdown="1">
+<span class="nota-editorial__rotulo">Nota de 2026</span>
+Escrito em maio de 2021, este texto defende a Cardano com entusiasmo — inclusive
+sugerindo "fazer o *stake* de ADA". Cinco anos depois, o balanço é misto e vale tê-lo
+em mente ao ler:
+
+- O que o texto antecipava se concretizou em parte: os smart contracts chegaram no
+  hard fork [Alonzo](https://www.coindesk.com/tech/2021/09/12/cardano-gains-smart-contract-capability-following-alonzo-hard-fork)
+  de setembro de 2021, e o projeto de identidade na Etiópia (Atala PRISM) emitiu
+  credenciais a cerca de cinco milhões de estudantes.
+- Mas o "imbatível" não se sustentou como investimento: o *crypto winter* de 2022
+  (colapso da Terra/Luna e da FTX) derrubou o mercado inteiro, e o preço do ADA nunca
+  recuperou a máxima daquele período.
+- Como sempre, entusiasmo por um ativo não é conselho financeiro — e um texto que
+  sugere comprar uma criptomoeda envelhece de um jeito particular.
+</div>
+
 
 ## Esta é talvez a única blockchain formada
 
