@@ -195,5 +195,5 @@ ferramentas estão prontas para uso diário hoje.
 
 ---
 
-*Continua numa [parte 2](#), onde amarro os comandos deste texto num `Makefile` para
+*Continua numa [parte 2]({{ site.baseurl }}/2026/09/makefile-python-moderno-parte-2/), onde amarro os comandos deste texto num `Makefile` para
 não decorar nenhum deles.*
