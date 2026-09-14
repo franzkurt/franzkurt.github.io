@@ -62,18 +62,21 @@ uv add requests           # resolve, grava no pyproject.toml, trava e instala
 uv run python app.py      # roda no ambiente, sem ativar venv na mão
 ```
 
-**A favor:** é a peça mais madura das três. A velocidade é real — resolver e instalar
-dependências que o pip levava minutos leva segundos. O *lockfile* (`uv.lock`) torna o
-ambiente reproduzível, e o `uv python pin` acaba com o "funciona na minha máquina" por
-diferença de versão de Python.
+**A favor**
 
-**Contra, e as issues que você vai encontrar:** o ponto fraco conhecido é **monorepo**.
-Os *workspaces* do uv não lidam bem com requisitos conflitantes — se um pacote precisa
-de `pydantic<2` e outro de `pydantic>=2`, eles não compartilham um *lockfile*
-([discussão](https://github.com/astral-sh/uv/issues/9150)). E há um bug documentado em
-que caminhos relativos de instalações editáveis colapsam no *lockfile* e quebram o
-`uv sync` ([issue #6371](https://github.com/astral-sh/uv/issues/6371)). Para um projeto
-único, nada disso aparece; num monorepo grande, aparece cedo.
+- é a peça mais madura das três;
+- a velocidade é real — o que o pip levava minutos, leva segundos;
+- o *lockfile* (`uv.lock`) torna o ambiente reproduzível;
+- o `uv python pin` acaba com o "funciona na minha máquina" por versão de Python.
+
+**Contra — as issues que você vai encontrar**
+
+- o ponto fraco é **monorepo**: os *workspaces* não lidam com requisitos conflitantes
+  — `pydantic<2` num pacote e `pydantic>=2` noutro não compartilham um *lockfile*
+  ([discussão](https://github.com/astral-sh/uv/issues/9150));
+- há um bug documentado em que caminhos relativos de instalações editáveis colapsam no
+  *lockfile* e quebram o `uv sync` ([issue #6371](https://github.com/astral-sh/uv/issues/6371));
+- em projeto único nada disso aparece; em monorepo grande, aparece cedo.
 
 ## Ruff: lint e formatação
 
@@ -97,15 +100,18 @@ select = ["E", "F", "I"]   # erros, pyflakes, ordenação de import
 ignore = ["E501"]
 ```
 
-**A favor:** consolida flake8, black, isort, pyupgrade e mais um punhado de plugins
-numa ferramenta só, com mais de 900 regras e velocidade que muda o hábito — como roda
-instantâneo, você checa o tempo todo, não só no fim. É a ferramenta menos controversa
-das três: quase todo projeto Python novo já a adota sem discussão.
+**A favor**
 
-**Contra:** justamente por ter 900+ regras, ligar tudo de uma vez afoga um projeto
-existente em avisos — a disciplina é começar com poucas famílias no `select` e ampliar.
-E o *formatter*, embora quase idêntico ao black, tem pequenas diferenças que geram um
-*diff* grande na primeira aplicação sobre uma base antiga.
+- consolida flake8, black, isort, pyupgrade e mais plugins numa ferramenta só (900+ regras);
+- a velocidade muda o hábito — como roda instantâneo, você checa o tempo todo, não só no fim;
+- é a menos controversa das três: quase todo projeto Python novo já a adota sem discussão.
+
+**Contra**
+
+- as 900+ regras afogam um projeto existente se ligadas de uma vez — comece com poucas
+  famílias no `select` e amplie;
+- o *formatter*, quase idêntico ao black, tem pequenas diferenças que geram um *diff*
+  grande na primeira aplicação sobre uma base antiga.
 
 ## Pyrefly: os tipos
 
@@ -118,19 +124,22 @@ uvx pyrefly check --summarize-errors # verifica e resume
 uvx pyrefly suppress                 # marca os erros atuais, p/ tratar só os novos
 ```
 
-**A favor:** velocidade absurda — a Meta checa os ~20 milhões de linhas do Instagram em
-13 segundos, e o Pyrefly roda de 10 a 50 vezes mais rápido que mypy e pyright em bases
-grandes. Um diferencial importante: **ele checa também o código sem anotação de tipo,
-por padrão.** O mypy, de fábrica, pula funções não anotadas — o que faz um projeto sem
-tipos parecer "limpo" quando não foi checado. O Pyrefly checa mesmo assim, inferindo o
-que consegue. É mais honesto.
+**A favor**
 
-**Contra, e as arestas reais:** é a peça mais nova e menos assentada das três. Há um
-atrito concreto com o próprio Ruff: o comentário de supressão do Pyrefly é interpretado
-pelo Ruff (regra `ERA001`) como "código comentado" e sinalizado — as duas ferramentas
-brigam ([issue #19713](https://github.com/astral-sh/ruff/issues/19713)). E o Pyrefly é
-notadamente **menos estrito** que os concorrentes: tolera partes não tipadas de um jeito
-que quem quer rigor máximo pode achar frouxo.
+- velocidade absurda — a Meta checa os ~20 milhões de linhas do Instagram em 13 segundos,
+  10 a 50 vezes mais rápido que mypy e pyright em bases grandes;
+- **checa também o código sem anotação de tipo, por padrão** — o mypy, de fábrica, pula
+  funções não anotadas, o que faz um projeto sem tipos parecer "limpo" sem ter sido
+  checado; o Pyrefly checa mesmo assim, inferindo o que consegue. É mais honesto.
+
+**Contra — as arestas reais**
+
+- é a peça mais nova e menos assentada das três;
+- atrito concreto com o próprio Ruff: o comentário de supressão do Pyrefly é lido pela
+  regra `ERA001` do Ruff como "código comentado" e sinalizado — as duas brigam
+  ([issue #19713](https://github.com/astral-sh/ruff/issues/19713));
+- é notadamente **menos estrito** que os concorrentes: tolera partes não tipadas de um
+  jeito que quem quer rigor máximo pode achar frouxo.
 
 Há ainda o elefante na sala: a própria Astral (agora OpenAI) desenvolve o **ty**, um
 verificador de tipos em Rust que compete diretamente com o Pyrefly. São dois candidatos
