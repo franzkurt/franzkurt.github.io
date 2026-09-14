@@ -23,9 +23,9 @@
   --mono: ui-monospace, SFMono-Regular, "SF Mono", "JetBrains Mono", Menlo,
           Consolas, "Liberation Mono", monospace;
 
-  /* 83rem menos 3rem de padding = 80rem de conteúdo ≈ 140 caracteres,
-     medido no navegador com Source Serif 4 a 18px e o mono a 0.9rem. */
-  --wrap: 83rem;
+  /* 43.5rem menos 3rem de padding = 40.5rem ≈ 73 caracteres por linha — a mesma
+     medida do akitaonrails.com (653px medidos a 1600px de viewport). */
+  --wrap: 43.5rem;
   --measure: 100%;    /* blocos de conteúdo preenchem o container */
   --radius: 4px;
   --shadow: 0 1px 2px rgba(31, 29, 26, .04), 0 8px 24px -12px rgba(31, 29, 26, .16);
@@ -81,7 +81,7 @@ body {
   color: var(--ink);
   font-family: var(--serif);
   font-size: 1.125rem;
-  line-height: 1.78;   /* medida larga exige mais entrelinha */
+  line-height: 1.72;
   font-optical-sizing: auto;
   hanging-punctuation: first last;
   text-rendering: optimizeLegibility;
@@ -398,7 +398,7 @@ img, svg, video { max-width: 100%; height: auto; }
 
 /* ----------------------------------------------------------------- prosa - */
 
-.prose { font-size: 1.125rem; line-height: 1.8; }
+.prose { font-size: 1.125rem; line-height: 1.75; }
 .prose > * { margin-block: 0; }
 .prose > * + * { margin-top: 1.4em; }
 
@@ -736,6 +736,152 @@ pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
   :root:not([data-theme="light"]) .highlight .m,
   :root:not([data-theme="light"]) .highlight .mi,
   :root:not([data-theme="light"]) .highlight .mf { color: #e2b06a; }
+}
+
+
+/* ------------------------------------------------------ visualizações --- */
+/* Paleta categórica validada com o script da skill de dataviz nos dois
+   modos (superfícies #fcfbf9 e #121110). O aviso de contraste do aqua no
+   modo claro é compensado por rótulo direto visível + tabela de dados. */
+
+.viz {
+  --viz-s1: #2a78d6;
+  --viz-s2: #eb6834;
+  --viz-s3: #1baf7a;
+  position: relative;
+  margin: 2.75em auto;
+  max-width: 640px;      /* largura de projeto do viewBox: acima disso só amplia */
+  text-align: left;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .viz {
+    --viz-s1: #3987e5;
+    --viz-s2: #d95926;
+    --viz-s3: #199e70;
+  }
+}
+:root[data-theme="dark"] .viz {
+  --viz-s1: #3987e5;
+  --viz-s2: #d95926;
+  --viz-s3: #199e70;
+}
+
+.prose .viz__titulo, .viz__titulo {
+  font-family: var(--sans);
+  font-size: .85rem;
+  color: var(--ink-2);
+  text-align: left;
+  margin: 0 0 .6rem;
+}
+
+.viz__legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.25rem;
+  font-family: var(--sans);
+  font-size: .78rem;
+  color: var(--muted);
+  margin-bottom: .75rem;
+}
+.viz__item { display: inline-flex; align-items: center; gap: .4rem; }
+
+.viz__marca {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.viz__marca--s1 { background: var(--viz-s1); }
+.viz__marca--s2 { background: var(--viz-s2); }
+.viz__marca--s3 { background: var(--viz-s3); }
+
+.viz__plot { position: relative; }
+.viz svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* grade e eixos recessivos: hairline sólida, um tom acima da superfície */
+.viz__grade line { stroke: var(--line); stroke-width: 1; }
+.viz__rotulo {
+  fill: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.viz__rotulo--eixo {
+  font-size: 9.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.viz__linha {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.viz__linha--s1 { stroke: var(--viz-s1); }
+.viz__linha--s2 { stroke: var(--viz-s2); }
+.viz__linha--s3 { stroke: var(--viz-s3); }
+
+/* anel de 2px na cor da superfície separa marcadores sobrepostos */
+.viz__ponto { stroke: var(--paper); stroke-width: 2; }
+.viz__ponto--s1 { fill: var(--viz-s1); }
+.viz__ponto--s2 { fill: var(--viz-s2); }
+.viz__ponto--s3 { fill: var(--viz-s3); }
+
+/* rótulo direto: a identidade vem da marca colorida, o texto é tinta */
+.viz__direto {
+  fill: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.viz__mira { visibility: hidden; }          /* hidden não vale para SVG */
+.viz__mira--on { visibility: visible; }
+.viz__mira line { stroke: var(--muted); stroke-width: 1; opacity: .45; }
+.viz__alvo { cursor: crosshair; }
+.viz__alvo:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.viz__tooltip {
+  position: absolute;
+  top: 0;
+  min-width: 11rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: .5rem .7rem;
+  font-family: var(--sans);
+  font-size: .78rem;
+  color: var(--ink-2);
+  pointer-events: none;
+  z-index: 3;
+}
+.viz__tooltip strong {
+  display: block;
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.viz__tl { display: flex; align-items: center; gap: .4rem; padding: .1rem 0; }
+.viz__tl b { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+.viz__tabela { margin-top: 1rem; font-family: var(--sans); font-size: .8rem; }
+.viz__tabela summary {
+  cursor: pointer;
+  color: var(--muted);
+  padding: .25rem 0;
+}
+.viz__tabela summary:hover { color: var(--accent); }
+.viz__tabela table { margin-top: .6rem; font-size: .8rem; }
+.viz__tabela td, .viz__tabela th { font-variant-numeric: tabular-nums; }
+.viz__nota { color: var(--muted); font-size: .74rem; margin: .6rem 0 0; }
+
+@media (max-width: 40rem) {
+  .viz__direto { font-size: 13px; }
+  .viz__rotulo { font-size: 13px; }
 }
 
 /* --------------------------------------------------------------- extras -- */

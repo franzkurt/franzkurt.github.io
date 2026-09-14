@@ -1,0 +1,106 @@
+<figure class="viz" role="group" aria-labelledby="viz-benchmark-titulo">
+  <figcaption id="viz-benchmark-titulo" class="viz__titulo">Tempo para contar os primos até 300.000, por número de threads</figcaption>
+  <div class="viz__legenda">
+    <span class="viz__item"><span class="viz__marca viz__marca--s1"></span>3.14 com GIL</span>
+    <span class="viz__item"><span class="viz__marca viz__marca--s2"></span>3.14t sem GIL</span>
+    <span class="viz__item"><span class="viz__marca viz__marca--s3"></span>3.14t GIL religado</span>
+  </div>
+  <div class="viz__plot">
+    <svg viewBox="0 0 640 320" role="img" aria-label="Gráfico de linhas, tempo por número de threads: 3.14 com GIL fica plano de 0,72 para 0,72 segundos; 3.14t sem GIL cai de 0,60 para 0,27 segundos; 3.14t GIL religado fica plano de 0,69 para 0,65 segundos.">
+      <g class="viz__grade">
+        <line x1="46" y1="280.0" x2="508" y2="280.0"/>
+        <text class="viz__rotulo" x="36" y="284.0" text-anchor="end">0,0</text>
+        <line x1="46" y1="218.5" x2="508" y2="218.5"/>
+        <text class="viz__rotulo" x="36" y="222.5" text-anchor="end">0,2</text>
+        <line x1="46" y1="157.0" x2="508" y2="157.0"/>
+        <text class="viz__rotulo" x="36" y="161.0" text-anchor="end">0,4</text>
+        <line x1="46" y1="95.5" x2="508" y2="95.5"/>
+        <text class="viz__rotulo" x="36" y="99.5" text-anchor="end">0,6</text>
+        <line x1="46" y1="34.0" x2="508" y2="34.0"/>
+        <text class="viz__rotulo" x="36" y="38.0" text-anchor="end">0,8</text>
+      </g>
+      <g class="viz__eixo">
+        <text class="viz__rotulo" x="46.0" y="304" text-anchor="middle">1</text>
+        <text class="viz__rotulo" x="200.0" y="304" text-anchor="middle">2</text>
+        <text class="viz__rotulo" x="354.0" y="304" text-anchor="middle">4</text>
+        <text class="viz__rotulo" x="508.0" y="304" text-anchor="middle">8</text>
+        <text class="viz__rotulo viz__rotulo--eixo" x="277.0" y="316" text-anchor="middle">threads</text>
+        <text class="viz__rotulo viz__rotulo--eixo" x="36" y="18" text-anchor="start">segundos</text>
+      </g>
+      <polyline class="viz__linha viz__linha--s1" points="46.0,58.6 200.0,49.4 354.0,52.5 508.0,58.6"/>
+      <polyline class="viz__linha viz__linha--s2" points="46.0,95.5 200.0,89.4 354.0,147.8 508.0,197.0"/>
+      <polyline class="viz__linha viz__linha--s3" points="46.0,67.8 200.0,83.2 354.0,77.1 508.0,80.1"/>
+      <circle class="viz__ponto viz__ponto--s1" cx="46.0" cy="58.6" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s1" cx="200.0" cy="49.4" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s1" cx="354.0" cy="52.5" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s1" cx="508.0" cy="58.6" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s1" cx="522" cy="58.6" r="3.5"/>
+      <text class="viz__direto" x="532" y="62.6">com GIL · 0,72 s</text>
+      <circle class="viz__ponto viz__ponto--s2" cx="46.0" cy="95.5" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s2" cx="200.0" cy="89.4" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s2" cx="354.0" cy="147.8" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s2" cx="508.0" cy="197.0" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s2" cx="522" cy="197.0" r="3.5"/>
+      <text class="viz__direto" x="532" y="201.0">sem GIL · 0,27 s</text>
+      <circle class="viz__ponto viz__ponto--s3" cx="46.0" cy="67.8" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s3" cx="200.0" cy="83.2" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s3" cx="354.0" cy="77.1" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s3" cx="508.0" cy="80.1" r="4.5"/>
+      <circle class="viz__ponto viz__ponto--s3" cx="522" cy="80.1" r="3.5"/>
+      <text class="viz__direto" x="532" y="84.1">GIL religado · 0,65 s</text>
+      <g class="viz__mira"><line x1="-99" x2="-99" y1="34" y2="280"/></g>
+      <rect class="viz__alvo" data-i="0" x="-31.0" y="34" width="154.0" height="246" fill="transparent" tabindex="0"/>
+      <rect class="viz__alvo" data-i="1" x="123.0" y="34" width="154.0" height="246" fill="transparent" tabindex="0"/>
+      <rect class="viz__alvo" data-i="2" x="277.0" y="34" width="154.0" height="246" fill="transparent" tabindex="0"/>
+      <rect class="viz__alvo" data-i="3" x="431.0" y="34" width="154.0" height="246" fill="transparent" tabindex="0"/>
+    </svg>
+    <div class="viz__tooltip" hidden></div>
+  </div>
+  <details class="viz__tabela">
+    <summary>Ver os dados em tabela</summary>
+    <table>
+      <thead><tr><th scope="col">Threads</th><th scope="col">3.14 com GIL</th><th scope="col">3.14t sem GIL</th><th scope="col">3.14t GIL religado</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1</th><td>0,72 s</td><td>0,60 s</td><td>0,69 s</td></tr>
+        <tr><th scope="row">2</th><td>0,75 s</td><td>0,62 s</td><td>0,64 s</td></tr>
+        <tr><th scope="row">4</th><td>0,74 s</td><td>0,43 s</td><td>0,66 s</td></tr>
+        <tr><th scope="row">8</th><td>0,72 s</td><td>0,27 s</td><td>0,65 s</td></tr>
+      </tbody>
+    </table>
+    <p class="viz__nota">Melhor de três execuções. CPython 3.14.7 do mesmo toolchain (python-build-standalone), host de 8 núcleos físicos.</p>
+  </details>
+</figure>
+
+<script>
+(function () {
+  var fig = document.currentScript.previousElementSibling;
+  var svg = fig.querySelector("svg"), tip = fig.querySelector(".viz__tooltip");
+  var mira = fig.querySelector(".viz__mira"), linha = mira.querySelector("line");
+  var dados = [{"t": 1, "v": [0.72, 0.6, 0.69]}, {"t": 2, "v": [0.75, 0.62, 0.64]}, {"t": 4, "v": [0.74, 0.43, 0.66]}, {"t": 8, "v": [0.72, 0.27, 0.65]}], nomes = ["3.14 com GIL", "3.14t sem GIL", "3.14t GIL religado"], slots = ["s1", "s2", "s3"], xs = [46.0, 200.0, 354.0, 508.0], larguraSvg = 640;
+  function mostrar(alvo) {
+    var i = +alvo.dataset.i, d = dados[i];
+    linha.setAttribute("x1", xs[i]); linha.setAttribute("x2", xs[i]);
+    mira.classList.add("viz__mira--on");
+    tip.innerHTML = "<strong>" + d.t + (d.t > 1 ? " threads" : " thread") + "</strong>" +
+      nomes.map(function (nome, k) {
+        return "<span class=\"viz__tl\"><span class=\"viz__marca viz__marca--" + slots[k] +
+               "\"></span>" + nome + "<b>" + d.v[k].toFixed(2).replace(".", ",") + " s</b></span>";
+      }).join("");
+    var cx = svg.getBoundingClientRect(), cf = fig.getBoundingClientRect();
+    var px = cx.left - cf.left + (xs[i] / larguraSvg) * cx.width;
+    tip.hidden = false;
+    tip.style.left = Math.min(Math.max(px - tip.offsetWidth / 2, 0),
+                              fig.clientWidth - tip.offsetWidth) + "px";
+  }
+  fig.querySelectorAll(".viz__alvo").forEach(function (alvo) {
+    ["mouseenter", "mousemove", "focus"].forEach(function (ev) {
+      alvo.addEventListener(ev, function () { mostrar(alvo); });
+    });
+  });
+  function esconder() { tip.hidden = true; mira.classList.remove("viz__mira--on"); }
+  fig.querySelector(".viz__plot").addEventListener("mouseleave", esconder);
+  fig.addEventListener("focusout", function (e) {
+    if (!fig.contains(e.relatedTarget)) esconder();
+  });
+})();
+</script>

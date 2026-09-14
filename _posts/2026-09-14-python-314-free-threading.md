@@ -142,12 +142,7 @@ Rodei em três configurações, todas com **o mesmo interpretador 3.14.7 vindo d
 mesmo toolchain** (`python-build-standalone`, via `uv`), na mesma máquina — 8
 núcleos físicos, 16 lógicos. Melhor de três execuções:
 
-| Threads | 3.14 (com GIL) | 3.14t (sem GIL) | 3.14t com `PYTHON_GIL=1` |
-|---|---|---|---|
-| 1 | 0,72 s | 0,60 s | 0,69 s |
-| 2 | 0,75 s | 0,62 s | 0,64 s |
-| 4 | 0,74 s | 0,43 s | 0,66 s |
-| 8 | 0,72 s | **0,27 s** | 0,65 s |
+{% include grafico-benchmark.html %}
 
 Três leituras, em ordem de importância:
 
