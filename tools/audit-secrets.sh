@@ -57,8 +57,11 @@ PADROES_ERRO=(
   "token-slack|xox[abprs]-[A-Za-z0-9]{8,}"
   "chave-google|AIza[0-9A-Za-z_-]{35}"
   "token-anthropic|sk-ant-[A-Za-z0-9_-]{24,}"
-  "token-openai|sk-(proj-)?[A-Za-z0-9_-]{32,}"
+  "token-openai|sk-(proj-[A-Za-z0-9_-]{32,}|[A-Za-z0-9]{32,})"
   "credencial-em-url|[a-z][a-z0-9+.-]*://[^/[:space:]:@\"']+:[^/[:space:]:@\"']+@"
+  "cabecalho-de-autorizacao|[Aa]uthorization[[:space:]]*:[[:space:]]*([Bb]asic|[Bb]earer)[[:space:]]+[A-Za-z0-9._~+/=-]{16,}"
+  "certificado-ou-chave|-----BEGIN (CERTIFICATE|OPENSSH PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----"
+  "conexao-com-credencial|(postgres|postgresql|mysql|mongodb|mongodb\\+srv|redis|amqp|ftp|ssh)://[^/[:space:]:@\"']+:[^/[:space:]:@\"']+@"
 )
 PADROES_AVISO=(
   "segredo-atribuido|(password|passwd|senha|secret|token|api_key|apikey|access_key)[[:space:]]*[=:][[:space:]]*[\"'][^\"']{12,}[\"']"
@@ -76,8 +79,11 @@ amostras_autoteste() {
   echo "token-slack|xo""xb-012345678901"
   echo "chave-google|AIz""a01234567890123456789012345678901234"
   echo "token-anthropic|sk-""ant-0123456789012345678901234567"
-  echo "token-openai|s""k-01234567890123456789012345678901234"
+  echo "token-openai|s""k-abc123ABC456def789GHI012jkl345MNO"
   echo "credencial-em-url|https://usuario:senha123@exemplo.com/repo.git"
+  echo "cabecalho-de-autorizacao|Authorization: Bear""er abcdefghijklmnopqrstuvwxyz012345"
+  echo "certificado-ou-chave|-----BEG""IN CERTIFICATE-----"
+  echo "conexao-com-credencial|postgres://app:s3nh4@db.interno:5432/producao"
 }
 
 ARQUIVOS_IGNORADOS=(
@@ -103,6 +109,17 @@ while IFS='|' read -r nome amostra; do
     FALHAS_AUTOTESTE=$((FALHAS_AUTOTESTE+1))
   fi
 done < <(amostras_autoteste)
+
+# padrão sem amostra passa despercebido pelo laço acima — checar explicitamente
+N_PADROES=${#PADROES_ERRO[@]}
+N_AMOSTRAS=$(amostras_autoteste | wc -l)
+if [ "$N_PADROES" -ne "$N_AMOSTRAS" ]; then
+  printf "  %s✗ %s padrão(ões) de erro mas %s amostra(s): algum padrão não é testado%s\n" \
+    "$R" "$N_PADROES" "$N_AMOSTRAS" "$Z"
+  FALHAS_AUTOTESTE=$((FALHAS_AUTOTESTE + 1))
+else
+  printf "  %s✓%s cobertura: %s padrões, %s amostras\n" "$G" "$Z" "$N_PADROES" "$N_AMOSTRAS"
+fi
 
 if [ "$FALHAS_AUTOTESTE" -gt 0 ]; then
   echo
@@ -172,12 +189,16 @@ if [ "$ESCOPO_HISTORICO" = 1 ]; then
     echo "${R}enumeração de blobs voltou vazia — varredura sem valor${Z}"; exit 2
   fi
   N_ARQUIVOS_VISTOS=$((N_ARQUIVOS_VISTOS + n_blobs))
-  n_lidos=0 n_arvores=0 n_falha_leitura=0
+  n_lidos=0 n_arvores=0 n_falha_leitura=0 n_binarios=0
   while read -r oid; do
     tipo=$(git cat-file -t "$oid" 2>/dev/null)
     if [ "$tipo" != "blob" ]; then n_arvores=$((n_arvores+1)); continue; fi   # diretório
     caminho=$(grep -m1 "^$oid " "$mapa" | cut -d' ' -f2-)
     [ "$caminho" = "tools/audit-secrets.sh" ] && continue
+    nulos=$(git cat-file blob "$oid" 2>/dev/null | head -c 8000 | tr -dc '\000' | wc -c)
+    if [ "${nulos:-0}" -gt 0 ]; then
+      n_binarios=$((n_binarios+1)); continue      # binário: não é lido como texto
+    fi
     conteudo=$(git cat-file blob "$oid" 2>/dev/null) || { n_falha_leitura=$((n_falha_leitura+1)); continue; }
     n_lidos=$((n_lidos+1))
     for entrada in "${PADROES_ERRO[@]}"; do
@@ -187,7 +208,7 @@ if [ "$ESCOPO_HISTORICO" = 1 ]; then
       fi
     done
   done < "$blobs"
-  echo "  $n_lidos blob(s) lidos, $n_arvores diretório(s) ignorado(s)"
+  echo "  $n_lidos blob(s) de texto lidos, $n_arvores diretório(s) e $n_binarios binário(s) ignorado(s)"
   if [ "$n_falha_leitura" -gt 0 ]; then
     erro "$n_falha_leitura blob(s) não puderam ser lidos — o histórico NÃO foi auditado por inteiro"
   fi
