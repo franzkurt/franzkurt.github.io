@@ -37,7 +37,8 @@ QWEN_IDIOMA = "Portuguese"
 QWEN_IMAGEM = "localhost/qwentts-run"
 QWEN_PALAVRAS_POR_BLOCO = 110   # ~45 s de fala; o modelo tem teto de ~163 s
 ATEMPO = 1.0                    # 1.0 = sem alteração; >1 acelera sem mudar o tom
-PAUSA_ENTRE_SECOES = 0.75      # maior que a pausa de frase: marca a mudança de assunto
+PAUSA_ENTRE_SECOES = 0.55      # entre blocos: respiro de frase (as pausas de
+                              # vírgula já vêm dentro de cada bloco, do modelo)
 BITRATE = "48k"               # fala mono: 48 kbps basta, e o MP3 fica no histórico do git para sempre
 PIPER_DIR = Path("~/.local/piper").expanduser()
 IMAGEM_FFMPEG = "localhost/ffmpeg-audio"
@@ -187,10 +188,10 @@ def limpa_inline(t):
 def falar_qwen(texto, saida):
     """Qwen3-TTS com a voz do Franz, via qwentts.cpp em contêiner."""
     r = subprocess.run(
-        ["podman", "run", "--rm", "-i",
+        ["podman", "run", "--rm", "-i", "--cpu-shares=256",
          "-v", f"{QWEN_DIR}:/q", "-v", f"{saida.parent}:/out",
          "-w", "/q", "-e", "LD_LIBRARY_PATH=/q/build",
-         QWEN_IMAGEM, "./build/qwen-tts",
+         QWEN_IMAGEM, "nice", "-n", "19", "./build/qwen-tts",
          "--model", f"models/{QWEN_MODELO}",
          "--codec", f"models/{QWEN_CODEC}",
          "--ref-wav", f"voz/{QWEN_VOZ.name}",
@@ -204,6 +205,20 @@ def falar_qwen(texto, saida):
         input=texto, capture_output=True, text=True, timeout=1800)
     if r.returncode != 0 or not saida.exists():
         return None, (r.stderr or r.stdout or "").strip()[-200:]
+    # o Qwen deixa silêncio de padding no começo e no fim do bloco; aparar SÓ
+    # as bordas (não o meio) tira o padding sem tocar nas pausas de vírgula.
+    aparado = saida.with_suffix(".trim.wav")
+    corte = ("silenceremove=start_periods=1:start_silence=0.08:start_threshold=-40dB:detection=peak,"
+             "areverse,"
+             "silenceremove=start_periods=1:start_silence=0.20:start_threshold=-40dB:detection=peak,"
+             "areverse")
+    rt = subprocess.run(
+        ["podman", "run", "--rm", "-v", f"{saida.parent}:/out", "-w", "/out",
+         IMAGEM_FFMPEG, "ffmpeg", "-y", "-loglevel", "error",
+         "-i", saida.name, "-af", corte, aparado.name],
+        capture_output=True, text=True, timeout=120)
+    if rt.returncode == 0 and aparado.exists():
+        aparado.replace(saida)
     return saida, None
 
 
@@ -252,10 +267,7 @@ def juntar(partes, destino, pausa=PAUSA_ENTRE_SECOES):
 
 
 def para_mp3(wav, mp3):
-    af = "silenceremove=stop_periods=-1:stop_duration=0.5:stop_threshold=-38dB:detection=peak"
-    if ATEMPO != 1.0:
-        af += f",atempo={ATEMPO}"
-    filtros = ["-af", af]
+    filtros = [] if ATEMPO == 1.0 else ["-af", f"atempo={ATEMPO}"]
     r = subprocess.run(
         ["podman", "run", "--rm", "-v", f"{wav.parent}:/a", "-w", "/a",
          IMAGEM_FFMPEG, "ffmpeg", "-y", "-loglevel", "error",
