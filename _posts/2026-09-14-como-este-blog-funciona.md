@@ -3,6 +3,8 @@ title: "Como este blog funciona"
 date: 2026-09-14 10:00:00 -0300
 tags: [jekyll, meta]
 description: "O guia curto de como publicar um artigo aqui — estrutura de pastas, front matter e o que o GitHub Pages faz sozinho."
+audio: /assets/audio/como-este-blog-funciona.mp3
+audio_duracao: "2:11"
 ---
 
 Este site é um Jekyll sem tema de terceiros: o layout, o CSS e os includes estão

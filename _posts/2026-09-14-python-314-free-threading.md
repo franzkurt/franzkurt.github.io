@@ -3,6 +3,8 @@ title: "Python 3.14 na prática: o que mudou e o que o free threading custa"
 date: 2026-09-14 15:30:00 -0300
 tags: [python, engenharia, concorrência]
 description: "As mudanças do 3.14 que você encontra no dia a dia, um benchmark real de free threading com e sem GIL, e a conta que ninguém coloca no slide: overhead de single-thread, extensões C que religam o GIL em silêncio e o estado das dependências."
+audio: /assets/audio/python-314-free-threading.mp3
+audio_duracao: "11:45"
 ---
 
 O Python 3.14 saiu em 7 de outubro de 2025 e a manchete foi o free threading deixar

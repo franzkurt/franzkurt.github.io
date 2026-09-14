@@ -3,6 +3,8 @@ title: "O que o N+1 custa de verdade"
 date: 2026-09-02 09:30:00 -0300
 tags: [engenharia, banco-de-dados]
 description: "Uma query dentro do laço parece barata em desenvolvimento e cara em produção. A diferença não está no SQL — está na latência de rede multiplicada."
+audio: /assets/audio/o-que-o-n-mais-um-custa.mp3
+audio_duracao: "2:23"
 ---
 
 O problema do N+1 costuma ser ensinado como um erro de ORM. Na prática ele é um

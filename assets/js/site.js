@@ -57,6 +57,47 @@
     box.appendChild(table);
   });
 
+  /* ------------- sumário lateral, montado a partir dos títulos ---------- */
+  var listaSumario = document.getElementById('sumario-lista');
+  if (listaSumario) {
+    var titulos = document.querySelectorAll('.prose h2, .prose h3');
+    if (titulos.length >= 3) {          // sumário de dois itens não ajuda ninguém
+      var links = [];
+      titulos.forEach(function (h, i) {
+        if (!h.id) {
+          h.id = 'secao-' + (i + 1) + '-' + (h.textContent || '')
+            .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+        }
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        if (h.tagName === 'H3') a.className = 'sumario__sub';
+        listaSumario.appendChild(a);
+        links.push(a);
+      });
+
+      // destaca a seção visível; sem isso o sumário é só uma lista de links
+      if ('IntersectionObserver' in window) {
+        var visiveis = new Set();
+        var obs = new IntersectionObserver(function (entradas) {
+          entradas.forEach(function (e) {
+            if (e.isIntersecting) visiveis.add(e.target.id);
+            else visiveis.delete(e.target.id);
+          });
+          var atual = null;
+          titulos.forEach(function (h) { if (visiveis.has(h.id) && !atual) atual = h.id; });
+          links.forEach(function (a) {
+            a.setAttribute('aria-current', a.hash === '#' + atual ? 'true' : 'false');
+          });
+        }, { rootMargin: '-15% 0px -70% 0px' });
+        titulos.forEach(function (h) { obs.observe(h); });
+      }
+    } else {
+      listaSumario.closest('.sumario').remove();
+    }
+  }
+
   /* ---------------- links externos abrem em nova aba -------------------- */
   document.querySelectorAll('.prose a[href^="http"]').forEach(function (a) {
     if (a.hostname === window.location.hostname) return;

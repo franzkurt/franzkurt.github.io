@@ -28,6 +28,11 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
 
+collections:
+  livros:
+    output: true
+    permalink: /livros/:path/
+
 paginate: 8
 paginate_path: "/pagina/:num/"
 

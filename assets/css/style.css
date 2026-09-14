@@ -884,6 +884,164 @@ pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
   .viz__rotulo { font-size: 13px; }
 }
 
+
+/* ------------------------------------------------- ouvir o artigo ------- */
+
+.ouvir {
+  margin: 1.5rem 0 0;
+  padding: .9rem 1rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+}
+
+.ouvir__cabeca {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--sans);
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .6rem;
+}
+
+.ouvir audio { width: 100%; height: 36px; display: block; }
+
+.ouvir__nota {
+  margin: .6rem 0 0;
+  font-family: var(--sans);
+  font-size: .72rem;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------- sumário lateral ------ */
+
+.sumario { display: none; }
+
+.sumario__titulo {
+  font-family: var(--sans);
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 .9rem;
+  font-weight: 600;
+}
+
+.sumario__lista { font-family: var(--sans); font-size: .82rem; line-height: 1.45; }
+.sumario__lista a {
+  display: block;
+  padding: .3rem 0 .3rem .75rem;
+  border-left: 2px solid var(--line-soft);
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s ease, border-color .15s ease;
+}
+.sumario__lista a:hover { color: var(--ink-2); border-left-color: var(--line); }
+.sumario__lista a[aria-current="true"] {
+  color: var(--ink);
+  border-left-color: var(--accent);
+}
+.sumario__lista a.sumario__sub { padding-left: 1.5rem; font-size: .78rem; }
+
+/* a coluna de texto não muda: o sumário ocupa espaço que já estava vazio */
+@media (min-width: 78rem) {
+  .wrap--artigo { max-width: 70rem; }
+  .wrap--artigo .com-sumario {
+    display: grid;
+    grid-template-columns: minmax(0, 40.5rem) 14rem;
+    gap: 5rem;
+    justify-content: center;
+    align-items: start;
+  }
+  .sumario {
+    display: block;
+    position: sticky;
+    top: 6.5rem;
+    max-height: calc(100vh - 9rem);
+    overflow-y: auto;
+  }
+}
+
+/* ------------------------------------------------------------- livros --- */
+
+.livros { list-style: none; padding: 0; margin: 0; }
+
+.livro {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 2rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.livro:last-child { border-bottom: 0; }
+
+.livro__capa {
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.livro__capa img { width: 100%; height: 100%; object-fit: cover; }
+.livro__capa span {
+  font-family: var(--display);
+  font-size: 2rem;
+  color: var(--line);
+}
+
+.livro__meta {
+  font-family: var(--sans);
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  gap: .75rem;
+  margin: 0 0 .5rem;
+}
+.livro__numero { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+.livro__titulo {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  margin: 0 0 .35rem;
+}
+.livro__titulo a { text-decoration: none; }
+.livro__titulo a:hover { color: var(--accent); }
+
+.livro__subtitulo {
+  margin: 0 0 .75rem;
+  font-style: italic;
+  color: var(--muted);
+}
+.livro__resumo { margin: 0 0 1rem; color: var(--ink-2); font-size: 1rem; }
+
+.livro__estado {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  padding: .3rem .9rem;
+}
+
+@media (max-width: 34rem) {
+  .livro { grid-template-columns: 5.5rem 1fr; gap: 1.25rem; }
+  .livro__titulo { font-size: 1.25rem; }
+}
+
 /* --------------------------------------------------------------- extras -- */
 
 /* entre 42rem e 81rem a coluna é fluida (o padding dá a margem) */

@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+<div class="com-sumario">
 <article class="post h-entry" itemscope itemtype="https://schema.org/BlogPosting">
   <header class="post__head">
     <p class="post__kicker">
@@ -13,6 +14,25 @@ layout: default
     <h1 class="post__title p-name" itemprop="headline">{{ page.title | escape }}</h1>
     {%- if page.description %}
     <p class="post__lead">{{ page.description }}</p>
+    {%- endif %}
+    {%- if page.audio %}
+    <div class="ouvir">
+      <div class="ouvir__cabeca">
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
+          <path d="M4 9.5v5h3.2L12 19V5L7.2 9.5H4z" fill="currentColor"/>
+          <path d="M15.6 8.8a4.4 4.4 0 0 1 0 6.4M18.2 6.2a8 8 0 0 1 0 11.6"
+                fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <span>Ouvir este artigo{% if page.audio_duracao %} · {{ page.audio_duracao }}{% endif %}</span>
+      </div>
+      <audio controls preload="none" src="{{ page.audio | relative_url }}">
+        Seu navegador não toca áudio embutido.
+        <a href="{{ page.audio | relative_url }}">Baixar o arquivo</a>.
+      </audio>
+      <p class="ouvir__nota">
+        Narração sintetizada localmente. Código e tabelas são anunciados, não lidos.
+      </p>
+    </div>
     {%- endif %}
     {%- if page.medium_url %}
     <p class="post__origem">
@@ -55,3 +75,9 @@ layout: default
     </p>
   </footer>
 </article>
+
+<aside class="sumario" aria-labelledby="sumario-titulo">
+  <h2 class="sumario__titulo" id="sumario-titulo">Nesta página</h2>
+  <nav class="sumario__lista" id="sumario-lista"></nav>
+</aside>
+</div>

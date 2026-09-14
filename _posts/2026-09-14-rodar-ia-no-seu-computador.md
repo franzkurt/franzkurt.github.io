@@ -3,6 +3,8 @@ title: "Rodando uma IA no seu próprio computador"
 date: 2026-09-14 14:00:00 -0300
 tags: [ia, ollama, tutorial]
 description: "Um guia passo a passo do Ollama para quem não programa: o que dá para esperar de um modelo rodando no seu notebook, quanto ocupa de disco e o que fazer quando ele ficar lento."
+audio: /assets/audio/rodar-ia-no-seu-computador.mp3
+audio_duracao: "8:00"
 ---
 
 Dá para instalar um modelo de linguagem no seu computador e conversar com ele sem

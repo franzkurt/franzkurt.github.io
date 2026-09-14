@@ -1,0 +1,61 @@
+---
+layout: default
+title: Livros
+permalink: /livros/
+description: Textos longos — em formato de livro, com capítulos.
+---
+
+<header class="page__head">
+  <h1 class="page__title">Livros</h1>
+  <p class="page__lead">Ideias que não cabem num artigo.</p>
+</header>
+
+{%- assign livros = site.livros | sort: "ordem" -%}
+
+{%- if livros.size > 0 %}
+<ul class="livros">
+  {%- for livro in livros %}
+  <li class="livro">
+    <div class="livro__capa">
+      {%- if livro.capa %}
+      <img src="{{ livro.capa | relative_url }}" alt="Capa de {{ livro.title | escape }}">
+      {%- else %}
+      <span aria-hidden="true">{{ livro.title | slice: 0 }}</span>
+      {%- endif %}
+    </div>
+    <div class="livro__corpo">
+      <p class="livro__meta">
+        <span class="livro__numero">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        {%- if livro.assunto %}<span>{{ livro.assunto }}</span>{% endif %}
+      </p>
+      <h2 class="livro__titulo">
+        {%- if livro.pronto %}
+        <a href="{{ livro.url | relative_url }}">{{ livro.title | escape }}</a>
+        {%- else %}{{ livro.title | escape }}{% endif %}
+      </h2>
+      {%- if livro.subtitulo %}
+      <p class="livro__subtitulo">{{ livro.subtitulo }}</p>
+      {%- endif %}
+      {%- if livro.description %}
+      <p class="livro__resumo">{{ livro.description }}</p>
+      {%- endif %}
+      {%- if livro.pronto %}
+      <a class="button" href="{{ livro.url | relative_url }}">Ler {{ livro.title | escape }} →</a>
+      {%- else %}
+      <span class="livro__estado">Em preparo</span>
+      {%- endif %}
+    </div>
+  </li>
+  {%- endfor %}
+</ul>
+{%- else %}
+<div class="prose">
+  <p>Ainda não há livros publicados aqui.</p>
+  <p>
+    Quando houver, cada um aparece nesta página com capa, assunto e um resumo —
+    e o texto completo fica em <code>/livros/&lt;nome&gt;/</code>. Para começar
+    um, copie <code>_livros/MODELO.md</code>, tire o <code>published: false</code>
+    e escreva.
+  </p>
+</div>
+{%- endif %}

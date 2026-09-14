@@ -3,6 +3,8 @@ title: "Escrever para ser lido depois"
 date: 2026-08-18 18:00:00 -0300
 tags: [notas, escrita]
 description: "Documentação envelhece mal porque é escrita para quem já entende. Três hábitos que fazem um texto sobreviver a seis meses de esquecimento."
+audio: /assets/audio/escrever-para-ser-lido-depois.mp3
+audio_duracao: "1:35"
 ---
 
 Todo texto técnico tem dois leitores: o colega de hoje e você daqui a seis meses.

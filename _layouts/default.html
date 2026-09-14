@@ -30,7 +30,7 @@
 
   {%- include header.html -%}
 
-  <main id="conteudo" class="wrap">
+  <main id="conteudo" class="wrap{% if page.layout == 'post' %} wrap--artigo{% endif %}">
     {{ content }}
   </main>
 
