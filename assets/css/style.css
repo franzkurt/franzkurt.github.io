@@ -375,6 +375,16 @@ img, svg, video { max-width: 100%; height: auto; }
   text-wrap: pretty;
 }
 
+.post__origem {
+  margin: 1.25rem 0 0;
+  font-family: var(--sans);
+  font-size: .8rem;
+  color: var(--muted);
+  border-left: 2px solid var(--line);
+  padding-left: .75rem;
+}
+.post__origem a { color: var(--accent); }
+
 .page__head { margin-bottom: 2.25rem; }
 
 .page__title {
@@ -448,7 +458,8 @@ img, svg, video { max-width: 100%; height: auto; }
   box-shadow: var(--shadow);
 }
 
-.prose figure { margin: 2.5em 0; }
+.prose figure { margin: 2.5em 0; text-align: center; }
+.prose figure img { margin-inline: auto; }
 .prose figcaption {
   font-family: var(--sans);
   font-size: .8rem;
