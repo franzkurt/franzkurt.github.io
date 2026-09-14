@@ -8,19 +8,19 @@ medium_url: https://franzkurt.medium.com/como-eu-criei-um-script-para-quebra-de-
 audio: /assets/audio/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy.mp3
 audio_duracao: "13:10"
 ---
-### Entendendo o 4 Way Handshake de redes Wireless em Python
+## Entendendo o 4 Way Handshake de redes Wireless em Python
 
 O protocolo 802.11x ou sinal Wi-fi está presente em quase todas as residências e empresas que frequentamos diariamente. Fornecem toda a estrutura física e a lógica de redes para que possamos navegar tranquilamente na Internet. Assim como a eletricidade que nos rodeia e que só percebemos quando ela faz falta, o sinal de Wi-Fi utiliza técnicas avançadas de criptografia para manter a comunicação, segura e integra.
 
 > Tudo isso da maneira mais transparente e segura possível.
 
-### Diferente do 3-Way Handshake
+## Diferente do 3-Way Handshake
 
 onde o protocolo TCP realiza um simples acordo para a troca de pacotes, o protocolo de autenticação do 802.11 envolve uma Chave de Encriptação trocada previamente a conexão, também conhecida como “Senha do WIFI”, e uma sequência matemática complexa que permite comprovar que ambos conhecem a senha na fase de autenticação, mesmo que ninguém informe a mesma.
 
 Como a transferência da Senha pelo ar seria um violação do protocolo de segurança RSA, foi criado o 4-Way Handshake. Este protocolo permite as partes confirmarem seu conhecimento de uma chave simétrica específica sem a divulgar explicitamente. Para entender o processo de conexão entre um dispositivo qualquer e um acess point ou roteador vamos dividir o processo nas 4 fases abaixo:
 
-### As 4 Fases: Descoberta, Associação, Autenticação e Comunicação
+## As 4 Fases: Descoberta, Associação, Autenticação e Comunicação
 
 ***1. Descoberta de rede:*** Aqui os dispositivos emitem pacotes com a intenção de conhecer os demais. (Pacotes Beacon, Probe req e Probe Resp)
 
@@ -52,7 +52,7 @@ Digamos que um estranho bate a porta e uma criança abre a porta com a corrente 
 
 Com este padrão conhecido, teremos a sequência de quatro passos abaixo, a fim de autorizar a comunicação com um novo dispositivo.
 
-### O 4-Way Handshake
+## O 4-Way Handshake
 
 **a.** O AP inicia o processo gerando um numero aleatório chamado de ANonce e envia este valor num pacote para o STATION. O MIC neste pacote está zerado pois nenhuma iteração aconteceu até o momento entre os dispositivos.
 

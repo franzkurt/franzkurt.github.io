@@ -22,7 +22,7 @@ Caso seu interesse seja apenas voltado ao estudo da Cardano indico [***este outr
 
 Muito diferente das rivais, sendo a que mais se aproxima de sua proposta é a rede Ethereum, ablockchain Cardano apresenta uma irresistível resiliência técnica trespassada por seu time que em grande parte trabalha como pesquisador de universidades renomadas.
 
-### Esta é talvez a única blockchain formada
+## Esta é talvez a única blockchain formada
 
 não por um grupo de anarquistas programadores mas por criptógrafos profissionais, matemáticos, desenvolvedores sênior e outros que contribuem ativamente para os mais de 90 whitepapers e realizam peer review. ***Peer Review*** é uma técnica de prova científica onde é apresentada uma tese e ela é desafiada e testada por todos que desejarem na prática para verificar sua eficácia. A Cardano possui como eu disse mais de noventa artigos revisados por cientistas. Incrível!
 
@@ -40,7 +40,7 @@ Estes contratos são mais robustos e eficientes, escritos na ***linguagem interm
   <img src="/assets/img/medium/cardano-esta-moldando-o-futuro-das-criptomoedas-e-tambem-das-nacoes/03.jpeg" alt="">
 </figure>
 
-### Iniciando sua ação pela África
+## Iniciando sua ação pela África
 
 a empresa de Charles Hoskinson promete levar a milhares de habitântes da [***Etiópia***](https://pt.wikipedia.org/wiki/Eti%C3%B3pia) *e do* [***Zimbabue***](https://pt.wikipedia.org/wiki/Zimbabwe) internet de qualidade (infraestrutura já tentada por mais de 1000 empresas mas sem sucesso, além das investidas chinesas que visavam intalar fios com a intenção de interceptar as comunicações), treinamento para desenvolvedores locais (projeto catalyst) e fornecer um aplicativo onde os africanos poderão se cadastrar e ter acesso a identidade, uma conta de banco, poderão ter o direito a voto e ainda provar que detêm determinado conhecimento através de certificações digitais assinados criptograficamente.
 
@@ -50,7 +50,7 @@ Os cadastros de identidade embora simples trazem a localidade a oportunidade de 
 
 Diferente das demais blockchains a empresa IOHK —[ ***Input Outpu Hong Kong***](https://iohk.io/) negociou diretamente com os ministérios de tecnologia e educação dos países em questão para apresentar projetos consistentes e legais. Por este motivo a Cardano enfrenta resistência das pessoas e é por vezes acusada de ter centralização ou no mínimo interferência estatal. Para contrariar este argumento cito que a Cardano possui mais de 2 mil pools ativos o que deva representar uma maior descentralização que o [***próprio Bitcoin.***](https://portaldobitcoin.uol.com.br/estudo-revela-dados-sobre-a-centralizacao-na-mineracao-de-bitcoin/)
 
-### Assim apenas 5 pools detêm mais de 50% do hashrate da rede.
+## Assim apenas 5 pools detêm mais de 50% do hashrate da rede.
 
 A distribuição de pools pode ser vizualisada abaixo.
 
@@ -60,6 +60,6 @@ A distribuição de pools pode ser vizualisada abaixo.
 
 A fase Goguem prevista para Setembro no Roadmap é a terceira fase de 5 e permitirá que os contratos inteligentes sejam agregados na rede. Isto pode significar uma migração de DAOs — Organizações Distribuídas Autônomas para a rede Cardano devido a sua maior resiliência e conceituação. Talvez.
 
-### Faça o Stake de ADA na corretora mais próxima de você!
+## Faça o Stake de ADA na corretora mais próxima de você!
 
 Obrigado por ler.

@@ -8,13 +8,13 @@ medium_url: https://franzkurt.medium.com/como-se-proteger-de-sites-falsos-7f3196
 audio: /assets/audio/como-se-proteger-de-sites-falsos.mp3
 audio_duracao: "8:57"
 ---
-### E pesquisá-los corretamente!
+## E pesquisá-los corretamente!
 
 Se você encontrar um site duvidoso na internet aconselho agir de acordo com os passos abaixo. Utilizo de meu conhecimento em software para demonstrar como uma pessoa qualquer pode — e deve, juntar informações relevantes a denúncia e como encaminhá-las corretamente aos responsáveis para uma que uma posterior investigação seja aberta.
 
 Mesmo que o site não apresente indícios de irregularidade acredito que este artigo traga opções interessantes afim de melhorar a confiança nas compras online. Meu objetivo aqui é clarificar apessoas leigas no assunto assim como aqueles que nunca comprar e detém dúvidas sobre os processos envolvidos nas vendas em sites ou marketplaces.
 
-### Passo 1: Identifique o cadastro do site e o dono do registro.
+## Passo 1: Identifique o cadastro do site e o dono do registro.
 
 **Motivo:** Encontrar diferenças entre a descrição da empresa no site de vendas e compará-lo com dados de outros locais a fim de verificar a veracidade dos dados apresentados.
 
@@ -22,7 +22,7 @@ Os sites fraudulentos geralmente são registrados com pressa, apresentam datas d
 
 **Obs:** Existem lojas que explicam na descrição do site que estão presentes no mercado há anos mas seu registro é deste mês.
 
-### Como encontrar o dono de um domínio?
+## Como encontrar o dono de um domínio?
 
 Na área de levantamento de informações existem inúmeros utilitários e ferramentas, basta buscar pela sigla abaixo:
 
@@ -30,7 +30,7 @@ Na área de levantamento de informações existem inúmeros utilitários e ferra
 
 Um dos mais importantes serviços no que se refere a informações de sites é o utilitário [***whois***](https://pt.wikipedia.org/wiki/WHOIS) que traz informações importantes como contato, número de documentos e e-mail associado a nomes de domínio. Um possível contato com os donos do site. No Brasil os nomes de domínio terminam em .br e podem ser pesquisados neste [***link***](https://registro.br/tecnologia/ferramentas/whois/)***.***
 
-### Validando as informações:
+## Validando as informações:
 
 Como exemplo utilizarei uma empresa idônea chamada Americanas.
 
@@ -76,7 +76,7 @@ Na figura acima vemos que a Americanas utiliza um domínio próprio:
 
 > admdominios@b2wdigital.com
 
-### Passo 2: Verifique o selo E-Bit
+## Passo 2: Verifique o selo E-Bit
 
 <figure>
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/05.jpg" alt="">
@@ -86,7 +86,7 @@ Na figura acima vemos que a Americanas utiliza um domínio próprio:
 
 O selo faz parte de uma organização sem fins lucrativos e é responsável por verificar as lojas online, além de fornecer medalhas de bronze, prata e ouro para o site pelo atendimento prestado.
 
-### **Como Conferir?**
+## Como Conferir?
 
 O site deverá apresentar a imagem do selo E-bit e ao clicar sobre a imagem o usuário **deverá ser redirecionado** para o site do E-bit no qual a empresa **deverá estar corretamente listada**.
 
@@ -102,7 +102,7 @@ Site oficial: [https://www.ebit.com.br/](https://www.ebit.com.br/) para pesquisa
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/07.jpg" alt="">
 </figure>
 
-### Passo 3: Verifique reclamações no site público Reclame Aqui
+## Passo 3: Verifique reclamações no site público Reclame Aqui
 
 ***Motivos:*** O site de denúncias contra empresas simplificou a comunicação das empresas com os clientes e apresenta feedbacks cada vez maiores sobre os atendimentos prestados e assim apresenta uma boa base de dados para evitar fraudes.
 
@@ -112,7 +112,7 @@ Site oficial: [https://www.ebit.com.br/](https://www.ebit.com.br/) para pesquisa
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/08.jpg" alt="">
 </figure>
 
-### Passo 4: Caso existam dúvidas faça uma cópia do site
+## Passo 4: Caso existam dúvidas faça uma cópia do site
 
 Para evitar que uma investigação posterior seja rejeitada por inatividade do site é possível realizar um screenshot, uma cópia exata naquele instante.
 
@@ -122,7 +122,7 @@ O site clássico para isso é o [***archive.com***](http://web.archive.org/save/
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/09.png" alt="">
 </figure>
 
-### Passo 5: Verifique qual é o meio de pagamento — importante!
+## Passo 5: Verifique qual é o meio de pagamento — importante!
 
 Normalmente sites caseiros ou com layout amador não tem condições de atender a jurisdição que dita as regras para compras online portanto não aceite pagamentos como transferência bancária direta ou tranferências PIX — que não possuem meios de retornar o pagamento caso seja constatada alguma irregularidade.
 
@@ -136,7 +136,7 @@ Porém há um equívoco em acreditar que por causa da auditabilidade e complianc
 
 Por isso é importante guardar o máximo de informações possíveis como o CPF do envolvido, o ID ou registro no gateway — número que deve estar visível na hora de gerar o boleto de pagamento ou mesmo no site.
 
-### Passo 6: Validando um email qualquer
+## Passo 6: Validando um email qualquer
 
 O site hunter.io permite que através de um simples cadastro sejam realizas pesquisas detalhadas sobre o e-mail. O mais importante seria a data de criação do mesmo e e-mails similares que poderão servir de prova relacional.
 
@@ -144,7 +144,7 @@ O site hunter.io permite que através de um simples cadastro sejam realizas pesq
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/11.jpeg" alt="">
 </figure>
 
-### Passo 7: Buscando posts e colaboradores da empresa
+## Passo 7: Buscando posts e colaboradores da empresa
 
 Para ludibriar compradores é comum que as empresas se descrevam como tendo anos no mercado mas uma breve consulta nas redes sociais não apresentam posts ou colaboradores? Algo de errado não está certo!
 
@@ -156,7 +156,7 @@ Com o e-mail adquirido através do whois é possível utilizar uma ferramenta ch
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/12.png" alt="">
 </figure>
 
-### Dicas Extras
+## Dicas Extras
 
 Coloque no cadastro das lojas uma sigla que represente aquela loja especificamente. Eu, o autor deste artigo me chamo franz, assim quando me cadastro em uma loja como a americanas (em um formulário de site) eu coloco o nome assim (aproximadamente): “*franz am*”
 

@@ -14,7 +14,7 @@ Todos utilizamos diariamente uma ferramenta maravilhosa que é formada colaborat
 
 Vejo que hoje em dia todos sabem o que é estar na internet e navegar pelos diversos sites que tem performance e design mas poucos sabem que ficamos limitados como usuários as decisões de programadores pois enxergamos apenas o que o browser nos oferece. Apenas o que os aplicativos nos apresentam como a internet, sem notar que a rede mesmo onde encontram-se os códigos da matrix, estão sendo transferidos por trás dos panos.
 
-### Mas como se parece a internet ?
+## Mas como se parece a internet ?
 
 Todo computador em rede com outro está numa rede, numa mini internet. Mas para estes computadores estarem no que conhecemos como ***A Internet*** eles devem estar ligados a pelo menos um computador que já pertença a original.
 
@@ -22,7 +22,7 @@ O protocolo criado na Darpa (uma empresa militar norte americana com diversos av
 
 A imagem abaixo é um emaranhado de pontos interconectados que representa muito próximo a realidade embora saibamos que alguns servidores controlam grande parte do fluxo de dados mundial. Estes servidores controlados por entidades monopolistas como Google e Amazon trazem uma certa centralização a rede mas nada que devamos nos preocupar ainda.
 
-### Na China que possui um firewall de restrição para sites em tempo real já não da mais tempo de se preocupar, mas fica para outro tópico!
+## Na China que possui um firewall de restrição para sites em tempo real já não da mais tempo de se preocupar, mas fica para outro tópico!
 
 <figure>
   <img src="/assets/img/medium/como-funciona-a-internet-afinal/01.png" alt="">
@@ -38,7 +38,7 @@ Muito diferente dos sites atuais, (veja a imagem abaixo) o conteúdo era distrib
 
 Com o passar dos anos foi criado um protocolo chamado ***HTTP***, que por ser muito prático e resiliente tornou-se padrão da indústria e até hoje é usado por trás dos panos em conexões cliente-***servidor***, ou notebook-***site*** .
 
-### Quem veio primeiro: Cliente ou Servidor?
+## Quem veio primeiro: Cliente ou Servidor?
 
 É importante entender que ambos são computadores o que os diferencia é se eles estão servindo os arquivos (lado servidor) ou acessando os arquivos (lado cliente). Assim podemos oferecer serviços com maior performance no acesso e armazenamento de arquivos no lado servidor (nginx, ssh, ftp, etc..) e no lado cliente o navegador realiza o pedido no servidor e download dos arquivos da maneira mais rápida possível.
 
@@ -54,7 +54,7 @@ Abaixo podemos ver a requisição completa utilizando o utilitário netcat. Como
   <img src="/assets/img/medium/como-funciona-a-internet-afinal/04.png" alt="">
 </figure>
 
-### Mas como os computadores entendem onde o site Google.com se encontra?
+## Mas como os computadores entendem onde o site Google.com se encontra?
 
 Existe um protocolo intermediário conhecido como DNS ou servidor que armazena nomes de domínio. Assim é possivel criar uma relação entre o nome dos sites e o endereço IP (o real endereço dos computadores).
 
@@ -72,7 +72,7 @@ Agora temos o endereço mais recente do google em 142.250.218.238 e podemos requ
   <img src="/assets/img/medium/como-funciona-a-internet-afinal/06.png" alt="">
 </figure>
 
-### Surge um termo novo: o Hacker!
+## Surge um termo novo: o Hacker!
 
 Com o avanço tecnológico e apesar da robustez do protocolo surgiram usuários mal intencionados na rede. Devido a roubos e interceptação de comunicações o protocolo foi atualizado para ser mais seguro e passou a ser conhecido como HTTP***S “seguro”.***
 
@@ -82,7 +82,7 @@ A porta de requisição passou a ser a número 403 e uma chave assimétrica é g
 
 [***Chave Assimétrica***](https://pt.wikipedia.org/wiki/Criptografia_de_chave_p%C3%BAblica) é aquela em que existem duas chaves (uma pública e outra privada) e o mais importante: quando um texto é encriptado com uma não pode ser decriptado pela mesma, apenas pela outra***.***
 
-### ***Interessante não?***
+## *Interessante não?*
 
 Com a chave assimétrica ocorre a troca de informação entre o servidor e o cliente de modo encriptado, o que impede que bisbilhoteiros na rede possam vizualizar o tráfego. Além disso e utilizando esta criptografia foi criado um sistema de certificados auditados que garantem que o site pertence a uma instituição verdadeira!
 

@@ -10,11 +10,11 @@ audio_duracao: "2:34"
 ---
 Segundo a imprensa mediática a pirataria na Internet se reduz a jovens hackers que roubam filmes, livros e músicas as disponibilizam na internet para auferir grandes somas de dinheiro através de publicidade enquanto as grandes produtoras sofrem graves golpes financeiros, enquanto pagam pelas despezas de produção. Mas não será que é assim mesmo?
 
-### Um artigo polêmico
+## Um artigo polêmico
 
 Uma [***pesquisa***](https://cdn.netzpolitik.org/wp-upload/2017/09/displacement_study.pdf) iniciada (e terminada, embora não publicada) pela Comissão Européia em 2015 mediada pela empresa holandesa Ecory que medir o impacto e o possível prejuízo das produtoras midiáticas provou que as perdas monetárias não são tão grandes assim.
 
-### Como não conhecer GoT — Game of Thrones
+## Como não conhecer GoT — Game of Thrones
 
 Já ouviu falar da série mais pirateada da história da HBO e talvez da internet?
 
@@ -30,7 +30,7 @@ Após essa procura a segunda temporada foi lançada em DVD e marcou mais um reco
 
 > já a venda de episódios individuais chegou à marca de 355 mil cópias o qe representa um aumento de 112% com relação à primeira temporada.
 
-### Um vídeo próprio para piratear — Remix
+## Um vídeo próprio para piratear — Remix
 
 Este belíssimo documentário se dividide em 4 partes onde explica como funciona o processo criativo e como as obras famosas da cultura pop hoje como Star Wars e as histórias de princesas da Disney se baseiam em histórias mais antigas — e pouco conhecidas!
 
