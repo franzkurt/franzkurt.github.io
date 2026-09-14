@@ -23,7 +23,9 @@
   --mono: ui-monospace, SFMono-Regular, "SF Mono", "JetBrains Mono", Menlo,
           Consolas, "Liberation Mono", monospace;
 
-  --wrap: 42rem;      /* o container já é a medida de leitura: tudo alinhado */
+  /* 83rem menos 3rem de padding = 80rem de conteúdo ≈ 140 caracteres,
+     medido no navegador com Source Serif 4 a 18px e o mono a 0.9rem. */
+  --wrap: 83rem;
   --measure: 100%;    /* blocos de conteúdo preenchem o container */
   --radius: 4px;
   --shadow: 0 1px 2px rgba(31, 29, 26, .04), 0 8px 24px -12px rgba(31, 29, 26, .16);
@@ -79,7 +81,7 @@ body {
   color: var(--ink);
   font-family: var(--serif);
   font-size: 1.125rem;
-  line-height: 1.7;
+  line-height: 1.78;   /* medida larga exige mais entrelinha */
   font-optical-sizing: auto;
   hanging-punctuation: first last;
   text-rendering: optimizeLegibility;
@@ -386,7 +388,7 @@ img, svg, video { max-width: 100%; height: auto; }
 
 /* ----------------------------------------------------------------- prosa - */
 
-.prose { font-size: 1.125rem; }
+.prose { font-size: 1.125rem; line-height: 1.8; }
 .prose > * { margin-block: 0; }
 .prose > * + * { margin-top: 1.4em; }
 
@@ -726,6 +728,8 @@ pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 }
 
 /* --------------------------------------------------------------- extras -- */
+
+/* entre 42rem e 81rem a coluna é fluida (o padding dá a margem) */
 
 @media (max-width: 34rem) {
   body { font-size: 1.06rem; }
