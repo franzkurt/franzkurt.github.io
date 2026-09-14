@@ -60,7 +60,9 @@ Com este padrão conhecido, teremos a sequência de quatro passos abaixo, a fim 
 
 A chave Pre Shared Key é gerada com o PassPhrase e o BSSID
 
-PSK = PBKDF2(str.encode(PassPhrase), str.encode(BSSID), 4096, 32) —
+```
+PSK = PBKDF2(str.encode(PassPhrase), str.encode(BSSID), 4096, 32)
+```
 
 **pbkdf2* — *Password-Based Key Derivation Function 2*
 
@@ -74,13 +76,17 @@ Porém atualmente o protocolo é utilizado por padrão e precisamos calcular PMK
 
 De posse da PSK e do salt BSSID é possível gerar a PairWise Master Key.
 
+```
 PMK = PBKDF2(HMAC−SHA1, PSK, BSSID, 4096, 256)
+```
 
 Após as 4096 iterações a chave gerada deve possuir 256 bits. A próxima chave é a PairWise Transient Key gerada com a função PRF512 que terá uma saída de 512-bits. Destes os primeiros 384-bit serão usados como 3 chaves distintas (KEK + KCK + TK) e os 128-bit finais como configurações do protocolo TKIP (Rx e Tx).
 
 Utilizando ambos os valores gerados SNonce e Anonce e o endereço físico dos dispositivos envolvidos MAC é possível obter um hash final chamado PTK.
 
+```
 PTK = PRF512 (PMK + Anonce + SNonce + Mac (AP)+ Mac (ST))
+```
 
 <figure>
   <img src="/assets/img/medium/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy/03.png" alt="">
@@ -96,7 +102,9 @@ Se o MICtx recebido no pacote for igual ao MIC gerado, tudo certo e vamos para a
 
 Já para a comunicação (broadcast), digo ARP e DNS, será necessário criar uma chave a ser compartilhada por todo o grupo de dispositivos ligados na mesma rede. Entra em ação a Group Transient Key
 
+```
 GTK = PRF-256(GMK, “Group key expansion”, MAC_AP||GNonce)
+```
 
 Utilizando o GMK, uma chave privada gravada no AP, e um GNonce gerado aleatoriamente pelo AP, uma chave chamada GTK é criada e anexada no pacote numero 4. Que encerra o 4 Way Handshake. Crack da senha WPA2
 
@@ -118,7 +126,7 @@ Para exibir a resposta da captura pode-se armazenar a resposta e cada posição 
 
 Por exemplo: res[0]. *Não foi realizado o ordenamento dos pacotes, apenas sabemos que o MIC do primeiro é zero e com isso podemos ordená-los. Exibindo os dois primeiros pacotes percebemos que o scapy nos permite interpretar os dados como desejarmos. vamos salvar um pcap e comparar no wireshark.
 
-> O comando para salvar um pcap no scapy: wrpcap(‘filtered.pcap’, res, append=True)
+O comando para salvar um pcap no scapy é `wrpcap(‘filtered.pcap’, res, append=True)`.
 
 O primeiro pacote possui o MIC vazio e o Nonce, como esperado. Este é o ANonce, uma vez que o primeiro pacote deve sempre ser enviado pelo AP.
 
@@ -132,7 +140,9 @@ A Flag de Key descriptor nos indica o Hash a ser utilizado, no caso HMAC-SHA1 A 
 
 A Flag de Secure está 0 pois o sinal ainda não está encriptado. As demais fica pra estudos posteriores.
 
-> ANonce = 4a45276ddb0a599d43e9dc3730d023710e23d26956c3fcbf452d4f6b756b758f
+```
+ANonce = 4a45276ddb0a599d43e9dc3730d023710e23d26956c3fcbf452d4f6b756b758f
+```
 
 Comparando os valores conseguimos encontrar no scapy o valor aNonce = a2b_hex(res[0][34:98])
 
@@ -144,23 +154,30 @@ Precisamos agora dos dados do pacote numero 2:
 
 Temos agora o Nonce do pacote 2, ou seja,
 
-> SNonce = c65c7788d000da1da0fd9a206129b99df987b43e19d36705a5845c63c90f761e
+```
+SNonce = c65c7788d000da1da0fd9a206129b99df987b43e19d36705a5845c63c90f761e
+```
 
 Como o MIC também está presente, vamos armazena-lo:
 
-> MIC1 = dd4b4d11334a3fe31986c956905b4973
+```
+MIC1 = dd4b4d11334a3fe31986c956905b4973
+```
 
 Possuímos até o momento quase todos os dados necessários para o crack da senha, precisamos apenas do nome da rede.
 
 Para isso pode-se capturar em um sniff o frame Beacon ou Probe Response que possuem este valor no pacote. Ainda não foi implementado e portanto apenas informe via raw_input ou Hard-coded.
 
-> ESSID = “ALHN-42CC”
+```
+ESSID = “ALHN-42CC”
+```
 
 Além do nome da rede precisamos do MAC do AP e do ST.
 
-> MAC_AP = a2b_hex(“743c1870af99”)
-
-> MAC_ST = a2b_hex(“7c8bb518374f”)
+```python
+MAC_AP = a2b_hex(“743c1870af99”)
+MAC_ST = a2b_hex(“7c8bb518374f”)
+```
 
 <figure>
   <img src="/assets/img/medium/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy/07.png" alt="">
@@ -172,11 +189,11 @@ Para gerar o MIC iremos gerar o MIC na ordem:
 
 PMK -> PTK -> MIC A = b”Pairwise key expansion”
 
-> B = min(MAC_AP, MAC_ST) + max(MAC_AP, MAC_ST) + min(aNonce, sNonce) + max(aNonce, sNonce)
-
-> pmk = pbkdf2_hmac(‘sha1’, pwd.encode(‘ascii’), ssid.encode(‘ascii’), 4096, 32)
-
-> ptk = PRF(pmk, A, B) mics = [hmac.new(ptk[0:16], i, sha1).digest() for i in data]
+```python
+B = min(MAC_AP, MAC_ST) + max(MAC_AP, MAC_ST) + min(aNonce, sNonce) + max(aNonce, sNonce)
+pmk = pbkdf2_hmac(‘sha1’, pwd.encode(‘ascii’), ssid.encode(‘ascii’), 4096, 32)
+ptk = PRF(pmk, A, B) mics = [hmac.new(ptk[0:16], i, sha1).digest() for i in data]
+```
 
 Agora que geramos o MIC em mics[0], basta comparar ***mics[0]*** == MIC
 
