@@ -5,3 +5,18 @@ _site/
 Gemfile.lock
 vendor/
 .bundle/
+
+# segredos — defesa em profundidade, além do hook de pre-commit
+.env
+.env.*
+*.pem
+*.p12
+*.pfx
+*.key
+id_rsa
+id_ed25519
+.netrc
+.npmrc
+.pypirc
+credentials.json
+service-account*.json

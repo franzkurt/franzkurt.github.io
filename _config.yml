@@ -58,6 +58,8 @@ defaults:
       layout: post
 
 exclude:
+  - tools          # scripts de manutenção não vão para o site publicado
+  - .githooks
   - Gemfile
   - Gemfile.lock
   - vendor

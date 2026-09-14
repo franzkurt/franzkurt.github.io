@@ -1,0 +1,24 @@
+name: Auditoria de segredos
+
+# Roda no servidor, então também pega commit feito pela web ou com --no-verify.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"   # segunda-feira, para pegar padrão novo em código antigo
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  segredos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # histórico inteiro: o escopo --history precisa dele
+
+      - name: Auditar árvore e histórico
+        run: ./tools/audit-secrets.sh --all

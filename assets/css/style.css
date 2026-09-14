@@ -23,8 +23,8 @@
   --mono: ui-monospace, SFMono-Regular, "SF Mono", "JetBrains Mono", Menlo,
           Consolas, "Liberation Mono", monospace;
 
-  --wrap: 48rem;
-  --measure: 36rem;
+  --wrap: 42rem;      /* o container já é a medida de leitura: tudo alinhado */
+  --measure: 100%;    /* blocos de conteúdo preenchem o container */
   --radius: 4px;
   --shadow: 0 1px 2px rgba(31, 29, 26, .04), 0 8px 24px -12px rgba(31, 29, 26, .16);
 
@@ -70,7 +70,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -128,11 +128,17 @@ img, svg, video { max-width: 100%; height: auto; }
 
 .site-head {
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: saturate(140%) blur(8px);
+  background: var(--paper);
   position: sticky;
   top: 0;
   z-index: 20;
+}
+
+@supports (backdrop-filter: blur(8px)) {
+  .site-head {
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(140%) blur(8px);
+  }
 }
 
 .site-head__inner {
@@ -337,7 +343,7 @@ img, svg, video { max-width: 100%; height: auto; }
 
 /* ---------------------------------------------------------------- artigo - */
 
-.post, .page { max-width: var(--measure); }
+.post, .page { max-width: var(--measure); margin-inline: auto; }
 
 .post__head { margin-bottom: 2.5rem; }
 
@@ -381,19 +387,21 @@ img, svg, video { max-width: 100%; height: auto; }
 /* ----------------------------------------------------------------- prosa - */
 
 .prose { font-size: 1.125rem; }
+.prose > * { margin-block: 0; }
 .prose > * + * { margin-top: 1.4em; }
 
-.prose p { margin: 0; text-wrap: pretty; }
+.prose p { text-wrap: pretty; }
 
 .prose h2, .prose h3, .prose h4 {
   font-family: var(--display);
   font-weight: 600;
   line-height: 1.25;
   letter-spacing: -.015em;
-  margin-top: 2.4em;
-  margin-bottom: -.4em;
+  margin-top: 2.6em;
   text-wrap: balance;
 }
+/* o parágrafo logo abaixo do título fica colado nele, e não a meia distância */
+.prose h2 + *, .prose h3 + *, .prose h4 + * { margin-top: .65em; }
 .prose h2 { font-size: 1.5rem; }
 .prose h3 { font-size: 1.25rem; }
 .prose h4 { font-size: 1.1rem; }
@@ -412,7 +420,7 @@ img, svg, video { max-width: 100%; height: auto; }
 .prose em { font-style: italic; }
 .prose mark { background: var(--mark); color: var(--ink); padding: 0 .15em; }
 
-.prose ul, .prose ol { padding-left: 1.35em; margin-block: 0; }
+.prose ul, .prose ol { padding-left: 1.35em; }
 .prose li + li { margin-top: .4em; }
 .prose li::marker { color: var(--muted); }
 
@@ -723,7 +731,14 @@ pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
   body { font-size: 1.06rem; }
   main.wrap { padding-block: 2.5rem 3.5rem; }
   .brand__tagline { display: none; }
-  .site-head__inner { gap: .75rem; }
+  @supports (backdrop-filter: blur(8px)) {
+  .site-head {
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+}
+
+.site-head__inner { gap: .75rem; }
   .nav { gap: .9rem; font-size: .8rem; }
   .post__nav-item--next { text-align: left; }
 }

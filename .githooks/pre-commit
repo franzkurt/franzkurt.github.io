@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Bloqueia o commit se houver segredo no que está sendo commitado.
+# Ative com:  git config core.hooksPath .githooks
+#
+# Para pular em uma emergência consciente:  git commit --no-verify
+set -uo pipefail
+
+RAIZ="$(git rev-parse --show-toplevel)"
+AUDITORIA="$RAIZ/tools/audit-secrets.sh"
+
+if [ ! -x "$AUDITORIA" ]; then
+  echo "pre-commit: $AUDITORIA não encontrado ou sem permissão de execução." >&2
+  echo "pre-commit: recusando o commit — um verificador ausente não é um commit seguro." >&2
+  exit 1
+fi
+
+"$AUDITORIA" --staged
