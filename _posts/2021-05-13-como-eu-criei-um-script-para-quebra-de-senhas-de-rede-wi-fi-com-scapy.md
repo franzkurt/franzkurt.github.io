@@ -24,9 +24,9 @@ Como a transferência da Senha pelo ar seria um violação do protocolo de segur
 
 ***1. Descoberta de rede:*** Aqui os dispositivos emitem pacotes com a intenção de conhecer os demais. (Pacotes Beacon, Probe req e Probe Resp)
 
-***2. Associação:*** Nesta fase o dispositivo interessado na associação emite um pacote avisando que deseja se conectar a determinada rede. (Pacotes Auth Req e Auth Resp)
+***2. Associação:*** Nesta fase o dispositivo interessado na associação emite um pacote avisando que deseja se conectar a determinada rede. (Pacotes Association Request e Association Response)
 
-***3. Autorização:*** Realizada após o dispositivo a ser adicionado provar que conhece a chave criptográfica da rede. (Pacotes Auth Req e Auth Resp)
+***3. Autorização:*** Realizada após o dispositivo a ser adicionado provar que conhece a chave criptográfica da rede, através do 4-Way Handshake. (Pacotes EAPOL-Key)
 
 ***4. Comunicação através da rede***. (Pacotes QoA, Data e Ack)
 
