@@ -132,8 +132,10 @@ tê-las passa o de tê-las. Isso é uma instrução de julgamento, não uma rece
 Este é o menos conhecido dos cinco e talvez o que mais muda o dia a dia. A tese
 dos autores é declarada logo no começo, e é quase provocativa:
 
-> *In order to efficiently and effortlessly create secure software you need to
-> have a mindset where you focus **more on design than on security**.*
+> *We believe that in order to efficiently and effortlessly create secure
+> software, you need to have a mindset that might be different from what you're
+> used to — a mindset where you focus **more on design rather than on
+> security**.*
 
 O enquadramento que sustenta o livro inteiro cabe em cinco palavras: **segurança é
 uma preocupação, não uma feature**. E o exemplo histórico que eles usam para isso
