@@ -125,10 +125,10 @@ Os 5 probes medidos responderam outra pergunta, essa com resposta limpa. Com
 Sete vezes menos defeito no orçamento de 256 steps, a um custo de tempo
 praticamente igual — 434 s contra 456 s, 5% a mais.
 
-A leitura: com bloco pequeno o modelo denoisa uma janela estreita por vez e perde
-coerência **entre** blocos; é dali que vêm as repetições. Atenção bidirecional
-sobre uma janela maior resolve mais contexto por step. Se você for rodar difusão
-neste hardware, esse é o parâmetro que paga.
+A leitura: com bloco pequeno o modelo faz o denoising de uma janela estreita por
+vez e perde coerência **entre** blocos; é dali que vêm as repetições. A atenção
+bidirecional sobre uma janela maior resolve mais contexto por step. Se você for
+rodar difusão neste hardware, esse é o parâmetro que paga.
 
 Uma ressalva que não posso omitir: **nenhuma das 5 saídas passou** no corte de
 qualidade, que é 2,0 defeitos por 100 tokens. A melhor ficou em 6,6. Nesta
