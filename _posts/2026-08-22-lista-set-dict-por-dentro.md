@@ -26,6 +26,53 @@ ordem de inserção a todo mundo.
 
 <!--more-->
 
+## Quais são os tipos compostos
+
+Este texto trata dos tipos que guardam **uma coleção**, e não um valor — os
+escalares ficam [no outro](/2026/08/tipos-em-python-por-dentro/). São oito
+embutidos, e organizá-los por quatro propriedades já resolve a maior parte das
+dúvidas de escolha:
+
+| Tipo | Categoria | Vazio | Mutável | Ordenado | Hashável |
+|---|---|---|---|---|---|
+| `list` | sequência | 56 B | sim | sim | não |
+| `tuple` | sequência | 40 B | não | sim | **sim** |
+| `dict` | mapa | 64 B | sim | por inserção | não |
+| `set` | conjunto | 216 B | sim | **não** | não |
+| `frozenset` | conjunto | 216 B | não | **não** | **sim** |
+| `bytes` | sequência | 33 B | não | sim | **sim** |
+| `bytearray` | sequência | 56 B | sim | sim | não |
+| `range` | sequência | 48 B | não | sim | **sim** |
+
+A coluna que mais decide é a última. **Hashável é o que pode ser chave de dict ou
+elemento de set** — e, entre os embutidos, hashável é exatamente o que é
+imutável. O motivo é direto: a posição de um objeto na tabela vem do hash dele;
+se o objeto mudasse, a posição ficaria errada e o valor sumiria.
+
+E a propriedade é **recursiva**, o que pega muita gente:
+
+```python
+>>> {(1, 2): 'ok'}          # tupla de imutáveis: funciona
+>>> {(1, [2]): 'erro'}
+TypeError: unhashable type: 'list'
+```
+
+A tupla é imutável, mas ela contém uma lista que não é — então a tupla inteira
+deixa de ser hashável.
+
+Vale reparar também no `range`, que é o estranho da tabela: ele é uma sequência
+que **não guarda os elementos**. Só o início, o fim e o passo.
+
+```python
+>>> sys.getsizeof(range(1_000_000))
+48
+>>> sys.getsizeof(list(range(1_000_000)))
+8000056
+```
+
+Quarenta e oito bytes contra oito megabytes, para a mesma sequência. É por isso
+que `for i in range(n)` nunca é o problema de memória do seu laço.
+
 ## Lista: um array de ponteiros que cresce devagar
 
 Uma lista Python não guarda os seus objetos. Guarda **ponteiros** para eles, num
@@ -150,10 +197,17 @@ chaves**.
   Acesso a atributo fica num deslocamento fixo, e objetos que nunca tocam em
   `__dict__` nunca pagam por ele.
 
-A consequência prática é boa e pouco divulgada: **atribuir atributos fora do
-`__init__` custa caro**. Se todas as instâncias têm o mesmo conjunto de chaves,
-elas compartilham; se uma delas ganha um atributo extra depois, ela sai do
-esquema compartilhado e passa a carregar um dicionário próprio.
+A consequência prática é sobre **forma**: o ganho vem de as instâncias terem o
+mesmo conjunto de chaves. Quando uma classe produz objetos de formatos
+diferentes — atributos atribuídos condicionalmente, fora do `__init__` — o
+compartilhamento se desfaz.
+
+Medi o tamanho disso, porque a versão que se costuma repetir ("nunca atribua
+atributo fora do `__init__`") é forte demais: uma exceção em mil instâncias não
+mudou nada, metade delas custou 13% a mais, e cinquenta formatos distintos
+quase triplicaram o consumo. Os números estão [logo
+abaixo](#oito-casos-de-canto-todos-medidos). O que pesa é heterogeneidade em
+escala, não o caso isolado.
 
 ## Set: parece dict, mas foi projetado para outra pergunta
 
@@ -215,6 +269,131 @@ mais de uma vez, converta para set antes.
 **Set e dict custam ~4× a lista** para o mesmo conteúdo. Se você só vai iterar,
 a lista ganha por larga margem. A folga da tabela hash é o que você paga pela
 busca constante, e só compensa se você de fato buscar.
+
+## Oito casos de canto, todos medidos
+
+Cada um destes é consequência direta do layout descrito acima — e todos eu rodei
+antes de escrever.
+
+### 1. Apagar e reinserir manda a chave para o fim
+
+```python
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> del d['b']; d['b'] = 9
+>>> list(d)
+['a', 'c', 'b']
+```
+
+O `dk_entries` é denso e preenchido em sequência. Uma entrada apagada não deixa
+buraco para ser reocupado na mesma posição: a chave nova é **acrescentada no
+fim**. Quem usa dict como registro ordenado e atualiza uma chave apagando e
+reinserindo perde a posição sem aviso.
+
+### 2. Dict não encolhe quando você apaga
+
+```python
+>>> d = {i: i for i in range(1000)}   # 36.952 bytes
+>>> for i in range(999): del d[i]
+>>> sys.getsizeof(d)                  # 36.952 bytes, com 1 item
+```
+
+Um dict novo com um item ocupa 224 bytes. Este ocupa 36.952 — **165 vezes mais**
+— e continua assim depois de uma inserção. O redimensionamento para baixo só
+acontece em condições específicas, então um dict que já foi grande continua
+grande. Se você usa um dict como cache que esvazia, crie um novo em vez de
+limpar o antigo.
+
+### 3. Set de inteiros pequenos parece ordenado
+
+```python
+>>> list({3, 1, 2})
+[1, 2, 3]
+>>> list({100, 1, 50})
+[1, 50, 100]
+```
+
+Parece que set ordena. Não ordena. É que `hash(n) == n` para inteiro pequeno, e
+a posição na tabela é o hash módulo o tamanho — então eles caem em ordem
+crescente por acidente. Ponha um inteiro grande ou uma string no meio e a
+ilusão desaparece.
+
+De quebra, um detalhe: `hash(-1)` é **-2**, não -1, porque -1 é reservado para
+sinalizar erro na API C.
+
+### 4. Set de strings muda de ordem a cada processo
+
+```
+$ python3 -c "print(list({'alfa','beta','gama','delta'}))"
+['beta', 'alfa', 'delta', 'gama']
+$ python3 -c "print(list({'alfa','beta','gama','delta'}))"
+['alfa', 'delta', 'beta', 'gama']
+```
+
+Mesmo código, mesma máquina, ordens diferentes. O hash de string é aleatorizado
+por processo desde o 3.3, como defesa contra ataque de colisão. Teste que depende
+da ordem de um set de strings passa na sua máquina e falha na CI, ou vice-versa —
+e só às vezes.
+
+### 5. Chave cujo hash muda: o valor some sem erro
+
+```python
+>>> class Chave:
+...     def __init__(s, v): s.v = v
+...     def __hash__(s): return hash(s.v)
+...     def __eq__(s, o): return s.v == o.v
+>>> k = Chave(1); d = {k: 'guardado'}
+>>> k.v = 2
+>>> k in d
+False
+>>> len(d), list(d.values())
+(1, ['guardado'])
+```
+
+O valor continua lá, contado no `len`, visível no `values()` — e **inalcançável
+pela chave**. Nenhuma exceção. É a razão técnica pela qual chave de dict deve ser
+imutável, e o modo de falha é silencioso: você não perde o dado, perde o caminho
+até ele.
+
+### 6. Três chaves diferentes viram uma
+
+```python
+>>> {1: 'int', 1.0: 'float', True: 'bool'}
+{1: 'bool'}
+```
+
+Como `1 == 1.0 == True` e os três têm o mesmo hash, são a **mesma chave**. E
+repare no resultado: a chave que fica é a **primeira** (o `1`, do tipo `int`), o
+valor que fica é o **último**. Inserir não substitui a chave, só o valor.
+
+O mesmo vale para `{0.0: 'a', -0.0: 'b'}` — uma entrada só.
+
+### 7. O primeiro item de um dict custa 160 bytes
+
+```python
+>>> sys.getsizeof({})       # 64
+>>> sys.getsizeof({1: 1})   # 224
+```
+
+O dict vazio é só o cabeçalho; a tabela é alocada na primeira inserção. Em código
+que cria milhões de dicts pequenos, a diferença entre vazio e com-um-item é o que
+domina o consumo.
+
+### 8. `__slots__` corta 38%, e formas heterogêneas custam o triplo
+
+Medindo com `tracemalloc` a criação de 20 mil instâncias, sem tocar no
+`__dict__`:
+
+| Classe | Por objeto |
+|---|---|
+| 3 atributos no `__init__` | 104,8 B |
+| os mesmos 3, com `__slots__` | **64,6 B** |
+| 50 conjuntos de chaves diferentes | **296,9 B** |
+
+O `__slots__` elimina o dicionário por completo. E o último caso mostra o custo
+real de sair do padrão: quando as instâncias deixam de ter a mesma forma, o
+compartilhamento de chaves acaba e o consumo quase triplica. Um punhado de
+exceções não pesa — medi um em mil e não mudou nada. O que pesa é heterogeneidade
+em escala.
 
 ## A linha do tempo
 
