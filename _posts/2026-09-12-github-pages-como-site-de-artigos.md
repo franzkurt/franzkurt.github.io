@@ -3,6 +3,8 @@ title: "Do 'Hello World' a um blog: GitHub Pages como site de artigos"
 date: 2026-09-12 10:00:00 -0300
 tags: [jekyll, github-pages, tutorial]
 description: "O GitHub Pages hospeda HTML de graça, mas um blog de verdade precisa de RSS, listagem, tags e SEO. O caminho para chegar lá sem Action nenhuma para manter — e a conta honesta do que custa."
+audio: /assets/audio/github-pages-como-site-de-artigos.mp3
+audio_duracao: "9:59"
 ---
 
 Criar um site no GitHub Pages leva um minuto: um repositório, um `index.html`, e o
