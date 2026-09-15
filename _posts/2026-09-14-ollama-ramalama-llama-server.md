@@ -65,6 +65,21 @@ para ajustar a janela por requisição, então um cliente que fale OpenAI não c
 corrigir isso sozinho — é preciso mudar o padrão do servidor ou embutir a janela num
 Modelfile.
 
+<div class="nota-editorial" markdown="1">
+<span class="nota-editorial__rotulo">Correção de outubro de 2026</span>
+O número acima envelheceu, e vale corrigir em vez de deixar passar. Medindo o
+default em vez de ler a documentação, a janela que o Ollama aplica hoje é de
+**16.384 tokens** — a documentação é que ficou para trás nos 2048/4096. O
+mecanismo descrito neste trecho continua valendo (o descarte é silencioso, e
+continua sendo o critério menos divulgado dos três), mas o limite é bem mais
+folgado do que o texto sugere, e o risco prático é proporcionalmente menor.
+
+Fica a lição de método: este era um número que eu tinha lido, não medido. O tier
+de contexto do Ollama já mudou de 4096 para 16384 uma vez — tratá-lo como
+constante universal é o erro, não o valor específico.
+</div>
+
+
 **A questão da atribuição.** Vale saber, porque afeta a confiança de longo prazo: o
 Ollama demorou a atribuir com clareza que sua inferência inteira vem do llama.cpp, e
 o aplicativo foi desenvolvido em repositório privado e distribuído sem licença por um
@@ -108,6 +123,32 @@ virtual e ainda assim boot abaixo de um segundo.
 **Forte em:** segurança e reprodutibilidade de fábrica. Suporta llama.cpp e também
 vLLM como runtime. Encaixa em quem já padroniza Podman, OpenShift ou assinatura de
 imagem — o modelo entra no mesmo fluxo operacional do resto da infraestrutura.
+
+<div class="nota-editorial" markdown="1">
+<span class="nota-editorial__rotulo">Correção de outubro de 2026</span>
+Duas afirmações desta seção não sobreviveram à medição.
+
+**O isolamento de rede não é o que eu descrevi**, ao menos na combinação que
+testei (RamaLama 0.24 com Docker). A man page promete `127.0.0.1` como default;
+o comportamento medido publica a porta com `-p PORT:PORT`, ou seja, em
+`0.0.0.0`. Com `--host 127.0.0.1` explícito, ele publica certo. Então "o modelo
+não tem acesso à rede, não há como vazar dado para fora" é forte demais para o
+default desta versão — o desenho do projeto trata a questão, o default dessa
+combinação de versão e engine contradiz a própria documentação. Confira a porta
+em vez de confiar na promessa.
+
+O que o container **de fato** compra, e que eu não tinha destacado, é outra
+coisa: contenção do *parser*. Um processo solto não contém exploração do
+pipeline de parsing e quantização; um namespace contém. Validar o formato do
+arquivo não substitui isso.
+
+**A partida a frio não custa de 1 a 3 segundos no macOS — custa a GPU inteira.**
+Docker e colima não expõem a GPU do Mac ao container. Na prática o modelo roda
+em CPU dentro de uma VM Linux enquanto o Metal fica ocioso. GPU no macOS exige
+Podman com o provider libkrun; fora disso, o custo não é latência de boot, é a
+aceleração toda. Em Linux com acesso direto à GPU a observação original segue
+válida.
+</div>
 
 **O detalhe que morde — partida a frio.** O container cobra um preço: a inicialização
 adiciona de 1 a 3 segundos em relação ao Ollama. Para conversar no notebook, isso é
