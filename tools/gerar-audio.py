@@ -69,7 +69,9 @@ def roteiro(markdown, titulo, autor, data_extenso):
     if corpo.startswith("---"):
         corpo = corpo.split("---", 2)[2]
 
-    blocos = [para_locucao(titulo), f"Por {autor}. Publicado em {data_extenso}."]
+    # sem assinatura falada: o Franz pediu em 15/09/2026 que o áudio comece
+    # pelo título e siga direto para o texto — quem ouve já sabe de quem é
+    blocos = [para_locucao(titulo)]
     omitidos = {"codigo": 0, "tabela": 0, "figura": 0}
 
     linhas = corpo.split("\n")
