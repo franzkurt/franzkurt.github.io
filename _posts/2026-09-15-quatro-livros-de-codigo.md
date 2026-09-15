@@ -53,43 +53,136 @@ português, de graça. Não há desculpa.
 
 ## O sistema: *Clean Architecture*
 
-O livro do Robert C. Martin carrega uma carga útil que cabe numa frase: **a regra
-de dependência**. As dependências do código-fonte apontam só para dentro, na
-direção da política de negócio. O banco de dados, o framework web, a interface —
-tudo isso é **detalhe**, e detalhe fica na borda.
+O objetivo que Robert C. Martin declara não é elegância — é **minimizar o esforço
+humano** para construir e manter um sistema. E o que consome esse esforço tem
+nome: acoplamento a decisões prematuras. Uma decisão é prematura quando não tem
+nada a ver com a regra de negócio: o framework, o banco, o servidor web, o
+injetor de dependência.
 
-A consequência prática é desconfortável para a maioria dos projetos que já vi:
-se o seu sistema não roda sem o Django, sem o Postgres e sem a fila, o framework
-não é uma ferramenta que você usa — é a estrutura à qual a sua regra de negócio
-está grudada. O teste que o livro propõe é honesto: dá para testar a política
-central sem subir nada? Se não dá, a fronteira não existe.
+A carga útil é **a regra de dependência**, e ela é mais sutil do que o resumo
+comum sugere. Não é "camadas". É a observação de que duas coisas que parecem uma
+só andam em sentidos diferentes:
 
-A segunda ideia, menos citada e mais útil: o trabalho do arquiteto é **adiar
-decisões**, não tomá-las cedo. Quanto mais tempo você consegue rodar sem escolher
-o banco, mais informação terá quando escolher.
+> *Data flows and source code dependencies do not always point in the same
+> direction.*
 
-O que me incomoda nele, e vale dizer: é repetitivo. Os capítulos sobre SOLID
-cobrem terreno que já estava em *Clean Code*, os exemplos envelheceram, e o tom
-às vezes é de sermão. A carga útil está nos capítulos de fronteiras e na regra de
-dependência — o resto se lê rápido ou se pula sem prejuízo.
+{% include diagrama-regra-de-dependencia.html %}
+
+O dado vai da entrada ao banco. A dependência de código vai no sentido oposto: a
+borda conhece o núcleo, e o núcleo não conhece ninguém. Quando isso se sustenta,
+o banco e o framework viram decisões adiáveis — dá para rodar e testar a política
+central sem subir nada.
+
+O que me surpreendeu ao reler é o quanto o livro é **operacional** onde eu
+esperava abstração. "Nível" não é metáfora; tem definição que ordena módulos:
+
+> *The farther a policy is from both the inputs and the outputs of the system,
+> the higher its level.*
+
+Disso sai um corolário contraintuitivo — **entidades são de nível mais alto que
+casos de uso**, porque entidades generalizam entre aplicações e casos de uso são
+específicos de uma.
+
+E o teste mais barato do livro cabe numa linha de código. Isto é arquitetura
+errada:
+
+```
+function encrypt() { while(true) writeChar(translate(readChar())); }
+```
+
+A função de alto nível menciona `readChar` e `writeChar`. Traduzindo para o seu
+código: **qualquer função de orquestração de domínio que chama `requests.get` ou
+`session.execute` diretamente tem essa forma.** É um grep, não um julgamento.
+
+A parte sobre banco de dados é onde mais gente entende errado, e o livro se
+antecipa:
+
+> *I am not talking about the data model. The structure you give to the data
+> within your application is highly significant to the architecture. But the
+> database is not the data model.*
+
+O modelo de dados é arquitetural; o RDBMS é detalhe. Daí sai uma proibição
+concreta e verificável: passar linhas e tabelas do banco como objetos pelo
+sistema é **erro de arquitetura**. O critério prático não é "ORM sim ou não" — é
+onde o objeto de linha pode aparecer. Confinado a repositórios que devolvem
+estruturas simples, tudo bem. Circulando dentro da regra de negócio, não.
+
+O capítulo de que mais gosto é aquele em que Martin **perde uma discussão e
+concorda com quem ganhou**. Ele brigou contra colocar um banco relacional num
+sistema que não precisava, estava tecnicamente certo, e escreve:
+
+> *They were absolutely right and I was wrong. Not for engineering reasons, mind
+> you: I was right about that.*
+
+O cliente queria o banco como item de checklist comercial. A conclusão dele é a
+lição: quando o requisito é político e não técnico, a resposta arquitetural é
+**satisfazê-lo atrás de um canal estreito**, mantendo o núcleo intacto — não
+brigar. Vale igual para exigência de stack, de dashboard e de "tem que ter IA".
+
+Fronteira, aliás, custa nos dois sentidos — construir cedo demais desperdiça, e
+adicionar depois é caro mesmo com bateria de testes. O ofício está no timing: o
+livro pede que você as implemente no ponto de inflexão em que o custo de não
+tê-las passa o de tê-las. Isso é uma instrução de julgamento, não uma receita, e
+é por isso que o livro se relê bem.
 
 ## O adversário: *Secure by Design*
 
-Este é o menos conhecido dos quatro e talvez o que mais muda o dia a dia. A tese:
-**segurança não é uma camada que se parafusa depois**, é consequência de design.
-Não há capítulo sobre firewall nem lista de OWASP para decorar. Há uma pergunta
-repetida de forma implacável: este bug consegue sequer ser expresso no seu modelo?
+Este é o menos conhecido dos quatro e talvez o que mais muda o dia a dia. A tese
+dos autores é declarada logo no começo, e é quase provocativa:
 
-O conceito central são os **domain primitives**. Em vez de passar uma `String`
-chamada `email` por doze camadas e validar "em algum lugar", você cria um tipo que
-*não consegue existir* em estado inválido — valida na construção, é imutável, e a
-partir daí todo código que o recebe já tem a garantia. A classe inteira de bug
-some, não porque alguém lembrou de checar, mas porque não há como escrever o
-estado errado.
+> *In order to efficiently and effortlessly create secure software you need to
+> have a mindset where you focus **more on design than on security**.*
 
-Isso dialoga direto com a falha silenciosa: validação espalhada é o lugar clássico
-onde o "esqueci de checar aqui" não levanta exceção nenhuma — só produz o dado
-errado lá adiante, com cara de sucesso.
+O enquadramento que sustenta o livro inteiro cabe em cinco palavras: **segurança é
+uma preocupação, não uma feature**. E o exemplo histórico que eles usam para isso
+é ótimo — o assalto ao Öst-Götha Bank, em 1854. O banco investiu em fechaduras
+impossíveis de arrombar. O ladrão arrancou as **dobradiças**. As features foram
+entregues; a preocupação, não.
+
+Por isso não há capítulo sobre firewall nem lista da OWASP para decorar. Há uma
+pergunta repetida de forma implacável: este bug consegue sequer ser expresso no
+seu modelo?
+
+O conceito central são os **domain primitives**:
+
+> *A value object so precise in its definition that it, by its mere existence,
+> manifests its validity.*
+
+Ou, curto: **se existe, é válido; se não é válido, não pode existir.** Em vez de
+passar uma `String` chamada `email` por doze camadas e validar "em algum lugar",
+você cria um tipo cuja invariante é verificada **na construção** — não depois, não
+pelo chamador. A partir dali, todo código que o recebe já tem a garantia. A classe
+inteira de bug some, não porque alguém lembrou de checar, mas porque não há como
+escrever o estado errado.
+
+A outra peça que uso toda semana é a **ordem canônica de validação**. Não é a lista
+que importa, é a ordem — o mais barato e mais brutal primeiro, porque cada etapa
+custa mais que a anterior e você não quer pagar a cara para lixo óbvio:
+
+| | Etapa | O que checa |
+|---|---|---|
+| 1 | Origem | o remetente é legítimo? |
+| 2 | Tamanho | o payload tem magnitude razoável? |
+| 3 | Léxico | os caracteres e o encoding são dos tipos permitidos? |
+| 4 | Sintaxe | a estrutura está bem formada? |
+| 5 | Semântica | o conteúdo *significa* algo válido? |
+
+Só a etapa 5 consulta o banco. Validar semântica antes de tamanho é como conferir
+a assinatura de um documento de dois gigabytes antes de perguntar por que ele tem
+dois gigabytes.
+
+Há ainda o **read-once object** para valor sensível — senha, token, credencial.
+Leitura destrutiva e atômica, `__repr__` mascarado para o valor não vazar por log
+ou stack trace, e serialização bloqueada para não escapar por pickle ou JSON. Três
+mecanismos, cada um fechando um vazamento diferente, e os dois últimos são
+exatamente os que a gente esquece.
+
+Uma honestidade que o livro merece e que aprendi na prática: **validar no
+construtor não basta se a forma da validação estiver errada**. Já vi um validador
+de CPF que fazia `if len(cpf) > 11: raise` e logo em seguida `cpf.zfill(11)` — só
+barrava o comprido, e completava o curto em silêncio. `'123'` virava documento
+válido. O tipo existia, a invariante existia, e o bug passava. "Domain primitive"
+não é garantia automática; é um lugar onde a garantia *pode* morar.
 
 Ressalvas: os exemplos são em Java e C#, o que afasta parte de quem programa em
 Python ou Go — embora a ideia atravesse linguagem sem esforço. São 400 páginas,
@@ -101,13 +194,30 @@ Os três anteriores dizem como o código deveria ser. O Adam Tornhill faz outra
 pergunta, e é por isso que ele é o mais interessante do grupo: **onde, neste
 repositório específico, está o problema de verdade?**
 
-A resposta não está no código que você lê. Está no histórico do git. As técnicas
-centrais:
+Antes da resposta, a premissa — que já vale o livro. Se você fosse otimizar uma
+única coisa no desenvolvimento de software, o que seria? A resposta convencional
+é desempenho. A dele:
+
+> *If we want to optimize any aspect of software development, then we should
+> optimize for understanding. That's the big win.*
+
+O raciocínio é direto: passamos mais tempo **entendendo** código existente do que
+escrevendo código novo, e otimizar a atividade mais cara multiplica o ganho total.
+E, num time ágil, não existe uma fase de manutenção lá na frente — quando começam
+as mudanças no código já escrito? *"Iteration two, at the latest."* A manutenção
+começa na segunda iteração, o que significa que se entra em modo de manutenção
+imediatamente.
+
+A resposta à pergunta de onde dói, por sua vez, não está no código que você lê.
+Está no histórico do git. As técnicas centrais:
 
 - **Hotspots** — cruzar complexidade com frequência de mudança. O módulo mais
   complexo do sistema, se ninguém encosta nele há três anos, não custa nada.
   O que custa é o arquivo complexo que muda toda semana. São coisas diferentes, e
-  só a segunda merece refatoração.
+  só a segunda merece refatoração. E a concentração é brutal: *"hotspots stretch
+  across only 1 to 5 percent of the total codebase, yet that code is responsible
+  for 25 to 75 percent of all bugs."* Um a cinco por cento do código carregando
+  de um quarto a três quartos dos defeitos.
 - **Change coupling** — arquivos que mudam **juntos**, commit após commit, mesmo
   sem nenhuma dependência declarada entre eles. É acoplamento invisível para o
   compilador e para a revisão de código, e visível no histórico.

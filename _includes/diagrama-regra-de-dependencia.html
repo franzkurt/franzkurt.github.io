@@ -1,0 +1,41 @@
+<figure class="viz" role="group" aria-labelledby="viz-dep-titulo">
+  <figcaption id="viz-dep-titulo" class="viz__titulo">A regra de dependência: o dado atravessa o sistema, as importações apontam para dentro</figcaption>
+  <div class="viz__plot">
+    <svg viewBox="0 0 640 235" role="img" aria-label="Diagrama de três caixas. À esquerda, a entrada HTTP ou CLI. No centro, as regras de negócio: casos de uso e entidades. À direita, o banco de dados ou serviço externo. Duas setas contínuas mostram o dado fluindo da esquerda para o centro e do centro para a direita. Duas setas tracejadas partem da caixa da esquerda e da caixa da direita e apontam para cima, para dentro da caixa central, mostrando que ambas importam o centro. O centro não importa nenhuma das duas.">
+      <defs>
+        <marker id="pontaDado" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+          <path class="viz__ponta--dado" d="M0,0 L8,4 L0,8 z"/>
+        </marker>
+        <marker id="pontaImport" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+          <path class="viz__ponta--import" d="M0,0 L8,4 L0,8 z"/>
+        </marker>
+      </defs>
+
+      <rect class="viz__caixa" x="18" y="28" width="160" height="64" rx="6"/>
+      <text class="viz__texto" x="98" y="54" text-anchor="middle">Entrada</text>
+      <text class="viz__texto" x="98" y="72" text-anchor="middle">HTTP · CLI · fila</text>
+
+      <rect class="viz__caixa viz__caixa--nucleo" x="240" y="18" width="160" height="84" rx="6"/>
+      <text class="viz__texto viz__texto--forte" x="320" y="46" text-anchor="middle">Regra de negócio</text>
+      <text class="viz__texto" x="320" y="66" text-anchor="middle">casos de uso</text>
+      <text class="viz__texto" x="320" y="84" text-anchor="middle">entidades</text>
+
+      <rect class="viz__caixa" x="462" y="28" width="160" height="64" rx="6"/>
+      <text class="viz__texto" x="542" y="54" text-anchor="middle">Saída</text>
+      <text class="viz__texto" x="542" y="72" text-anchor="middle">banco · serviço externo</text>
+
+      <path class="viz__seta viz__seta--dado" d="M182,60 L232,60" marker-end="url(#pontaDado)"/>
+      <path class="viz__seta viz__seta--dado" d="M404,60 L456,60" marker-end="url(#pontaDado)"/>
+      <text class="viz__rotulo" x="207" y="48" text-anchor="middle">dado</text>
+      <text class="viz__rotulo" x="430" y="48" text-anchor="middle">dado</text>
+
+      <path class="viz__seta viz__seta--import" d="M98,96 L98,148 L300,148 L300,110" marker-end="url(#pontaImport)"/>
+      <path class="viz__seta viz__seta--import" d="M542,96 L542,186 L340,186 L340,110" marker-end="url(#pontaImport)"/>
+      <text class="viz__rotulo" x="199" y="141" text-anchor="middle">importa</text>
+      <text class="viz__rotulo" x="441" y="179" text-anchor="middle">importa</text>
+
+      <text class="viz__rotulo viz__rotulo--eixo" x="320" y="216" text-anchor="middle">o centro não importa nenhum dos dois</text>
+    </svg>
+  </div>
+  <p class="viz__nota">O dado vai da entrada ao banco. A dependência de código vai no sentido oposto: quem conhece quem é a borda, e o núcleo não conhece ninguém. É isso que torna banco e framework decisões adiáveis — e o que se perde quando uma linha do ORM circula dentro da regra de negócio.</p>
+</figure>

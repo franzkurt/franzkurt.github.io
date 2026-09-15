@@ -885,6 +885,32 @@ pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 .viz__tabela td, .viz__tabela th { font-variant-numeric: tabular-nums; }
 .viz__nota { color: var(--muted); font-size: .74rem; margin: .6rem 0 0; }
 
+/* ── diagrama de caixas e setas (regra de dependência) ───────────────────── */
+.viz__caixa {
+  fill: var(--paper-2);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.viz__caixa--nucleo {
+  fill: var(--paper);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.viz__texto {
+  fill: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.viz__texto--forte { fill: var(--ink); font-weight: 600; }
+.viz__seta { fill: none; stroke-width: 1.8; }
+.viz__seta--dado { stroke: var(--viz-s1); }
+.viz__seta--import { stroke: var(--ink-2); stroke-dasharray: 5 3; }
+.viz__ponta--dado { fill: var(--viz-s1); }
+.viz__ponta--import { fill: var(--ink-2); }
+@media (max-width: 480px) {
+  .viz__texto { font-size: 13.5px; }
+}
+
 @media (max-width: 40rem) {
   .viz__direto { font-size: 13px; }
   .viz__rotulo { font-size: 13px; }
