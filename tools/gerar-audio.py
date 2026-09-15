@@ -19,6 +19,7 @@ import argparse, re, shutil, subprocess, sys, tempfile, unicodedata, wave
 from pathlib import Path
 
 SILENCIO_POR_FRASE = 0.35      # padrão do piper é 0,2 e cola as frases
+TENTATIVAS_POR_BLOCO = 3       # aborto do qwen-tts é transitório; ver o laço em processa()
 
 # ── Qwen3-TTS: parâmetros APROVADOS pelo Franz em 14/09/2026 ────────────────
 # Ele ouviu quatro variantes da mesma frase (temp 0.9 padrão, 0.6, 0.35 e uma
@@ -187,6 +188,21 @@ def limpa_inline(t):
 
 
 # ── síntese ──────────────────────────────────────────────────────────────────
+# Quando o qwen-tts aborta, ele despeja um stack trace de dezenas de linhas e a
+# MENSAGEM fica no começo. Pegar a cauda (o que este código fazia) devolvia só
+# endereços de memória — em 15/09/2026 isso escondeu que a falha era transitória.
+LINHA_DE_ERRO = re.compile(r"error|assert|what\(\)|abort|terminate|invalid|"
+                           r"out of memory|failed|exception", re.I)
+
+
+def resumo_do_erro(saida, limite=200):
+    """A linha que explica, não a última linha que saiu."""
+    uteis = [l.strip() for l in saida.splitlines()
+             if LINHA_DE_ERRO.search(l) and not l.lstrip().startswith(("/", "["))]
+    if uteis:
+        return " · ".join(uteis[:2])[:limite]
+    return saida.strip()[-limite:] or "(sem saída)"
+
 def falar_qwen(texto, saida):
     """Qwen3-TTS com a voz do Franz, via qwentts.cpp em contêiner."""
     r = subprocess.run(
@@ -206,7 +222,7 @@ def falar_qwen(texto, saida):
          "-o", f"/out/{saida.name}"],
         input=texto, capture_output=True, text=True, timeout=1800)
     if r.returncode != 0 or not saida.exists():
-        return None, (r.stderr or r.stdout or "").strip()[-200:]
+        return None, resumo_do_erro(r.stderr or r.stdout or "")
     # o Qwen deixa silêncio de padding no começo e no fim do bloco; aparar SÓ
     # as bordas (não o meio) tira o padding sem tocar nas pausas de vírgula.
     aparado = saida.with_suffix(".trim.wav")
@@ -349,7 +365,18 @@ def processa(post, args, autor):
         partes, falhas = [], []
         for n, bloco in enumerate(unidades):
             alvo = tmp / f"{n:04d}.wav"
-            ok, erro = sintetizar(bloco, alvo)
+            # O qwen-tts aborta de vez em quando por motivo transitório: o mesmo
+            # bloco que falhou sintetiza na tentativa seguinte, sem mudar nada.
+            # Sem repetição, um aborto avulso descartava o artigo inteiro — em
+            # 15/09/2026 custou 40 blocos já sintetizados de uma vez.
+            for tentativa in range(TENTATIVAS_POR_BLOCO):
+                ok, erro = sintetizar(bloco, alvo)
+                if ok:
+                    break
+                alvo.unlink(missing_ok=True)   # não deixar meio WAV para trás
+                if tentativa + 1 < TENTATIVAS_POR_BLOCO:
+                    print(f"  [repete] bloco {n}: tentativa "
+                          f"{tentativa + 2}/{TENTATIVAS_POR_BLOCO}")
             if ok:
                 partes.append(alvo)
             else:
