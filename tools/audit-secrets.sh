@@ -62,6 +62,9 @@ PADROES_ERRO=(
   "cabecalho-de-autorizacao|[Aa]uthorization[[:space:]]*:[[:space:]]*([Bb]asic|[Bb]earer)[[:space:]]+[A-Za-z0-9._~+/=-]{16,}"
   "certificado-ou-chave|-----BEGIN (CERTIFICATE|OPENSSH PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----"
   "conexao-com-credencial|(postgres|postgresql|mysql|mongodb|mongodb\\+srv|redis|amqp|ftp|ssh)://[^/[:space:]:@\"']+:[^/[:space:]:@\"']+@"
+  # Nome de empregador: nunca entra em artigo, nota ou commit deste blog.
+  # As classes de caractere existem para que o padrão não case consigo mesmo.
+  "nome-de-empregador|[jJ][uU][sS][ -]?[bB][rR][aA][sS][iI][lL]"
 )
 PADROES_AVISO=(
   "segredo-atribuido|(password|passwd|senha|secret|token|api_key|apikey|access_key)[[:space:]]*[=:][[:space:]]*[\"'][^\"']{12,}[\"']"
@@ -84,6 +87,7 @@ amostras_autoteste() {
   echo "cabecalho-de-autorizacao|Authorization: Bear""er abcdefghijklmnopqrstuvwxyz012345"
   echo "certificado-ou-chave|-----BEG""IN CERTIFICATE-----"
   echo "conexao-com-credencial|postgres://app:s3nh4@db.interno:5432/producao"
+  echo "nome-de-empregador|texto citando a Jus""brasil como empregador"
 }
 
 ARQUIVOS_IGNORADOS=(
