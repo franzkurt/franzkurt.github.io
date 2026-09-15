@@ -22,9 +22,9 @@ Podem ser minutos, horas e há relatos de pessoas que passaram mais de um dia jo
 
 ## Como aplicar estes mesmos mecanismos e mecânicas para atividades profissionais?
 
-Muito foi debatido e existem dezenas de livros sobre o assunto. Vou me ater ao mais avançado livro que já encontrei a respeito e detalhar no resto do artigo cada uma das motivações psicológicas que o autor percebeu e detalhou a ponto de repetir o padrão. Agora é possível, graças a devoção do autor ***Yu Kai Chow*** em seu livro ***Actionable Gamefication — Muito além de pontos, medalhas e pódiuns*** (em tradução livre), estudar estes mecanismos de design fora de jogos eletrônicos e aplicar toda a metodologia num perfeito enganjamento pessoal.
+Muito foi debatido e existem dezenas de livros sobre o assunto. Vou me ater ao mais avançado livro que já encontrei a respeito e detalhar no resto do artigo cada uma das motivações psicológicas que o autor percebeu e detalhou a ponto de repetir o padrão. Agora é possível, graças a devoção do autor [***Yu-kai Chou***](https://yukaichou.com/) em seu livro [***Actionable Gamification: Beyond Points, Badges, and Leaderboards***](https://yukaichou.com/actionable-gamification-book/) (Octalysis Media, 2015 — *Muito além de pontos, medalhas e pódiuns*, em tradução livre), estudar estes mecanismos de design fora de jogos eletrônicos e aplicar toda a metodologia num perfeito enganjamento pessoal.
 
-Precisamos primeiro entender que existem 8 motivadores principais e um nono que deixarei para aqueles que se atreverem a ler o livro após a leitura deste artigo. São os motivadores psicológicos: ***Significado (propósito), progresso e realização, criatividade, posse, influencia social, escassez, imprevisibilidade e aversão a perda.***
+Precisamos primeiro entender que existem 8 motivadores principais — o framework que ele batizou de [***Octalysis***](https://yukaichou.com/gamification-examples/octalysis-gamification-framework/), pelo octógono em que os dispõe — e um nono que deixarei para aqueles que se atreverem a ler o livro após a leitura deste artigo. São os motivadores psicológicos: ***Significado (propósito), progresso e realização, criatividade, posse, influencia social, escassez, imprevisibilidade e aversão a perda.***
 
 <figure>
   <img src="/assets/img/medium/gameficacao-e-motivacao-para-adultos/01.jpeg" alt="">

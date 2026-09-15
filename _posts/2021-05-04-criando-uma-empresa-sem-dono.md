@@ -8,7 +8,7 @@ medium_url: https://franzkurt.medium.com/criando-uma-empresa-sem-dono-4c57a78df9
 audio: /assets/audio/criando-uma-empresa-sem-dono.mp3
 audio_duracao: "15:53"
 ---
-Através de livros como ‘***A Biblioteca de Coisas’*** e ‘***Sharing Cities’*** da Ong **Shareable** é possível encontrar diversos exemplos de boa convivência na comunidade e através de alguns conceitos foi possível que eu criasse uma estratégia efetiva para empregar a comunidade inteira e arrecadar recursos de modo que a desvantagem monetária pode ser compensada pelo número de participantes.
+Através de livros como ‘***A Biblioteca de Coisas***’ ([*Library of Things: A Cornerstone of the Real Sharing Economy*](https://www.shareable.net/publication/library-of-things-ebook/)) e ‘***Sharing Cities***’ ([*Activating the Urban Commons*](https://www.shareable.net/sharing-cities/), 2018) da ONG [**Shareable**](https://www.shareable.net/) — ambos de leitura livre e gratuita é possível encontrar diversos exemplos de boa convivência na comunidade e através de alguns conceitos foi possível que eu criasse uma estratégia efetiva para empregar a comunidade inteira e arrecadar recursos de modo que a desvantagem monetária pode ser compensada pelo número de participantes.
 
 Passei um ano elaborando e simulando estratégias e abaixo apresento meu organograma assim como algumas características e apresento a solução:
 
