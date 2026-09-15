@@ -3,6 +3,8 @@ title: "Um Makefile para o Python moderno (uv, Ruff, Pyrefly) — parte 2"
 date: 2026-09-14 10:00:00 -0300
 tags: [python, ferramentas, make, tutorial]
 description: "Amarrar uv, Ruff e Pyrefly num Makefile transforma cinco comandos que ninguém decora em make check. O padrão, o truque do help auto-documentado e as três armadilhas do Make que pegam todo mundo."
+audio: /assets/audio/makefile-python-moderno-parte-2.mp3
+audio_duracao: "6:02"
 ---
 
 Na [parte 1]({{ site.baseurl }}/2026/09/uv-ruff-pyrefly-python-moderno/) montei um
