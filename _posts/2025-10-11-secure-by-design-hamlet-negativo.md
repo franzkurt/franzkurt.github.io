@@ -1,5 +1,5 @@
 ---
-title: "O Hamlet negativo: quando nada está quebrado e a empresa sangra dinheiro"
+title: "O Hamlet negativo: quando nada está quebrado"
 date: 2025-10-11 09:00:00 -0300
 tags: [segurança, design, engenharia, ddd, arquitetura]
 description: "Firewall certo, portas fechadas, sem SQL injection, sem XSS. E os clientes davam desconto a si mesmos comprando quantidades negativas. Secure by Design é sobre a falha que nenhum scanner acha, porque tecnicamente não há falha."
@@ -265,23 +265,6 @@ propósito.**
 
 Uma quebra de compilação é barata e acontece na sua frente. Um nome ambíguo é
 caro e acontece em produção, seis meses depois, no contas a receber.
-
-## O que o livro não é
-
-Duas ressalvas honestas.
-
-Os exemplos são em **Java e C#**, e são bastante orientados a objetos. Quem
-programa em Python ou Go vai traduzir mentalmente o tempo todo — a ideia atravessa
-sem esforço, o código não. São 400 páginas, e não há edição em português.
-
-E ele não substitui o resto. Nada aqui te protege de uma dependência com CVE, de
-um segredo commitado ou de uma porta aberta. O livro é explícito quanto a isso: o
-que ele endereça é a classe de falha que as outras ferramentas **não conseguem
-ver**, porque para elas não há falha nenhuma.
-
-Que é exatamente o caso do Hamlet negativo. Firewall certo, portas fechadas, sem
-injection, sem XSS, sem erro no log — e os clientes se dando desconto sozinhos,
-por meses.
 
 *Este texto aprofunda a seção sobre o livro em [Cinco livros, quatro distâncias do
 mesmo código](/2026/09/quatro-livros-de-codigo/).*
