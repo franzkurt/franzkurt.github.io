@@ -1,6 +1,6 @@
 ---
 title: "Por que o Ollama não roda LLaDA, se os dois são GGUF"
-date: 2026-10-08 09:00:00 -0300
+date: 2025-09-27 09:00:00 -0300
 tags: [ia, ollama, llama-cpp, difusão, gguf]
 description: "O ollama create aceita o arquivo e o ollama run morre num GGML_ASSERT. A mensagem não explica nada, mas a causa é estrutural e vale para qualquer modelo de difusão: GGUF é container, não motor."
 ---

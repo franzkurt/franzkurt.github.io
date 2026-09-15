@@ -1,6 +1,6 @@
 ---
 title: "Parâmetros: o que os benchmarks estão medindo sem saber"
-date: 2026-09-24 09:00:00 -0300
+date: 2025-09-13 09:00:00 -0300
 tags: [ia, medição, experimento, benchmark, engenharia]
 description: "Trocar um parâmetro de inferência mudou o acerto em 4× no mesmo modelo. O ótimo se inverte entre modelos, e o default do Ollama fica em 8º de 10. A consequência é metodológica: todo benchmark com parâmetros fixos mede parcialmente o parâmetro, não o modelo."
 ---
@@ -165,4 +165,4 @@ implementação.
 partir dos JSON de resultado e não das tabelas intermediárias — que, aliás,
 tinham contagens dobradas em relação ao medido. O método de erro que produziu
 isso está descrito em [Sete erros de medição que não levantaram exceção
-nenhuma](/2026/09/sete-erros-de-medicao/).*
+nenhuma](/2025/09/sete-erros-de-medicao/).*

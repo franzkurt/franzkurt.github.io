@@ -1,6 +1,6 @@
 ---
 title: "A pergunta que nenhuma ferramenta faz antes de carregar o modelo"
-date: 2026-10-15 09:00:00 -0300
+date: 2025-10-04 09:00:00 -0300
 tags: [ia, engenharia, memória, ollama, llama-cpp, infraestrutura]
 description: "Ollama, llama-server e RamaLama sabem ajustar o modelo ao máximo do dispositivo. Nenhum deles aceita um orçamento. Em memória unificada, o dispositivo é a máquina inteira — e ajustar ao máximo significa tomá-la."
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Tipos em Python por dentro: o que o CPython faz com x = 1"
-date: 2026-10-29 09:00:00 -0300
+date: 2026-08-08 10:00:00 -0300
 tags: [python, cpython, internals, tipagem, performance]
 description: "Um int pequeno não é criado quando você escreve 1 — ele já existe desde o boot do interpretador. Por que o cache vai até 256 hoje e até 1024 no main, o que é um objeto imortal, e por que anotação de tipo não tem relação com nada disso."
 ---

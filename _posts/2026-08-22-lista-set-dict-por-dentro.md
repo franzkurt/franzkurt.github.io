@@ -1,6 +1,6 @@
 ---
 title: "Lista, set ou dict: o que o CPython faz por baixo, e como isso mudou"
-date: 2026-11-05 09:00:00 -0300
+date: 2026-08-22 10:00:00 -0300
 tags: [python, cpython, internals, estrutura-de-dados, performance]
 description: "Os mesmos mil números custam 8 KB numa lista e 36 KB num dict. A escolha entre as três não é estilo — e o dict de hoje não se parece com o de antes do 3.6, quando deixou de ser uma tabela esparsa e virou índice mais array denso."
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Difusão num laptop: o custo é constante, e isso não basta"
-date: 2026-10-01 09:00:00 -0300
+date: 2025-09-20 09:00:00 -0300
 tags: [ia, difusão, medição, experimento, llama-cpp]
 description: "Modelo de difusão custa o mesmo para 32 ou para 512 tokens — medido, não teorizado. A vantagem existe e é inalcançável: o cruzamento fica 11× acima do teto do modelo, e manter a qualidade faz os steps escalarem junto."
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Sete erros de medição que não levantaram exceção nenhuma"
-date: 2026-09-17 09:00:00 -0300
+date: 2025-09-06 09:00:00 -0300
 tags: [engenharia, medição, experimento, ia, notas]
 description: "O erro perigoso num experimento não é o que quebra — é o que devolve número plausível. Sete deles, de uma investigação só: cinco produziriam conclusão coerente e falsa, e um confirmaria exatamente a negação da hipótese testada."
 ---
