@@ -3,6 +3,8 @@ title: "Python moderno em Rust: uv, Ruff e Pyrefly na prática"
 date: 2026-09-14 09:00:00 -0300
 tags: [python, ferramentas, tutorial]
 description: "Três ferramentas em Rust substituem meia dúzia de utilitários lentos do Python — com o contexto de quem as faz (incluindo a compra da Astral pela OpenAI), os prós e contras de cada uma, as issues que você vai encontrar e um parecer atual."
+audio: /assets/audio/uv-ruff-pyrefly-python-moderno.mp3
+audio_duracao: "9:11"
 ---
 
 O ferramental do Python tem fama de bagunça: um programa para o ambiente virtual,
