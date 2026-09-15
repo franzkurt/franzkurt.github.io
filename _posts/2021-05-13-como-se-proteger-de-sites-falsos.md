@@ -58,7 +58,7 @@ Nada poderemos afirmar neste caso: o CPF pode ter sido usado pelo dono ou não p
 
 ***Outra Obs:*** Lojas grandes não tem CNPJ como Empresário Individual ou no CPF de alguém.
 
-> Para termos certeza quanto as informações podemos validar o CNPJ no site da Receita Federal neste [***link***](http://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/Cnpjreva_Solicitacao.asp);
+> Para termos certeza quanto as informações podemos validar o CNPJ no site da Receita Federal;
 
 <figure>
   <img src="/assets/img/medium/como-se-proteger-de-sites-falsos/03.png" alt="">

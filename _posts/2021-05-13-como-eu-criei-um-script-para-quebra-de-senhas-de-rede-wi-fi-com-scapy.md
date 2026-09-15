@@ -197,6 +197,4 @@ ptk = PRF(pmk, A, B) mics = [hmac.new(ptk[0:16], i, sha1).digest() for i in dat
 
 Agora que geramos o MIC em mics[0], basta comparar ***mics[0]*** == MIC
 
-Um documento mais didático está neste [***link***](https://gateway.pinata.cloud/ipfs/QmZwXohZ8yai8gwSjx2NLbfBCLKbbUGXTLehGrzSezdJqv).
-
 Código: [github.com/franzkurt/wpacrack](https://github.com/franzkurt/wpacrack)
