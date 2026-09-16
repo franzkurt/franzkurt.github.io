@@ -66,6 +66,13 @@ assinar dois blocos concorrentes é quase de graça — e se todo mundo fizer is
 a rede nunca converge. Resolver isso exige penalidades explícitas e uma
 matemática que não é óbvia.
 
+A maior aposta nessa direção está em curso enquanto escrevo: a **Ethereum** está
+migrando de Proof of Work para Proof of Stake. A *Beacon Chain*, que é a cadeia
+de consenso em PoS, entrou no ar em **dezembro de 2020** e já roda em paralelo à
+rede principal, acumulando validadores. A fusão das duas — juntar a execução da
+cadeia atual ao consenso da nova — é o passo que falta, e é de longe a troca de
+motor mais arriscada já tentada numa rede com esse valor em cima.
+
 Foi aí que a **Ouroboros** se destacou: publicada por Aggelos Kiayias e coautores
 na Crypto 2017, foi o primeiro protocolo de Proof of Stake com **prova formal de
 segurança** — garantias demonstradas matematicamente, revisadas por pares antes
@@ -73,20 +80,51 @@ de virar código. É a base da [Cardano](/2021/05/cardano-esta-moldando-o-futuro
 e a escolha metodológica é tão relevante quanto o protocolo: publicar antes de
 implementar é o oposto do padrão do setor.
 
-## Proof of Stake delegado: velocidade comprada com concentração
+## Delegação: democracia líquida aplicada a protocolo
 
-A variante delegada muda quem decide. Em vez de todo detentor participar, os
-detentores **elegem** um conjunto pequeno de validadores — vinte e um, cem, a
-depender da rede — e esses produzem os blocos.
+Há uma família inteira de modelos que responde a um problema prático: a maioria
+dos detentores **não quer** operar um nó. Não tem máquina, não tem banda, não tem
+paciência. Exigir participação direta de todos produz, na prática, participação de
+poucos.
 
-O ganho é óbvio: com poucos validadores conhecidos, a coordenação é rápida.
-Segundos em vez de minutos.
+A saída é emprestada da ciência política e chama-se **democracia líquida**: você
+não vota em tudo, e também não elege um representante por um mandato fixo. Você
+**delega o seu peso a quem quiser, e retoma quando quiser**. É voto que flui em
+vez de voto que é entregue.
 
-O custo também: a rede passa a depender de um número pequeno de entidades. Se
-vinte e uma organizações produzem todos os blocos, a pergunta "isso é
-descentralizado?" tem uma resposta desconfortável — e vale reparar que a
-concentração aparece mesmo onde o protocolo não a exige. É o problema que os
-*pools* de mineração criam no Bitcoin sem ninguém ter projetado.
+Traduzido para protocolo, isso aparece em pelo menos três formatos bem
+diferentes, e confundi-los é comum.
+
+**Proof of Stake delegado.** Os detentores elegem um conjunto pequeno e fixo de
+validadores — vinte e um, cem, conforme a rede — e esses produzem os blocos. Com
+poucos validadores conhecidos, a coordenação é rápida: segundos em vez de minutos.
+O custo é que a rede passa a depender de um número pequeno de entidades, e a
+pergunta "isso é descentralizado?" ganha uma resposta desconfortável.
+
+**Delegação sem conjunto fixo**, que é o caso da Cardano. Qualquer um pode operar
+um *pool*, qualquer detentor delega a quem quiser, e a delegação **não trava o
+dinheiro** — você continua podendo gastar. O protocolo ainda inclui mecanismos
+que desestimulam a concentração num único pool. É mais próximo do espírito da
+democracia líquida do que o formato anterior, porque não há assento a ser
+disputado.
+
+**Voto por representante aberto**, o modelo da Nano, e é o mais distante dos
+três apesar de ser confundido com DPoS o tempo todo. Aqui a delegação é **só de
+voto**: nada é bloqueado, o peso do representante é simplesmente a soma dos
+saldos de quem o escolheu, e esse peso **muda sozinho** conforme as pessoas
+gastam e recebem. Uma transação é confirmada quando 67% do poder de voto online
+a confirma.
+
+E há duas consequências que valem reter. Primeiro, **não existe recompensa de
+bloco** nesse desenho — logo, não existe taxa, porque não há o que financiar.
+Segundo, o consenso só é acionado **quando há conflito de verdade**; transação sem
+disputa não passa por votação nenhuma. É outro animal, e merece ser chamado por
+outro nome.
+
+Vale reparar num padrão que atravessa os três: a concentração aparece mesmo onde
+o protocolo não a exige. É o que os *pools* de mineração fizeram com o Bitcoin sem
+ninguém ter projetado, e é o motivo de "quantos validadores existem" ser uma
+pergunta menos útil que "quantos precisariam combinar entre si".
 
 ## BFT clássico: decisão definitiva, com a porta fechada
 
@@ -146,6 +184,25 @@ e ganha o determinismo em troca.
 
 Quem promete os dois ao mesmo tempo, sem dizer o que está pagando, geralmente
 está escondendo onde ficou a conta.
+
+<div class="nota-editorial" markdown="1">
+<span class="nota-editorial__rotulo">Nota de 2026</span>
+A migração da Ethereum descrita acima como "o passo que falta" aconteceu: a fusão
+entre a cadeia de execução e a Beacon Chain foi concluída em **15 de setembro de
+2022**, no evento que ficou conhecido como *The Merge*. O consumo de energia da
+rede caiu em mais de 99% de um dia para o outro, e a troca de motor ocorreu sem
+interrupção de serviço — o que, para o tamanho do risco, é um resultado de
+engenharia notável.
+</div>
+
+## Para ir além
+
+Quem quiser o panorama acadêmico completo, a referência é
+[*SoK: Consensus in the Age of Blockchains*](https://arxiv.org/abs/1711.03936),
+de Bano e coautores. É uma sistematização que compara as famílias de protocolo por
+propriedades de segurança e desempenho, em vez de por narrativa de projeto — e
+deixa explícito o que cada uma assume para funcionar, que é justamente o que os
+white papers costumam deixar implícito.
 
 ---
 

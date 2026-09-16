@@ -1,8 +1,8 @@
 ---
-title: "Nem toda blockchain é uma cadeia: Tangle, block lattice e Mimblewimble"
+title: "Nem toda blockchain é uma cadeia: seis arquiteturas além do fio de blocos"
 date: 2021-05-23 10:00:00 -0300
 tags: [blockchain, criptomoedas, arquitetura, sistemas-distribuídos, privacidade]
-description: "A cadeia de blocos é uma escolha de estrutura de dados, não uma definição. Há redes em grafo, redes com uma cadeia por conta, e uma proposta em que o histórico encolhe em vez de crescer."
+description: "A cadeia de blocos é uma escolha de estrutura de dados, não uma definição. Grafo, uma cadeia por conta, voto virtual, rede sem consenso global, prova recursiva — e uma proposta em que o histórico encolhe em vez de crescer."
 ---
 
 "Blockchain" virou sinônimo do problema que ela resolve, e isso esconde uma
@@ -15,8 +15,9 @@ aconteceu e em que ordem, como vimos nos
 num fio único é **uma** forma de organizar isso. Existem outras, e algumas
 resolvem problemas que a cadeia cria.
 
-Este texto percorre três alternativas, e termina numa proposta que não muda o
-formato do grafo — muda o que uma transação contém.
+Este texto percorre seis alternativas — algumas em produção há anos, outras ainda
+mais promessa que rede — e termina numa proposta que não muda o formato do grafo:
+muda o que uma transação contém.
 
 <!--more-->
 
@@ -78,13 +79,118 @@ transferências entre pessoas diferentes não têm por que se atrapalhar, e no
 modelo da Nano, não se atrapalham.
 
 O consenso só é acionado quando há conflito de verdade — um dono tentando gastar
-duas vezes na própria cadeia. Aí representantes eleitos pelos detentores votam, e
-o conflito se resolve.
+duas vezes na própria cadeia. Aí entra o mecanismo próprio da rede, o **voto por
+representante aberto**: cada conta escolhe livremente um representante, cujo peso
+de voto é a soma dos saldos de quem o escolheu, e a transação é confirmada quando
+67% do poder de voto online concorda.
+
+Vale insistir num detalhe que quase sempre se perde, porque faz o modelo ser
+confundido com Proof of Stake delegado: **delegar aqui não bloqueia nada**. O
+dinheiro continua disponível, e o peso do representante muda sozinho conforme as
+pessoas gastam e recebem. Não há recompensa de bloco e, por consequência, não há
+taxa — os [modelos de consenso](/2021/05/modelos-de-consenso-blockchain/) do texto
+anterior detalham por que isso é outra família, e não uma variante.
 
 **O custo aqui também é estrutural.** Sem taxa, não há receita para quem opera um
 nó. A rede depende de voluntários e de participantes com interesse próprio em
 mantê-la de pé, e essa é uma pergunta em aberto sobre sustentação a longo prazo —
 exatamente o pilar de "sustentabilidade" que a terceira geração diz atacar.
+
+## Hashgraph: votar sem enviar votos
+
+O hashgraph, descrito por Leemon Baird num artigo de maio de 2016, resolve o
+mesmo problema por um caminho que não se parece com nenhum dos anteriores.
+
+A base é um protocolo de fofoca: cada nó conta a outro nó, escolhido ao acaso,
+tudo o que sabe. Até aí, nada de novo — redes distribuídas fazem isso há décadas.
+A sacada está no que é fofocado: **a fofoca inclui o histórico de quem contou o
+quê a quem, e quando**. É o que eles chamam de *gossip about gossip*.
+
+E aí acontece a parte elegante. Como todo nó acaba sabendo **quem soube de cada
+coisa e em que momento**, cada um consegue calcular sozinho como os outros
+votariam — sem que nenhum voto precise ser transmitido. É a **votação virtual**:
+o resultado da eleição é derivado do grafo de comunicação, não da eleição.
+
+Isso dá uma propriedade forte, chamada BFT assíncrono: a rede chega a acordo
+definitivo tolerando até um terço de nós maliciosos, **sem depender de suposições
+sobre o tempo de entrega das mensagens** — que é a hipótese frágil da maioria dos
+protocolos.
+
+**E agora a parte que precisa ser dita.** O algoritmo é **patenteado**, o que por
+si só o separa de tudo o mais nesta lista. E a rede pública que o usa, a Hedera,
+é *permissioned*: qualquer um transaciona, mas os nós de consenso são operados
+por um **conselho de grandes empresas**, com assentos limitados.
+
+Ou seja: a finalidade determinística não veio do hashgraph sozinho — veio do
+hashgraph **mais** um conjunto fechado de validadores, que é exatamente a troca
+que o [BFT clássico](/2021/05/modelos-de-consenso-blockchain/) já fazia. A
+inovação técnica é real; o que ela entrega de descentralização, menos do que o
+marketing sugere.
+
+## Obyte: doze testemunhas, e ninguém finge o contrário
+
+A Obyte — lançada como Byteball por Anton Churyumov em 2016 — é outro grafo, mas
+merece estar aqui por uma escolha de projeto que eu considero honesta.
+
+Como todo DAG, ela precisa de um jeito de estabelecer ordem quando duas
+transações conflitam. A solução são **doze testemunhas**: entidades conhecidas,
+escolhidas pelos próprios usuários, que publicam transações com regularidade. A
+cadeia principal é traçada seguindo o caminho que mais passa por elas.
+
+Compare com o Coordenador da IOTA e a diferença de postura fica clara. A IOTA tem
+**um** nó central, operado pela fundação, apresentado como medida temporária que
+será removida. A Obyte tem **doze**, nomeadas, escolhidas pelo usuário, e
+assumidas como parte permanente do desenho.
+
+Nenhuma das duas é trustless. Uma admite isso na documentação; a outra chama de
+fase de transição — e já dura anos.
+
+## Holochain: e se não houvesse consenso global?
+
+A proposta mais radical da lista é a que pergunta se o consenso global é
+necessário.
+
+O argumento é este: numa rede de moeda, é preciso que todos concordem sobre tudo,
+porque gastar duas vezes é a fraude central. Mas a maioria das aplicações não é
+moeda. Num fórum, numa rede social, num registro de reputação, **por que todos os
+participantes do planeta precisam concordar sobre uma mensagem entre duas
+pessoas?**
+
+O Holochain inverte o modelo: em vez de centrado na cadeia, é **centrado no
+agente**. Cada participante mantém a própria cadeia local — o registro das
+próprias ações, assinado — e publica o que for público numa tabela hash
+distribuída. As regras de validação viajam junto com a aplicação, e quem recebe
+um dado **valida contra essas regras**. Se alguém emitir algo inválido, os
+vizinhos que validam detectam, e a evidência é compartilhada.
+
+Não existe livro-razão global. Existe um monte de livros pessoais e uma rede que
+verifica uns aos outros.
+
+O que isso compra é escala real: sem consenso global, não há teto global de
+transações por segundo. O que custa é justamente o caso do dinheiro — sem ordem
+total, impedir gasto duplo volta a ser difícil, e é por isso que a abordagem
+aparece em aplicações colaborativas e não em moedas. Vale dizer que é a menos
+madura das que estão aqui, ainda mais promessa do que rede em produção.
+
+## Mina: a cadeia que não cresce, por prova
+
+E há uma abordagem que ataca o problema do histórico infinito de frente, com
+criptografia em vez de estrutura.
+
+A ideia da Mina — que se chamava Coda até o ano passado e abriu a rede principal
+há poucos meses — usa **zk-SNARKs recursivos**. A tradução prática: em vez de
+guardar o histórico, guarda-se uma **prova** de que o histórico era válido. E como
+a prova é recursiva, a prova nova engloba a anterior, que engloba a anterior, e
+assim por diante.
+
+O resultado é o número mais chamativo deste texto: **a cadeia inteira cabe em
+cerca de 22 KB**, e esse tamanho é **constante**. Não cresce com o número de
+transações, nem com os anos. Um celular verifica a rede inteira.
+
+Compare com o Bitcoin, onde entrar como nó completo significa baixar centenas de
+gigabytes e validar mais de uma década de história. A diferença de custo de
+entrada não é de grau, é de categoria — e custo de entrada é o que decide quantas
+pessoas conseguem participar sem pedir licença a ninguém.
 
 ## E então: Mimblewimble
 
@@ -137,6 +243,10 @@ Colocando os quatro lado a lado:
 | Cadeia de blocos | um fio global ordenado | simplicidade, segurança estudada | taxa, fila, histórico infinito |
 | Tangle | grafo, cada um valida dois | sem taxa, escala com uso | segurança depende de volume; Coordenador |
 | Block lattice | uma cadeia por conta | sem taxa, quase instantâneo | ninguém é pago para operar nó |
+| Hashgraph | fofoca sobre fofoca, voto virtual | finalidade definitiva, BFT assíncrono | patente; validadores por convite |
+| Obyte | DAG com testemunhas nomeadas | ordem resolvida, sem fingir | confiança explícita em doze entidades |
+| Holochain | sem consenso global, por agente | escala sem teto global | gasto duplo volta a ser difícil |
+| Mina | prova recursiva no lugar do histórico | cadeia constante de ~22 KB | criptografia nova, pouco testada |
 | Mimblewimble | transação fundida e podável | privacidade, histórico encolhe | sem scripts, sem contratos |
 
 A lição que eu tiro não é sobre qual vence. É que **tratar "blockchain" como
