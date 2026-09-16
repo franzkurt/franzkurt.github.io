@@ -50,6 +50,98 @@ Mais do que um mero desenvolvedor que tenta embarcar em sua fama como co-criador
   <img src="/assets/img/medium/cardano-esta-moldando-o-futuro-das-criptomoedas-e-tambem-das-nacoes/02.jpeg" alt="">
 </figure>
 
+## As três gerações, e por que elas existem
+
+Antes de continuar vale explicar de onde vem esse "terceira geração", porque é o
+enquadramento que organiza a conversa inteira e quase nunca é explicado.
+
+A divisão é do próprio Charles Hoskinson, e cada geração nasceu de uma limitação
+concreta da anterior — não de marketing.
+
+**Primeira geração — Bitcoin, 2009.** Resolveu um problema que ninguém tinha
+resolvido: transferir valor entre desconhecidos, sem intermediário, sem que
+ninguém pudesse gastar a mesma moeda duas vezes. É um livro-caixa distribuído, e
+faz isso muito bem. O que ele **não** faz é lógica: não dá para escrever "pague
+só se a mercadoria chegar".
+
+**Segunda geração — Ethereum, 2015.** Acrescentou a peça que faltava: o contrato
+inteligente. A rede deixou de ser um livro-caixa e virou um computador
+compartilhado, onde qualquer pessoa publica código que executa sem dono. Isso
+abriu tudo o que veio depois — DeFi, NFT, DAO.
+
+E criou três problemas novos, que são exatamente os da terceira geração:
+
+- **Escalabilidade.** Cada nó executa cada contrato. Quando a rede cresce, o
+  custo por transação cresce junto — foi o que produziu taxas de dezenas de
+  dólares para operações triviais.
+- **Interoperabilidade.** Cada rede virou uma ilha. Mover valor entre elas exige
+  uma ponte, e ponte é onde o dinheiro é roubado.
+- **Sustentabilidade.** Quem paga o desenvolvimento depois que os fundadores
+  saírem? Sem um mecanismo de tesouro e de governança, a rede depende da boa
+  vontade de quem está lá hoje.
+
+**Terceira geração.** É a que tenta resolver esses três — e é aí que a Cardano se
+posiciona, com uma aposta metodológica específica: **publicar e revisar por pares
+antes de implementar.** O protocolo de consenso dela, o Ouroboros, foi publicado
+como artigo acadêmico e passou por revisão antes de virar código, que é o oposto
+do padrão do setor.
+
+Vale a ressalva: "terceira geração" descreve uma **ambição**, não uma conquista.
+São os problemas que a geração se propôs a atacar, e a essa altura nenhum deles
+está resolvido de forma definitiva por ninguém.
+
+
+<div class="nota-editorial" markdown="1">
+<span class="nota-editorial__rotulo">Atualização de 2026 · a quarta geração</span>
+**Esta seção não estava no texto original de 2021.** Ela foi acrescentada agora,
+porque o enquadramento das três gerações acima ficou incompleto: existe uma
+quarta, e ela já saiu do papel.
+
+Hoskinson a definiu por aquilo que as três primeiras deixaram de fora:
+*"o que está faltando é **privacidade, identidade e cooperação de verdade**"*. E a
+mudança de atitude importa tanto quanto a lista — em vez de mais uma rede
+disputando substituir as outras, a proposta é **unificar em vez de substituir**.
+A pergunta que ele faz é: por que Bitcoin, Ethereum e Cardano não podem coexistir
+e se complementar?
+
+A implementação concreta disso é o **Midnight**, anunciado pela IOG em 18 de
+novembro de 2022. O diagnóstico do anúncio é direto:
+
+> A Web3 prometeu um novo paradigma sem censura ou controle sobre os dados do
+> usuário, mas até aqui as soluções ou **revelam dados demais**, ou são
+> **secretas demais** para muitos casos de uso.
+
+Repare na simetria, porque é o ponto: numa blockchain pública comum, tudo o que
+você faz é visível para sempre — saldo, contraparte, valor. Nas redes focadas em
+anonimato, nada é visível, o que as torna inutilizáveis para qualquer empresa que
+precise provar conformidade a um regulador. As duas pontas falham pelo mesmo
+motivo: o grau de revelação é uma propriedade da **rede**, e não uma escolha de
+quem usa.
+
+O Midnight inverte isso com **criptografia de conhecimento zero** — provas que
+permitem demonstrar que uma afirmação é verdadeira sem revelar o dado que a
+sustenta. Dá para provar que você tem mais de 18 anos sem mostrar a data de
+nascimento, ou que uma transação respeita um limite sem expor o valor. A
+plataforma combina computação privada e pública na mesma rede, e roda como
+**sidechain da Cardano**, herdando a segurança dela.
+
+O modelo é chamado de *rational privacy*, e a escolha de palavras é deliberada:
+o alvo não é o anonimato maximalista, é a empresa que precisa de confidencialidade
+**e** de conformidade ao mesmo tempo.
+
+Onde isso está hoje: a **mainnet federada entrou no ar em 31 de março de 2026**,
+com Google, Vodafone e uma empresa da Fortune 500 não identificada entre os
+operadores de nó. O modelo é de duas moedas — NIGHT para governança, DUST para
+custo de transação — e os contratos podem ser escritos em TypeScript, o que baixa
+bastante a barreira em relação a linguagens próprias de blockchain.
+
+Duas ressalvas honestas, para não repetir o entusiasmo de 2021. **Federada**
+significa que o conjunto de operadores é fechado por enquanto — é um passo de
+lançamento, não a descentralização final. E "quarta geração" é, de novo, um
+enquadramento de quem está construindo: descreve a ambição, e o histórico das
+três anteriores sugere prudência com o prazo.
+</div>
+
 Com conceitos de firewall entre sidechains a Cardano permite que blockchains privadas, assim como públicas, interajam numa rede embora por design não possam trapacear e criar moedas durante sua execução. Baseada em pilares de terceira geração como escalabilidade, interoperabilidade e sustentabilidade a mesma trás contratos inteligentes (criando execução de código em rede semelhante a um sistema operacional).
 
 Estes contratos são mais robustos e eficientes, escritos na ***linguagem intermediária Plutus*** (a qual permite a migração de solidity, ou seja, que empresas sobre a Ethereum migrem para a Cardano facilmente) e permite também ***tokens nativos*** os quais usam a mesma interface da moeda ADA e podem ser trocados sem o pagamento de fee (contrário a Ethereum que para trocar de dono um tokem [***ERC20***](https://pt.wikipedia.org/wiki/Ethereum) ou NFT — [***non fungible token***](https://pt.wikipedia.org/wiki/Non-fungible_token) exige que taxas sejam pagas em excesso gerando lentidão na rede e aumento do preço para os demais usuários).
