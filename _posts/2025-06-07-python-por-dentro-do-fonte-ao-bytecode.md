@@ -5,6 +5,11 @@ tags: [python, cpython, internals, compilador, parser]
 description: "Entre o arquivo .py e a execução há cinco etapas, cada uma num arquivo diferente do CPython. E a segunda delas foi trocada por inteiro no Python 3.9, por um motivo que vale entender."
 ---
 
+*Esta é uma série sobre o funcionamento interno do Python. Se os termos
+**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
+[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples, e é o ponto de partida recomendado.*
+
 Quando você roda um `.py`, o Python não interpreta o seu texto. Ele **compila**
 — não para código de máquina, mas para bytecode — e só então executa. Entre uma
 coisa e outra existem cinco etapas bem definidas, e cada uma mora num arquivo

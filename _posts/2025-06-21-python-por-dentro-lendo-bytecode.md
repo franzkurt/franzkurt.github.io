@@ -5,6 +5,11 @@ tags: [python, cpython, internals, bytecode, performance]
 description: "Um laço, uma compreensão e três formas de acessar um valor. A desmontagem mostra o que cada um custa — e entrega uma mudança de 2023 que ninguém anunciou no código que você escreve."
 ---
 
+*Esta é uma série sobre o funcionamento interno do Python. Se os termos
+**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
+[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples, e é o ponto de partida recomendado.*
+
 As duas partes anteriores cobriram
 [como o fonte vira bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/) e
 [por que o interpretador é uma máquina de pilha](/2025/06/python-por-dentro-maquina-de-pilha/).

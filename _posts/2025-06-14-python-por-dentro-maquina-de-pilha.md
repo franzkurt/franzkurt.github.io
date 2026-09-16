@@ -5,6 +5,11 @@ tags: [python, cpython, internals, bytecode, performance]
 description: "A explicação comum é que bytecode de pilha ocupa menos espaço. Fui medir e os dois quase empatam. O motivo real é outro, e tem a ver com um byte só."
 ---
 
+*Esta é uma série sobre o funcionamento interno do Python. Se os termos
+**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
+[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples, e é o ponto de partida recomendado.*
+
 O bytecode que sai da [parte 1](/2025/06/python-por-dentro-do-fonte-ao-bytecode/)
 precisa de alguém que o execute. Esse alguém é
 [`Python/ceval.c`](https://github.com/python/cpython/blob/main/Python/ceval.c),

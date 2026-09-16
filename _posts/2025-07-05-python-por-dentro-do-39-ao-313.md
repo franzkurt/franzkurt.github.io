@@ -5,6 +5,11 @@ tags: [python, cpython, internals, versões, performance]
 description: "Cinco versões que parecem uma lista de novidades e são uma cadeia. O parser novo do 3.9 é o que tornou o match do 3.10 possível, e os objetos imortais do 3.12 são pré-requisito do free threading do 3.13."
 ---
 
+*Esta é uma série sobre o funcionamento interno do Python. Se os termos
+**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
+[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples, e é o ponto de partida recomendado.*
+
 As quatro partes anteriores desta série olharam o Python parado: o
 [caminho do fonte ao bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/),
 a [máquina de pilha](/2025/06/python-por-dentro-maquina-de-pilha/), o
