@@ -1,9 +1,11 @@
 ---
-title: "Lista, set ou dict: o que o CPython faz por baixo, e como isso mudou"
+title: "Tipos e estruturas, parte 2: lista, set ou dict por baixo"
 date: 2026-08-22 10:00:00 -0300
 tags: [python, cpython, internals, estrutura-de-dados, performance]
 description: "Os mesmos mil números custam 8 KB numa lista e 36 KB num dict. A escolha entre as três não é estilo — e o dict de hoje não se parece com o de antes do 3.6, quando deixou de ser uma tabela esparsa e virou índice mais array denso."
 ---
+
+*Série em três partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/).*
 
 Guarde os números de 0 a 999 nas quatro estruturas embutidas e meça:
 
@@ -277,6 +279,15 @@ apagar e reinserir manda a chave para o fim, o dict não encolhe, o set de
 inteiros pequenos parece ordenado. Os oito daqui estão reunidos com os sete do
 texto sobre tipos em
 [Quinze casos de canto do Python, todos medidos](/2026/08/casos-de-canto-do-python/).
+
+## Como declarar tudo isso
+
+Saber o que cada estrutura faz é metade; a outra é **declarar** qual delas a sua
+função aceita — e o erro mais comum é exigir `dict` quando bastaria um mapa que
+se possa ler. É o assunto do
+[texto seguinte](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/), sobre
+a hierarquia de `collections.abc` e por que `list[Cachorro]` não serve onde se
+espera `list[Animal]`.
 
 ## A linha do tempo
 

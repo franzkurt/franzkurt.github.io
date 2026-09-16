@@ -12,6 +12,8 @@ comportamento estranho tem que acontecer — e acontece.
 Este texto reúne quinze deles. Os sete primeiros saem de como o CPython
 representa os [tipos não-compostos](/2026/08/tipos-em-python-por-dentro/); os oito
 seguintes, do layout das [estruturas de dados](/2026/08/lista-set-dict-por-dentro/).
+Os dois textos, mais o de [type hints](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/),
+formam a sequência de onde estes casos saem.
 Rodei todos antes de escrever, e o valor está menos no truque e mais em cada um
 apontar de volta para uma decisão de implementação concreta.
 

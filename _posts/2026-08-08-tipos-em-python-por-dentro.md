@@ -1,9 +1,11 @@
 ---
-title: "Tipos em Python por dentro: o que o CPython faz com x = 1"
+title: "Tipos e estruturas, parte 1: o que o CPython faz com x = 1"
 date: 2026-08-08 10:00:00 -0300
 tags: [python, cpython, internals, tipagem, performance]
 description: "Um int pequeno não é criado quando você escreve 1 — ele já existe desde o boot do interpretador. Por que o cache vai até 256 hoje e até 1024 no main, o que é um objeto imortal, e por que anotação de tipo não tem relação com nada disso."
 ---
+
+*Série em três partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/).*
 
 Existem duas coisas diferentes chamadas "tipo" em Python, e confundi-las é a
 origem de metade dos mal-entendidos sobre a linguagem.
