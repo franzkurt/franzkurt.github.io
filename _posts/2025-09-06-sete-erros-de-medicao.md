@@ -21,6 +21,49 @@ pedir confiança sem oferecer nada em troca.
 
 <!--more-->
 
+## O arranjo, antes dos erros
+
+Vale descrever o experimento, porque quatro dos sete erros são consequência
+direta de como ele foi montado — e não fazem sentido no vazio.
+
+Eu estava atrás de duas perguntas. A primeira: **parâmetros de inferência mudam
+o acerto num conjunto de avaliações com gabarito?** A segunda: **como um modelo
+de difusão se compara a um autorregressivo** para a mesma tarefa, no mesmo
+hardware.
+
+Tudo rodou numa máquina só, com **16 GB de RAM**, sem API paga e sem nuvem. Essa
+restrição não é detalhe de bastidor: ela é a causa do primeiro erro e o motivo de
+metade das decisões de projeto.
+
+**Do lado autorregressivo, o motor foi o [Ollama](https://ollama.com).** A
+escolha é pragmática — ele resolve download, quantização e servidor num comando
+só, e expõe uma API HTTP local. Os modelos avaliados foram quatro, de 8 a 9
+bilhões de parâmetros, um de cada vez: carregar dois ao mesmo tempo não caberia.
+
+Três detalhes do Ollama importam para o resto do texto:
+
+**O `num_predict`**, exposto na linha de comando como `-n`. Ele parece dizer
+"gere esta quantidade de tokens". Não é isso que ele faz, e o erro número 2 nasce
+daí.
+
+**A resposta da API traz `eval_count` e `eval_duration`** — quantos tokens foram
+realmente gerados e quanto tempo a geração levou. Guarde esses dois campos; eles
+voltam adiante, e o que eles têm a dizer é a parte mais desconfortável do texto.
+
+**O default de contexto é baixo e o corte é silencioso.** Quando a conversa passa
+do limite, o Ollama descarta o começo sem erro e sem aviso — o que, num
+experimento com prompt longo, é uma variável escondida.
+
+Já **do lado da difusão** não há Ollama: ele não executa esses modelos. O motor
+foi a `llama-diffusion-cli`, um binário separado do llama.cpp, com uma interface
+bem diferente — e é dessa diferença que saem os erros 4 e 5.
+
+Por cima disso tudo, duas peças que eu mesmo escrevi: um **guard de RAM**, que
+recusa qualquer modelo acima de 55% da memória física, e um **juiz determinístico
+de qualidade**, para decidir sem humano e sem LLM se uma saída degradou. As duas
+aparecem na lista de erros — o guard porque foi contornado, o juiz porque errou
+nos dois sentidos antes de acertar.
+
 ## Os sete, em uma tabela
 
 | # | O erro | O que devolveu em vez de exceção |
@@ -85,8 +128,8 @@ que aplicou ao erro original. A sensação de ter consertado algo é anestésica
 
 ## O sinal que estava à vista
 
-O segundo erro tem uma moral diferente, e mais desconfortável: o dado já me
-avisava, e eu não li.
+O segundo erro tem uma moral diferente, e mais desconfortável: **a ferramenta me
+dizia a verdade o tempo todo, em campos que eu não estava lendo.**
 
 Tratei `-n`/`num_predict` como número de tokens a gerar. É **teto, não alvo** — o
 modelo para no stop token antes de chegar lá. Medido pela API: `-n 512` gerou
