@@ -3,6 +3,8 @@ title: "Python por dentro, parte 2: máquina de pilha, e por que não registrado
 date: 2025-06-14 10:00:00 -0300
 tags: [python, cpython, internals, bytecode, performance]
 description: "A explicação comum é que bytecode de pilha ocupa menos espaço. Fui medir e os dois quase empatam. O motivo real é outro, e tem a ver com um byte só."
+audio: /assets/audio/python-por-dentro-maquina-de-pilha.mp3
+audio_duracao: "6:53"
 ---
 
 *Esta é uma série sobre o funcionamento interno do Python. Se os termos

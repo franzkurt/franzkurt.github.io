@@ -3,6 +3,8 @@ title: "Python por dentro, parte 1: os cinco estágios do fonte ao bytecode"
 date: 2025-06-07 10:00:00 -0300
 tags: [python, cpython, internals, compilador, parser]
 description: "Entre o arquivo .py e a execução há cinco etapas, cada uma num arquivo diferente do CPython. E a segunda delas foi trocada por inteiro no Python 3.9, por um motivo que vale entender."
+audio: /assets/audio/python-por-dentro-do-fonte-ao-bytecode.mp3
+audio_duracao: "7:36"
 ---
 
 *Esta é uma série sobre o funcionamento interno do Python. Se os termos

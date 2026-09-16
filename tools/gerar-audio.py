@@ -49,6 +49,7 @@ QWEN_TOP_K = 20
 QWEN_IDIOMA = "Portuguese"
 QWEN_IMAGEM = "localhost/qwentts-run"
 QWEN_PALAVRAS_POR_BLOCO = 110   # ~45 s de fala; o modelo tem teto de ~163 s
+QWEN_MINIMO_POR_BLOCO = 25      # abaixo disso o modelo não acha o fim da fala
 ATEMPO = 1.0                    # 1.0 = sem alteração; >1 acelera sem mudar o tom
 PAUSA_ENTRE_SECOES = 0.55      # entre blocos: respiro de frase (as pausas de
                               # vírgula já vêm dentro de cada bloco, do modelo)
@@ -60,6 +61,7 @@ IMAGEM_FFMPEG = "localhost/ffmpeg-audio"
 URL = re.compile(r"https?://\S+|www\.\S+")
 ESPACOS = re.compile(r"\s+")
 ANTES_DE_PONTUACAO = re.compile(r"\s+([,;.!?])")
+REFERENCIAS = re.compile(r"^refer[êe]ncias\b", re.I)
 PONTUACAO_DOBRADA = re.compile(r"([,;])(?:\s*[,;])+")
 
 
@@ -152,6 +154,15 @@ def roteiro(markdown, titulo, autor, data_extenso):
         if l.startswith("#"):                                  # título de seção
             fecha_paragrafo()
             texto = limpa_inline(l.lstrip("#").strip())
+            # Referências é lista de links: ler em voz alta não serve a ninguém,
+            # pela mesma razão que bloco de código e tabela não são lidos. E era
+            # texto impossível para o TTS — em 16/09/2026 a seção do parte-0
+            # esgotou 12 tentativas sem o modelo achar o fim da fala, porque
+            # sequência de título bibliográfico e sigla não tem prosódia.
+            if REFERENCIAS.match(texto):
+                blocos.append("O artigo termina com a lista de referências, "
+                              "disponível no texto.")
+                break
             if texto:
                 blocos.append(para_locucao(texto))
             i += 1
@@ -253,13 +264,20 @@ def confere_bloco(wav, texto):
     return wav, None
 
 
-def teto_de_quadros(texto, absoluto=700):
-    """Quadros que este bloco pode precisar, com folga. 12,5 quadros/s."""
+def teto_de_quadros(texto, absoluto=1400):
+    """Quadros que este bloco pode precisar, com folga. 12,5 quadros/s.
+
+    O teto fixo de 700 (56 s) existia para limitar o silêncio de padding
+    quando a parada não era limpa. Quem faz esse papel agora é a checagem de
+    EOS, que rejeita o bloco em vez de aceitar o silêncio — então o teto pode
+    folgar, e precisa: a maior unidade do lote tem 125 palavras, ~50 s, e
+    56 s não deixava margem para o modelo falar no ritmo dele.
+    """
     esperado = len(texto.split()) / PALAVRAS_POR_SEGUNDO
     return min(absoluto, int(1.9 * esperado * 12.5) + 50)
 
 
-def falar_qwen(texto, saida):
+def falar_qwen(texto, saida, sem_fa=False):
     """Qwen3-TTS com a voz do Franz, via qwentts.cpp em contêiner."""
     r = subprocess.run(
         ["podman", "run", "--rm", "-i", "--cpu-shares=256",
@@ -278,6 +296,12 @@ def falar_qwen(texto, saida):
          # a mesma falha custa ~15 s. Folga de 1,9x sobre o ritmo medido: os
          # blocos que dão certo param muito antes (39 a 320 quadros).
          "--max-new", str(teto_de_quadros(texto)),
+         # --no-fa troca o kernel de atencao, nao a voz: temperatura, top-k e
+         # WAV de referencia seguem os que o Franz aprovou. Entra so como
+         # recuo, porque titulo curto de secao falha de forma DETERMINISTICA
+         # com flash attention (0 de 3 nos testes de 16/09/2026) e passa em
+         # 2 de 3 sem ele.
+         *(["--no-fa"] if sem_fa else []),
          "-o", f"/out/{saida.name}"],
         input=texto, capture_output=True, text=True, timeout=1800)
     if r.returncode != 0 or not saida.exists():
@@ -302,11 +326,16 @@ def falar_qwen(texto, saida):
     return saida, None
 
 
-def agrupa_para_qwen(blocos, teto=QWEN_PALAVRAS_POR_BLOCO):
-    """Junta blocos curtos numa mesma chamada — cada chamada recarrega o modelo.
+def agrupa_para_qwen(blocos, teto=QWEN_PALAVRAS_POR_BLOCO,
+                     minimo=QWEN_MINIMO_POR_BLOCO):
+    """Junta blocos numa mesma chamada — cada chamada recarrega o modelo.
 
-    Não junta através de um título de seção: é ali que a pausa longa precisa
-    cair, e a pausa vem da montagem dos WAV, não do modelo.
+    Título de seção ABRE um grupo, em vez de virar um grupo sozinho. Antes ele
+    ficava isolado, para que a pausa longa caísse ali; só que em 16/09/2026 um
+    título de seis palavras ("O que vem em cada parte.") esgotou doze
+    tentativas sem o modelo achar o fim da fala, com e sem flash attention.
+    Bloco ultracurto é a falha determinística deste TTS. A pausa continua
+    caindo ANTES do título, que é onde ela faz sentido de todo modo.
     """
     grupos, atual, n = [], [], 0
     for b in blocos:
@@ -314,11 +343,31 @@ def agrupa_para_qwen(blocos, teto=QWEN_PALAVRAS_POR_BLOCO):
         if atual and (n + len(b.split()) > teto or curto):
             grupos.append(" ".join(atual)); atual, n = [], 0
         atual.append(b); n += len(b.split())
-        if curto and atual:
-            grupos.append(" ".join(atual)); atual, n = [], 0
     if atual:
         grupos.append(" ".join(atual))
-    return grupos
+
+    # Nenhuma unidade curta demais para o modelo conseguir parar: funde com a
+    # vizinha. Medido: 6 palavras falha sempre, 29 passa em 2 de 3. A fusão
+    # escolhe o vizinho que ainda cabe no teto — estourar o teto trocaria uma
+    # falha por outra, porque aí o áudio sai truncado em --max-new.
+    def n_pal(s):
+        return len(s.split())
+
+    fundidos = []
+    for i, g in enumerate(grupos):
+        if fundidos and n_pal(g) < minimo:
+            proximo = grupos[i + 1] if i + 1 < len(grupos) else ""
+            cabe_atras = n_pal(fundidos[-1]) + n_pal(g) <= teto
+            cabe_na_frente = proximo and n_pal(g) + n_pal(proximo) <= teto
+            if cabe_atras or not cabe_na_frente:
+                fundidos[-1] += " " + g      # gruda no anterior
+                continue
+        fundidos.append(g)                   # abre unidade (funde com o próximo
+                                             # na volta seguinte, se preciso)
+    while len(fundidos) > 1 and n_pal(fundidos[0]) < minimo:
+        fundidos[1] = fundidos[0] + " " + fundidos[1]
+        fundidos.pop(0)
+    return fundidos
 
 
 def falar(texto, saida):
@@ -432,7 +481,13 @@ def processa(post, args, autor):
             # Sem repetição, um aborto avulso descartava o artigo inteiro — em
             # 15/09/2026 custou 40 blocos já sintetizados de uma vez.
             for tentativa in range(TENTATIVAS_POR_BLOCO):
-                ok, erro = sintetizar(bloco, alvo)
+                if args.motor == "qwen":
+                    # metade das tentativas no caminho normal, metade no recuo
+                    ok, erro = sintetizar(
+                        bloco, alvo,
+                        sem_fa=tentativa >= TENTATIVAS_POR_BLOCO // 2)
+                else:
+                    ok, erro = sintetizar(bloco, alvo)
                 if ok and args.motor == "qwen":
                     ok, erro = confere_bloco(alvo, bloco)
                 if ok:

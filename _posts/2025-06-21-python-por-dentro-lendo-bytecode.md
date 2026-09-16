@@ -3,6 +3,8 @@ title: "Python por dentro, parte 3: lendo bytecode de verdade com o dis"
 date: 2025-06-21 10:00:00 -0300
 tags: [python, cpython, internals, bytecode, performance]
 description: "Um laço, uma compreensão e três formas de acessar um valor. A desmontagem mostra o que cada um custa — e entrega uma mudança de 2023 que ninguém anunciou no código que você escreve."
+audio: /assets/audio/python-por-dentro-lendo-bytecode.mp3
+audio_duracao: "5:38"
 ---
 
 *Esta é uma série sobre o funcionamento interno do Python. Se os termos
