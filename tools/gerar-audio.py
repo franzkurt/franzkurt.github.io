@@ -19,7 +19,19 @@ import argparse, re, shutil, subprocess, sys, tempfile, unicodedata, wave
 from pathlib import Path
 
 SILENCIO_POR_FRASE = 0.35      # padrão do piper é 0,2 e cola as frases
-TENTATIVAS_POR_BLOCO = 3       # aborto do qwen-tts é transitório; ver o laço em processa()
+TENTATIVAS_POR_BLOCO = 12      # o qwen só emite EOS em ~metade das tentativas;
+                               # ver falar_qwen() e o laço em processa()
+
+# Em 16/09/2026 o lote das séries Python saiu inteiro mudo e o script aprovou
+# tudo: o qwen-tts devolvia returncode 0 e um WAV do tamanho certo, só que
+# preenchido de silêncio. A causa está no log do próprio binário — quando ele
+# NÃO imprime "EOS at step N", é porque não achou o fim da fala e gerou lixo
+# até o teto de --max-new. Bloco bom mediu -16 dB; bloco sem EOS, -48 dB.
+# Daí as três checagens abaixo: EOS no log, nível de áudio, e duração
+# plausível para a contagem de palavras. Nenhuma delas custa síntese.
+QWEN_EOS = re.compile(r"EOS at step \d+")
+QWEN_DB_MINIMO = -24.0         # publicados sadios ficam entre -17 e -19 dB
+PALAVRAS_POR_SEGUNDO = 2.5     # ~150 palavras/min, o ritmo medido dos áudios bons
 
 # ── Qwen3-TTS: parâmetros APROVADOS pelo Franz em 14/09/2026 ────────────────
 # Ele ouviu quatro variantes da mesma frase (temp 0.9 padrão, 0.6, 0.35 e uma
@@ -203,6 +215,50 @@ def resumo_do_erro(saida, limite=200):
         return " · ".join(uteis[:2])[:limite]
     return saida.strip()[-limite:] or "(sem saída)"
 
+def nivel_medio_db(caminho):
+    """mean_volume do ffmpeg. None quando não dá para medir."""
+    r = subprocess.run(
+        ["podman", "run", "--rm", "-v", f"{caminho.parent}:/out", "-w", "/out",
+         IMAGEM_FFMPEG, "ffmpeg", "-hide_banner", "-i", caminho.name,
+         "-af", "volumedetect", "-f", "null", "-"],
+        capture_output=True, text=True, timeout=120)
+    m = re.search(r"mean_volume:\s*(-?[\d.]+) dB", r.stderr or "")
+    return float(m.group(1)) if m else None
+
+
+def duracao_plausivel(segundos, palavras):
+    """Fala humana não cabe em qualquer duração; fora da faixa é lixo."""
+    esperado = palavras / PALAVRAS_POR_SEGUNDO
+    piso = max(palavras / 5.0, 0.55 * esperado - 1.0)   # ninguém fala tão rápido
+    teto = 1.9 * esperado + 4.0                          # nem tão devagar
+    return piso <= segundos <= teto, piso, teto
+
+
+def confere_bloco(wav, texto):
+    """O WAV existe — mas contém a fala deste bloco?
+
+    Duas medidas baratas, as duas aprendidas no lote mudo de 16/09/2026:
+    o nível médio separa fala (-16 dB) de silêncio (-48 dB), e a duração
+    separa um bloco completo de um blip que sobrou depois do corte.
+    """
+    db = nivel_medio_db(wav)
+    if db is not None and db < QWEN_DB_MINIMO:
+        return None, f"quase mudo: {db:.1f} dB (mínimo {QWEN_DB_MINIMO:.0f})"
+    seg, _ = duracao(wav)
+    palavras = len(texto.split())
+    bom, piso, teto = duracao_plausivel(seg, palavras)
+    if not bom:
+        return None, (f"duração implausível: {seg:.1f}s para {palavras} "
+                      f"palavras (esperado {piso:.1f}–{teto:.1f}s)")
+    return wav, None
+
+
+def teto_de_quadros(texto, absoluto=700):
+    """Quadros que este bloco pode precisar, com folga. 12,5 quadros/s."""
+    esperado = len(texto.split()) / PALAVRAS_POR_SEGUNDO
+    return min(absoluto, int(1.9 * esperado * 12.5) + 50)
+
+
 def falar_qwen(texto, saida):
     """Qwen3-TTS com a voz do Franz, via qwentts.cpp em contêiner."""
     r = subprocess.run(
@@ -216,13 +272,19 @@ def falar_qwen(texto, saida):
          "--lang", QWEN_IDIOMA,
          "--temp", str(QWEN_TEMP), "--sub-temp", str(QWEN_SUB_TEMP),
          "--top-k", str(QWEN_TOP_K),
-         "--max-new", "700",   # teto de frames: 700/12.5 = 56s/bloco. O default
-                               # 2048 (163s) enche de silêncio quando a parada
-                               # do modelo não é limpa — causou 79% de padding.
+         # Teto por bloco, não fixo: quando a parada não é limpa o modelo gera
+         # silêncio até o teto, e um teto fixo de 700 custava 123 s para
+         # descobrir que um bloco de 6 palavras falhou. Dimensionado ao texto,
+         # a mesma falha custa ~15 s. Folga de 1,9x sobre o ritmo medido: os
+         # blocos que dão certo param muito antes (39 a 320 quadros).
+         "--max-new", str(teto_de_quadros(texto)),
          "-o", f"/out/{saida.name}"],
         input=texto, capture_output=True, text=True, timeout=1800)
     if r.returncode != 0 or not saida.exists():
         return None, resumo_do_erro(r.stderr or r.stdout or "")
+    # returncode 0 não quer dizer que saiu fala: ver o comentário em QWEN_EOS.
+    if not QWEN_EOS.search(r.stderr or ""):
+        return None, "sem EOS: o modelo não encontrou o fim da fala"
     # o Qwen deixa silêncio de padding no começo e no fim do bloco; aparar SÓ
     # as bordas (não o meio) tira o padding sem tocar nas pausas de vírgula.
     aparado = saida.with_suffix(".trim.wav")
@@ -371,12 +433,14 @@ def processa(post, args, autor):
             # 15/09/2026 custou 40 blocos já sintetizados de uma vez.
             for tentativa in range(TENTATIVAS_POR_BLOCO):
                 ok, erro = sintetizar(bloco, alvo)
+                if ok and args.motor == "qwen":
+                    ok, erro = confere_bloco(alvo, bloco)
                 if ok:
                     break
                 alvo.unlink(missing_ok=True)   # não deixar meio WAV para trás
                 if tentativa + 1 < TENTATIVAS_POR_BLOCO:
-                    print(f"  [repete] bloco {n}: tentativa "
-                          f"{tentativa + 2}/{TENTATIVAS_POR_BLOCO}")
+                    print(f"  [repete] bloco {n}: {erro} — tentativa "
+                          f"{tentativa + 2}/{TENTATIVAS_POR_BLOCO}", flush=True)
             if ok:
                 partes.append(alvo)
             else:

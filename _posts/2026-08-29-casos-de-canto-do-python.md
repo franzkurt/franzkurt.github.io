@@ -277,3 +277,11 @@ linguagem — todos são consequência de um arquivo em C.
 E é por isso que vale conhecê-los. Não para usar em código, mas porque no dia em
 que um deles aparecer num bug de produção, você vai reconhecer a forma em vez de
 gastar a tarde procurando o que quebrou.
+
+## Referências
+
+- [Floating-Point Arithmetic: Issues and Limitations](https://docs.python.org/3/tutorial/floatingpoint.html) — o tutorial oficial sobre por que `0.1 + 0.2` não dá `0.3`
+- [PEP 393 — Flexible String Representation](https://peps.python.org/pep-0393/) — por que uma string muda de tamanho conforme o conteúdo
+- [`sys.getsizeof`](https://docs.python.org/3/library/sys.html#sys.getsizeof) — a medida usada aqui, e as ressalvas dela
+- [`tracemalloc`](https://docs.python.org/3/library/tracemalloc.html) — o que usar quando `getsizeof` mede a coisa errada
+- [Design and History FAQ](https://docs.python.org/3/faq/design.html) — vários destes casos de canto respondidos pelos mantenedores

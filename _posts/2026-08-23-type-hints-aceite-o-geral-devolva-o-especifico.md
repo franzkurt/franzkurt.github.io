@@ -167,8 +167,125 @@ encerrar(Timer())     # error: incompatible type "Timer"; expected "TemFechar"
 
 Isso é *tipagem estrutural*: o que vale é a **forma** do objeto, não a
 ascendência dele. É o duck typing que o Python sempre teve, agora visível para a
-ferramenta — e é a resposta certa quando a alternativa seria obrigar todo mundo a
-herdar de uma classe base só para satisfazer o verificador.
+ferramenta.
+
+Protocolo não se limita a método. Atributo também conta, e isso cobre o caso de
+"qualquer coisa que tenha um `nome`":
+
+```python
+class TemNome(Protocol):
+    nome: str
+```
+
+## Protocolo ou classe base abstrata?
+
+Esta é a pergunta que importa na hora de escrever, porque as duas resolvem o
+mesmo problema por caminhos opostos. Vale medir a diferença em vez de decorá-la.
+
+**A ABC pergunta de quem você herdou.** Uma classe que tem exatamente o método
+exigido, mas não herdou nada, é rejeitada:
+
+```python
+from abc import ABC, abstractmethod
+
+class BaseABC(ABC):
+    @abstractmethod
+    def fechar(self) -> None: ...
+
+class SoTemFechar:                 # tem fechar(), não herdou nada
+    def fechar(self) -> None: ...
+
+isinstance(SoTemFechar(), BaseABC)   # False
+BaseABC.register(SoTemFechar)        # o dono da ABC precisa autorizar
+isinstance(SoTemFechar(), BaseABC)   # True
+```
+
+Repare em quem faz o `register`: é **o lado da abstração**. Para tipar uma
+classe de uma biblioteca de terceiros, você teria que registrá-la você mesmo, de
+fora, para uma hierarquia que não é sua.
+
+**O protocolo pergunta o que você tem.** Não há registro, não há herança, e a
+classe de terceiros serve sem que ninguém seja avisado.
+
+Em compensação, a ABC entrega uma coisa que o protocolo não entrega: ela
+**impede a classe incompleta de existir**.
+
+```python
+class Incompleta(BaseABC): pass
+Incompleta()
+# TypeError: Can't instantiate abstract class Incompleta without an implementation
+```
+
+Isso é erro em tempo de execução, na hora de instanciar, sem verificador nenhum
+instalado. Protocolo não faz isso: a cobrança dele acontece no verificador, na
+chamada, e um programa sem verificador roda igual.
+
+| | Classe base abstrata | Protocolo |
+|---|---|---|
+| Critério | herança (ou `register`) | forma do objeto |
+| Quem precisa agir | o autor da classe concreta | ninguém |
+| Serve para classe de terceiros | só registrando | sim, direto |
+| Classe incompleta | `TypeError` ao instanciar | passa, se ninguém verificar |
+| Herança múltipla | pesa na MRO | não entra na MRO |
+| Quando existe | desde o 2.6 | desde o 3.8 |
+
+A regra que eu uso: **se você é dono das duas pontas e quer garantir
+implementação, ABC. Se você só quer descrever o que aceita, protocolo.** Anotar
+parâmetro é quase sempre o segundo caso.
+
+### `runtime_checkable`, e a letra miúda dele
+
+Por padrão, protocolo é coisa de verificador — `isinstance` com ele é erro:
+
+```python
+isinstance(obj, TemFechar)
+# TypeError: Instance and class checks can only be used with @runtime_checkable protocols
+```
+
+O decorador `@runtime_checkable` libera o `isinstance`. Só que ele confere
+**menos do que parece**: olha se o nome existe, e não olha a assinatura.
+
+```python
+from typing import Protocol, runtime_checkable
+
+@runtime_checkable
+class TemFechar(Protocol):
+    def fechar(self) -> None: ...
+
+class AssinaturaErrada:
+    def fechar(self, a, b, c): return 1    # três argumentos a mais
+
+isinstance(AssinaturaErrada(), TemFechar)  # True
+```
+
+Aquele `True` é uma promessa que o objeto não cumpre: `obj.fechar()` vai
+levantar `TypeError`. O verificador estático pegaria; o `isinstance` não pega.
+E com atributo em vez de método, o `issubclass` nem é permitido:
+
+```python
+issubclass(X, TemNome)
+# TypeError: Protocols with non-method members don't support issubclass()
+```
+
+Ou seja: `runtime_checkable` é útil para despachar, não para garantir.
+
+### O `collections.abc` já era meio protocolo
+
+Fecha o círculo com a tabela lá de cima. Aquelas abstrações não exigem herança
+de verdade — elas implementam `__subclasshook__` e aceitam pela forma:
+
+```python
+from collections.abc import Iterable
+
+class MeuIteravel:
+    def __iter__(self): return iter([])
+
+isinstance(MeuIteravel(), Iterable)   # True, sem herdar nada
+```
+
+Então quando você anota `Iterable` ou `Sized`, já está fazendo tipagem
+estrutural — a PEP 544 generalizou para os seus próprios tipos um mecanismo que
+a biblioteca padrão vinha usando desde o 2.6.
 
 ## A sintaxe foi ficando mais leve
 
@@ -209,6 +326,8 @@ manhã.
 
 - [`collections.abc`](https://docs.python.org/3/library/collections.abc.html) — a hierarquia e o que cada tipo exige
 - [`typing`](https://docs.python.org/3/library/typing.html) — o módulo e a documentação de variância
+- [`abc`](https://docs.python.org/3/library/abc.html) — `register`, `__subclasshook__` e a instanciação barrada
+- [PEP 3119 — Introducing Abstract Base Classes](https://peps.python.org/pep-3119/) — o desenho das ABCs, de 2007
 - [PEP 544 — Protocols: Structural subtyping](https://peps.python.org/pep-0544/)
 - [PEP 585 — Type Hinting Generics In Standard Collections](https://peps.python.org/pep-0585/)
 - [PEP 604 — Allow writing union types as X | Y](https://peps.python.org/pep-0604/)

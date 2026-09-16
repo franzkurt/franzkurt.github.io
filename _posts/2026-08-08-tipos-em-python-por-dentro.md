@@ -326,3 +326,12 @@ aparecia. A discussão inteira está aberta, numerada e pública.
 **As duas tipagens não se encontram.** A anotação não acelera nada, não valida
 nada e não muda a representação de nenhum objeto. Ela serve a ferramentas — e
 serve bem, mas por um caminho que passa longe do interpretador.
+
+## Referências
+
+- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c) — o inteiro de tamanho arbitrário e os dígitos de 30 bits
+- [`pycore_runtime_structs.h`](https://github.com/python/cpython/blob/main/Include/internal/pycore_runtime_structs.h) — onde `_PY_NSMALLPOSINTS` é definido, hoje em 1025
+- [PEP 683 — Immortal Objects](https://peps.python.org/pep-0683/) — os objetos que não têm contagem de referência
+- [PEP 484 — Type Hints](https://peps.python.org/pep-0484/) — a origem das anotações
+- [PEP 563](https://peps.python.org/pep-0563/), [PEP 649](https://peps.python.org/pep-0649/) e [PEP 749](https://peps.python.org/pep-0749/) — a longa discussão sobre quando a anotação é avaliada
+- [`sys.getsizeof`](https://docs.python.org/3/library/sys.html#sys.getsizeof) — o que ele mede, e o que não mede

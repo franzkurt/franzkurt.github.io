@@ -229,3 +229,10 @@ o problema em Python numa tarde.
 Nenhuma das duas contas está errada. Elas são o preço de apostas diferentes — e a
 escolha madura não é entre as linguagens, é entre os preços, sabendo qual deles
 você está disposto a pagar naquele pedaço específico do sistema.
+
+## Referências
+
+- [PEP 703 — Making the Global Interpreter Lock Optional](https://peps.python.org/pep-0703/) — a proposta que abriu o build sem GIL
+- [PEP 779 — Criteria for supported status for free-threaded Python](https://peps.python.org/pep-0779/) — os critérios que tornaram o build oficialmente suportado
+- [What Is Ownership?](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html) — o modelo de posse do Rust, no livro oficial
+- [Rust in Android: move fast and fix things](https://blog.google/security/rust-in-android-move-fast-fix-things/) — os números de segurança de memória citados

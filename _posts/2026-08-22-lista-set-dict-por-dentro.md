@@ -303,3 +303,13 @@ Vale reparar no padrão: quase toda mudança dessa lista foi feita por **memóri
 e a velocidade veio junto de graça — menos bytes significa mais coisa dentro do
 cache do processador. E a mudança mais visível para quem escreve Python, a ordem
 do dict, ninguém projetou: ela caiu do layout.
+
+## Referências
+
+- [`Objects/listobject.c`](https://github.com/python/cpython/blob/main/Objects/listobject.c) — o array de ponteiros e a regra de superalocação
+- [`Objects/dictobject.c`](https://github.com/python/cpython/blob/main/Objects/dictobject.c) — o dict compacto, com as notas de projeto no topo do arquivo
+- [`Objects/setobject.c`](https://github.com/python/cpython/blob/main/Objects/setobject.c) — por que o set não seguiu o mesmo caminho do dict
+- [`Objects/dictnotes.txt`](https://github.com/python/cpython/blob/main/Objects/dictnotes.txt) — as explorações de projeto do dict, para onde o próprio `dictobject.c` aponta
+- [PEP 412 — Key-Sharing Dictionary](https://peps.python.org/pep-0412/) — os dicionários de instância que compartilham chaves
+- [PEP 468](https://peps.python.org/pep-0468/) e [PEP 520](https://peps.python.org/pep-0520/) — os dois lugares em que a ordem virou garantia antes do dict em geral
+- [Mapping types — dict](https://docs.python.org/3/library/stdtypes.html#dict) — onde a ordem de inserção está documentada como garantia da linguagem

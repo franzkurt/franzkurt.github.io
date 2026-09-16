@@ -155,3 +155,12 @@ lista de sintomas.
 
 É a diferença entre saber que funciona e saber **por que**. A segunda envelhece
 muito melhor.
+
+## Referências
+
+- [`dis`](https://docs.python.org/3/library/dis.html) — o desmontador usado nos exemplos, e a lista de opcodes
+- [Glossário do Python](https://docs.python.org/3/glossary.html) — as definições oficiais de bytecode, token e afins
+- [PEP 3147 — PYC Repository Directories](https://peps.python.org/pep-3147/) — de onde veio o `__pycache__`
+- [Cached bytecode invalidation](https://docs.python.org/3/reference/import.html#cached-bytecode-invalidation) — quando o `.pyc` é reaproveitado e quando é refeito
+- [Design and History FAQ](https://docs.python.org/3/faq/design.html) — as perguntas de projeto respondidas pelos próprios mantenedores
+- [InternalDocs/compiler.md](https://github.com/python/cpython/blob/main/InternalDocs/compiler.md) — o caminho do fonte ao bytecode, na fonte
