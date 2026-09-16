@@ -300,124 +300,13 @@ caminho de descontinuação. E a PEP 749 trouxe o módulo `annotationlib` para
 inspecionar anotações sob o novo modelo, que é o que bibliotecas devem usar em vez
 de ler `__annotations__` na mão.
 
-## Sete casos de canto, todos medidos
+## Os casos de canto
 
-Cada um destes eu rodei antes de escrever. Valem menos como curiosidade e mais
-como demonstração de que o comportamento sai da implementação, não da
-especificação.
-
-### 1. A fronteira do cache é assimétrica
-
-O cache não é simétrico em torno do zero. São **5** negativos e 257 positivos
-(ou 1025, no `main`):
-
-```python
->>> -6 is int('-6'),  -5 is int('-5')
-(False, True)
-```
-
-Cinco negativos porque índices negativos pequenos aparecem muito (`lista[-1]`),
-e além disso quase nada.
-
-### 2. Aquele exemplo do 257 só funciona no REPL
-
-Este é o mais traiçoeiro, e me obriga a uma ressalva sobre a demonstração acima.
-Num **arquivo**:
-
-```python
-a = 257
-b = 257
-print(a is b)   # True
-```
-
-Dá `True`. Não porque 257 foi cacheado, mas porque o compilador **desduplica
-constantes iguais dentro do mesmo code object** — as duas linhas viram uma
-referência só na tabela de constantes da função ou do módulo.
-
-No REPL cada linha é compilada separadamente, então são dois objetos e o
-resultado é `False`. Mesma expressão, dois resultados, e a diferença é a unidade
-de compilação.
-
-### 3. Um emoji quadruplica a string
-
-Desde a [PEP 393](https://peps.python.org/pep-0393/), uma string escolhe **uma
-largura por caractere para o texto inteiro**, decidida pelo caractere mais largo
-que ela contém. Com mil caracteres:
-
-| Conteúdo | Tamanho |
-|---|---|
-| 1000 letras ASCII | 1.041 B |
-| 999 ASCII + 1 emoji | **4.060 B** |
-
-Quase quatro vezes, por um caractere. E fatiar devolve a largura menor: `s[:999]`
-volta a 1.040 bytes.
-
-Quem monta identificadores ou chaves concatenando texto de usuário está sujeito
-a isto — um emoji num campo faz a string inteira pagar 4 bytes por caractere.
-
-### 4. `NaN` é diferente de si mesmo, e ainda assim está na lista
-
-```python
->>> nan = float('nan')
->>> nan == nan
-False
->>> nan in [nan]
-True
-```
-
-O `in` não usa só igualdade: ele testa **identidade primeiro**, como atalho. Como
-é o mesmo objeto, encontra. A consequência aparece no `set`:
-
-```python
->>> len({nan, nan})                        # mesmo objeto
-1
->>> len({float('nan'), float('nan')})      # dois objetos
-2
-```
-
-Dois valores que não são iguais a nada, nem a si mesmos, e o conjunto guarda os
-dois.
-
-### 5. `float` não alcança o que `int` alcança
-
-`int` não tem limite de tamanho; `float` tem 53 bits de mantissa. O encontro dos
-dois é silencioso:
-
-```python
->>> float(2**53) == float(2**53 + 1)
-True
-```
-
-Dois inteiros diferentes viram o mesmo float. Acima disso, a conversão desiste:
-
-```python
->>> float(2**10000)
-OverflowError: int too large to convert to float
-```
-
-O inteiro em si não reclama — `2**10000` tem 3.011 dígitos e ocupa 1.360 bytes.
-
-### 6. Existe zero negativo, e ele se esconde
-
-```python
->>> -0.0 == 0.0
-True
->>> math.copysign(1, -0.0)
--1.0
-```
-
-São iguais na comparação e distinguíveis pelo sinal. E como a comparação é o que
-o dict usa, `{0.0: 'a', -0.0: 'b'}` guarda **uma** entrada.
-
-### 7. `bool` não pode ser herdado
-
-```python
->>> class B(bool): pass
-TypeError: type 'bool' is not an acceptable base type
-```
-
-Porque só devem existir dois booleanos. Permitir subclasse permitiria um terceiro
-objeto verdadeiro que não é `True`, e `is True` deixaria de ser confiável.
+Cada afirmação deste texto tem um caso de canto que a demonstra — a fronteira
+assimétrica do cache, a dobra de constantes que faz o exemplo do 257 só valer no
+REPL, um emoji que quadruplica uma string. Reuni os sete daqui com os oito do
+texto sobre estruturas de dados em
+[Quinze casos de canto do Python, todos medidos](/2026/08/casos-de-canto-do-python/).
 
 ## O que fica
 

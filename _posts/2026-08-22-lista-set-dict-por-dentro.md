@@ -205,8 +205,8 @@ compartilhamento se desfaz.
 Medi o tamanho disso, porque a versão que se costuma repetir ("nunca atribua
 atributo fora do `__init__`") é forte demais: uma exceção em mil instâncias não
 mudou nada, metade delas custou 13% a mais, e cinquenta formatos distintos
-quase triplicaram o consumo. Os números estão [logo
-abaixo](#oito-casos-de-canto-todos-medidos). O que pesa é heterogeneidade em
+quase triplicaram o consumo. Os números estão [entre os casos de
+canto](/2026/08/casos-de-canto-do-python/). O que pesa é heterogeneidade em
 escala, não o caso isolado.
 
 ## Set: parece dict, mas foi projetado para outra pergunta
@@ -270,130 +270,13 @@ mais de uma vez, converta para set antes.
 a lista ganha por larga margem. A folga da tabela hash é o que você paga pela
 busca constante, e só compensa se você de fato buscar.
 
-## Oito casos de canto, todos medidos
+## Os casos de canto
 
-Cada um destes é consequência direta do layout descrito acima — e todos eu rodei
-antes de escrever.
-
-### 1. Apagar e reinserir manda a chave para o fim
-
-```python
->>> d = {'a': 1, 'b': 2, 'c': 3}
->>> del d['b']; d['b'] = 9
->>> list(d)
-['a', 'c', 'b']
-```
-
-O `dk_entries` é denso e preenchido em sequência. Uma entrada apagada não deixa
-buraco para ser reocupado na mesma posição: a chave nova é **acrescentada no
-fim**. Quem usa dict como registro ordenado e atualiza uma chave apagando e
-reinserindo perde a posição sem aviso.
-
-### 2. Dict não encolhe quando você apaga
-
-```python
->>> d = {i: i for i in range(1000)}   # 36.952 bytes
->>> for i in range(999): del d[i]
->>> sys.getsizeof(d)                  # 36.952 bytes, com 1 item
-```
-
-Um dict novo com um item ocupa 224 bytes. Este ocupa 36.952 — **165 vezes mais**
-— e continua assim depois de uma inserção. O redimensionamento para baixo só
-acontece em condições específicas, então um dict que já foi grande continua
-grande. Se você usa um dict como cache que esvazia, crie um novo em vez de
-limpar o antigo.
-
-### 3. Set de inteiros pequenos parece ordenado
-
-```python
->>> list({3, 1, 2})
-[1, 2, 3]
->>> list({100, 1, 50})
-[1, 50, 100]
-```
-
-Parece que set ordena. Não ordena. É que `hash(n) == n` para inteiro pequeno, e
-a posição na tabela é o hash módulo o tamanho — então eles caem em ordem
-crescente por acidente. Ponha um inteiro grande ou uma string no meio e a
-ilusão desaparece.
-
-De quebra, um detalhe: `hash(-1)` é **-2**, não -1, porque -1 é reservado para
-sinalizar erro na API C.
-
-### 4. Set de strings muda de ordem a cada processo
-
-```
-$ python3 -c "print(list({'alfa','beta','gama','delta'}))"
-['beta', 'alfa', 'delta', 'gama']
-$ python3 -c "print(list({'alfa','beta','gama','delta'}))"
-['alfa', 'delta', 'beta', 'gama']
-```
-
-Mesmo código, mesma máquina, ordens diferentes. O hash de string é aleatorizado
-por processo desde o 3.3, como defesa contra ataque de colisão. Teste que depende
-da ordem de um set de strings passa na sua máquina e falha na CI, ou vice-versa —
-e só às vezes.
-
-### 5. Chave cujo hash muda: o valor some sem erro
-
-```python
->>> class Chave:
-...     def __init__(s, v): s.v = v
-...     def __hash__(s): return hash(s.v)
-...     def __eq__(s, o): return s.v == o.v
->>> k = Chave(1); d = {k: 'guardado'}
->>> k.v = 2
->>> k in d
-False
->>> len(d), list(d.values())
-(1, ['guardado'])
-```
-
-O valor continua lá, contado no `len`, visível no `values()` — e **inalcançável
-pela chave**. Nenhuma exceção. É a razão técnica pela qual chave de dict deve ser
-imutável, e o modo de falha é silencioso: você não perde o dado, perde o caminho
-até ele.
-
-### 6. Três chaves diferentes viram uma
-
-```python
->>> {1: 'int', 1.0: 'float', True: 'bool'}
-{1: 'bool'}
-```
-
-Como `1 == 1.0 == True` e os três têm o mesmo hash, são a **mesma chave**. E
-repare no resultado: a chave que fica é a **primeira** (o `1`, do tipo `int`), o
-valor que fica é o **último**. Inserir não substitui a chave, só o valor.
-
-O mesmo vale para `{0.0: 'a', -0.0: 'b'}` — uma entrada só.
-
-### 7. O primeiro item de um dict custa 160 bytes
-
-```python
->>> sys.getsizeof({})       # 64
->>> sys.getsizeof({1: 1})   # 224
-```
-
-O dict vazio é só o cabeçalho; a tabela é alocada na primeira inserção. Em código
-que cria milhões de dicts pequenos, a diferença entre vazio e com-um-item é o que
-domina o consumo.
-
-### 8. `__slots__` corta 38%, e formas heterogêneas custam o triplo
-
-Medindo com `tracemalloc` a criação de 20 mil instâncias, sem tocar no
-`__dict__`:
-
-| Classe | Por objeto |
-|---|---|
-| 3 atributos no `__init__` | 104,8 B |
-| os mesmos 3, com `__slots__` | **64,6 B** |
-| 50 conjuntos de chaves diferentes | **296,9 B** |
-
-O `__slots__` elimina o dicionário por completo. E o último caso mostra o custo
-real de sair do padrão: quando as instâncias deixam de ter a mesma forma, o
-compartilhamento de chaves acaba e o consumo quase triplica. Um punhado de
-exceções não pesa — medi um em mil e não mudou nada. O que pesa é heterogeneidade
-em escala.
+Cada decisão de layout descrita acima produz um comportamento observável —
+apagar e reinserir manda a chave para o fim, o dict não encolhe, o set de
+inteiros pequenos parece ordenado. Os oito daqui estão reunidos com os sete do
+texto sobre tipos em
+[Quinze casos de canto do Python, todos medidos](/2026/08/casos-de-canto-do-python/).
 
 ## A linha do tempo
 
