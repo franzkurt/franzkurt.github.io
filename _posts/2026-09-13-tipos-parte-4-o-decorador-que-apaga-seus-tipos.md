@@ -18,7 +18,8 @@ aviso.
 O ponto de partida veio de
 [Justin A. Ellis](https://jellis18.github.io/post/2023-01-15-advanced-python-types/);
 os exemplos abaixo foram reescritos e conferidos aqui, no Python 3.13.5 com
-mypy 2.3.1.
+mypy 2.3.1 **e** pyright 1.1.414 — os dois verificadores concordam em cada caso
+mostrado.
 
 <!--more-->
 
@@ -56,8 +57,9 @@ O `Success` ali é o problema, porque o arquivo continha esta linha:
 soma("isso", "nao e float")
 ```
 
-**O mypy aprovou.** Não porque falhou — porque, depois do decorador, `soma` é
-literalmente `(*Any, **Any) -> Any`. A assinatura que você escreveu foi
+**O mypy aprovou.** E o pyright também, que relata o mesmo de outro jeito:
+`Type of "soma" is "(...) -> Any"`, zero erros. Não porque falharam — porque,
+depois do decorador, `soma` é literalmente `(*Any, **Any) -> Any`. A assinatura que você escreveu foi
 substituída pela do invólucro, e `Callable[..., Any]` é a forma de dizer
 "qualquer coisa".
 

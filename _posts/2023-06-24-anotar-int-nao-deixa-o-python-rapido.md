@@ -11,7 +11,7 @@ errada — mas o motivo de estar errada é mais interessante que a correção.
 
 Este artigo traz para o português o argumento de
 [Max Bernstein](https://bernsteinbear.com/blog/typed-python/), com as medições
-refeitas aqui, no Python 3.13.5 e no mypy 2.3.1. A tese dele cabe numa linha:
+refeitas aqui, no Python 3.13.5, mypy 2.3.1 e pyright 1.1.414. A tese dele cabe numa linha:
 
 > *types are very broad hints and they are sometimes lies*
 
@@ -45,13 +45,16 @@ Rodando:
 $ mypy --strict exemplo.py
 Success: no issues found in 1 source file
 
+$ pyright exemplo.py
+0 errors, 0 warnings
+
 $ python3 exemplo.py
 42
 ['mandei um e-mail indesejado']
 ```
 
-Pare um segundo nesse resultado. **O `mypy --strict` não achou nada**, e não é
-falha dele: não há nada para achar. `ComEfeito` *é* um `int` — `isinstance`
+Pare um segundo nesse resultado. **Os dois verificadores de tipo mais usados não
+acharam nada**, e não é falha deles: não há nada para achar. `ComEfeito` *é* um `int` — `isinstance`
 confirma. A anotação `x: int` é verdadeira. A anotação de retorno `-> int` é
 verdadeira, porque 42 é um inteiro.
 
@@ -101,14 +104,15 @@ Agora a mesma função, aquecida com a subclasse:
 BINARY_OP                  ← continuou genérica
 ```
 
-E o preço da diferença, em 2 milhões de chamadas:
+E o preço da diferença, medido como mínimo de 9 repetições de 2 milhões de
+chamadas:
 
 | entrada | por chamada |
 |---|---|
-| `int` exato | **51,6 ns** |
-| subclasse de `int` | **98,3 ns** |
+| `int` exato | **24,2 ns** |
+| subclasse de `int` | **49,3 ns** |
 
-Quase o dobro, e **a anotação é a mesma nos dois casos**.
+Pouco mais que o dobro, e **a anotação é a mesma nos dois casos**.
 
 Repare no que isso significa. O interpretador consegue o que o compilador
 estático não consegue, e não é por ser mais esperto — é por **poder voltar
