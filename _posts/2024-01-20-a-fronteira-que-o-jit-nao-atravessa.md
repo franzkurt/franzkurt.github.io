@@ -5,6 +5,8 @@ tags: [python, c, performance, cpython, pypy, engenharia]
 description: "No PyPy, chamar uma extensão em C é 2,7 vezes mais lento que no CPython — a linguagem rápida perde da lenta. A causa é a mesma que faz ctypes custar 11 vezes uma chamada normal aqui."
 ---
 
+*Aprofundamento da série **[Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)** — o índice das partes está na parte 0.*
+
 *A partir de [Type information for faster Python C extensions](https://bernsteinbear.com/blog/typed-c-extensions/),
 de Max Bernstein. Os números de PyPy abaixo são medições **dele** — não tenho
 PyPy instalado e não os reproduzi. O que medi aqui está marcado como tal.*

@@ -5,6 +5,8 @@ tags: [python, interpretadores, performance, cpython, engenharia]
 description: "Ler o.x parece de graça, mas é uma busca de nome dentro de um tipo, toda vez. O truque que resolve isso é de 1984, e o seu CPython reserva 18 bytes por leitura de atributo para usá-lo."
 ---
 
+*Aprofundamento da série **[Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)** — o índice das partes está na parte 0.*
+
 *Primeiro de três textos sobre como um interpretador fica rápido, a partir da
 série de [Max Bernstein](https://bernsteinbear.com/blog/inline-caching/):
 **1.** esta · **2.** [reescrever o próprio bytecode](/2021/02/quickening-o-bytecode-que-se-reescreve/) ·

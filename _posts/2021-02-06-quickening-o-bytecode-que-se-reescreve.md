@@ -5,6 +5,8 @@ tags: [python, interpretadores, performance, cpython, engenharia]
 description: "O cache acertou — e ainda assim você pagou para perguntar se ele estava preenchido. A saída é a instrução trocar a si mesma, e dá para ver isso acontecendo em quatro linhas de Python."
 ---
 
+*Aprofundamento da série **[Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)** — o índice das partes está na parte 0.*
+
 *Segundo de três textos sobre como um interpretador fica rápido, a partir da
 série de [Max Bernstein](https://bernsteinbear.com/blog/inline-caching-quickening/):
 **1.** [o cache inline](/2021/01/cache-inline-como-o-interpretador-aprende/) ·

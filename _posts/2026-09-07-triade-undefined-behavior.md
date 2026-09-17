@@ -5,7 +5,7 @@ tags: [c, rust, python, compiladores, engenharia]
 description: "Uma verificação de overflow que o compilador apaga. Uma checagem de ponteiro nulo que desaparece do assembly. Os dois casos compilam sem aviso, rodam sem erro, e devolvem a resposta errada."
 ---
 
-*Série em três camadas: o blog já tem [Python por dentro](/2025/05/python-por-dentro-parte-0-o-mapa/)
+*Série em três camadas: o blog já tem [Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)
 e [Python e Rust](/2026/09/python-e-rust-duas-apostas/). Falta a camada de baixo —
 o C, em que o CPython é escrito e contra o qual o Rust foi desenhado.*
 

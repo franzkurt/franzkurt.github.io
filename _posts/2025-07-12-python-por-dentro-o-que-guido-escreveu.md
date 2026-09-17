@@ -1,14 +1,14 @@
 ---
-title: "Python por dentro, parte 6: o que os projetistas realmente escreveram"
+title: "Python in-depth, parte 6: o que os projetistas realmente escreveram"
 date: 2025-07-12 10:00:00 -0300
 tags: [python, cpython, internals, design, história]
 description: "Fui às fontes primárias — o blog do Guido, o FAQ oficial, as listas — conferir cinco explicações que todo mundo repete sobre por que o Python é assim. Nenhuma das cinco bate com o que foi de fato escrito."
 ---
 
-*Esta é uma série sobre o funcionamento interno do Python. Se os termos
-**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
-[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples, e é o ponto de partida recomendado.*
+*Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
+os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
+a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
 
 Na [parte 2](/2025/06/python-por-dentro-maquina-de-pilha/) desta série eu fui
 medir uma explicação que se repete em toda parte — a de que bytecode de máquina

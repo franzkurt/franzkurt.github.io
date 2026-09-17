@@ -5,6 +5,8 @@ tags: [python, tipos, compiladores, performance, engenharia]
 description: "Doze linhas em que o mypy --strict passa sem um erro, a anotação diz int, e a soma devolve 42. Não é bug do verificador: é o que uma anotação promete, e o que ela não promete."
 ---
 
+*Aprofundamento da série **[Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)** — o índice das partes está na parte 0.*
+
 Existe uma frase que circula em toda discussão sobre desempenho de Python: *"se
 tem type hint, dá para compilar para código nativo"*. Ela é intuitiva, e está
 errada — mas o motivo de estar errada é mais interessante que a correção.

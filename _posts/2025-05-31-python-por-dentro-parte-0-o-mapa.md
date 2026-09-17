@@ -1,14 +1,32 @@
 ---
-title: "Python por dentro, parte 0: o que acontece quando você aperta enter"
+title: "Python in-depth, parte 0: o que acontece quando você aperta enter"
 date: 2025-05-31 10:00:00 -0300
 tags: [python, cpython, internals, iniciantes]
 description: "O mapa antes do detalhe. Se você já escreveu Python mas nunca parou para pensar como ele roda, este texto é o vocabulário e a visão geral que as próximas seis partes vão usar."
 ---
 
+*Série **Python in-depth**, o percurso completo:
+**0.** o mapa (esta) ·
+**1.** [do fonte ao bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/) ·
+**2.** [máquina de pilha](/2025/06/python-por-dentro-maquina-de-pilha/) ·
+**3.** [lendo bytecode com o `dis`](/2025/06/python-por-dentro-lendo-bytecode/) ·
+**4.** [o interpretador que se reescreve](/2025/06/python-por-dentro-interpretador-especializado/) ·
+**5.** [do 3.9 ao 3.13](/2025/07/python-por-dentro-do-39-ao-313/) ·
+**6.** [o que os projetistas escreveram](/2025/07/python-por-dentro-o-que-guido-escreveu/).*
+
+*E os **aprofundamentos**, cada um a partir de uma fonte primária, datados junto
+do texto que os originou:
+[cache inline](/2021/01/cache-inline-como-o-interpretador-aprende/) ·
+[o bytecode que se reescreve](/2021/02/quickening-o-bytecode-que-se-reescreve/) ·
+[o ponteiro que carrega o número](/2021/02/ponteiro-etiquetado-e-o-preco-do-int/) ·
+[anotar `int` não acelera](/2023/06/anotar-int-nao-deixa-o-python-rapido/) ·
+[a fronteira que o JIT não atravessa](/2024/01/a-fronteira-que-o-jit-nao-atravessa/) ·
+[o objeto que contém a si mesmo](/2019/05/o-objeto-que-contem-a-si-mesmo/).*
+
 Você escreve um arquivo, digita `python programa.py`, aperta enter, e algo
 acontece. Este texto é sobre esse *algo*.
 
-Ele abre uma série de seis partes que desce bem fundo no funcionamento do
+Ele abre a série **Python in-depth**, que desce bem fundo no funcionamento do
 Python — e esta parte existe para que **não seja preciso saber nada de antemão**
 para acompanhar. Aqui está o mapa e o vocabulário; as partes seguintes gastam uma
 seção inteira em cada caixinha dele.

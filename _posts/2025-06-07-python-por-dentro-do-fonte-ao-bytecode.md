@@ -1,5 +1,5 @@
 ---
-title: "Python por dentro, parte 1: os cinco estágios do fonte ao bytecode"
+title: "Python in-depth, parte 1: os cinco estágios do fonte ao bytecode"
 date: 2025-06-07 10:00:00 -0300
 tags: [python, cpython, internals, compilador, parser]
 description: "Entre o arquivo .py e a execução há cinco etapas, cada uma num arquivo diferente do CPython. E a segunda delas foi trocada por inteiro no Python 3.9, por um motivo que vale entender."
@@ -7,10 +7,10 @@ audio: /assets/audio/python-por-dentro-do-fonte-ao-bytecode.mp3
 audio_duracao: "7:36"
 ---
 
-*Esta é uma série sobre o funcionamento interno do Python. Se os termos
-**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
-[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples, e é o ponto de partida recomendado.*
+*Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
+os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
+a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
 
 Quando você roda um `.py`, o Python não interpreta o seu texto. Ele **compila**
 — não para código de máquina, mas para bytecode — e só então executa. Entre uma

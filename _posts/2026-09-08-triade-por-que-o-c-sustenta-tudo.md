@@ -20,7 +20,7 @@ $ ldd $(readlink -f $(which python3))
 
 O interpretador que executa o seu Python é um programa em C, ligado a bibliotecas
 em C. Quando você chama `math.sqrt`, a conta acontece na `libm` ali de cima. Toda
-a série [Python por dentro](/2025/05/python-por-dentro-parte-0-o-mapa/) descreveu,
+a série [Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/) descreveu,
 em sete partes, o funcionamento de um programa em C.
 
 A explicação comum para isso é inércia: "é legado, ninguém reescreve". Ela não

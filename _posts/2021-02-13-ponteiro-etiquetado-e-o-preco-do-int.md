@@ -5,6 +5,8 @@ tags: [python, c, cpython, performance, memoria, engenharia]
 description: "Somar dois inteiros etiquetados: 5 instruções, nenhum acesso à memória. Somar dois inteiros alocados: 10 instruções, uma delas é call malloc. O truque tem 40 anos, e o CPython está impedido de usá-lo."
 ---
 
+*Aprofundamento da série **[Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)** — o índice das partes está na parte 0.*
+
 *Terceiro de três textos sobre como um interpretador fica rápido, a partir da
 série de [Max Bernstein](https://bernsteinbear.com/blog/small-objects/):
 **1.** [o cache inline](/2021/01/cache-inline-como-o-interpretador-aprende/) ·

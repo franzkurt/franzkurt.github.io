@@ -1,14 +1,14 @@
 ---
-title: "Python por dentro, parte 5: do 3.9 ao 3.13, uma decisão puxando a outra"
+title: "Python in-depth, parte 5: do 3.9 ao 3.13, uma decisão puxando a outra"
 date: 2025-07-05 10:00:00 -0300
 tags: [python, cpython, internals, versões, performance]
 description: "Cinco versões que parecem uma lista de novidades e são uma cadeia. O parser novo do 3.9 é o que tornou o match do 3.10 possível, e os objetos imortais do 3.12 são pré-requisito do free threading do 3.13."
 ---
 
-*Esta é uma série sobre o funcionamento interno do Python. Se os termos
-**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
-[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples, e é o ponto de partida recomendado.*
+*Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
+os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
+a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
 
 As quatro partes anteriores desta série olharam o Python parado: o
 [caminho do fonte ao bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/),

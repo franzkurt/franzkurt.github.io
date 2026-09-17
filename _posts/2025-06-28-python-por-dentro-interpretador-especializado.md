@@ -1,14 +1,14 @@
 ---
-title: "Python por dentro, parte 4: o interpretador que reescreve o próprio bytecode"
+title: "Python in-depth, parte 4: o interpretador que reescreve o próprio bytecode"
 date: 2025-06-28 10:00:00 -0300
 tags: [python, cpython, internals, bytecode, performance]
 description: "Chame a mesma função duzentas vezes com inteiros e o BINARY_OP dela vira BINARY_OP_ADD_INT. Passe strings e vira outra coisa. Dá para ver acontecendo em três comandos."
 ---
 
-*Esta é uma série sobre o funcionamento interno do Python. Se os termos
-**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
-[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples, e é o ponto de partida recomendado.*
+*Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
+os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
+a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
 
 A [parte 3](/2025/06/python-por-dentro-lendo-bytecode/) terminou com uma
 ressalva: o que o `dis` mostra é o ponto de partida, não o que roda depois. Esta

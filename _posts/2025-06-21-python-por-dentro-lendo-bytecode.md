@@ -1,5 +1,5 @@
 ---
-title: "Python por dentro, parte 3: lendo bytecode de verdade com o dis"
+title: "Python in-depth, parte 3: lendo bytecode de verdade com o dis"
 date: 2025-06-21 10:00:00 -0300
 tags: [python, cpython, internals, bytecode, performance]
 description: "Um laço, uma compreensão e três formas de acessar um valor. A desmontagem mostra o que cada um custa — e entrega uma mudança de 2023 que ninguém anunciou no código que você escreve."
@@ -7,10 +7,10 @@ audio: /assets/audio/python-por-dentro-lendo-bytecode.mp3
 audio_duracao: "5:38"
 ---
 
-*Esta é uma série sobre o funcionamento interno do Python. Se os termos
-**token**, **bytecode**, **opcode** ou **pilha** não forem familiares, a
-[parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples, e é o ponto de partida recomendado.*
+*Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
+os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
+a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
+linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
 
 As duas partes anteriores cobriram
 [como o fonte vira bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/) e

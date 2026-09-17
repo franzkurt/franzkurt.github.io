@@ -5,6 +5,8 @@ tags: [python, cpython, casos-de-canto, engenharia]
 description: "ls = []; ls.append(ls). Agora imprima. O interpretador não trava — e o que ele faz para não travar aparece em três lugares diferentes, cada um com uma estratégia."
 ---
 
+*Aprofundamento da série **[Python in-depth](/2025/05/python-por-dentro-parte-0-o-mapa/)** — o índice das partes está na parte 0.*
+
 *A partir de [Recursive Python objects](https://bernsteinbear.com/blog/recursive-python-objects/),
 de Max Bernstein, com os comportamentos conferidos aqui no Python 3.13.5.*
 
