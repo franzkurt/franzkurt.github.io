@@ -26,33 +26,90 @@ um plano.
 ## 3.9 — trocar o parser antes de precisar dele
 
 A mudança que abre a série também abre esta parte: o **parser PEG**
-([PEP 617](https://peps.python.org/pep-0617/)), com o parser antigo ainda
-disponível como alternativa.
+([PEP 617](https://peps.python.org/pep-0617/)), com o antigo mantido por um
+ciclo, selecionável por opção de linha de comando.
 
-Visto isoladamente, parecia trabalho interno sem retorno para quem escreve
-Python. A sintaxe continuou a mesma; nenhum recurso novo apareceu por causa
-disso.
+Para ver o que isso destravou, é preciso saber o que o antigo **não conseguia
+fazer**. Ele era `LL(1)`: escolhia qual regra da gramática aplicar olhando
+**um único token à frente**.
 
-Guarde esse "nenhum recurso novo" por exatamente um parágrafo.
+Isso é rápido, é simples de implementar, e é uma camisa de força. A PEP 617 é
+direta sobre o preço que se pagava:
 
-## 3.10 — o recurso que só existe por causa do 3.9
+> *This new parser would allow the elimination of multiple "hacks" that exist
+> in the current grammar to circumvent the LL(1)-limitation.*
 
-Chega o **casamento de padrões estruturais**, o `match`/`case`
-([PEP 634](https://peps.python.org/pep-0634/)).
+O PEG não tem esse teto. A mesma PEP descreve que ele tem *"infinite
+lookahead"* — pode considerar quantos tokens precisar antes de decidir a regra.
+Em troca, precisa de uma técnica chamada *packrat parsing* para não estourar o
+tempo, porque a busca com retrocesso seria exponencial sem ela.
 
-E aqui a cadeia aparece. A sintaxe do `match` é cheia de construções que um
-parser LL(1) não consegue distinguir olhando um token à frente — o mesmo texto
-pode ser um padrão de captura ou uma comparação, dependendo do que vem muito
-depois. Com o parser antigo, seria preciso mais um dos "hacks" que a PEP 617
-existia para eliminar.
+E aqui está a parte que eu achava ser só interpretação minha, até ler o plano de
+migração da própria PEP. Não é que "nenhum recurso novo apareceu" por acaso:
+**foi proibido aparecer.**
 
-Chegam também as **mensagens de erro melhores**, e elas têm a mesma origem: o
-parser novo sabe qual alternativa da gramática estava tentando quando falhou. O
-antigo não tinha essa informação para dar. Mensagem boa não foi um esforço de
-redação — foi consequência de arquitetura.
+> *In the meanwhile and until the old parser is removed, no new Python Grammar
+> addition will be added that requires the PEG parser.*
 
-Trocar uma peça central um ciclo antes de precisar dela é o tipo de decisão que
-só se reconhece depois.
+Ou seja, o 3.9 entregou de propósito um parser mais capaz **sem usar a
+capacidade nova**, para que a troca pudesse ser revertida se desse errado. O
+retorno ficou represado por uma versão inteira, por decisão explícita.
+
+## 3.10 — os recursos que só existem por causa do 3.9
+
+Removido o parser antigo, a represa abre. Duas coisas chegam, e as duas têm a
+mesma origem.
+
+**Gerenciadores de contexto entre parênteses.** Isto passou a ser válido:
+
+```python
+with (
+    open("a") as f,
+    open("b") as g,
+):
+    ...
+```
+
+Parece detalhe de formatação e não é. Com um token de antecedência, ao encontrar
+o `(` o parser não tem como saber se aquilo é uma tupla comum ou uma lista de
+gerenciadores — o que distingue os dois é o `as`, que pode estar muitos tokens
+depois. A documentação do 3.10 não deixa dúvida sobre a causa:
+
+> *This new syntax uses the non LL(1) capacities of the new parser.*
+
+**Casamento de padrões**, o `match`/`case`
+([PEP 634](https://peps.python.org/pep-0634/)). O mesmo problema, mais agudo:
+
+```python
+match ponto:
+    case Ponto(x=0, y=0): ...   # padrão de classe, não chamada de função
+    case (a, b): ...            # padrão de sequência, não tupla
+    case x if x > 10: ...       # padrão com guarda
+```
+
+Nenhuma das três se distingue da construção comum de mesma aparência olhando um
+token à frente. Com o parser antigo, cada uma exigiria mais um dos *hacks* que a
+PEP 617 existia para eliminar.
+
+E as **mensagens de erro**, que vieram na mesma versão e pela mesma razão: o
+parser sabe qual alternativa da gramática estava tentando quando falhou. Seis
+exemplos, todos rodados no 3.13:
+
+| o que você escreveu | o que o Python responde |
+|---|---|
+| `x = (1, 2` | `'(' was never closed` |
+| `if x = 1:` | `invalid syntax. Maybe you meant '==' or ':=' instead of '='?` |
+| `if x` | `expected ':'` |
+| `d = {'a': 1 'b': 2}` | `invalid syntax. Perhaps you forgot a comma?` |
+| `f'{x'` | `f-string: expecting '}'` |
+| `print 'oi'` | `Missing parentheses in call to 'print'. Did you mean print(...)?` |
+
+Nenhuma dessas seis é trabalho de redação. São consequência de o parser saber
+onde estava quando tropeçou — informação que o LL(1) descartava.
+
+Trocar uma peça central um ciclo antes de precisar dela, e segurar o benefício
+de propósito para poder voltar atrás, é o tipo de decisão que só se reconhece
+depois.
 
 ## 3.11 — a maior aceleração de uma versão só
 
