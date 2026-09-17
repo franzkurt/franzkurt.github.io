@@ -1,5 +1,5 @@
 ---
-title: "Python por dentro, parte 6: o que os projetistas escreveram, contra o que se repete"
+title: "Python por dentro, parte 6: o que os projetistas realmente escreveram"
 date: 2025-07-12 10:00:00 -0300
 tags: [python, cpython, internals, design, história]
 description: "Fui às fontes primárias — o blog do Guido, o FAQ oficial, as listas — conferir cinco explicações que todo mundo repete sobre por que o Python é assim. Nenhuma das cinco bate com o que foi de fato escrito."

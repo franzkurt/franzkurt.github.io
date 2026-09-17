@@ -1,5 +1,5 @@
 ---
-title: "Cinco funções, uma célula só: o bug de closure que todo mundo escreve uma vez"
+title: "O bug de closure que todo mundo escreve uma vez"
 date: 2022-11-26 10:00:00 -0300
 tags: [python, casos-de-canto, cpython, engenharia]
 description: "Cinco lambdas criadas num laço devolvem todas o mesmo número. O bytecode da versão errada e da versão certa é idêntico, instrução por instrução — o que muda é quantas células existem."

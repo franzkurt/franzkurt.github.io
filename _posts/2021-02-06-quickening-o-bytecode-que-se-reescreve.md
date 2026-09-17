@@ -1,5 +1,5 @@
 ---
-title: "Quickening: o bytecode que se reescreve enquanto roda"
+title: "O bytecode que se reescreve enquanto roda"
 date: 2021-02-06 10:00:00 -0300
 tags: [python, interpretadores, performance, cpython, engenharia]
 description: "O cache acertou — e ainda assim você pagou para perguntar se ele estava preenchido. A saída é a instrução trocar a si mesma, e dá para ver isso acontecendo em quatro linhas de Python."
