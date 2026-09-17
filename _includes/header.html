@@ -10,6 +10,7 @@
       <a href="{{ '/' | relative_url }}" {% if p == '/' %}aria-current="page"{% endif %}>Artigos</a>
       <a href="{{ '/tags/' | relative_url }}" {% if p contains '/tags' %}aria-current="page"{% endif %}>Tags</a>
       <a href="{{ '/livros/' | relative_url }}" {% if p contains '/livros' %}aria-current="page"{% endif %}>Livros</a>
+      <a href="{{ '/ferramentas/' | relative_url }}" {% if p contains '/ferramentas' %}aria-current="page"{% endif %}>Ferramentas</a>
       <a href="{{ '/sobre/' | relative_url }}" {% if p contains '/sobre' %}aria-current="page"{% endif %}>Sobre</a>
       {%- for s in site.social %}{% if s.name == 'GitHub' %}
       <a href="{{ s.url }}" class="nav__icone" rel="me noopener"

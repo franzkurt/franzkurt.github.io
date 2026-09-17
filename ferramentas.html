@@ -1,0 +1,1448 @@
+---
+layout: default
+title: Ferramentas
+permalink: /ferramentas/
+description: "Caixa de ferramentas que roda inteira no navegador: PDF, QR, hash, validadores de documento, planilhas, OCR e fiscal."
+---
+<!-- Esta página e os módulos em assets/js/ferramentas/ são a fonte.
+     tools/testar-ferramentas.sh confere que todo <script src> existe e que as
+     funções de hash e dígito verificador batem com referência externa. -->
+
+<style>
+
+#ferramentas {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #22263a;
+    --border: #2e3348;
+    --text: #e2e4f0;
+    --text2: #8b8fa8;
+    --accent: #5b6af0;
+    --accent2: #7c8cf8;
+    --green: #4ade80;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+#ferramentas * { box-sizing: border-box; margin: 0; padding: 0; }
+#ferramentas { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+#ferramentas .tools-head { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; }
+#ferramentas .logo { font-size: 20px; font-weight: 700; color: var(--accent2); letter-spacing: -0.5px; white-space: nowrap; }
+#ferramentas .logo span { color: var(--text2); font-weight: 400; font-size: 14px; margin-left: 8px; }
+#ferramentas #search { flex: 1; max-width: 400px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; color: var(--text); font-size: 14px; outline: none; }
+#ferramentas #search:focus { border-color: var(--accent); }
+#ferramentas #search::placeholder { color: var(--text2); }
+#ferramentas #back-btn { display: none; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; font-size: 14px; gap: 6px; align-items: center; }
+#ferramentas #back-btn:hover { background: var(--border); }
+#ferramentas #back-btn.visible { display: flex; }
+#ferramentas {
+    --cat-pdf:        #5b8ef0;
+    --cat-ocr:        #3ecf8e;
+    --cat-fiscal:     #f0a030;
+    --cat-validators: #e05c8a;
+    --cat-extractors: #a855f7;
+    --cat-qr:         #22d3ee;
+    --cat-crypto:     #f43f5e;
+    --cat-sheets:     #84cc16;
+    --cat-utils:      #94a3b8;
+  }
+#ferramentas #home { padding: 24px; max-width: 1400px; margin: 0 auto; }
+#ferramentas .cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 1100px) {
+#ferramentas .cards { grid-template-columns: repeat(4, 1fr); } 
+}
+@media (max-width: 860px) {
+#ferramentas .cards { grid-template-columns: repeat(3, 1fr); } 
+}
+@media (max-width: 580px) {
+#ferramentas .cards { grid-template-columns: repeat(2, 1fr); } 
+}
+#ferramentas .grid-header { grid-column: 1 / -1; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text2); padding: 18px 4px 4px; display: flex; align-items: center; gap: 8px; }
+#ferramentas .grid-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+#ferramentas .grid-header.hidden { display: none; }
+#ferramentas .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 16px 14px; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; gap: 8px; border-top: 3px solid var(--cat, var(--border)); }
+#ferramentas .card:hover { background: var(--bg3); transform: translateY(-2px); box-shadow: 0 8px 24px color-mix(in srgb, var(--cat, var(--accent)) 25%, transparent); border-color: var(--cat, var(--accent)); border-top-color: var(--cat, var(--accent)); }
+#ferramentas .card-icon { font-size: 26px; }
+#ferramentas .card-name { font-size: 13px; font-weight: 600; color: var(--text); }
+#ferramentas .card-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+#ferramentas .card.hidden { display: none; }
+#ferramentas .card[data-group="pdf"] { --cat: var(--cat-pdf); }
+#ferramentas .card[data-group="ocr"] { --cat: var(--cat-ocr); }
+#ferramentas .card[data-group="fiscal"] { --cat: var(--cat-fiscal); }
+#ferramentas .card[data-group="validators"] { --cat: var(--cat-validators); }
+#ferramentas .card[data-group="extractors"] { --cat: var(--cat-extractors); }
+#ferramentas .card[data-group="qr"] { --cat: var(--cat-qr); }
+#ferramentas .card[data-group="crypto"] { --cat: var(--cat-crypto); }
+#ferramentas .card[data-group="sheets"] { --cat: var(--cat-sheets); }
+#ferramentas .card[data-group="utils"] { --cat: var(--cat-utils); }
+#ferramentas #tool-panel { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
+#ferramentas #tool-panel.visible { display: block; }
+#ferramentas .tool-header { margin-bottom: 24px; }
+#ferramentas .tool-title { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+#ferramentas .tool-subtitle { font-size: 14px; color: var(--text2); margin-top: 6px; }
+#ferramentas .form-section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+#ferramentas .form-section + .form-section { margin-top: 0; }
+#ferramentas label { display: block; font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+#ferramentas input[type="text"], #ferramentas input[type="number"], #ferramentas textarea, #ferramentas select {
+    width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    color: var(--text); padding: 10px 12px; font-size: 14px; outline: none; font-family: inherit;
+  }
+#ferramentas input[type="text"]:focus, #ferramentas input[type="number"]:focus, #ferramentas textarea:focus, #ferramentas select:focus { border-color: var(--accent); }
+#ferramentas textarea { resize: vertical; min-height: 100px; font-family: 'Courier New', monospace; font-size: 13px; }
+#ferramentas .row { display: flex; gap: 12px; flex-wrap: wrap; }
+#ferramentas .row > * { flex: 1; min-width: 140px; }
+#ferramentas .checkbox-row { display: flex; flex-wrap: wrap; gap: 14px; }
+#ferramentas .checkbox-row label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text); cursor: pointer; font-weight: 400; }
+#ferramentas input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+#ferramentas input[type="range"] { width: 100%; accent-color: var(--accent); }
+#ferramentas .btn { padding: 10px 22px; border-radius: var(--radius-sm); border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.15s; }
+#ferramentas .btn-primary { background: var(--accent); color: white; }
+#ferramentas .btn-primary:hover { background: var(--accent2); }
+#ferramentas .btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+#ferramentas .btn-secondary:hover { background: var(--border); }
+#ferramentas .btn-sm { padding: 6px 14px; font-size: 12px; }
+#ferramentas .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+#ferramentas .file-drop { border: 2px dashed var(--border); border-radius: var(--radius); padding: 32px; text-align: center; cursor: pointer; transition: all 0.15s; }
+#ferramentas .file-drop:hover, #ferramentas .file-drop.drag-over { border-color: var(--accent); background: rgba(91,106,240,0.05); }
+#ferramentas .file-drop input { display: none; }
+#ferramentas .file-drop-icon { font-size: 36px; margin-bottom: 8px; }
+#ferramentas .file-drop-text { font-size: 14px; color: var(--text2); }
+#ferramentas .file-drop-text strong { color: var(--accent2); }
+#ferramentas .file-list { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+#ferramentas .file-chip { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 6px; }
+#ferramentas .file-chip-remove { cursor: pointer; color: var(--text2); font-size: 14px; }
+#ferramentas .file-chip-remove:hover { color: var(--red); }
+#ferramentas .output-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: var(--text); min-height: 80px; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto; line-height: 1.6; }
+#ferramentas .output-box.success { border-color: var(--green); }
+#ferramentas .output-box.error { border-color: var(--red); color: var(--red); }
+#ferramentas .output-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+#ferramentas .copy-btn { background: none; border: none; cursor: pointer; color: var(--text2); font-size: 12px; padding: 0; }
+#ferramentas .copy-btn:hover { color: var(--accent2); }
+#ferramentas .strength-bar { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+#ferramentas .strength-fill { height: 100%; border-radius: 3px; transition: all 0.3s; }
+#ferramentas .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+#ferramentas .badge-green { background: rgba(74,222,128,0.15); color: var(--green); }
+#ferramentas .badge-red { background: rgba(248,113,113,0.15); color: var(--red); }
+#ferramentas .badge-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+#ferramentas hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+#ferramentas #qr-output { justify-content: center; padding: 20px; background: white; border-radius: var(--radius-sm); display: none; }
+#ferramentas .tabs { display: flex; gap: 2px; background: var(--bg3); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 16px; flex-wrap: wrap; }
+#ferramentas .tab { padding: 7px 16px; border-radius: 6px; border: none; background: none; color: var(--text2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+#ferramentas .tab.active { background: var(--accent); color: white; }
+#ferramentas .tab-content { display: none; }
+#ferramentas .tab-content.active { display: block; }
+#ferramentas ::-webkit-scrollbar { width: 6px; }
+#ferramentas ::-webkit-scrollbar-track { background: var(--bg); }
+#ferramentas ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+#ferramentas .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* A grade precisa de mais que a largura de leitura do blog. */
+body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
+</style>
+
+<div id="ferramentas">
+<div class="tools-head">
+  <div class="logo">⚡ JS Utils <span>Ferramentas Frontend</span></div>
+  <input type="text" id="search" placeholder="Buscar ferramenta..." oninput="filterCards(this.value)">
+  <button id="back-btn" onclick="goHome()">← Voltar</button>
+</div>
+
+<!-- HOME GRID -->
+<div id="home">
+<div class="cards">
+
+  <div class="grid-header" data-header="pdf">📄 PDF &amp; Documentos</div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-merge')"><div class="card-icon">🔗</div><div class="card-name">Mesclar PDFs</div><div class="card-desc">Une múltiplos arquivos PDF em um único documento</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-split')"><div class="card-icon">✂️</div><div class="card-name">Dividir PDF</div><div class="card-desc">Extrai páginas ou intervalos de um PDF</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-text')"><div class="card-icon">📝</div><div class="card-name">PDF → Texto</div><div class="card-desc">Extrai texto de um arquivo PDF</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-images')"><div class="card-icon">🖼️</div><div class="card-name">PDF → Imagens</div><div class="card-desc">Converte páginas do PDF em imagens PNG</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-rotate')"><div class="card-icon">🔄</div><div class="card-name">Rotacionar Páginas</div><div class="card-desc">Rotaciona páginas específicas do PDF</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-watermark')"><div class="card-icon">💧</div><div class="card-name">Marca d'água</div><div class="card-desc">Adiciona texto de marca d'água ao PDF</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-pagenumbers')"><div class="card-icon">🔢</div><div class="card-name">Numerar Páginas</div><div class="card-desc">Insere números de página no rodapé</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-compress')"><div class="card-icon">📦</div><div class="card-name">Comprimir PDF</div><div class="card-desc">Otimiza streams e reduz tamanho do arquivo</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('img-to-pdf')"><div class="card-icon">🖼️➡️📄</div><div class="card-name">Imagens → PDF</div><div class="card-desc">Converte imagens PNG/JPEG em PDF</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-metadata')"><div class="card-icon">ℹ️</div><div class="card-name">Metadados PDF</div><div class="card-desc">Lê e edita metadados do documento</div></div>
+
+  <div class="grid-header" data-header="ocr" data-also="fiscal">🔍 OCR &amp; Fiscal / XML / SPED</div>
+  <div class="card" data-group="ocr" onclick="openTool('ocr-image')"><div class="card-icon">🤖</div><div class="card-name">OCR — Imagem</div><div class="card-desc">Reconhece texto em imagens via Tesseract.js</div></div>
+  <div class="card" data-group="ocr" onclick="openTool('ocr-pdf')"><div class="card-icon">📄🔍</div><div class="card-name">OCR — PDF</div><div class="card-desc">OCR em cada página de um PDF escaneado</div></div>
+  <div class="card" data-group="fiscal" onclick="openTool('xml-nfe')"><div class="card-icon">🧾</div><div class="card-name">Parser NFe</div><div class="card-desc">Extrai dados estruturados de XML de NFe</div></div>
+  <div class="card" data-group="fiscal" onclick="openTool('xml-cte')"><div class="card-icon">🚚</div><div class="card-name">Parser CT-e</div><div class="card-desc">Extrai dados estruturados de XML de CT-e</div></div>
+  <div class="card" data-group="fiscal" onclick="openTool('sped')"><div class="card-icon">📋</div><div class="card-name">Parser SPED</div><div class="card-desc">Processa arquivo EFD/SPED Fiscal (pipe-delimited)</div></div>
+
+  <div class="grid-header" data-header="qr" data-also="validators">📱 QR / Barras &amp; ✅ Validadores / Extratores</div>
+  <div class="card" data-group="qr" onclick="openTool('qr-gen')"><div class="card-icon">📱</div><div class="card-name">Gerar QR Code</div><div class="card-desc">Cria QR Code a partir de texto ou URL</div></div>
+  <div class="card" data-group="qr" onclick="openTool('qr-read')"><div class="card-icon">📷</div><div class="card-name">Ler QR Code</div><div class="card-desc">Decodifica QR Code de uma imagem</div></div>
+  <div class="card" data-group="qr" onclick="openTool('barcode-gen')"><div class="card-icon">📊</div><div class="card-name">Gerar Código de Barras</div><div class="card-desc">CODE128, EAN-13, CODE39 e outros formatos</div></div>
+  <div class="card" data-group="validators" onclick="openTool('validate-multi')"><div class="card-icon">✔️</div><div class="card-name">Validadores BR</div><div class="card-desc">CPF, CNPJ, PIS, RENAVAM, OAB, CNJ, CEP, IE — valida e gera</div></div>
+  <div class="card" data-group="extractors" onclick="openTool('extract-all')"><div class="card-icon">🗂️</div><div class="card-name">Extrair Tudo</div><div class="card-desc">CPF, CNPJ, CEP, e-mails, telefones e mais de um texto</div></div>
+
+  <div class="grid-header" data-header="crypto">🔐 Criptografia &amp; Segurança</div>
+  <div class="card" data-group="crypto" onclick="openTool('hash')"><div class="card-icon">🔑</div><div class="card-name">Calculadora de Hash</div><div class="card-desc">SHA-256, SHA-1, MD5, HMAC-SHA256</div></div>
+  <div class="card" data-group="crypto" onclick="openTool('jwt')"><div class="card-icon">🎫</div><div class="card-name">Inspector JWT</div><div class="card-desc">Decodifica e analisa tokens JWT</div></div>
+  <div class="card" data-group="crypto" onclick="openTool('base64')"><div class="card-icon">🔠</div><div class="card-name">Base64</div><div class="card-desc">Codifica e decodifica Base64 / URL-safe</div></div>
+  <div class="card" data-group="crypto" onclick="openTool('password-gen')"><div class="card-icon">🔒</div><div class="card-name">Gerador de Senha</div><div class="card-desc">Senhas seguras e passphrases criptográficas</div></div>
+  <div class="card" data-group="crypto" onclick="openTool('password-strength')"><div class="card-icon">💪</div><div class="card-name">Força de Senha</div><div class="card-desc">Analisa entropia e tempo estimado de crack</div></div>
+
+  <div class="grid-header" data-header="sheets">📊 Planilhas</div>
+  <div class="card" data-group="sheets" onclick="openTool('xlsx-parse')"><div class="card-icon">📥</div><div class="card-name">XLSX → JSON/CSV</div><div class="card-desc">Converte planilha Excel para JSON ou CSV</div></div>
+  <div class="card" data-group="sheets" onclick="openTool('csv-json')"><div class="card-icon">🔁</div><div class="card-name">CSV ↔ JSON</div><div class="card-desc">Converte CSV para JSON e vice-versa</div></div>
+  <div class="card" data-group="sheets" onclick="openTool('json-xlsx')"><div class="card-icon">📤</div><div class="card-name">JSON → XLSX</div><div class="card-desc">Exporta array JSON para planilha Excel</div></div>
+
+  <div class="grid-header" data-header="utils">🛠 Utilidades</div>
+  <div class="card" data-group="utils" onclick="openTool('uuid')"><div class="card-icon">🆔</div><div class="card-name">UUID Generator</div><div class="card-desc">Gera e valida UUIDs v4 em lote</div></div>
+  <div class="card" data-group="utils" onclick="openTool('checksum')"><div class="card-icon">🧮</div><div class="card-name">Checksums</div><div class="card-desc">CRC32, Luhn, EAN-13, ISBN, Módulo 11</div></div>
+  <div class="card" data-group="utils" onclick="openTool('timestamp')"><div class="card-icon">⏱️</div><div class="card-name">Timestamp</div><div class="card-desc">Converte datas Unix, ISO e formatos locais</div></div>
+  <div class="card" data-group="utils" onclick="openTool('timezone')"><div class="card-icon">🌍</div><div class="card-name">Timezone</div><div class="card-desc">Converte horários entre fusos e verifica horário comercial</div></div>
+  <div class="card" data-group="utils" onclick="openTool('slug')"><div class="card-icon">🔗</div><div class="card-name">Slug Generator</div><div class="card-desc">Gera slugs URL-safe a partir de texto</div></div>
+
+</div>
+</div><!-- /#home -->
+
+<!-- TOOL PANEL -->
+<div id="tool-panel"></div>
+
+<script src="/assets/js/ferramentas/pdf-utils.js"></script>
+<script src="/assets/js/ferramentas/ocr-utils.js"></script>
+<script src="/assets/js/ferramentas/xml-utils.js"></script>
+<script src="/assets/js/ferramentas/sped-utils.js"></script>
+<script src="/assets/js/ferramentas/validators.js"></script>
+<script src="/assets/js/ferramentas/qr-utils.js"></script>
+<script src="/assets/js/ferramentas/crypto-utils.js"></script>
+<script src="/assets/js/ferramentas/jwt-utils.js"></script>
+<script src="/assets/js/ferramentas/xlsx-utils.js"></script>
+<script src="/assets/js/ferramentas/file-utils.js"></script>
+<script src="/assets/js/ferramentas/barcode-utils.js"></script>
+<script src="/assets/js/ferramentas/text-utils.js"></script>
+<script src="/assets/js/ferramentas/password-utils.js"></script>
+<script src="/assets/js/ferramentas/time-utils.js"></script>
+<script>
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+</script>
+<script>
+// ---- pdfjs worker fallback (set again after utils load if needed) ----
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// ---- Navigation ----
+function goHome() {
+  document.getElementById('home').style.display = '';
+  document.getElementById('tool-panel').className = '';
+  document.getElementById('tool-panel').innerHTML = '';
+  document.getElementById('back-btn').className = '';
+  document.getElementById('search').style.display = '';
+}
+
+function openTool(id) {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('search').style.display = 'none';
+  document.getElementById('back-btn').className = 'visible';
+  const panel = document.getElementById('tool-panel');
+  panel.className = 'visible';
+  panel.innerHTML = TOOLS[id] ? TOOLS[id]() : '<p>Tool not found</p>';
+  if (TOOL_INIT[id]) TOOL_INIT[id]();
+}
+
+function filterCards(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.toggle('hidden', q && !c.innerText.toLowerCase().includes(q));
+  });
+  // hide a section header when none of its cards are visible
+  document.querySelectorAll('.grid-header').forEach(h => {
+    const groups = [h.dataset.header, h.dataset.also].filter(Boolean);
+    const anyVisible = groups.some(g =>
+      [...document.querySelectorAll(`.card[data-group="${g}"]`)].some(c => !c.classList.contains('hidden'))
+    );
+    h.classList.toggle('hidden', !anyVisible);
+  });
+}
+
+// ---- Helpers ----
+function output(id, text, type = '') {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'output-box' + (type ? ' ' + type : '');
+}
+
+function copyText(id) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    const btn = el.previousElementSibling?.querySelector('.copy-btn');
+    if (btn) { const old = btn.textContent; btn.textContent = 'Copiado!'; setTimeout(() => btn.textContent = old, 1500); }
+  });
+}
+
+function setupDrop(dropId, inputId, onFiles, multiple = false) {
+  const drop = document.getElementById(dropId);
+  const input = document.getElementById(inputId);
+  if (!drop || !input) return;
+  drop.addEventListener('click', () => input.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('drag-over'); onFiles([...e.dataTransfer.files]); });
+  input.addEventListener('change', () => onFiles([...input.files]));
+  if (multiple) input.multiple = true;
+}
+
+function fileChips(files, listId) {
+  const list = document.getElementById(listId);
+  list.innerHTML = '';
+  files.forEach((f, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'file-chip';
+    chip.innerHTML = `${f.name} <span class="file-chip-remove" data-i="${i}">×</span>`;
+    list.appendChild(chip);
+  });
+}
+
+function btn(label, onclick, cls = 'btn-primary') {
+  return `<button class="btn ${cls}" onclick="${onclick}">${label}</button>`;
+}
+
+function outBlock(id, label = 'Resultado') {
+  return `<div class="output-label">${label} <button class="copy-btn" onclick="copyText('${id}')">📋 copiar</button></div><div class="output-box" id="${id}"></div>`;
+}
+
+// ============================================================
+// GLOBAL HELPERS
+// ============================================================
+function switchTab(prefix, id, el) {
+  document.querySelectorAll(`[id^="${prefix}-"]`).forEach(t => t.classList.remove('active'));
+  document.getElementById(`${prefix}-${id}`).classList.add('active');
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const result = document.getElementById(`${prefix}-result`);
+  if (result) result.innerHTML = '';
+}
+
+// ============================================================
+// TOOL DEFINITIONS
+// ============================================================
+const TOOLS = {};
+const TOOL_INIT = {};
+
+// ---- PDF Merge ----
+TOOLS['pdf-merge'] = () => `
+<div class="tool-header"><div class="tool-title">🔗 Mesclar PDFs</div><div class="tool-subtitle">Une múltiplos arquivos PDF em ordem</div></div>
+<div class="form-section">
+  <label>Arquivos PDF (arraste na ordem desejada)</label>
+  <div class="file-drop" id="merge-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Clique ou arraste <strong>múltiplos PDFs</strong></div><input type="file" id="merge-input" accept=".pdf" multiple></div>
+  <div class="file-list" id="merge-list"></div>
+  <div class="btn-group">${btn('Mesclar e baixar', 'runPdfMerge()')}</div>
+</div>
+<div class="form-section">${outBlock('merge-out')}</div>`;
+TOOL_INIT['pdf-merge'] = () => {
+  let files = [];
+  setupDrop('merge-drop', 'merge-input', f => { files = f; fileChips(f, 'merge-list'); }, true);
+  window.runPdfMerge = async () => {
+    if (!files.length) { output('merge-out', 'Selecione pelo menos 2 PDFs.', 'error'); return; }
+    output('merge-out', '⏳ Mesclando...');
+    try {
+      const bufs = await Promise.all(files.map(f => f.arrayBuffer()));
+      const merged = await PDFUtils.mergePDFs(bufs);
+      PDFUtils.download(merged, 'merged.pdf');
+      output('merge-out', `✅ Mesclados ${files.length} PDFs → merged.pdf`, 'success');
+    } catch(e) { output('merge-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF Split ----
+TOOLS['pdf-split'] = () => `
+<div class="tool-header"><div class="tool-title">✂️ Dividir PDF</div><div class="tool-subtitle">Dividir em partes iguais ou extrair intervalo de páginas</div></div>
+<div class="form-section">
+  <label>Arquivo PDF</label>
+  <div class="file-drop" id="split-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Clique ou arraste um <strong>PDF</strong></div><input type="file" id="split-input" accept=".pdf"></div>
+  <div class="file-list" id="split-list"></div>
+  <label style="margin-top:14px">Modo</label>
+  <div style="display:flex;gap:10px;margin-bottom:10px">
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="split-mode" value="parts" checked onchange="splitModeChange()"> Dividir em N partes iguais</label>
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="split-mode" value="range" onchange="splitModeChange()"> Extrair intervalo de páginas</label>
+  </div>
+  <div id="split-parts-row">
+    <label>Número de partes <small style="color:var(--text2)">Ex: 2 divide o PDF ao meio</small></label>
+    <input type="number" id="split-n" value="2" min="2" style="width:120px">
+  </div>
+  <div id="split-range-row" style="display:none">
+    <label>Intervalo <small style="color:var(--text2)">Ex: 1-3 extrai as páginas 1, 2 e 3</small></label>
+    <input type="text" id="split-range" placeholder="1-3">
+  </div>
+  <div class="btn-group" style="margin-top:14px">${btn('Dividir e baixar', 'runPdfSplit()')}</div>
+</div>
+<div class="form-section">${outBlock('split-out')}</div>`;
+TOOL_INIT['pdf-split'] = () => {
+  let file = null;
+  setupDrop('split-drop', 'split-input', f => { file = f[0]; fileChips([f[0]], 'split-list'); });
+  window.splitModeChange = () => {
+    const mode = document.querySelector('input[name="split-mode"]:checked').value;
+    document.getElementById('split-parts-row').style.display = mode === 'parts' ? '' : 'none';
+    document.getElementById('split-range-row').style.display = mode === 'range' ? '' : 'none';
+  };
+  window.runPdfSplit = async () => {
+    if (!file) { output('split-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const mode = document.querySelector('input[name="split-mode"]:checked').value;
+      output('split-out', '⏳ Processando...');
+      if (mode === 'parts') {
+        const n = parseInt(document.getElementById('split-n').value) || 2;
+        const pageCount = await PDFUtils.getPageCount(buf.slice(0));
+        if (n > pageCount) throw new Error(`O PDF tem apenas ${pageCount} páginas.`);
+        const size = Math.ceil(pageCount / n);
+        const ranges = Array.from({ length: n }, (_, i) => {
+          const start = i * size;
+          const end = Math.min(start + size - 1, pageCount - 1);
+          return [start, end];
+        });
+        const parts = await PDFUtils.splitPDF(buf.slice(0), ranges);
+        parts.forEach((p, i) => PDFUtils.download(p, `parte_${i+1}.pdf`));
+        output('split-out', `✅ ${parts.length} arquivo(s) baixado(s).`, 'success');
+      } else {
+        const raw = document.getElementById('split-range').value.trim();
+        const match = raw.match(/^(\d+)-(\d+)$/);
+        if (!match) throw new Error('Formato inválido. Use ex: 1-3');
+        const start = parseInt(match[1]) - 1;
+        const end = parseInt(match[2]) - 1;
+        if (start < 0 || end < start) throw new Error('Intervalo inválido.');
+        const parts = await PDFUtils.splitPDF(buf.slice(0), [[start, end]]);
+        PDFUtils.download(parts[0], `paginas_${raw}.pdf`);
+        output('split-out', `✅ Páginas ${raw} extraídas.`, 'success');
+      }
+    } catch(e) { output('split-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF to Text ----
+TOOLS['pdf-text'] = () => `
+<div class="tool-header"><div class="tool-title">📝 PDF → Texto</div><div class="tool-subtitle">Extrai texto de um PDF usando pdf.js</div></div>
+<div class="form-section">
+  <div class="file-drop" id="ptext-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="ptext-input" accept=".pdf"></div>
+  <div class="file-list" id="ptext-list"></div>
+  <div class="btn-group">${btn('Extrair Texto', 'runPdfText()')}</div>
+</div>
+<div class="form-section">${outBlock('ptext-out', 'Texto Extraído')}</div>`;
+TOOL_INIT['pdf-text'] = () => {
+  let file = null;
+  setupDrop('ptext-drop', 'ptext-input', f => { file = f[0]; fileChips([f[0]], 'ptext-list'); });
+  window.runPdfText = async () => {
+    if (!file) { output('ptext-out', 'Selecione um PDF.', 'error'); return; }
+    output('ptext-out', '⏳ Extraindo texto...');
+    try {
+      const buf = await file.arrayBuffer();
+      const text = await PDFUtils.pdfToText(buf);
+      output('ptext-out', text || '(nenhum texto extraído)', 'success');
+    } catch(e) { output('ptext-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF to Images ----
+TOOLS['pdf-images'] = () => `
+<div class="tool-header"><div class="tool-title">🖼️ PDF → Imagens</div><div class="tool-subtitle">Renderiza cada página como PNG</div></div>
+<div class="form-section">
+  <div class="file-drop" id="pimg-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="pimg-input" accept=".pdf"></div>
+  <div class="file-list" id="pimg-list"></div>
+  <div class="row" style="margin-top:14px">
+    <div><label>Escala (qualidade)</label><input type="number" id="pimg-scale" value="2" min="0.5" max="4" step="0.5"></div>
+    <div><label>Início (pág)</label><input type="number" id="pimg-start" value="1" min="1"></div>
+    <div><label>Fim (pág, 0=todas)</label><input type="number" id="pimg-end" value="0" min="0"></div>
+  </div>
+  <div class="btn-group">${btn('Converter e baixar', 'runPdfImages()')}</div>
+</div>
+<div class="form-section" id="pimg-preview-section" style="display:none"><div id="pimg-preview"></div></div>
+<div class="form-section">${outBlock('pimg-out')}</div>`;
+TOOL_INIT['pdf-images'] = () => {
+  let file = null;
+  setupDrop('pimg-drop', 'pimg-input', f => { file = f[0]; fileChips([f[0]], 'pimg-list'); });
+  window.runPdfImages = async () => {
+    if (!file) { output('pimg-out', 'Selecione um PDF.', 'error'); return; }
+    output('pimg-out', '⏳ Renderizando...');
+    try {
+      const buf = await file.arrayBuffer();
+      const scale = parseFloat(document.getElementById('pimg-scale').value) || 2;
+      const startPage = parseInt(document.getElementById('pimg-start').value) || 1;
+      const endVal = parseInt(document.getElementById('pimg-end').value);
+      const endPage = endVal || null;
+      const imgs = await PDFUtils.pdfToImages(buf, { scale, startPage, endPage });
+      const prev = document.getElementById('pimg-preview');
+      prev.innerHTML = imgs.map((img, i) => `<div style="margin-bottom:8px;font-size:12px;color:var(--text2)">Página ${img.page}</div><img src="${img.dataUrl}" style="max-width:100%;border-radius:8px;border:1px solid var(--border);margin-bottom:16px">`).join('');
+      document.getElementById('pimg-preview-section').style.display = '';
+      imgs.forEach((img, i) => {
+        const a = document.createElement('a');
+        a.href = img.dataUrl; a.download = `page_${img.page}.png`; a.click();
+      });
+      output('pimg-out', `✅ ${imgs.length} imagem(ns) gerada(s) e baixada(s).`, 'success');
+    } catch(e) { output('pimg-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF Rotate ----
+TOOLS['pdf-rotate'] = () => `
+<div class="tool-header"><div class="tool-title">🔄 Rotacionar Páginas</div><div class="tool-subtitle">Rotaciona páginas específicas</div></div>
+<div class="form-section">
+  <div class="file-drop" id="prot-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="prot-input" accept=".pdf"></div>
+  <div class="file-list" id="prot-list"></div>
+  <div class="row" style="margin-top:14px">
+    <div><label>Índices das páginas (JSON, base 0)</label><input type="text" id="prot-pages" placeholder="[0,1,2] ou [0]"></div>
+    <div><label>Graus</label>
+      <select id="prot-deg"><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option><option value="-90">-90°</option></select>
+    </div>
+  </div>
+  <div class="btn-group">${btn('Rotacionar e baixar', 'runPdfRotate()')}</div>
+</div>
+<div class="form-section">${outBlock('prot-out')}</div>`;
+TOOL_INIT['pdf-rotate'] = () => {
+  let file = null;
+  setupDrop('prot-drop', 'prot-input', f => { file = f[0]; fileChips([f[0]], 'prot-list'); });
+  window.runPdfRotate = async () => {
+    if (!file) { output('prot-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const indices = JSON.parse(document.getElementById('prot-pages').value || '[0]');
+      const deg = parseInt(document.getElementById('prot-deg').value);
+      output('prot-out', '⏳ Rotacionando...');
+      const result = await PDFUtils.rotatePages(buf, indices, deg);
+      PDFUtils.download(result, 'rotated.pdf');
+      output('prot-out', `✅ Páginas ${JSON.stringify(indices)} rotacionadas ${deg}°.`, 'success');
+    } catch(e) { output('prot-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF Watermark ----
+TOOLS['pdf-watermark'] = () => `
+<div class="tool-header"><div class="tool-title">💧 Marca d'água</div><div class="tool-subtitle">Adiciona texto diagonal em todas as páginas</div></div>
+<div class="form-section">
+  <div class="file-drop" id="pwm-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="pwm-input" accept=".pdf"></div>
+  <div class="file-list" id="pwm-list"></div>
+  <div class="row" style="margin-top:14px">
+    <div><label>Texto</label><input type="text" id="pwm-text" value="CONFIDENCIAL"></div>
+    <div><label>Tamanho</label><input type="number" id="pwm-size" value="50" min="10" max="200"></div>
+  </div>
+  <div class="row">
+    <div><label>Opacidade (0-1)</label><input type="number" id="pwm-opacity" value="0.25" min="0" max="1" step="0.05"></div>
+    <div><label>Ângulo (graus)</label><input type="number" id="pwm-angle" value="-45"></div>
+    <div><label>Cor (hex)</label><input type="text" id="pwm-color" value="#c80000"></div>
+  </div>
+  <div class="btn-group">${btn('Aplicar e baixar', 'runWatermark()')}</div>
+</div>
+<div class="form-section">${outBlock('pwm-out')}</div>`;
+TOOL_INIT['pdf-watermark'] = () => {
+  let file = null;
+  setupDrop('pwm-drop', 'pwm-input', f => { file = f[0]; fileChips([f[0]], 'pwm-list'); });
+  window.runWatermark = async () => {
+    if (!file) { output('pwm-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const text = document.getElementById('pwm-text').value || 'WATERMARK';
+      const size = parseInt(document.getElementById('pwm-size').value) || 50;
+      const opacity = parseFloat(document.getElementById('pwm-opacity').value) || 0.25;
+      const angle = parseInt(document.getElementById('pwm-angle').value) || -45;
+      const hex = document.getElementById('pwm-color').value.replace('#','');
+      const r = parseInt(hex.slice(0,2),16), g = parseInt(hex.slice(2,4),16), b = parseInt(hex.slice(4,6),16);
+      output('pwm-out', '⏳ Aplicando marca...');
+      const result = await PDFUtils.addWatermark(buf, text, { size, opacity, angle, color:{r,g,b} });
+      PDFUtils.download(result, 'watermarked.pdf');
+      output('pwm-out', '✅ Marca d\'água aplicada!', 'success');
+    } catch(e) { output('pwm-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF Page Numbers ----
+TOOLS['pdf-pagenumbers'] = () => `
+<div class="tool-header"><div class="tool-title">🔢 Numerar Páginas</div><div class="tool-subtitle">Insere números de página no rodapé</div></div>
+<div class="form-section">
+  <div class="file-drop" id="ppn-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="ppn-input" accept=".pdf"></div>
+  <div class="file-list" id="ppn-list"></div>
+  <div class="row" style="margin-top:14px">
+    <div><label>Início</label><input type="number" id="ppn-start" value="1" min="1"></div>
+    <div><label>Prefixo</label><input type="text" id="ppn-prefix" placeholder="Pág. "></div>
+    <div><label>Sufixo</label><input type="text" id="ppn-suffix" placeholder=""></div>
+  </div>
+  <div class="btn-group">${btn('Numerar e baixar', 'runPageNumbers()')}</div>
+</div>
+<div class="form-section">${outBlock('ppn-out')}</div>`;
+TOOL_INIT['pdf-pagenumbers'] = () => {
+  let file = null;
+  setupDrop('ppn-drop', 'ppn-input', f => { file = f[0]; fileChips([f[0]], 'ppn-list'); });
+  window.runPageNumbers = async () => {
+    if (!file) { output('ppn-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const start = parseInt(document.getElementById('ppn-start').value) || 1;
+      const prefix = document.getElementById('ppn-prefix').value;
+      const suffix = document.getElementById('ppn-suffix').value;
+      output('ppn-out', '⏳ Numerando...');
+      const result = await PDFUtils.addPageNumbers(buf, { start, prefix, suffix });
+      PDFUtils.download(result, 'numbered.pdf');
+      output('ppn-out', '✅ Páginas numeradas!', 'success');
+    } catch(e) { output('ppn-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF Compress ----
+TOOLS['pdf-compress'] = () => `
+<div class="tool-header"><div class="tool-title">📦 Comprimir PDF</div><div class="tool-subtitle">Otimiza object streams (sem WASM pesado)</div></div>
+<div class="form-section">
+  <div class="file-drop" id="pcmp-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="pcmp-input" accept=".pdf"></div>
+  <div class="file-list" id="pcmp-list"></div>
+  <div class="btn-group">${btn('Comprimir e baixar', 'runPdfCompress()')}</div>
+</div>
+<div class="form-section">${outBlock('pcmp-out')}</div>`;
+TOOL_INIT['pdf-compress'] = () => {
+  let file = null;
+  setupDrop('pcmp-drop', 'pcmp-input', f => { file = f[0]; fileChips([f[0]], 'pcmp-list'); });
+  window.runPdfCompress = async () => {
+    if (!file) { output('pcmp-out', 'Selecione um PDF.', 'error'); return; }
+    output('pcmp-out', '⏳ Comprimindo...');
+    try {
+      const buf = await file.arrayBuffer();
+      const original = buf.byteLength;
+      const result = await PDFUtils.compress(buf);
+      const saved = original - result.byteLength;
+      PDFUtils.download(result, 'compressed.pdf');
+      output('pcmp-out', `✅ Original: ${FileUtils.formatBytes(original)} → Resultado: ${FileUtils.formatBytes(result.byteLength)}\nRedução: ${FileUtils.formatBytes(Math.abs(saved))} (${(saved/original*100).toFixed(1)}%)`, 'success');
+    } catch(e) { output('pcmp-out', e.message, 'error'); }
+  };
+};
+
+// ---- Images to PDF ----
+TOOLS['img-to-pdf'] = () => `
+<div class="tool-header"><div class="tool-title">🖼️➡️📄 Imagens → PDF</div><div class="tool-subtitle">Converte PNG/JPEG em um PDF de múltiplas páginas</div></div>
+<div class="form-section">
+  <div class="file-drop" id="i2p-drop"><div class="file-drop-icon">🖼️</div><div class="file-drop-text">Arraste <strong>imagens PNG/JPEG</strong> (múltiplas)</div><input type="file" id="i2p-input" accept="image/png,image/jpeg" multiple></div>
+  <div class="file-list" id="i2p-list"></div>
+  <div class="btn-group">${btn('Converter e baixar', 'runImagesToPDF()')}</div>
+</div>
+<div class="form-section">${outBlock('i2p-out')}</div>`;
+TOOL_INIT['img-to-pdf'] = () => {
+  let files = [];
+  setupDrop('i2p-drop', 'i2p-input', f => { files = f; fileChips(f, 'i2p-list'); }, true);
+  window.runImagesToPDF = async () => {
+    if (!files.length) { output('i2p-out', 'Selecione pelo menos uma imagem.', 'error'); return; }
+    output('i2p-out', '⏳ Convertendo...');
+    try {
+      const inputs = await Promise.all(files.map(async f => {
+        const buf = await f.arrayBuffer();
+        const fmt = f.type === 'image/jpeg' ? 'jpeg' : 'png';
+        return { data: buf, format: fmt };
+      }));
+      const pdf = await PDFUtils.imagesToPDF(inputs);
+      PDFUtils.download(pdf, 'images.pdf');
+      output('i2p-out', `✅ PDF com ${files.length} página(s) gerado!`, 'success');
+    } catch(e) { output('i2p-out', e.message, 'error'); }
+  };
+};
+
+// ---- PDF Metadata ----
+TOOLS['pdf-metadata'] = () => `
+<div class="tool-header"><div class="tool-title">ℹ️ Metadados PDF</div><div class="tool-subtitle">Lê e edita título, autor, assunto etc.</div></div>
+<div class="form-section">
+  <div class="file-drop" id="pmeta-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF</strong></div><input type="file" id="pmeta-input" accept=".pdf"></div>
+  <div class="file-list" id="pmeta-list"></div>
+  <div class="btn-group">${btn('Ler Metadados', 'runReadMeta()')} ${btn('Editar e baixar', 'runWriteMeta()', 'btn-secondary')}</div>
+</div>
+<div class="form-section" id="meta-edit" style="display:none">
+  <div class="row"><div><label>Título</label><input type="text" id="meta-title"></div><div><label>Autor</label><input type="text" id="meta-author"></div></div>
+  <div class="row"><div><label>Assunto</label><input type="text" id="meta-subject"></div><div><label>Criador</label><input type="text" id="meta-creator"></div></div>
+</div>
+<div class="form-section">${outBlock('pmeta-out', 'Metadados')}</div>`;
+TOOL_INIT['pdf-metadata'] = () => {
+  let file = null;
+  setupDrop('pmeta-drop', 'pmeta-input', f => { file = f[0]; fileChips([f[0]], 'pmeta-list'); });
+  window.runReadMeta = async () => {
+    if (!file) { output('pmeta-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const meta = await PDFUtils.getPdfLibMetadata(buf);
+      document.getElementById('meta-title').value = meta.title || '';
+      document.getElementById('meta-author').value = meta.author || '';
+      document.getElementById('meta-subject').value = meta.subject || '';
+      document.getElementById('meta-creator').value = meta.creator || '';
+      document.getElementById('meta-edit').style.display = '';
+      output('pmeta-out', JSON.stringify(meta, null, 2), 'success');
+    } catch(e) { output('pmeta-out', e.message, 'error'); }
+  };
+  window.runWriteMeta = async () => {
+    if (!file) { output('pmeta-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const meta = {
+        title: document.getElementById('meta-title').value,
+        author: document.getElementById('meta-author').value,
+        subject: document.getElementById('meta-subject').value,
+        creator: document.getElementById('meta-creator').value
+      };
+      const result = await PDFUtils.setMetadata(buf, meta);
+      PDFUtils.download(result, 'updated_meta.pdf');
+      output('pmeta-out', '✅ Metadados atualizados e arquivo baixado!', 'success');
+    } catch(e) { output('pmeta-out', e.message, 'error'); }
+  };
+};
+
+// ---- OCR Image ----
+TOOLS['ocr-image'] = () => `
+<div class="tool-header"><div class="tool-title">🤖 OCR — Imagem</div><div class="tool-subtitle">Reconhece texto com Tesseract.js</div></div>
+<div class="form-section">
+  <div class="file-drop" id="ocr-drop"><div class="file-drop-icon">🖼️</div><div class="file-drop-text">Arraste uma <strong>imagem</strong></div><input type="file" id="ocr-input" accept="image/*"></div>
+  <div class="file-list" id="ocr-list"></div>
+  <div class="row" style="margin-top:12px">
+    <div><label>Idioma</label><select id="ocr-lang"><option value="por">Português</option><option value="eng">English</option><option value="spa">Español</option></select></div>
+  </div>
+  <div class="btn-group">${btn('Reconhecer Texto', 'runOCR()')}</div>
+</div>
+<div id="ocr-progress" style="display:none;margin-bottom:8px;font-size:13px;color:var(--text2)"></div>
+<div class="form-section">${outBlock('ocr-out', 'Texto Reconhecido')}</div>`;
+TOOL_INIT['ocr-image'] = () => {
+  let file = null;
+  setupDrop('ocr-drop', 'ocr-input', f => { file = f[0]; fileChips([f[0]], 'ocr-list'); });
+  window.runOCR = async () => {
+    if (!file) { output('ocr-out', 'Selecione uma imagem.', 'error'); return; }
+    const prog = document.getElementById('ocr-progress');
+    prog.style.display = '';
+    output('ocr-out', '⏳ Processando OCR...');
+    const lang = document.getElementById('ocr-lang').value;
+    try {
+      const result = await OCRUtils.recognize(file, {
+        lang,
+        logger: m => { prog.textContent = `${m.status} — ${Math.round((m.progress||0)*100)}%`; }
+      });
+      prog.style.display = 'none';
+      output('ocr-out', result.text || '(sem texto)', 'success');
+    } catch(e) { prog.style.display = 'none'; output('ocr-out', e.message, 'error'); }
+  };
+};
+
+// ---- OCR PDF ----
+TOOLS['ocr-pdf'] = () => `
+<div class="tool-header"><div class="tool-title">📄🔍 OCR — PDF</div><div class="tool-subtitle">OCR em cada página de um PDF escaneado</div></div>
+<div class="form-section">
+  <div class="file-drop" id="ocrpdf-drop"><div class="file-drop-icon">📂</div><div class="file-drop-text">Arraste um <strong>PDF escaneado</strong></div><input type="file" id="ocrpdf-input" accept=".pdf"></div>
+  <div class="file-list" id="ocrpdf-list"></div>
+  <div class="row" style="margin-top:12px">
+    <div><label>Idioma</label><select id="ocrpdf-lang"><option value="por">Português</option><option value="eng">English</option></select></div>
+  </div>
+  <div class="btn-group">${btn('Iniciar OCR', 'runOCRPdf()')}</div>
+</div>
+<div id="ocrpdf-progress" style="display:none;margin-bottom:8px;font-size:13px;color:var(--text2)"></div>
+<div class="form-section">${outBlock('ocrpdf-out', 'Texto Reconhecido')}</div>`;
+TOOL_INIT['ocr-pdf'] = () => {
+  let file = null;
+  setupDrop('ocrpdf-drop', 'ocrpdf-input', f => { file = f[0]; fileChips([f[0]], 'ocrpdf-list'); });
+  window.runOCRPdf = async () => {
+    if (!file) { output('ocrpdf-out', 'Selecione um PDF.', 'error'); return; }
+    const prog = document.getElementById('ocrpdf-progress');
+    prog.style.display = '';
+    output('ocrpdf-out', '⏳ Iniciando OCR (pode demorar)...');
+    const lang = document.getElementById('ocrpdf-lang').value;
+    try {
+      const buf = await file.arrayBuffer();
+      const pages = await OCRUtils.recognizePDF(buf, { lang, logger: m => { prog.textContent = `${m.status} ${Math.round((m.progress||0)*100)}%`; } });
+      prog.style.display = 'none';
+      const text = pages.map(p => `--- Página ${p.page} ---\n${p.text}`).join('\n\n');
+      output('ocrpdf-out', text || '(sem texto)', 'success');
+    } catch(e) { prog.style.display = 'none'; output('ocrpdf-out', e.message, 'error'); }
+  };
+};
+
+// ---- XML NFe ----
+TOOLS['xml-nfe'] = () => `
+<div class="tool-header"><div class="tool-title">🧾 Parser NFe</div><div class="tool-subtitle">Extrai dados estruturados de XML de NF-e</div></div>
+<div class="form-section">
+  <label>Cole o XML da NFe ou carregue o arquivo</label>
+  <div class="file-drop" id="nfe-drop" style="padding:16px"><div class="file-drop-text">Arraste um <strong>XML</strong></div><input type="file" id="nfe-input" accept=".xml"></div>
+  <textarea id="nfe-xml" placeholder="Ou cole o XML aqui..." style="margin-top:10px;min-height:120px"></textarea>
+  <div class="btn-group">${btn('Parsear NFe', 'runNFe()')}</div>
+</div>
+<div class="form-section">${outBlock('nfe-out', 'Dados da NFe (JSON)')}</div>`;
+TOOL_INIT['xml-nfe'] = () => {
+  setupDrop('nfe-drop', 'nfe-input', async f => {
+    const text = await f[0].text();
+    document.getElementById('nfe-xml').value = text;
+  });
+  window.runNFe = () => {
+    const xml = document.getElementById('nfe-xml').value;
+    if (!xml.trim()) { output('nfe-out', 'Forneça o XML.', 'error'); return; }
+    try {
+      const result = XMLUtils.parseNFe(xml);
+      output('nfe-out', JSON.stringify(result, null, 2), 'success');
+    } catch(e) { output('nfe-out', e.message, 'error'); }
+  };
+};
+
+// ---- XML CTe ----
+TOOLS['xml-cte'] = () => `
+<div class="tool-header"><div class="tool-title">🚚 Parser CT-e</div><div class="tool-subtitle">Extrai dados estruturados de XML de CT-e</div></div>
+<div class="form-section">
+  <div class="file-drop" id="cte-drop" style="padding:16px"><div class="file-drop-text">Arraste um <strong>XML CT-e</strong></div><input type="file" id="cte-input" accept=".xml"></div>
+  <textarea id="cte-xml" placeholder="Ou cole o XML aqui..." style="margin-top:10px;min-height:120px"></textarea>
+  <div class="btn-group">${btn('Parsear CT-e', 'runCTe()')}</div>
+</div>
+<div class="form-section">${outBlock('cte-out', 'Dados do CT-e (JSON)')}</div>`;
+TOOL_INIT['xml-cte'] = () => {
+  setupDrop('cte-drop', 'cte-input', async f => {
+    document.getElementById('cte-xml').value = await f[0].text();
+  });
+  window.runCTe = () => {
+    const xml = document.getElementById('cte-xml').value;
+    if (!xml.trim()) { output('cte-out', 'Forneça o XML.', 'error'); return; }
+    try {
+      output('cte-out', JSON.stringify(XMLUtils.parseCTe(xml), null, 2), 'success');
+    } catch(e) { output('cte-out', e.message, 'error'); }
+  };
+};
+
+// ---- SPED ----
+TOOLS['sped'] = () => `
+<div class="tool-header"><div class="tool-title">📋 Parser SPED</div><div class="tool-subtitle">Processa arquivo EFD/SPED Fiscal</div></div>
+<div class="form-section">
+  <div class="file-drop" id="sped-drop" style="padding:16px"><div class="file-drop-text">Arraste o arquivo <strong>SPED (.txt)</strong></div><input type="file" id="sped-input" accept=".txt"></div>
+  <textarea id="sped-text" placeholder="Ou cole o conteúdo aqui..." style="margin-top:10px;min-height:80px"></textarea>
+  <div class="btn-group">${btn('Parsear SPED', 'runSPED()')} ${btn('Só reg. C100', 'runSPEDC100()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('sped-out')}</div>`;
+TOOL_INIT['sped'] = () => {
+  setupDrop('sped-drop', 'sped-input', async f => {
+    document.getElementById('sped-text').value = await FileUtils.readAsText(f[0], 'UTF-8').catch(() => f[0].text());
+  });
+  window.runSPED = () => {
+    const text = document.getElementById('sped-text').value;
+    if (!text.trim()) { output('sped-out', 'Forneça o arquivo.', 'error'); return; }
+    try {
+      output('sped-out', JSON.stringify(SPEDUtils.toJSON(text), null, 2), 'success');
+    } catch(e) { output('sped-out', e.message, 'error'); }
+  };
+  window.runSPEDC100 = () => {
+    const text = document.getElementById('sped-text').value;
+    if (!text.trim()) { output('sped-out', 'Forneça o arquivo.', 'error'); return; }
+    try {
+      const parsed = SPEDUtils.parse(text);
+      output('sped-out', JSON.stringify(SPEDUtils.getRegC100List(parsed), null, 2), 'success');
+    } catch(e) { output('sped-out', e.message, 'error'); }
+  };
+};
+
+// ---- Validate CPF ----
+// ---- Multi Validator (CPF, CNPJ, PIS, RENAVAM, OAB, CNJ, CEP, IE) ----
+TOOLS['validate-multi'] = () => `
+<div class="tool-header"><div class="tool-title">✔️ Validadores BR</div><div class="tool-subtitle">CPF, CNPJ, PIS, RENAVAM, OAB, CNJ, CEP, IE — valida e gera</div></div>
+<div class="form-section">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('mv','cpf',this)">CPF</button>
+    <button class="tab" onclick="switchTab('mv','cnpj',this)">CNPJ</button>
+    <button class="tab" onclick="switchTab('mv','pis',this)">PIS</button>
+    <button class="tab" onclick="switchTab('mv','renavam',this)">RENAVAM</button>
+    <button class="tab" onclick="switchTab('mv','oab',this)">OAB</button>
+    <button class="tab" onclick="switchTab('mv','cnj',this)">CNJ</button>
+    <button class="tab" onclick="switchTab('mv','cep',this)">CEP</button>
+    <button class="tab" onclick="switchTab('mv','ie',this)">IE</button>
+  </div>
+  <div id="mv-cpf" class="tab-content active">
+    <label>CPF (com ou sem máscara)</label>
+    <input type="text" id="cpf-in" placeholder="000.000.000-00" oninput="runValidateField('cpf','validateCPF',this.value)">
+    <div class="btn-group">${btn('Gerar CPF válido', 'genCPF()', 'btn-secondary')}</div>
+    <div style="margin-top:10px" id="cpf-gen"></div>
+  </div>
+  <div id="mv-cnpj" class="tab-content">
+    <label>CNPJ</label>
+    <input type="text" id="cnpj-in" placeholder="00.000.000/0000-00" oninput="runValidateField('cnpj','validateCNPJ',this.value)">
+    <div class="btn-group">${btn('Gerar CNPJ válido', 'genCNPJ()', 'btn-secondary')}</div>
+    <div style="margin-top:10px" id="cnpj-gen"></div>
+  </div>
+  <div id="mv-pis" class="tab-content"><label>PIS/PASEP/NIT</label><input type="text" id="pis-in" placeholder="000.00000.00-0" oninput="runValidateField('pis','validatePIS',this.value)"></div>
+  <div id="mv-renavam" class="tab-content"><label>RENAVAM (11 dígitos)</label><input type="text" id="renavam-in" placeholder="00000000000" oninput="runValidateField('renavam','validateRENAVAM',this.value)"></div>
+  <div id="mv-oab" class="tab-content"><label>OAB (ex: SP123456A)</label><input type="text" id="oab-in" placeholder="SP000000A" oninput="runValidateField('oab','validateOAB',this.value)"></div>
+  <div id="mv-cnj" class="tab-content"><label>CNJ (ex: 0000001-00.2020.8.SP.0001)</label><input type="text" id="cnj-in" placeholder="0000000-00.0000.0.AB.0000" oninput="runValidateField('cnj','validateCNJ',this.value)"></div>
+  <div id="mv-cep" class="tab-content"><label>CEP</label><input type="text" id="cep-in" placeholder="00000-000" oninput="runValidateField('cep','validateCEP',this.value)"></div>
+  <div id="mv-ie" class="tab-content"><label>Inscrição Estadual</label><div class="row"><div><input type="text" id="ie-in" placeholder="IE"></div><div><select id="ie-uf"><option value="SP">SP</option><option value="MG">MG</option><option value="RJ">RJ</option><option value="RS">RS</option><option value="SC">SC</option><option value="">Outro</option></select></div></div><button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="runIE()">Validar</button></div>
+  <div style="margin-top:14px" id="mv-result"></div>
+</div>`;
+TOOL_INIT['validate-multi'] = () => {
+  window.runValidateField = (label, method, value) => {
+    if (!value.trim()) { document.getElementById('mv-result').innerHTML = ''; return; }
+    const valid = ValidatorUtils[method](value);
+    document.getElementById('mv-result').innerHTML = `<span class="badge ${valid ? 'badge-green' : 'badge-red'}">${valid ? `✅ ${label.toUpperCase()} Válido` : `❌ ${label.toUpperCase()} Inválido`}</span>`;
+  };
+  window.runIE = () => {
+    const ie = document.getElementById('ie-in').value;
+    const uf = document.getElementById('ie-uf').value;
+    const valid = ValidatorUtils.validateIE(ie, uf);
+    document.getElementById('mv-result').innerHTML = `<span class="badge ${valid ? 'badge-green' : 'badge-red'}">${valid ? '✅ IE Válida' : '❌ IE Inválida'}</span>`;
+  };
+  window.genCPF = () => {
+    const d = Array.from({length: 9}, () => Math.floor(Math.random() * 10));
+    let s = d.reduce((a, v, i) => a + v * (10 - i), 0), r = (s * 10) % 11;
+    d.push(r === 10 ? 0 : r);
+    s = d.reduce((a, v, i) => a + v * (11 - i), 0); r = (s * 10) % 11;
+    d.push(r === 10 ? 0 : r);
+    const cpf = `${d.slice(0,3).join('')}.${d.slice(3,6).join('')}.${d.slice(6,9).join('')}-${d.slice(9).join('')}`;
+    document.getElementById('cpf-in').value = cpf;
+    document.getElementById('cpf-gen').innerHTML = `<code style="font-size:15px;color:var(--green)">${cpf}</code>`;
+    runValidateField('cpf', 'validateCPF', cpf);
+  };
+  window.genCNPJ = () => {
+    const b = [...Array.from({length: 8}, () => Math.floor(Math.random() * 10)), 0, 0, 0, 1];
+    const dv = base => { let pos = 2, s = 0; for (let i = base.length-1; i >= 0; i--) { s += base[i] * pos; pos = pos === 9 ? 2 : pos + 1; } const m = s % 11; return m < 2 ? 0 : 11 - m; };
+    const d1 = dv(b), d2 = dv([...b, d1]);
+    const raw = [...b, d1, d2];
+    const cnpj = `${raw.slice(0,2).join('')}.${raw.slice(2,5).join('')}.${raw.slice(5,8).join('')}/${raw.slice(8,12).join('')}-${raw.slice(12).join('')}`;
+    document.getElementById('cnpj-in').value = cnpj;
+    document.getElementById('cnpj-gen').innerHTML = `<code style="font-size:15px;color:var(--green)">${cnpj}</code>`;
+    runValidateField('cnpj', 'validateCNPJ', cnpj);
+  };
+};
+
+// ---- Extract All ----
+TOOLS['extract-all'] = () => `
+<div class="tool-header"><div class="tool-title">🗂️ Extrair Tudo</div><div class="tool-subtitle">CPF, CNPJ, CEP, CNJ, OAB, e-mails, telefones</div></div>
+<div class="form-section">
+  <label>Cole o texto</label>
+  <textarea id="ext-text" placeholder="Cole aqui qualquer texto com CPFs, CNPJs, e-mails..." style="min-height:160px"></textarea>
+  <div class="btn-group">${btn('Extrair', 'runExtract()')}</div>
+</div>
+<div class="form-section">${outBlock('ext-out', 'Dados Extraídos (JSON)')}</div>`;
+TOOL_INIT['extract-all'] = () => {
+  window.runExtract = () => {
+    const text = document.getElementById('ext-text').value;
+    if (!text.trim()) { output('ext-out', 'Cole algum texto.', 'error'); return; }
+    const result = ExtractorUtils.extractAll(text);
+    output('ext-out', JSON.stringify(result, null, 2), 'success');
+  };
+};
+
+// ---- QR Gen ----
+TOOLS['qr-gen'] = () => `
+<div class="tool-header"><div class="tool-title">📱 Gerar QR Code</div><div class="tool-subtitle">Cria QR Code em PNG</div></div>
+<div class="form-section">
+  <label>Texto ou URL</label>
+  <input type="text" id="qr-text" placeholder="https://exemplo.com.br" oninput="liveQR()">
+  <div class="row" style="margin-top:12px">
+    <div><label>Tamanho (px)</label><input type="number" id="qr-size" value="200" min="64" max="512" oninput="liveQR()"></div>
+    <div><label>Cor escura</label><input type="text" id="qr-dark" value="#000000" oninput="liveQR()"></div>
+    <div><label>Cor clara</label><input type="text" id="qr-light" value="#ffffff" oninput="liveQR()"></div>
+  </div>
+</div>
+<div class="form-section" style="text-align:center">
+  <div id="qr-output" style="display:inline-block;padding:16px;background:white;border-radius:8px;margin-bottom:12px"></div>
+  <div><button class="btn btn-secondary btn-sm" onclick="downloadQR()">⬇️ Baixar PNG</button></div>
+</div>`;
+TOOL_INIT['qr-gen'] = () => {
+  let debounce;
+  window.liveQR = () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(generateQR, 300);
+  };
+  function generateQR() {
+    const text = document.getElementById('qr-text').value.trim();
+    if (!text) return;
+    const size = parseInt(document.getElementById('qr-size').value) || 200;
+    const dark = document.getElementById('qr-dark').value;
+    const light = document.getElementById('qr-light').value;
+    const container = document.getElementById('qr-output');
+    container.style.display = 'inline-block';
+    container.innerHTML = '';
+    try {
+      new QRCode(container, { text, width: size, height: size, colorDark: dark, colorLight: light, correctLevel: QRCode.CorrectLevel.H });
+    } catch(e) { container.textContent = e.message; }
+  }
+  window.downloadQR = () => {
+    const img = document.querySelector('#qr-output img');
+    if (!img) { generateQR(); setTimeout(downloadQR, 500); return; }
+    const a = document.createElement('a');
+    a.href = img.src; a.download = 'qrcode.png'; a.click();
+  };
+};
+
+// ---- QR Read ----
+TOOLS['qr-read'] = () => `
+<div class="tool-header"><div class="tool-title">📷 Ler QR Code</div><div class="tool-subtitle">Decodifica QR Code de uma imagem</div></div>
+<div class="form-section">
+  <div class="file-drop" id="qrr-drop"><div class="file-drop-icon">🖼️</div><div class="file-drop-text">Arraste uma <strong>imagem com QR Code</strong></div><input type="file" id="qrr-input" accept="image/*"></div>
+  <div class="file-list" id="qrr-list"></div>
+  <div class="btn-group">${btn('Decodificar', 'runQRRead()')}</div>
+</div>
+<div class="form-section">${outBlock('qrr-out')}</div>`;
+TOOL_INIT['qr-read'] = () => {
+  let file = null;
+  setupDrop('qrr-drop', 'qrr-input', f => { file = f[0]; fileChips([f[0]], 'qrr-list'); });
+  window.runQRRead = async () => {
+    if (!file) { output('qrr-out', 'Selecione uma imagem.', 'error'); return; }
+    try {
+      const result = await QRUtils.readFromFile(file);
+      if (result) output('qrr-out', `✅ Decodificado:\n${result.text}`, 'success');
+      else output('qrr-out', '❌ Nenhum QR Code encontrado na imagem.', 'error');
+    } catch(e) { output('qrr-out', e.message, 'error'); }
+  };
+};
+
+// ---- Barcode ----
+TOOLS['barcode-gen'] = () => `
+<div class="tool-header"><div class="tool-title">📊 Gerar Código de Barras</div><div class="tool-subtitle">CODE128, EAN-13, CODE39 e outros</div></div>
+<div class="form-section">
+  <div class="row">
+    <div><label>Dados</label><input type="text" id="bc-data" placeholder="123456789012" oninput="liveBarcode()"></div>
+    <div><label>Formato</label><select id="bc-format" onchange="liveBarcode()"><option>CODE128</option><option>EAN13</option><option>EAN8</option><option>CODE39</option><option>UPC</option><option>ITF14</option></select></div>
+  </div>
+  <div class="row">
+    <div><label>Altura (px)</label><input type="number" id="bc-height" value="80" min="20" max="300" oninput="liveBarcode()"></div>
+    <div><label>Largura linha</label><input type="number" id="bc-width" value="2" min="1" max="5" oninput="liveBarcode()"></div>
+  </div>
+</div>
+<div class="form-section" style="text-align:center">
+  <div id="bc-output" style="background:white;padding:16px;border-radius:8px;display:inline-block;min-height:60px"></div>
+  <div style="margin-top:12px"><button class="btn btn-secondary btn-sm" onclick="downloadBarcode()">⬇️ Baixar SVG</button></div>
+</div>`;
+TOOL_INIT['barcode-gen'] = () => {
+  let debounce;
+  window.liveBarcode = () => { clearTimeout(debounce); debounce = setTimeout(generateBarcode, 300); };
+  function generateBarcode() {
+    const data = document.getElementById('bc-data').value.trim();
+    if (!data) return;
+    const format = document.getElementById('bc-format').value;
+    const height = parseInt(document.getElementById('bc-height').value) || 80;
+    const width = parseInt(document.getElementById('bc-width').value) || 2;
+    const container = document.getElementById('bc-output');
+    container.innerHTML = '<svg id="barcode-svg"></svg>';
+    try {
+      JsBarcode('#barcode-svg', data, { format, height, width, displayValue: true, fontSize: 14 });
+    } catch(e) { container.innerHTML = `<span style="color:red;font-size:13px">${e.message}</span>`; }
+  }
+  window.downloadBarcode = () => {
+    const svg = document.getElementById('barcode-svg');
+    if (!svg) return;
+    const source = new XMLSerializer().serializeToString(svg);
+    const a = document.createElement('a');
+    a.href = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source);
+    a.download = 'barcode.svg'; a.click();
+  };
+};
+
+// ---- Hash ----
+TOOLS['hash'] = () => `
+<div class="tool-header"><div class="tool-title">🔑 Calculadora de Hash</div><div class="tool-subtitle">SHA-256, SHA-1, MD5, HMAC-SHA256</div></div>
+<div class="form-section">
+  <label>Texto de entrada</label>
+  <textarea id="hash-in" placeholder="Digite ou cole o texto..." style="min-height:80px" oninput="runHashes()"></textarea>
+  <label style="margin-top:12px">Chave HMAC (opcional)</label>
+  <input type="text" id="hash-hmac-key" placeholder="chave secreta" oninput="runHashes()">
+</div>
+<div class="form-section">
+  <div class="output-label">SHA-256 <button class="copy-btn" onclick="copyText('h-sha256')">📋</button></div><div class="output-box" id="h-sha256"></div>
+  <div class="output-label" style="margin-top:10px">SHA-1 <button class="copy-btn" onclick="copyText('h-sha1')">📋</button></div><div class="output-box" id="h-sha1"></div>
+  <div class="output-label" style="margin-top:10px">MD5 <button class="copy-btn" onclick="copyText('h-md5')">📋</button></div><div class="output-box" id="h-md5"></div>
+  <div class="output-label" style="margin-top:10px">HMAC-SHA256 <button class="copy-btn" onclick="copyText('h-hmac')">📋</button></div><div class="output-box" id="h-hmac"></div>
+</div>`;
+TOOL_INIT['hash'] = () => {
+  let debounce;
+  window.runHashes = () => { clearTimeout(debounce); debounce = setTimeout(computeHashes, 200); };
+  async function computeHashes() {
+    const text = document.getElementById('hash-in').value;
+    const key = document.getElementById('hash-hmac-key').value;
+    if (!text) return;
+    document.getElementById('h-sha256').textContent = await HashUtils.sha256(text);
+    document.getElementById('h-sha1').textContent = await HashUtils.sha1(text);
+    document.getElementById('h-md5').textContent = HashUtils.md5(text);
+    if (key) document.getElementById('h-hmac').textContent = await HashUtils.hmacSHA256(key, text);
+    else document.getElementById('h-hmac').textContent = '(forneça uma chave HMAC)';
+  }
+};
+
+// ---- JWT ----
+TOOLS['jwt'] = () => `
+<div class="tool-header"><div class="tool-title">🎫 Inspector JWT</div><div class="tool-subtitle">Decodifica e analisa tokens JWT</div></div>
+<div class="form-section">
+  <label>Token JWT</label>
+  <textarea id="jwt-in" placeholder="eyJ..." style="min-height:80px;word-break:break-all" oninput="runJWT()"></textarea>
+</div>
+<div class="form-section">${outBlock('jwt-out', 'Análise JWT')}</div>`;
+TOOL_INIT['jwt'] = () => {
+  window.runJWT = () => {
+    const token = document.getElementById('jwt-in').value.trim();
+    if (!token) { output('jwt-out', ''); return; }
+    try {
+      const data = JWTInspector.inspect(token);
+      const { analysis } = data;
+      const expiredBadge = analysis.isExpired === true ? '❌ EXPIRADO' : analysis.isExpired === false ? '✅ VÁLIDO' : '';
+      output('jwt-out', `${expiredBadge ? expiredBadge + '\n\n' : ''}${JSON.stringify(data, null, 2)}`, analysis.isExpired ? 'error' : 'success');
+    } catch(e) { output('jwt-out', e.message, 'error'); }
+  };
+};
+
+// ---- Base64 ----
+TOOLS['base64'] = () => `
+<div class="tool-header"><div class="tool-title">🔠 Base64</div><div class="tool-subtitle">Codifica e decodifica Base64 / URL-safe</div></div>
+<div class="form-section">
+  <label>Texto</label>
+  <textarea id="b64-in" placeholder="Texto para codificar..." style="min-height:80px"></textarea>
+  <div class="checkbox-row" style="margin-top:10px">
+    <label><input type="checkbox" id="b64-urlsafe"> URL-safe</label>
+  </div>
+  <div class="btn-group">${btn('Codificar ▶', 'runB64Encode()')} ${btn('◀ Decodificar', 'runB64Decode()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('b64-out', 'Resultado')}</div>`;
+TOOL_INIT['base64'] = () => {
+  window.runB64Encode = () => {
+    const text = document.getElementById('b64-in').value;
+    const urlSafe = document.getElementById('b64-urlsafe').checked;
+    try { output('b64-out', Base64Utils.encode(text, urlSafe), 'success'); } catch(e) { output('b64-out', e.message, 'error'); }
+  };
+  window.runB64Decode = () => {
+    const text = document.getElementById('b64-in').value.trim();
+    try { output('b64-out', Base64Utils.decode(text), 'success'); } catch(e) { output('b64-out', e.message, 'error'); }
+  };
+};
+
+// ---- Password Generator ----
+TOOLS['password-gen'] = () => `
+<div class="tool-header"><div class="tool-title">🔒 Gerador de Senha</div><div class="tool-subtitle">Senhas criptograficamente seguras</div></div>
+<div class="form-section">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('pg','password',this)">Senha</button>
+    <button class="tab" onclick="switchTab('pg','passphrase',this)">Passphrase</button>
+  </div>
+  <div id="pg-password" class="tab-content active">
+    <label>Tamanho: <strong id="pg-len-label">16</strong></label>
+    <input type="range" id="pg-len" min="8" max="64" value="16" oninput="document.getElementById('pg-len-label').textContent=this.value">
+    <div class="checkbox-row" style="margin-top:12px">
+      <label><input type="checkbox" id="pg-upper" checked> Maiúsculas</label>
+      <label><input type="checkbox" id="pg-lower" checked> Minúsculas</label>
+      <label><input type="checkbox" id="pg-nums" checked> Números</label>
+      <label><input type="checkbox" id="pg-syms" checked> Símbolos</label>
+      <label><input type="checkbox" id="pg-nosim"> Excluir similares (0O1lI)</label>
+    </div>
+    <div class="btn-group" style="margin-top:14px">${btn('Gerar', 'runGenPass()')} ${btn('Gerar 5', 'runGenPassBulk()', 'btn-secondary')}</div>
+  </div>
+  <div id="pg-passphrase" class="tab-content">
+    <div class="row">
+      <div><label>Nº de palavras</label><input type="number" id="pg-words" value="4" min="3" max="8"></div>
+      <div><label>Separador</label><input type="text" id="pg-sep" value="-" maxlength="3"></div>
+    </div>
+    <div class="checkbox-row" style="margin-top:10px">
+      <label><input type="checkbox" id="pg-cap" checked> Capitalizar</label>
+      <label><input type="checkbox" id="pg-num" checked> Incluir número</label>
+    </div>
+    <div class="btn-group" style="margin-top:14px">${btn('Gerar Passphrase', 'runGenPhrase()')} ${btn('Gerar 5', 'runGenPhraseBulk()', 'btn-secondary')}</div>
+  </div>
+</div>
+<div class="form-section">${outBlock('pg-out')}</div>`;
+TOOL_INIT['password-gen'] = () => {
+  window.runGenPass = () => {
+    try {
+      const pw = PasswordUtils.generate({
+        length: parseInt(document.getElementById('pg-len').value),
+        uppercase: document.getElementById('pg-upper').checked,
+        lowercase: document.getElementById('pg-lower').checked,
+        numbers: document.getElementById('pg-nums').checked,
+        symbols: document.getElementById('pg-syms').checked,
+        excludeSimilar: document.getElementById('pg-nosim').checked
+      });
+      output('pg-out', pw, 'success');
+    } catch(e) { output('pg-out', e.message, 'error'); }
+  };
+  window.runGenPassBulk = () => {
+    try {
+      const opts = {
+        length: parseInt(document.getElementById('pg-len').value),
+        uppercase: document.getElementById('pg-upper').checked,
+        lowercase: document.getElementById('pg-lower').checked,
+        numbers: document.getElementById('pg-nums').checked,
+        symbols: document.getElementById('pg-syms').checked,
+        excludeSimilar: document.getElementById('pg-nosim').checked
+      };
+      output('pg-out', PasswordUtils.generateBulk(5, opts).join('\n'), 'success');
+    } catch(e) { output('pg-out', e.message, 'error'); }
+  };
+  window.runGenPhrase = () => {
+    try {
+      const pp = PasswordUtils.passphrase({
+        words: parseInt(document.getElementById('pg-words').value),
+        separator: document.getElementById('pg-sep').value,
+        capitalize: document.getElementById('pg-cap').checked,
+        includeNumber: document.getElementById('pg-num').checked
+      });
+      output('pg-out', pp, 'success');
+    } catch(e) { output('pg-out', e.message, 'error'); }
+  };
+  window.runGenPhraseBulk = () => {
+    try {
+      const opts = {
+        words: parseInt(document.getElementById('pg-words').value),
+        separator: document.getElementById('pg-sep').value,
+        capitalize: document.getElementById('pg-cap').checked,
+        includeNumber: document.getElementById('pg-num').checked
+      };
+      const phrases = Array.from({length:5}, () => PasswordUtils.passphrase(opts));
+      output('pg-out', phrases.join('\n'), 'success');
+    } catch(e) { output('pg-out', e.message, 'error'); }
+  };
+};
+
+// ---- Password Strength ----
+TOOLS['password-strength'] = () => `
+<div class="tool-header"><div class="tool-title">💪 Força de Senha</div><div class="tool-subtitle">Entropia, tempo de crack e feedback</div></div>
+<div class="form-section">
+  <label>Senha</label>
+  <input type="text" id="ps-in" placeholder="Digite a senha..." oninput="runStrength()">
+  <div id="ps-bar-wrap" style="margin-top:12px;display:none">
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+      <span id="ps-label" style="font-size:14px;font-weight:600"></span>
+      <span id="ps-entropy" style="font-size:12px;color:var(--text2)"></span>
+    </div>
+    <div class="strength-bar"><div class="strength-fill" id="ps-bar"></div></div>
+    <div id="ps-crack" style="font-size:12px;color:var(--text2);margin-top:6px"></div>
+    <div id="ps-feedback" style="margin-top:10px;font-size:13px"></div>
+  </div>
+</div>`;
+TOOL_INIT['password-strength'] = () => {
+  const colors = ['#ef4444','#f97316','#eab308','#84cc16','#22c55e','#10b981'];
+  window.runStrength = () => {
+    const val = document.getElementById('ps-in').value;
+    const wrap = document.getElementById('ps-bar-wrap');
+    if (!val) { wrap.style.display = 'none'; return; }
+    const r = PasswordStrength.check(val);
+    const common = PasswordStrength.isCommon(val);
+    wrap.style.display = '';
+    document.getElementById('ps-label').textContent = common ? '⚠️ Senha Comum!' : r.label;
+    document.getElementById('ps-label').style.color = common ? '#f97316' : colors[r.score];
+    document.getElementById('ps-entropy').textContent = `${r.entropy} bits — ${r.length} chars`;
+    document.getElementById('ps-crack').textContent = `Tempo estimado de crack: ${r.crackTime}`;
+    const bar = document.getElementById('ps-bar');
+    bar.style.width = `${(r.score / 5) * 100}%`;
+    bar.style.background = colors[r.score];
+    document.getElementById('ps-feedback').innerHTML = r.feedback.map(f => `<div style="color:var(--text2)">• ${f}</div>`).join('');
+  };
+};
+
+// ---- XLSX Parse ----
+TOOLS['xlsx-parse'] = () => `
+<div class="tool-header"><div class="tool-title">📥 XLSX → JSON/CSV</div><div class="tool-subtitle">Converte planilha Excel</div></div>
+<div class="form-section">
+  <div class="file-drop" id="xlsx-drop"><div class="file-drop-icon">📊</div><div class="file-drop-text">Arraste um arquivo <strong>.xlsx</strong></div><input type="file" id="xlsx-input" accept=".xlsx,.xls,.csv"></div>
+  <div class="file-list" id="xlsx-list"></div>
+  <div class="btn-group">${btn('→ JSON', 'runXlsxJSON()')} ${btn('→ CSV', 'runXlsxCSV()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('xlsx-out')}</div>`;
+TOOL_INIT['xlsx-parse'] = () => {
+  let file = null;
+  setupDrop('xlsx-drop', 'xlsx-input', f => { file = f[0]; fileChips([f[0]], 'xlsx-list'); });
+  window.runXlsxJSON = async () => {
+    if (!file) { output('xlsx-out', 'Selecione um arquivo.', 'error'); return; }
+    try {
+      const data = await XLSXUtils.xlsxToJSON(file);
+      output('xlsx-out', JSON.stringify(data, null, 2), 'success');
+    } catch(e) { output('xlsx-out', e.message, 'error'); }
+  };
+  window.runXlsxCSV = async () => {
+    if (!file) { output('xlsx-out', 'Selecione um arquivo.', 'error'); return; }
+    try {
+      const csv = await XLSXUtils.xlsxToCSV(file);
+      output('xlsx-out', csv, 'success');
+    } catch(e) { output('xlsx-out', e.message, 'error'); }
+  };
+};
+
+// ---- CSV JSON ----
+TOOLS['csv-json'] = () => `
+<div class="tool-header"><div class="tool-title">🔁 CSV ↔ JSON</div><div class="tool-subtitle">Conversão bidirecional</div></div>
+<div class="form-section">
+  <label>CSV ou JSON (detectado automaticamente)</label>
+  <textarea id="csvjson-in" placeholder="Cole CSV ou JSON aqui..." style="min-height:160px"></textarea>
+  <div class="btn-group">${btn('CSV → JSON', 'runCSVtoJSON()')} ${btn('JSON → CSV', 'runJSONtoCSV()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('csvjson-out')}</div>`;
+TOOL_INIT['csv-json'] = () => {
+  window.runCSVtoJSON = () => {
+    const text = document.getElementById('csvjson-in').value.trim();
+    try { output('csvjson-out', JSON.stringify(XLSXUtils.csvToJSON(text), null, 2), 'success'); } catch(e) { output('csvjson-out', e.message, 'error'); }
+  };
+  window.runJSONtoCSV = () => {
+    const text = document.getElementById('csvjson-in').value.trim();
+    try {
+      const arr = JSON.parse(text);
+      output('csvjson-out', XLSXUtils.jsonToCSV(Array.isArray(arr) ? arr : [arr]), 'success');
+    } catch(e) { output('csvjson-out', e.message, 'error'); }
+  };
+};
+
+// ---- JSON to XLSX ----
+TOOLS['json-xlsx'] = () => `
+<div class="tool-header"><div class="tool-title">📤 JSON → XLSX</div><div class="tool-subtitle">Exporta array JSON para Excel</div></div>
+<div class="form-section">
+  <label>JSON (array de objetos)</label>
+  <textarea id="jxlsx-in" placeholder='[{"nome":"João","idade":30},{"nome":"Maria","idade":25}]' style="min-height:120px"></textarea>
+  <div class="btn-group">${btn('Baixar XLSX', 'runJSONtoXLSX()')}</div>
+</div>
+<div class="form-section">${outBlock('jxlsx-out')}</div>`;
+TOOL_INIT['json-xlsx'] = () => {
+  window.runJSONtoXLSX = () => {
+    const text = document.getElementById('jxlsx-in').value.trim();
+    try {
+      const arr = JSON.parse(text);
+      const buf = XLSXUtils.jsonToXLSX(Array.isArray(arr) ? arr : [arr]);
+      XLSXUtils.downloadXLSX(buf, 'export.xlsx');
+      output('jxlsx-out', `✅ Arquivo baixado com ${Array.isArray(arr)?arr.length:1} linha(s).`, 'success');
+    } catch(e) { output('jxlsx-out', e.message, 'error'); }
+  };
+};
+
+// ---- UUID ----
+TOOLS['uuid'] = () => `
+<div class="tool-header"><div class="tool-title">🆔 UUID Generator</div><div class="tool-subtitle">Gera e valida UUIDs v4</div></div>
+<div class="form-section">
+  <div class="row">
+    <div><label>Quantidade</label><input type="number" id="uuid-count" value="5" min="1" max="100"></div>
+  </div>
+  <div class="btn-group">${btn('Gerar UUIDs', 'runUUID()')}</div>
+  <hr>
+  <label>Validar UUID</label>
+  <input type="text" id="uuid-val" placeholder="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx" oninput="runUUIDVal()">
+  <div style="margin-top:8px" id="uuid-val-result"></div>
+</div>
+<div class="form-section">${outBlock('uuid-out')}</div>`;
+TOOL_INIT['uuid'] = () => {
+  window.runUUID = () => {
+    const n = parseInt(document.getElementById('uuid-count').value) || 5;
+    output('uuid-out', UUIDUtils.generateBulk(n).join('\n'), 'success');
+  };
+  window.runUUIDVal = () => {
+    const val = document.getElementById('uuid-val').value.trim();
+    if (!val) { document.getElementById('uuid-val-result').innerHTML = ''; return; }
+    const valid = UUIDUtils.validate(val);
+    document.getElementById('uuid-val-result').innerHTML = `<span class="badge ${valid?'badge-green':'badge-red'}">${valid?'✅ UUID Válido':'❌ UUID Inválido'}</span>`;
+  };
+};
+
+// ---- Checksum ----
+TOOLS['checksum'] = () => `
+<div class="tool-header"><div class="tool-title">🧮 Checksums</div><div class="tool-subtitle">CRC32, Luhn, EAN-13, ISBN, Módulo 11</div></div>
+<div class="form-section">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('cs','crc32',this)">CRC32</button>
+    <button class="tab" onclick="switchTab('cs','luhn',this)">Luhn</button>
+    <button class="tab" onclick="switchTab('cs','ean',this)">EAN-13</button>
+    <button class="tab" onclick="switchTab('cs','isbn',this)">ISBN</button>
+    <button class="tab" onclick="switchTab('cs','mod11',this)">Módulo 11</button>
+  </div>
+  <div id="cs-crc32" class="tab-content active"><label>Texto</label><input type="text" id="cs-crc32-in" placeholder="texto" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.crc32(this.value)"></div>
+  <div id="cs-luhn" class="tab-content"><label>Número (cartão, IMEI)</label><input type="text" id="cs-luhn-in" placeholder="4111111111111111" oninput="runLuhn()"></div>
+  <div id="cs-ean" class="tab-content"><label>Código EAN-13 (13 dígitos)</label><input type="text" id="cs-ean-in" placeholder="5901234123457" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.validateEAN13(this.value)?'✅ EAN-13 Válido':'❌ EAN-13 Inválido'"></div>
+  <div id="cs-isbn" class="tab-content">
+    <div class="tabs" style="margin-top:0;margin-bottom:12px"><button class="tab active" onclick="switchTab('isbn','13',this)">ISBN-13</button><button class="tab" onclick="switchTab('isbn','10',this)">ISBN-10</button></div>
+    <div id="isbn-13" class="tab-content active"><label>ISBN-13</label><input type="text" id="cs-isbn13-in" placeholder="978-3-16-148410-0" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.validateISBN13(this.value)?'✅ ISBN-13 Válido':'❌ Inválido'"></div>
+    <div id="isbn-10" class="tab-content"><label>ISBN-10</label><input type="text" id="cs-isbn10-in" placeholder="0-306-40615-2" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.validateISBN10(this.value)?'✅ ISBN-10 Válido':'❌ Inválido'"></div>
+  </div>
+  <div id="cs-mod11" class="tab-content"><label>Número para Módulo 11</label><input type="text" id="cs-mod11-in" placeholder="123456" oninput="document.getElementById('cs-out').textContent='Dígito verificador: '+ChecksumUtils.modulo11(this.value)"></div>
+  <div style="margin-top:14px;font-size:16px;font-weight:600;color:var(--text)" id="cs-out"></div>
+</div>`;
+TOOL_INIT['checksum'] = () => {
+  window.runLuhn = () => {
+    const val = document.getElementById('cs-luhn-in').value;
+    const valid = ChecksumUtils.luhn(val);
+    document.getElementById('cs-out').textContent = valid ? '✅ Luhn Válido' : `❌ Luhn Inválido — DV esperado: ${ChecksumUtils.luhnChecksum(val.replace(/\D/g,'').slice(0,-1)+'0')}`;
+  };
+};
+
+// ---- Timestamp ----
+TOOLS['timestamp'] = () => `
+<div class="tool-header"><div class="tool-title">⏱️ Timestamp</div><div class="tool-subtitle">Conversão de datas e fusos</div></div>
+<div class="form-section">
+  <div class="btn-group" style="margin-bottom:14px">${btn('Agora', 'runTsNow()')}</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('ts','unix',this)">Unix → Data</button>
+    <button class="tab" onclick="switchTab('ts','iso',this)">ISO → Unix</button>
+  </div>
+  <div id="ts-unix" class="tab-content active">
+    <label>Unix timestamp (segundos)</label>
+    <input type="number" id="ts-unix-in" placeholder="1700000000">
+    <div class="btn-group">${btn('Converter', 'runTsUnix()')}</div>
+  </div>
+  <div id="ts-iso" class="tab-content">
+    <label>Data ISO ou string</label>
+    <input type="text" id="ts-iso-in" placeholder="2024-01-15T10:30:00">
+    <div class="btn-group">${btn('Converter', 'runTsISO()')}</div>
+  </div>
+</div>
+<div class="form-section">${outBlock('ts-out')}</div>`;
+TOOL_INIT['timestamp'] = () => {
+  window.runTsNow = () => output('ts-out', JSON.stringify(TimestampUtils.now(), null, 2), 'success');
+  window.runTsUnix = () => {
+    const val = parseInt(document.getElementById('ts-unix-in').value);
+    try { output('ts-out', JSON.stringify(TimestampUtils.fromUnix(val), null, 2), 'success'); } catch(e) { output('ts-out', e.message, 'error'); }
+  };
+  window.runTsISO = () => {
+    const val = document.getElementById('ts-iso-in').value;
+    try { output('ts-out', JSON.stringify(TimestampUtils.fromString(val), null, 2), 'success'); } catch(e) { output('ts-out', e.message, 'error'); }
+  };
+};
+
+// ---- Timezone ----
+TOOLS['timezone'] = () => `
+<div class="tool-header"><div class="tool-title">🌍 Timezone Converter</div><div class="tool-subtitle">Converte entre fusos e verifica horário comercial</div></div>
+<div class="form-section">
+  <label>Data/hora (ISO ou Unix segundos)</label>
+  <input type="text" id="tz-input" placeholder="2024-01-15T10:30:00 ou 1700000000">
+  <div class="row" style="margin-top:12px">
+    <div><label>De</label><select id="tz-from"></select></div>
+    <div><label>Para</label><select id="tz-to"></select></div>
+  </div>
+  <div class="btn-group">${btn('Converter', 'runTZ()')} ${btn('Verificar horário comercial', 'runTZBusiness()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('tz-out')}</div>`;
+TOOL_INIT['timezone'] = () => {
+  const zones = TimezoneUtils.listZones();
+  const fromSel = document.getElementById('tz-from');
+  const toSel = document.getElementById('tz-to');
+  zones.forEach(z => {
+    fromSel.appendChild(Object.assign(document.createElement('option'), { value: z, textContent: z, selected: z === 'UTC' }));
+    toSel.appendChild(Object.assign(document.createElement('option'), { value: z, textContent: z, selected: z === 'America/Sao_Paulo' }));
+  });
+  window.runTZ = () => {
+    const raw = document.getElementById('tz-input').value.trim() || new Date().toISOString();
+    const input = raw !== '' && !isNaN(raw) ? parseInt(raw) : raw;
+    const from = document.getElementById('tz-from').value;
+    const to = document.getElementById('tz-to').value;
+    try { output('tz-out', JSON.stringify(TimezoneUtils.convert(input, from, to), null, 2), 'success'); } catch(e) { output('tz-out', e.message, 'error'); }
+  };
+  window.runTZBusiness = () => {
+    const input = document.getElementById('tz-input').value.trim() || new Date().toISOString();
+    const to = document.getElementById('tz-to').value;
+    try {
+      const date = isNaN(input) ? new Date(input).getTime()/1000 : parseInt(input);
+      output('tz-out', JSON.stringify(TimezoneUtils.businessHours(date, to), null, 2), 'success');
+    } catch(e) { output('tz-out', e.message, 'error'); }
+  };
+};
+
+// ---- Slug ----
+TOOLS['slug'] = () => `
+<div class="tool-header"><div class="tool-title">🔗 Slug Generator</div><div class="tool-subtitle">Texto → URL-safe slug</div></div>
+<div class="form-section">
+  <label>Texto</label>
+  <input type="text" id="slug-in" placeholder="Título do Artigo! Com Acentos e Caracteres Especiais..." oninput="runSlug()">
+  <div class="row" style="margin-top:12px">
+    <div><label>Separador</label><input type="text" id="slug-sep" value="-" maxlength="3" oninput="runSlug()"></div>
+    <div><label>Máx. caracteres (0=sem limite)</label><input type="number" id="slug-max" value="0" min="0" oninput="runSlug()"></div>
+  </div>
+  <div class="checkbox-row" style="margin-top:10px">
+    <label><input type="checkbox" id="slug-lower" checked onchange="runSlug()"> Minúsculas</label>
+  </div>
+</div>
+<div class="form-section">
+  <div class="output-label">Slug <button class="copy-btn" onclick="copyText('slug-out')">📋 copiar</button></div>
+  <div class="output-box" id="slug-out"></div>
+</div>`;
+TOOL_INIT['slug'] = () => {
+  window.runSlug = () => {
+    const text = document.getElementById('slug-in').value;
+    if (!text) { document.getElementById('slug-out').textContent = ''; return; }
+    const sep = document.getElementById('slug-sep').value || '-';
+    const max = parseInt(document.getElementById('slug-max').value) || null;
+    const lowercase = document.getElementById('slug-lower').checked;
+    document.getElementById('slug-out').textContent = SlugUtils.generate(text, { separator: sep, maxLength: max, lowercase });
+  };
+};
+</script>
+</div>
