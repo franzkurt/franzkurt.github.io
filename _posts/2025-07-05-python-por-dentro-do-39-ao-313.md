@@ -114,7 +114,7 @@ cerca de 5%, e o próprio PEP é explícito quanto ao objetivo: construir consen
 sobre os critérios para o JIT deixar de ser experimental. É um elo anunciado
 antes de estar pronto, que é como esse projeto tem trabalhado.
 
-## A cadeia, de uma vez
+## Tudo junto, na ordem
 
 | Versão | O que entrou | O que isso destravou |
 |---|---|---|

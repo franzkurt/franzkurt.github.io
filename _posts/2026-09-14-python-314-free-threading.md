@@ -12,7 +12,7 @@ de ser experimento: a [PEP 779](https://peps.python.org/pep-0779/) declarou o bu
 sem GIL oficialmente suportado. É uma mudança grande, mas não é a que você vai
 encontrar primeiro — as que aparecem no dia a dia são menores e mais imediatas.
 
-Este texto tem duas partes: um passeio pelo que mudou e, depois, a conta honesta do
+Este texto tem duas partes: um resumo do que mudou e, depois, a conta honesta do
 free threading, com um benchmark que rodei nos dois builds.
 
 <!--more-->

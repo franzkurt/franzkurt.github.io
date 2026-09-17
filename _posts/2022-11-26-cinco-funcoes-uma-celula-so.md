@@ -85,7 +85,7 @@ A terceira versão é diferente das duas: **zero células**. `lambda i=i: i+1` n
 tem variável livre nenhuma — o valor foi copiado para o padrão do parâmetro no
 momento em que a lambda foi criada. Não há closure para dar errado.
 
-## A frase melhor
+## Uma frase melhor
 
 Trocando "a variável é lida na hora da chamada" por:
 

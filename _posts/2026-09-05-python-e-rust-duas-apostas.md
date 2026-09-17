@@ -60,7 +60,7 @@ E em dezembro de 2022 o kernel do Linux aceitou a infraestrutura inicial de Rust
 na versão 6.1. Doze mil linhas, quase nada em termos práticos, e um sinal enorme:
 o projeto mais conservador do mundo em compatibilidade abriu a porta.
 
-## Erro: o que viaja invisível e o que o chamador precisa abrir
+## Erro: o que se propaga invisível e o que o chamador precisa abrir
 
 Aqui está, na minha opinião, a diferença que mais muda o desenho de um sistema.
 

@@ -186,7 +186,7 @@ uvx pyrefly check          # tipos
 uv run python -m pytest    # testes
 ```
 
-## Parecer atual
+## O que eu acho hoje
 
 Depois de contextualizar cada uma, o veredito honesto de setembro de 2026:
 

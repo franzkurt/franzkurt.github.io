@@ -106,7 +106,7 @@ problemas do mundo real, não de máquina**. "Como fazer deploy em produção co
 rollback" é um problema. "Como usar o comando `deploy`" é documentação de
 máquina disfarçada de guia — isso é referência.
 
-## Referência: um mapa, não um passeio
+## Referência: um mapa, não um roteiro
 
 > *A map tells you what you need to know about the territory, without having to
 > go out and check the territory for yourself; a reference guide serves the same

@@ -136,7 +136,7 @@ LOAD_FAST_LOAD_FAST      1 (total, i)
 mesma arquitetura — e o custo é uma vaga naquelas cem que restam. É a troca que
 a pilha permite e que a máquina de registradores tornaria mais cara.
 
-## O gancho de escape
+## A brecha que as ferramentas usam
 
 Um último detalhe que explica muita ferramenta.
 
@@ -146,7 +146,7 @@ usual — mas, pela [PEP 523](https://peps.python.org/pep-0523/), isso é
 **configurável**: dá para substituir a função de avaliação de frames do
 interpretador inteiro.
 
-É por esse gancho que depuradores, *profilers* e compiladores JIT alternativos se
+É por essa brecha que depuradores, *profilers* e compiladores JIT alternativos se
 enfiam no Python sem precisar de um fork. A máquina de pilha é fixa; quem a
 executa, não.
 

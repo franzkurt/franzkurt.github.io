@@ -21,7 +21,7 @@ pedir confiança sem oferecer nada em troca.
 
 <!--more-->
 
-## O arranjo, antes dos erros
+## O experimento, antes dos erros
 
 Vale descrever o experimento, porque quatro dos sete erros são consequência
 direta de como ele foi montado — e não fazem sentido no vazio.
@@ -76,7 +76,7 @@ nos dois sentidos antes de acertar.
 | 6 | Juiz de qualidade com falso negativo, depois falso positivo | Código correto reprovado a 10,5/100 |
 | 7 | Atribuir ao modelo o que era do parâmetro | "Esta variante do modelo é ruim" |
 
-## O exemplar: o eixo que não era eixo
+## O mais instrutivo: o eixo que não era eixo
 
 O quarto merece detalhe, porque é o mais instrutivo dos sete.
 

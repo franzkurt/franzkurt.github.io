@@ -144,7 +144,7 @@ Este é o par que mais confunde quem vem de outra linguagem:
 | `1 and 2` | `2` |
 | `1 & 2` | **`0`** |
 | `2 or 4` | `2` |
-| `2 \| 4` | **`6`** |
+| <code>2 &#124; 4</code> | **`6`** |
 
 `True & 2` dá zero porque `&` é operação **bit a bit**: `True` vale 1, e
 `1 & 2` em binário é `01 & 10`, que não tem nenhum bit em comum.

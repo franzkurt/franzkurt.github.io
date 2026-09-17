@@ -106,7 +106,7 @@ execução no meio do caminho. É a parte difícil e cara de um JIT.
 Especializando uma instrução por vez, esse problema simplesmente não existe. Ou a
 instrução vale, ou ela é trocada antes de rodar. Não há meio.
 
-## O gancho da parte 3 se fecha aqui
+## A pergunta que ficou na parte 3
 
 Lá atrás eu pedi para guardar um detalhe: o compilador **não consegue
 distinguir** uma variável global de um builtin. As duas viram `LOAD_GLOBAL`,
