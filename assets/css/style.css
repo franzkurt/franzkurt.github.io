@@ -143,6 +143,12 @@ img, svg, video { max-width: 100%; height: auto; }
   }
 }
 
+/* O cabeçalho não precisa respeitar a largura de leitura do artigo: com a aba
+   Ferramentas, marca (227px) + menu (460px) + vão passaram dos 696px de
+   --wrap e o menu caía para uma segunda linha. Alargar só o cabeçalho põe a
+   marca mais à esquerda e traz o menu de volta para a mesma linha. */
+.site-head .wrap { max-width: 52rem; }
+
 .site-head__inner {
   display: flex;
   align-items: baseline;          /* o nav alinha com "Franz Kurt", não com o meio */
@@ -181,6 +187,11 @@ img, svg, video { max-width: 100%; height: auto; }
   gap: 1.25rem;
   font-family: var(--sans);
   font-size: .85rem;
+  /* Com a aba Ferramentas o menu passou de 358px e transbordava a tela em
+     360px e 320px — larguras de celular comuns. Sem quebra, um flex container
+     estoura em vez de ceder. */
+  flex-wrap: wrap;
+  row-gap: .5rem;
 }
 
 .nav a {
@@ -1114,7 +1125,10 @@ pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 }
 
 .site-head__inner { gap: .75rem; }
-  .nav { gap: .9rem; font-size: .8rem; }
+  .nav { gap: .6rem; row-gap: .4rem; font-size: .8rem; }
+  /* No celular o menu precisava perder ~54px para caber em uma linha. O rótulo
+     "RSS" custa 31px e o ícone sozinho já diz o que é. */
+  .nav__rss span { display: none; }
   .post__nav-item--next { text-align: left; }
 }
 
