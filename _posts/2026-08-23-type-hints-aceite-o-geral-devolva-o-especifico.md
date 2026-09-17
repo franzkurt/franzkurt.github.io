@@ -321,7 +321,7 @@ E uma ressalva que vale para o texto inteiro: nada disso acelera o seu programa
 em um microssegundo. Anotação não chega ao bytecode. O que ela muda é **quando**
 o erro aparece — na sua máquina, ao editar, em vez de em produção, às três da
 manhã. Por que nem o `int` mais explícito acelera uma soma tem explicação
-própria, e ela é boa: [está aqui](/2026/09/anotar-int-nao-deixa-o-python-rapido/).
+própria, e ela é boa: [está aqui](/2023/06/anotar-int-nao-deixa-o-python-rapido/).
 
 A [parte 4](/2026/09/tipos-parte-4-o-decorador-que-apaga-seus-tipos/) continua
 daqui, com os casos em que anotar parâmetro e retorno **não basta** — a começar

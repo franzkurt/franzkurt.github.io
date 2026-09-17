@@ -196,7 +196,7 @@ faltou.
 
 E a ressalva maior, que vale para a série toda: nada disso é sobre velocidade.
 A anotação não chega ao bytecode, e
-[nem o `int` mais explícito acelera uma soma](/2026/09/anotar-int-nao-deixa-o-python-rapido/).
+[nem o `int` mais explícito acelera uma soma](/2023/06/anotar-int-nao-deixa-o-python-rapido/).
 O que essas três construções mudam é **quando** o erro aparece — e, no caso do
 decorador, se ele aparece.
 
