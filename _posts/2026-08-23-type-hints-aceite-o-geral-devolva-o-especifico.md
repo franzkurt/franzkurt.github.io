@@ -5,7 +5,7 @@ tags: [python, tipagem, design, engenharia]
 description: "Declarar dict quando você só lê é exigir do chamador mais do que você precisa. A hierarquia de collections.abc existe para isso — e o verificador de tipos até sugere a correção sozinho."
 ---
 
-*Série em três partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/).*
+*Série em quatro partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/) · **4.** [o decorador que apaga os seus tipos](/2026/09/tipos-parte-4-o-decorador-que-apaga-seus-tipos/).*
 
 Os dois textos anteriores desta linha olharam o que os tipos **são** — os
 [não-compostos por dentro](/2026/08/tipos-em-python-por-dentro/) — e o que as
@@ -320,7 +320,12 @@ obrigado a estreitar antes de usar.
 E uma ressalva que vale para o texto inteiro: nada disso acelera o seu programa
 em um microssegundo. Anotação não chega ao bytecode. O que ela muda é **quando**
 o erro aparece — na sua máquina, ao editar, em vez de em produção, às três da
-manhã.
+manhã. Por que nem o `int` mais explícito acelera uma soma tem explicação
+própria, e ela é boa: [está aqui](/2026/09/anotar-int-nao-deixa-o-python-rapido/).
+
+A [parte 4](/2026/09/tipos-parte-4-o-decorador-que-apaga-seus-tipos/) continua
+daqui, com os casos em que anotar parâmetro e retorno **não basta** — a começar
+pelo decorador que apaga a assinatura que você acabou de escrever.
 
 ## Referências
 

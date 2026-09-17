@@ -5,7 +5,7 @@ tags: [python, cpython, internals, estrutura-de-dados, performance]
 description: "Os mesmos mil números custam 8 KB numa lista e 36 KB num dict. A escolha entre as três não é estilo — e o dict de hoje não se parece com o de antes do 3.6, quando deixou de ser uma tabela esparsa e virou índice mais array denso."
 ---
 
-*Série em três partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/).*
+*Série em quatro partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/) · **4.** [o decorador que apaga os seus tipos](/2026/09/tipos-parte-4-o-decorador-que-apaga-seus-tipos/).*
 
 Guarde os números de 0 a 999 nas quatro estruturas embutidas e meça:
 
