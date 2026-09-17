@@ -6,11 +6,16 @@
 #  1. Todo <script src> referenciado pela página existe. Script quebrado NÃO dá
 #     erro visível: a ferramenta simplesmente não faz nada, e só o console conta.
 #
-#  2. As funções de hash e dígito verificador batem com referências externas.
+#  2. As bibliotecas de CDN que a página promete carregar estão lá e respondem.
+#
+#  3. As funções de hash e dígito verificador batem com referências externas.
 #     Em 17/09/2026 dois defeitos passariam sem isto: o MD5 emitia cada palavra
 #     de 32 bits em big-endian (o digest é little-endian, RFC 1321) e o
 #     validateEAN13 usava Luhn, que é outro algoritmo — aceitava código
 #     inválido e recusava válido.
+#
+# O que este script NÃO cobre: se a ferramenta produz o resultado certo na
+# tela. Isso exige navegador — está em tools/testar-ferramentas-navegador.py.
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 2
 
@@ -27,6 +32,27 @@ for j in $refs; do
 done
 [ "$n" -eq 0 ] && { echo "  ✗ nenhum <script src> encontrado — a página mudou de forma?"; falhas=$((falhas+1)); }
 echo "  $n módulo(s) referenciado(s), $(ls "$DIR_JS" | wc -l) presente(s) em $DIR_JS"
+
+echo
+echo "▸ Bibliotecas de terceiros"
+# Em 17/09/2026 a importação trouxe só o <body> e deixou as 7 no <head> para
+# trás. Nada quebrou visivelmente: QR, PDF, código de barras, planilha e OCR
+# simplesmente não faziam nada. Por isso a checagem é de PRESENÇA, não de erro.
+esperadas="pdf-lib pdf.js tesseract qrcode-generator jsqr xlsx jsbarcode"
+for lib in $esperadas; do
+  if ! grep -qi "<script src=\"https://[^\"]*$lib" "$PAGINA"; then
+    echo "  ✗ $lib não é carregada pela página"; falhas=$((falhas+1))
+  fi
+done
+n_cdn=$(grep -c '<script src="https://' "$PAGINA")
+echo "  $n_cdn script(s) de CDN na página"
+if command -v curl >/dev/null; then
+  for u in $(grep -o '<script src="https://[^"]*"' "$PAGINA" | sed 's/.*src="//; s/"//'); do
+    c=$(curl -sIL -o /dev/null -w '%{http_code}' --max-time 20 "$u")
+    [ "$c" = 200 ] || { echo "  ✗ $c  $u"; falhas=$((falhas+1)); }
+  done
+  echo "  todas responderam 200"
+fi
 
 echo
 echo "▸ Ferramentas na grade"

@@ -204,6 +204,17 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
 <!-- TOOL PANEL -->
 <div id="tool-panel"></div>
 
+<!-- Bibliotecas de terceiros. Vinham do <head> do arquivo de origem e foram
+     perdidas na importação, que só trouxe o <body>: sem elas, QR, PDF, código
+     de barras, planilha e OCR ficam mudos sem erro visível. Precisam vir ANTES
+     dos módulos locais que as usam. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 <script src="/assets/js/ferramentas/pdf-utils.js"></script>
 <script src="/assets/js/ferramentas/ocr-utils.js"></script>
 <script src="/assets/js/ferramentas/xml-utils.js"></script>
@@ -945,14 +956,15 @@ TOOL_INIT['qr-gen'] = () => {
     container.style.display = 'inline-block';
     container.innerHTML = '';
     try {
-      new QRCode(container, { text, width: size, height: size, colorDark: dark, colorLight: light, correctLevel: QRCode.CorrectLevel.H });
+      QRUtils.generate(text, 'qr-output',
+        { width: size, colorDark: dark, colorLight: light, correctLevel: 'H' });
     } catch(e) { container.textContent = e.message; }
   }
   window.downloadQR = () => {
-    const img = document.querySelector('#qr-output img');
-    if (!img) { generateQR(); setTimeout(downloadQR, 500); return; }
+    const cv = document.querySelector('#qr-output canvas');
+    if (!cv) { generateQR(); setTimeout(downloadQR, 500); return; }
     const a = document.createElement('a');
-    a.href = img.src; a.download = 'qrcode.png'; a.click();
+    a.href = cv.toDataURL('image/png'); a.download = 'qrcode.png'; a.click();
   };
 };
 
