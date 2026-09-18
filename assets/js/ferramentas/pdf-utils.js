@@ -285,6 +285,143 @@ class PDFUtils {
   }
 
   /* ---- Conversion ---- */
+  /* ── Acrescentados em 18/09/2026: o que Smallpdf e iLovePDF cobram ── */
+
+  /** Corta a área visível das páginas. margens em pontos (1 pt = 1/72"). */
+  static async cropPages(buffer, margens = {}, pageIndices = null) {
+    const { top = 0, right = 0, bottom = 0, left = 0 } = margens;
+    const pdf = await PDFLib.PDFDocument.load(buffer);
+    const paginas = pdf.getPages();
+    const alvos = pageIndices ?? paginas.map((_, i) => i);
+    for (const i of alvos) {
+      const pg = paginas[i];
+      if (!pg) continue;
+      const m = pg.getMediaBox();
+      const larg = m.width - left - right;
+      const alt = m.height - top - bottom;
+      if (larg <= 0 || alt <= 0) throw new Error(`Margens maiores que a página ${i + 1}`);
+      pg.setCropBox(m.x + left, m.y + bottom, larg, alt);
+    }
+    return pdf.save();
+  }
+
+  /** Junta N páginas por folha. porFolha: 2 ou 4. */
+  static async nUp(buffer, porFolha = 2, opts = {}) {
+    const { pageWidth = 595, pageHeight = 842, margem = 16, espaco = 12 } = opts;
+    if (![2, 4].includes(porFolha)) throw new Error('porFolha deve ser 2 ou 4');
+    const src = await PDFLib.PDFDocument.load(buffer);
+    const destino = await PDFLib.PDFDocument.create();
+    const total = src.getPageCount();
+    const embutidas = await destino.embedPdf(await src.save(), [...Array(total).keys()]);
+    const cols = porFolha === 2 ? 1 : 2;
+    const linhas = porFolha === 2 ? 2 : 2;
+    const cw = (pageWidth - margem * 2 - espaco * (cols - 1)) / cols;
+    const ch = (pageHeight - margem * 2 - espaco * (linhas - 1)) / linhas;
+    for (let i = 0; i < total; i += porFolha) {
+      const folha = destino.addPage([pageWidth, pageHeight]);
+      for (let k = 0; k < porFolha && i + k < total; k++) {
+        const emb = embutidas[i + k];
+        const escala = Math.min(cw / emb.width, ch / emb.height);
+        const l = emb.width * escala, a = emb.height * escala;
+        const col = k % cols, lin = Math.floor(k / cols);
+        folha.drawPage(emb, {
+          x: margem + col * (cw + espaco) + (cw - l) / 2,
+          y: pageHeight - margem - (lin + 1) * ch - lin * espaco + (ch - a) / 2,
+          width: l, height: a,
+        });
+      }
+    }
+    return destino.save();
+  }
+
+  /** Remove a proteção de um PDF cifrado. Exige a senha, e RASTERIZA.
+   *
+   * Não dá para fazer isto só com pdf-lib, e a tentativa falha em silêncio:
+   * `load` com ignoreEncryption abre o documento, mas `save` devolve um arquivo
+   * que AINDA tem /Encrypt; e copiar as páginas para um documento novo tira o
+   * /Encrypt e entrega 819 bytes com texto vazio, porque o pdf-lib nunca
+   * decifrou os fluxos de conteúdo. Quem decifra é o pdf.js, e ele só entrega
+   * páginas renderizadas — daí a saída ser imagem, sem camada de texto.
+   */
+  static async unlockWithPassword(buffer, senha, opts = {}) {
+    const { escala = 2 } = opts;
+    if (typeof pdfjsLib === 'undefined') throw new Error('pdf.js não carregou');
+    const doc = await pdfjsLib.getDocument({ data: buffer, password: senha }).promise;
+    const imagens = [];
+    for (let i = 1; i <= doc.numPages; i++) {
+      const pg = await doc.getPage(i);
+      const vp = pg.getViewport({ scale: escala });
+      const cv = document.createElement('canvas');
+      cv.width = Math.ceil(vp.width); cv.height = Math.ceil(vp.height);
+      await pg.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+      imagens.push(cv.toDataURL('image/png'));
+    }
+    if (!imagens.length) throw new Error('nenhuma página renderizada');
+    return this.imagesToPDF(imagens, opts);
+  }
+
+  /** Escala o conteúdo das páginas. fator 0.5 = metade, 2 = dobro. */
+  static async resizePages(buffer, fator = 1) {
+    if (!(fator > 0)) throw new Error('fator precisa ser maior que zero');
+    const pdf = await PDFLib.PDFDocument.load(buffer);
+    for (const pg of pdf.getPages()) {
+      const { width, height } = pg.getSize();
+      pg.setSize(width * fator, height * fator);
+      pg.scaleContent(fator, fator);
+    }
+    return pdf.save();
+  }
+
+  /** Texto do PDF em Markdown, uma seção por página. */
+  static async toMarkdown(buffer, opts = {}) {
+    const { titulo = null } = opts;
+    const paginas = await this.extractText(buffer);
+    const partes = titulo ? [`# ${titulo}`, ''] : [];
+    for (const { page, text } of paginas) {
+      partes.push(`## Página ${page}`, '');
+      const limpo = String(text || '').replace(/[ \t]+/g, ' ').trim();
+      partes.push(limpo ? limpo.split(/\n{2,}/).map(s => s.trim()).filter(Boolean).join('\n\n')
+                        : '_(sem texto extraível)_');
+      partes.push('');
+    }
+    return partes.join('\n').trim() + '\n';
+  }
+
+  /** Compara o texto de dois PDFs, página a página. */
+  static async compare(bufferA, bufferB) {
+    const [a, b] = await Promise.all([this.extractText(bufferA), this.extractText(bufferB)]);
+    const n = Math.max(a.length, b.length);
+    const normal = s => String(s || '').replace(/\s+/g, ' ').trim();
+    const paginas = [];
+    let iguais = 0;
+    for (let i = 0; i < n; i++) {
+      const ta = normal(a[i] && a[i].text), tb = normal(b[i] && b[i].text);
+      const igual = ta === tb;
+      if (igual) iguais++;
+      paginas.push({
+        page: i + 1, igual,
+        soEmA: !b[i] ? true : undefined,
+        soEmB: !a[i] ? true : undefined,
+        a: igual ? undefined : ta.slice(0, 400),
+        b: igual ? undefined : tb.slice(0, 400),
+      });
+    }
+    return { totalA: a.length, totalB: b.length, iguais, diferentes: n - iguais, paginas };
+  }
+
+  /** Tarja: retângulo opaco sobre a área e formulário achatado junto. */
+  static async redact(buffer, areas = []) {
+    const pdf = await PDFLib.PDFDocument.load(buffer);
+    const paginas = pdf.getPages();
+    for (const { page = 0, x, y, width, height } of areas) {
+      const pg = paginas[page];
+      if (!pg) continue;
+      pg.drawRectangle({ x, y, width, height, color: PDFLib.rgb(0, 0, 0) });
+    }
+    try { pdf.getForm().flatten(); } catch (e) { /* sem formulário */ }
+    return pdf.save();
+  }
+
   static async imagesToPDF(imageInputs, opts = {}) {
     const { pageWidth = 612, pageHeight = 792 } = opts;
     const pdf = await PDFLib.PDFDocument.create();
@@ -292,8 +429,12 @@ class PDFUtils {
       let buf = input.data ?? input;
       let fmt = input.format;
       if (typeof buf === 'string' && buf.startsWith('data:image')) {
+        // O tipo tem que sair da STRING, antes de decodificar: depois do
+        // dataURLToBuffer sobra um ArrayBuffer, que não tem .includes — a
+        // ordem invertida lançava TypeError em toda imagem passada como
+        // data URL. A interface passa {data, format} e nunca caía aqui.
+        fmt = /^data:image\/jpe?g/i.test(buf) ? 'jpeg' : 'png';
         buf = this.dataURLToBuffer(buf);
-        fmt = buf.includes('image/jpeg') ? 'jpeg' : 'png';
       }
       const page = pdf.addPage([pageWidth, pageHeight]);
       const img = (fmt === 'jpeg' || fmt === 'jpg') ? await pdf.embedJpg(buf) : await pdf.embedPng(buf);

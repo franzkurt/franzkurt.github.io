@@ -27,10 +27,13 @@ class BarcodeUtils {
       const div = document.createElement('div');
       div.style.position = 'absolute'; div.style.left = '-9999px';
       document.body.appendChild(div);
-      const svgId = 'barcode-tmp-' + Date.now();
-      div.innerHTML = `<svg id="${svgId}"></svg>`;
+      // generate() CRIA um <svg> dentro do container que recebe. Passar o id de
+      // um <svg> fazia sair <svg><svg>…</svg></svg>: renderiza no navegador, mas
+      // o externo não tem dimensão e quebra quem consome o arquivo solto.
+      const boxId = 'barcode-tmp-' + Date.now();
+      div.id = boxId;
       try {
-        this.generate(svgId, data, opts);
+        this.generate(boxId, data, opts);
         setTimeout(() => {
           const svg = div.querySelector('svg');
           const source = new XMLSerializer().serializeToString(svg);

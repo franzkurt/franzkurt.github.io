@@ -88,6 +88,28 @@ def main() -> int:
         falhas += vazias
         print(f"  {len(ids) - vazias}/{len(ids)} abrem com conteúdo")
 
+        print("\n▸ Toda ferramenta explica o que entra e o que sai")
+        sem = [tid for tid in ids if not p.evaluate(
+            "(id) => { openTool(id); const c = document.querySelector('#tool-panel .como');"
+            "  return !!c && c.querySelectorAll('.como-linha').length === 2; }", tid)]
+        if sem:
+            print(f"  ✗ sem explicação: {', '.join(sem[:6])}"); falhas += len(sem)
+        print(f"  {len(ids) - len(sem)}/{len(ids)} com 'Como funciona'")
+
+        print("\n▸ Tema claro e escuro")
+        for tema in ("light", "dark"):
+            p.evaluate(f"document.documentElement.setAttribute('data-theme','{tema}')")
+            p.wait_for_timeout(200)
+            m = p.evaluate("""() => {
+              const raiz = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim();
+              const fer = getComputedStyle(document.querySelector('#ferramentas')).getPropertyValue('--bg').trim();
+              return {raiz, fer};
+            }""")
+            if m["raiz"] != m["fer"]:
+                print(f"  ✗ {tema}: a caixa não segue o tema ({m['fer']} ≠ {m['raiz']})"); falhas += 1
+            else:
+                print(f"  ok  {tema}: fundo {m['fer']} acompanha o blog")
+
         print("\n▸ QR: gerar e ler de volta (com acento)")
         p.evaluate("openTool('qr-gen')"); p.wait_for_timeout(300)
         p.fill("#qr-text", TEXTO); p.wait_for_timeout(1200)

@@ -10,24 +10,44 @@ description: "Caixa de ferramentas que roda inteira no navegador: PDF, QR, hash,
 
 <style>
 
+/* Os tokens das ferramentas APONTAM para os do blog em vez de fixar cores
+   escuras. Assim o botão de tema do cabeçalho muda a caixa de ferramentas
+   junto, em vez de deixar um bloco escuro no meio de uma página clara.
+
+   --accent e --radius não são redefinidos de propósito: herdam do :root do
+   blog. Redefini-los aqui como var(--accent) seria referência circular, que o
+   CSS descarta silenciosamente — o valor viraria inválido e a cor sumiria. */
 #ferramentas {
-    --bg: #0f1117;
-    --bg2: #1a1d27;
-    --bg3: #22263a;
-    --border: #2e3348;
-    --text: #e2e4f0;
-    --text2: #8b8fa8;
-    --accent: #5b6af0;
-    --accent2: #7c8cf8;
-    --green: #4ade80;
-    --red: #f87171;
-    --yellow: #fbbf24;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --bg: var(--paper);
+    --bg2: var(--paper-2);
+    --bg3: color-mix(in srgb, var(--paper-2) 84%, var(--ink) 9%);
+    --border: var(--line);
+    --text: var(--ink);
+    --text2: var(--muted);
+    --accent2: var(--accent-2);
+    --green: #2f7d52;
+    --red: #b02a2a;
+    --yellow: #9a6a12;
+    --radius-sm: 3px;
   }
+
+/* Os três semânticos precisam de outro valor no escuro: verde-escuro sobre
+   fundo escuro não se lê. Segue o mesmo par de regras que o blog usa. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #ferramentas {
+    --green: #68d391; --red: #fc8181; --yellow: #e9c46a;
+  }
+}
+:root[data-theme="dark"] #ferramentas {
+  --green: #68d391; --red: #fc8181; --yellow: #e9c46a;
+}
 #ferramentas * { box-sizing: border-box; margin: 0; padding: 0; }
-#ferramentas { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
-#ferramentas .tools-head { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; }
+#ferramentas { color: var(--text); font-family: var(--sans); }
+/* Sem sticky: o cabeçalho do blog já ocupa o topo, e dois grudados brigam
+   pelo mesmo lugar. */
+#ferramentas .tools-head { border-bottom: 1px solid var(--border); padding: 0 24px 16px; display: flex; align-items: center; gap: 16px; }
+#ferramentas .page__head { padding: 0 24px; }
+#ferramentas #home { padding-top: 8px; }
 #ferramentas .logo { font-size: 20px; font-weight: 700; color: var(--accent2); letter-spacing: -0.5px; white-space: nowrap; }
 #ferramentas .logo span { color: var(--text2); font-weight: 400; font-size: 14px; margin-left: 8px; }
 #ferramentas #search { flex: 1; max-width: 400px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; color: var(--text); font-size: 14px; outline: none; }
@@ -79,6 +99,12 @@ description: "Caixa de ferramentas que roda inteira no navegador: PDF, QR, hash,
 #ferramentas #tool-panel { display: none; padding: 24px; max-width: 900px; margin: 0 auto; }
 #ferramentas #tool-panel.visible { display: block; }
 #ferramentas .tool-header { margin-bottom: 24px; }
+#ferramentas .como { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius-sm); padding: 12px 14px; margin: -8px 0 22px; font-size: 13.5px; }
+#ferramentas .como summary { cursor: pointer; color: var(--text2); font-weight: 600; letter-spacing: .3px; text-transform: uppercase; font-size: 11.5px; }
+#ferramentas .como[open] summary { margin-bottom: 10px; }
+#ferramentas .como-linha { display: flex; gap: 10px; align-items: baseline; padding: 3px 0; line-height: 1.5; }
+#ferramentas .como-rot { flex: 0 0 118px; color: var(--text2); font-size: 11.5px; text-transform: uppercase; letter-spacing: .4px; }
+@media (max-width: 560px) { #ferramentas .como-linha { flex-direction: column; gap: 2px; } #ferramentas .como-rot { flex: none; } }
 #ferramentas .tool-title { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
 #ferramentas .tool-subtitle { font-size: 14px; color: var(--text2); margin-top: 6px; }
 #ferramentas .form-section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
@@ -143,8 +169,14 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
 </style>
 
 <div id="ferramentas">
+
+<header class="page__head">
+  <h1 class="page__title">Ferramentas</h1>
+  <p class="page__lead">Utilitários que rodam inteiros no seu navegador. O arquivo
+  que você abre aqui não é enviado para servidor nenhum — nem o meu.</p>
+</header>
+
 <div class="tools-head">
-  <div class="logo">⚡ JS Utils <span>Ferramentas Frontend</span></div>
   <input type="text" id="search" placeholder="Buscar ferramenta..." oninput="filterCards(this.value)">
   <button id="back-btn" onclick="goHome()">← Voltar</button>
 </div>
@@ -164,6 +196,19 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="pdf" onclick="openTool('pdf-compress')"><div class="card-icon">📦</div><div class="card-name">Comprimir PDF</div><div class="card-desc">Otimiza streams e reduz tamanho do arquivo</div></div>
   <div class="card" data-group="pdf" onclick="openTool('img-to-pdf')"><div class="card-icon">🖼️➡️📄</div><div class="card-name">Imagens → PDF</div><div class="card-desc">Converte imagens PNG/JPEG em PDF</div></div>
   <div class="card" data-group="pdf" onclick="openTool('pdf-metadata')"><div class="card-icon">ℹ️</div><div class="card-name">Metadados PDF</div><div class="card-desc">Lê e edita metadados do documento</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-crop')"><div class="card-icon">✂️</div><div class="card-name">Cortar PDF</div><div class="card-desc">Remove margens ou recorta a área útil</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-organize')"><div class="card-icon">🔀</div><div class="card-name">Reordenar Páginas</div><div class="card-desc">Muda a ordem das páginas do documento</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-remove')"><div class="card-icon">🗑️</div><div class="card-name">Remover Páginas</div><div class="card-desc">Apaga as páginas que você indicar</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-extract')"><div class="card-icon">📑</div><div class="card-name">Extrair Páginas</div><div class="card-desc">Salva só as páginas escolhidas num PDF novo</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-nup')"><div class="card-icon">🗞️</div><div class="card-name">Várias por Folha</div><div class="card-desc">2 ou 4 páginas em cada folha, para imprimir</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-resize')"><div class="card-icon">🔍</div><div class="card-name">Redimensionar</div><div class="card-desc">Aumenta ou reduz o tamanho das páginas</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-unlock')"><div class="card-icon">🔓</div><div class="card-name">Destravar PDF</div><div class="card-desc">Tira a senha de um PDF protegido</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-compare')"><div class="card-icon">⚖️</div><div class="card-name">Comparar PDFs</div><div class="card-desc">Mostra quais páginas diferem entre dois arquivos</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-markdown')"><div class="card-icon">📝</div><div class="card-name">PDF → Markdown</div><div class="card-desc">Converte o texto para Markdown</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-form-fill')"><div class="card-icon">🖊️</div><div class="card-name">Preencher Formulário</div><div class="card-desc">Preenche os campos de um PDF de formulário</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-form-flat')"><div class="card-icon">🔏</div><div class="card-name">Achatar Formulário</div><div class="card-desc">Congela os campos preenchidos, sem edição</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-edit-meta')"><div class="card-icon">🏷️</div><div class="card-name">Editar Metadados</div><div class="card-desc">Muda título, autor e assunto do arquivo</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-blank')"><div class="card-icon">📃</div><div class="card-name">PDF em Branco</div><div class="card-desc">Cria um PDF vazio no tamanho que escolher</div></div>
 
   <div class="grid-header" data-header="ocr" data-also="fiscal">🔍 OCR &amp; Fiscal / XML / SPED</div>
   <div class="card" data-group="ocr" onclick="openTool('ocr-image')"><div class="card-icon">🤖</div><div class="card-name">OCR — Imagem</div><div class="card-desc">Reconhece texto em imagens via Tesseract.js</div></div>
@@ -249,6 +294,207 @@ function goHome() {
   document.getElementById('search').style.display = '';
 }
 
+const COMO_FUNCIONA = {
+ "pdf-merge": {
+  "entrada": "Dois ou mais arquivos PDF. A ordem em que você solta é a ordem no resultado.",
+  "saida": "Um único PDF com todas as páginas, na sequência."
+ },
+ "pdf-split": {
+  "entrada": "Um PDF e as faixas de página que você quer separar, como 1-3 e 7-9.",
+  "saida": "Um PDF por faixa, baixados separadamente."
+ },
+ "pdf-text": {
+  "entrada": "Um PDF que tenha texto de verdade — não serve para PDF que é foto de papel.",
+  "saida": "O texto de cada página, para copiar. Se vier vazio, o PDF é imagem: use o OCR."
+ },
+ "pdf-images": {
+  "entrada": "Um PDF.",
+  "saida": "Uma imagem PNG por página, renderizada como aparece na tela."
+ },
+ "pdf-rotate": {
+  "entrada": "Um PDF, quais páginas girar e quantos graus (90, 180 ou 270).",
+  "saida": "O mesmo PDF com aquelas páginas giradas. Nada é recortado."
+ },
+ "pdf-watermark": {
+  "entrada": "Um PDF e o texto da marca, por exemplo RASCUNHO ou CONFIDENCIAL.",
+  "saida": "O PDF com o texto sobreposto nas páginas, na diagonal e translúcido."
+ },
+ "pdf-pagenumbers": {
+  "entrada": "Um PDF.",
+  "saida": "O mesmo PDF com o número impresso no rodapé de cada página."
+ },
+ "pdf-compress": {
+  "entrada": "Um PDF grande demais para anexar em e-mail.",
+  "saida": "O mesmo PDF menor. O ganho depende do conteúdo: PDF de texto encolhe pouco, de imagem encolhe muito."
+ },
+ "img-to-pdf": {
+  "entrada": "Uma ou mais imagens JPG ou PNG.",
+  "saida": "Um PDF com uma imagem por página."
+ },
+ "pdf-metadata": {
+  "entrada": "Um PDF.",
+  "saida": "Título, autor, criador, datas e número de páginas — o que o arquivo diz sobre si."
+ },
+ "hash": {
+  "entrada": "Qualquer texto. A chave HMAC é opcional.",
+  "saida": "SHA-256, SHA-1, MD5 e, se houver chave, HMAC-SHA256. Serve para conferir se dois conteúdos são idênticos."
+ },
+ "jwt": {
+  "entrada": "Um token JWT, aquelas três partes separadas por ponto.",
+  "saida": "Cabeçalho e conteúdo decodificados, e se já expirou. Decodificar NÃO é validar: qualquer um lê um JWT."
+ },
+ "base64": {
+  "entrada": "Texto para codificar, ou Base64 para decodificar.",
+  "saida": "O texto convertido. Base64 não é criptografia — é outra forma de escrever, e qualquer um desfaz."
+ },
+ "password-gen": {
+  "entrada": "O tamanho e quais tipos de caractere entram.",
+  "saida": "Uma senha aleatória, sorteada no seu navegador. Nada é enviado nem guardado."
+ },
+ "password-strength": {
+  "entrada": "Uma senha para avaliar.",
+  "saida": "Uma nota e o que a enfraquece. A senha não sai do seu navegador."
+ },
+ "uuid": {
+  "entrada": "Nada — é só clicar.",
+  "saida": "Identificadores únicos no formato UUID, para usar como chave."
+ },
+ "checksum": {
+  "entrada": "Um número ou código para conferir o dígito verificador.",
+  "saida": "Se o dígito bate: Luhn para cartão, EAN-13 para código de barras, ISBN para livro."
+ },
+ "timestamp": {
+  "entrada": "Um timestamp Unix, ou uma data.",
+  "saida": "A mesma data nos dois formatos, no seu fuso e em UTC."
+ },
+ "timezone": {
+  "entrada": "Uma data e hora, e o fuso de origem.",
+  "saida": "A mesma hora nos outros fusos."
+ },
+ "slug": {
+  "entrada": "Um título com acentos, espaços e símbolos.",
+  "saida": "A versão para URL: sem acento, minúscula, com hífens. É o que este blog usa nos endereços."
+ },
+ "xml-nfe": {
+  "entrada": "O XML de uma NF-e.",
+  "saida": "Emitente, destinatário, itens e totais, em tabela legível."
+ },
+ "xml-cte": {
+  "entrada": "O XML de um CT-e.",
+  "saida": "Os dados do conhecimento de transporte, em tabela legível."
+ },
+ "sped": {
+  "entrada": "Um arquivo SPED fiscal, aquele de linhas separadas por pipe.",
+  "saida": "Os registros separados por tipo, com 0000, 0150 e C100 destacados."
+ },
+ "qr-gen": {
+  "entrada": "Um texto ou endereço.",
+  "saida": "Um QR Code em PNG para baixar. Acentos funcionam."
+ },
+ "qr-read": {
+  "entrada": "Uma imagem que contenha um QR Code — foto, print ou arquivo.",
+  "saida": "O texto que estava codificado nele."
+ },
+ "barcode-gen": {
+  "entrada": "O número e o formato (CODE128, EAN-13, CODE39 e outros).",
+  "saida": "O código de barras em SVG. EAN-13 exige exatamente 13 dígitos com verificador correto."
+ },
+ "xlsx-parse": {
+  "entrada": "Um arquivo .xlsx.",
+  "saida": "O conteúdo como JSON ou CSV, para copiar."
+ },
+ "csv-json": {
+  "entrada": "CSV ou JSON.",
+  "saida": "O outro formato. A primeira linha do CSV é tratada como cabeçalho."
+ },
+ "json-xlsx": {
+  "entrada": "Um JSON em forma de lista de objetos.",
+  "saida": "Um .xlsx para baixar, com as chaves como colunas."
+ },
+ "ocr-image": {
+  "entrada": "Uma foto ou print com texto — inclusive foto de papel.",
+  "saida": "O texto reconhecido. Roda no seu navegador e demora: o modelo é baixado na primeira vez."
+ },
+ "ocr-pdf": {
+  "entrada": "Um PDF que é imagem, daqueles em que não dá para selecionar o texto.",
+  "saida": "O texto reconhecido de cada página. Demora bem mais que o PDF → Texto comum."
+ },
+ "validate-multi": {
+  "entrada": "Um CPF, CNPJ, PIS, CEP, RENAVAM, OAB ou processo CNJ.",
+  "saida": "Se o documento é válido pelo dígito verificador. Isso NÃO diz se ele existe ou de quem é — só se a conta fecha."
+ },
+ "extract-all": {
+  "entrada": "Um texto qualquer: e-mail, contrato, mensagem colada.",
+  "saida": "Todos os CPFs, CNPJs, CEPs, e-mails e telefones encontrados no meio dele."
+ },
+ "pdf-crop": {
+  "entrada": "Um PDF e quanto cortar de cada lado, em milímetros.",
+  "saida": "O mesmo PDF com as margens recortadas. O conteúdo não é apagado, só fica fora da área visível."
+ },
+ "pdf-organize": {
+  "entrada": "Um PDF e a nova ordem, como 3, 1, 2.",
+  "saida": "O PDF com as páginas na ordem que você pediu."
+ },
+ "pdf-remove": {
+  "entrada": "Um PDF e quais páginas apagar, como 2, 5-7.",
+  "saida": "O PDF sem aquelas páginas. As demais mantêm o conteúdo intacto."
+ },
+ "pdf-extract": {
+  "entrada": "Um PDF e quais páginas guardar, como 1-3, 8.",
+  "saida": "Um PDF novo só com essas páginas. O original não é alterado."
+ },
+ "pdf-nup": {
+  "entrada": "Um PDF e se você quer 2 ou 4 páginas por folha.",
+  "saida": "Um PDF em A4 com as páginas reduzidas e lado a lado. Serve para gastar menos papel."
+ },
+ "pdf-resize": {
+  "entrada": "Um PDF e o fator de escala: 0,5 reduz à metade, 2 dobra.",
+  "saida": "O PDF com as páginas no novo tamanho, e o conteúdo escalado junto."
+ },
+ "pdf-unlock": {
+  "entrada": "Um PDF protegido E a senha que o abre. Isto não quebra senha — você precisa saber qual é.",
+  "saida": "O mesmo PDF sem senha. Atenção: as páginas viram imagem, então o texto deixa de ser selecionável."
+ },
+ "pdf-compare": {
+  "entrada": "Dois PDFs: o original e a versão nova.",
+  "saida": "Quais páginas têm texto diferente, e um trecho de cada lado para você ver o que mudou."
+ },
+ "pdf-markdown": {
+  "entrada": "Um PDF com texto de verdade.",
+  "saida": "O conteúdo em Markdown, uma seção por página, para copiar ou baixar como .md."
+ },
+ "pdf-form-fill": {
+  "entrada": "Um PDF de formulário. Os campos aparecem sozinhos depois que você solta o arquivo.",
+  "saida": "O PDF preenchido. Os campos continuam editáveis — para congelar, use Achatar Formulário."
+ },
+ "pdf-form-flat": {
+  "entrada": "Um PDF de formulário já preenchido.",
+  "saida": "O mesmo PDF com os valores fixados: continuam visíveis, mas ninguém mais consegue alterá-los."
+ },
+ "pdf-edit-meta": {
+  "entrada": "Um PDF. Os metadados atuais aparecem preenchidos para você editar.",
+  "saida": "O PDF com título, autor e assunto novos — é o que aparece nas propriedades do arquivo."
+ },
+ "pdf-blank": {
+  "entrada": "Quantas páginas e qual tamanho de folha.",
+  "saida": "Um PDF vazio, para imprimir ou usar como base."
+ }
+};
+
+/** Insere "o que entra / o que sai" logo abaixo do cabeçalho da ferramenta.
+ *  Centralizado de propósito: escrever isso dentro de cada template seria
+ *  quarenta lugares para esquecer de atualizar. */
+function explicacaoDe(id) {
+  const c = COMO_FUNCIONA[id];
+  if (!c) return '';
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  return `<details class="como" open>
+    <summary>Como funciona</summary>
+    <div class="como-linha"><span class="como-rot">Você fornece</span><span>${esc(c.entrada)}</span></div>
+    <div class="como-linha"><span class="como-rot">Você recebe</span><span>${esc(c.saida)}</span></div>
+  </details>`;
+}
+
 function openTool(id) {
   document.getElementById('home').style.display = 'none';
   document.getElementById('search').style.display = 'none';
@@ -256,6 +502,8 @@ function openTool(id) {
   const panel = document.getElementById('tool-panel');
   panel.className = 'visible';
   panel.innerHTML = TOOLS[id] ? TOOLS[id]() : '<p>Tool not found</p>';
+  const cab = panel.querySelector('.tool-header');
+  if (cab) cab.insertAdjacentHTML('afterend', explicacaoDe(id));
   if (TOOL_INIT[id]) TOOL_INIT[id]();
 }
 
@@ -921,6 +1169,418 @@ TOOL_INIT['extract-all'] = () => {
     if (!text.trim()) { output('ext-out', 'Cole algum texto.', 'error'); return; }
     const result = ExtractorUtils.extractAll(text);
     output('ext-out', JSON.stringify(result, null, 2), 'success');
+  };
+};
+
+// ════════ Ferramentas acrescentadas em 18/09/2026 ════════
+// Estas pedem páginas como "1-3, 7" em vez de índices JSON base 0: quem usa a
+// página não é quem escreve o código.
+
+/** "1-3, 7, 9-12" -> [0,1,2,6,8,9,10,11]. Lança com mensagem legível. */
+function parsePaginas(texto, total) {
+  const limpo = String(texto || '').trim();
+  if (!limpo) return [...Array(total).keys()];
+  const idx = [];
+  for (const parte of limpo.split(',')) {
+    const m = parte.trim().match(/^(\d+)\s*(?:-\s*(\d+))?$/);
+    if (!m) throw new Error(`Não entendi "${parte.trim()}". Use algo como 1-3, 7`);
+    const ini = parseInt(m[1], 10), fim = m[2] ? parseInt(m[2], 10) : ini;
+    if (ini < 1 || fim > total) throw new Error(`O documento tem ${total} páginas; você pediu ${parte.trim()}`);
+    for (let i = ini; i <= fim; i++) idx.push(i - 1);
+  }
+  return [...new Set(idx)];
+}
+
+const dropPDF = (pre, rotulo = 'PDF') => `
+  <div class="file-drop" id="${pre}-drop"><div class="file-drop-icon">📂</div>
+    <div class="file-drop-text">Arraste um <strong>${rotulo}</strong></div>
+    <input type="file" id="${pre}-input" accept=".pdf"></div>
+  <div class="file-list" id="${pre}-list"></div>`;
+
+// ── Cortar ──
+TOOLS['pdf-crop'] = () => `
+<div class="tool-header"><div class="tool-title">✂️ Cortar PDF</div><div class="tool-subtitle">Remove margens do documento</div></div>
+<div class="form-section">${dropPDF('crp')}
+  <div class="row" style="margin-top:14px">
+    <div><label>Topo (mm)</label><input type="number" id="crp-top" value="0" min="0"></div>
+    <div><label>Base (mm)</label><input type="number" id="crp-bottom" value="0" min="0"></div>
+    <div><label>Esquerda (mm)</label><input type="number" id="crp-left" value="0" min="0"></div>
+    <div><label>Direita (mm)</label><input type="number" id="crp-right" value="0" min="0"></div>
+  </div>
+  <div class="btn-group">${btn('Cortar e baixar', 'runCrop()')}</div>
+</div>
+<div class="form-section">${outBlock('crp-out')}</div>`;
+TOOL_INIT['pdf-crop'] = () => {
+  let file = null;
+  setupDrop('crp-drop', 'crp-input', f => { file = f[0]; fileChips([f[0]], 'crp-list'); });
+  const mm = id => (parseFloat(document.getElementById(id).value) || 0) * 72 / 25.4;
+  window.runCrop = async () => {
+    if (!file) { output('crp-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      output('crp-out', '⏳ Cortando...');
+      const r = await PDFUtils.cropPages(await file.arrayBuffer(),
+        {top: mm('crp-top'), bottom: mm('crp-bottom'), left: mm('crp-left'), right: mm('crp-right')});
+      PDFUtils.download(r, 'cortado.pdf');
+      output('crp-out', '✅ Pronto. Margens removidas em todas as páginas.', 'success');
+    } catch(e) { output('crp-out', e.message, 'error'); }
+  };
+};
+
+// ── Reordenar ──
+TOOLS['pdf-organize'] = () => `
+<div class="tool-header"><div class="tool-title">🔀 Reordenar Páginas</div><div class="tool-subtitle">Define a nova ordem</div></div>
+<div class="form-section">${dropPDF('org')}
+  <div style="margin-top:14px"><label>Nova ordem das páginas</label>
+    <input type="text" id="org-ordem" placeholder="3, 1, 2  ou  5-1 para inverter"></div>
+  <div class="btn-group">${btn('Reordenar e baixar', 'runOrganize()')}</div>
+</div>
+<div class="form-section">${outBlock('org-out')}</div>`;
+TOOL_INIT['pdf-organize'] = () => {
+  let file = null, total = 0;
+  setupDrop('org-drop', 'org-input', async f => {
+    file = f[0]; fileChips([f[0]], 'org-list');
+    total = await PDFUtils.getPageCount(await file.arrayBuffer());
+    output('org-out', `Documento com ${total} páginas.`);
+  });
+  window.runOrganize = async () => {
+    if (!file) { output('org-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const txt = document.getElementById('org-ordem').value.trim();
+      const buf = await file.arrayBuffer();
+      const ordem = txt ? parsePaginas(txt, total || await PDFUtils.getPageCount(buf))
+                        : [...Array(total).keys()];
+      output('org-out', '⏳ Reordenando...');
+      PDFUtils.download(await PDFUtils.reorderPages(buf, ordem), 'reordenado.pdf');
+      output('org-out', `✅ Nova ordem: ${ordem.map(i => i+1).join(', ')}`, 'success');
+    } catch(e) { output('org-out', e.message, 'error'); }
+  };
+};
+
+// ── Remover páginas ──
+TOOLS['pdf-remove'] = () => `
+<div class="tool-header"><div class="tool-title">🗑️ Remover Páginas</div><div class="tool-subtitle">Apaga as páginas indicadas</div></div>
+<div class="form-section">${dropPDF('rmv')}
+  <div style="margin-top:14px"><label>Páginas a remover</label>
+    <input type="text" id="rmv-pags" placeholder="2, 5-7"></div>
+  <div class="btn-group">${btn('Remover e baixar', 'runRemove()')}</div>
+</div>
+<div class="form-section">${outBlock('rmv-out')}</div>`;
+TOOL_INIT['pdf-remove'] = () => {
+  let file = null, total = 0;
+  setupDrop('rmv-drop', 'rmv-input', async f => {
+    file = f[0]; fileChips([f[0]], 'rmv-list');
+    total = await PDFUtils.getPageCount(await file.arrayBuffer());
+    output('rmv-out', `Documento com ${total} páginas.`);
+  });
+  window.runRemove = async () => {
+    if (!file) { output('rmv-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const n = total || await PDFUtils.getPageCount(buf);
+      const alvo = document.getElementById('rmv-pags').value.trim();
+      if (!alvo) throw new Error('Diga quais páginas remover, por exemplo 2, 5-7');
+      const idx = parsePaginas(alvo, n);
+      if (idx.length >= n) throw new Error('Isso removeria o documento inteiro');
+      output('rmv-out', '⏳ Removendo...');
+      PDFUtils.download(await PDFUtils.removePages(buf, idx), 'sem-paginas.pdf');
+      output('rmv-out', `✅ ${idx.length} página(s) removida(s); sobraram ${n - idx.length}.`, 'success');
+    } catch(e) { output('rmv-out', e.message, 'error'); }
+  };
+};
+
+// ── Extrair páginas ──
+TOOLS['pdf-extract'] = () => `
+<div class="tool-header"><div class="tool-title">📑 Extrair Páginas</div><div class="tool-subtitle">Salva só o que você escolher</div></div>
+<div class="form-section">${dropPDF('ext')}
+  <div style="margin-top:14px"><label>Páginas a manter</label>
+    <input type="text" id="extp-pags" placeholder="1-3, 8"></div>
+  <div class="btn-group">${btn('Extrair e baixar', 'runExtractPages()')}</div>
+</div>
+<div class="form-section">${outBlock('extp-out')}</div>`;
+TOOL_INIT['pdf-extract'] = () => {
+  let file = null, total = 0;
+  setupDrop('ext-drop', 'ext-input', async f => {
+    file = f[0]; fileChips([f[0]], 'ext-list');
+    total = await PDFUtils.getPageCount(await file.arrayBuffer());
+    output('extp-out', `Documento com ${total} páginas.`);
+  });
+  window.runExtractPages = async () => {
+    if (!file) { output('extp-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const buf = await file.arrayBuffer();
+      const n = total || await PDFUtils.getPageCount(buf);
+      const manter = parsePaginas(document.getElementById('extp-pags').value, n);
+      output('extp-out', '⏳ Extraindo...');
+      PDFUtils.download(await PDFUtils.reorderPages(buf, manter), 'extraido.pdf');
+      output('extp-out', `✅ ${manter.length} página(s) no arquivo novo.`, 'success');
+    } catch(e) { output('extp-out', e.message, 'error'); }
+  };
+};
+
+// ── Várias por folha ──
+TOOLS['pdf-nup'] = () => `
+<div class="tool-header"><div class="tool-title">🗞️ Várias por Folha</div><div class="tool-subtitle">2 ou 4 páginas em cada folha A4</div></div>
+<div class="form-section">${dropPDF('nup')}
+  <div style="margin-top:14px"><label>Páginas por folha</label>
+    <select id="nup-qtd"><option value="2">2 por folha</option><option value="4">4 por folha</option></select></div>
+  <div class="btn-group">${btn('Montar e baixar', 'runNup()')}</div>
+</div>
+<div class="form-section">${outBlock('nup-out')}</div>`;
+TOOL_INIT['pdf-nup'] = () => {
+  let file = null;
+  setupDrop('nup-drop', 'nup-input', f => { file = f[0]; fileChips([f[0]], 'nup-list'); });
+  window.runNup = async () => {
+    if (!file) { output('nup-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const por = parseInt(document.getElementById('nup-qtd').value, 10);
+      output('nup-out', '⏳ Montando...');
+      const buf = await file.arrayBuffer();
+      const antes = await PDFUtils.getPageCount(buf);
+      const r = await PDFUtils.nUp(buf, por);
+      PDFUtils.download(r, `${por}-por-folha.pdf`);
+      output('nup-out', `✅ ${antes} páginas viraram ${Math.ceil(antes/por)} folhas.`, 'success');
+    } catch(e) { output('nup-out', e.message, 'error'); }
+  };
+};
+
+// ── Redimensionar ──
+TOOLS['pdf-resize'] = () => `
+<div class="tool-header"><div class="tool-title">🔍 Redimensionar</div><div class="tool-subtitle">Escala as páginas</div></div>
+<div class="form-section">${dropPDF('rsz')}
+  <div style="margin-top:14px"><label>Fator de escala</label>
+    <input type="number" id="rsz-fator" value="1" step="0.1" min="0.1" max="5">
+    <div class="tool-subtitle" style="margin-top:6px">0,5 reduz à metade · 2 dobra</div></div>
+  <div class="btn-group">${btn('Redimensionar e baixar', 'runResize()')}</div>
+</div>
+<div class="form-section">${outBlock('rsz-out')}</div>`;
+TOOL_INIT['pdf-resize'] = () => {
+  let file = null;
+  setupDrop('rsz-drop', 'rsz-input', f => { file = f[0]; fileChips([f[0]], 'rsz-list'); });
+  window.runResize = async () => {
+    if (!file) { output('rsz-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      const fator = parseFloat(document.getElementById('rsz-fator').value);
+      output('rsz-out', '⏳ Redimensionando...');
+      PDFUtils.download(await PDFUtils.resizePages(await file.arrayBuffer(), fator), 'redimensionado.pdf');
+      output('rsz-out', `✅ Páginas escaladas por ${fator}×.`, 'success');
+    } catch(e) { output('rsz-out', e.message, 'error'); }
+  };
+};
+
+// ── Destravar ──
+TOOLS['pdf-unlock'] = () => `
+<div class="tool-header"><div class="tool-title">🔓 Destravar PDF</div><div class="tool-subtitle">Remove a senha de abertura</div></div>
+<div class="form-section">${dropPDF('unl', 'PDF protegido')}
+  <div style="margin-top:14px"><label>Senha do arquivo</label>
+    <input type="password" id="unl-senha" placeholder="a senha que abre o PDF"></div>
+  <div class="btn-group">${btn('Destravar e baixar', 'runUnlock()')}</div>
+</div>
+<div class="form-section">${outBlock('unl-out')}</div>`;
+TOOL_INIT['pdf-unlock'] = () => {
+  let file = null;
+  setupDrop('unl-drop', 'unl-input', f => { file = f[0]; fileChips([f[0]], 'unl-list'); });
+  window.runUnlock = async () => {
+    if (!file) { output('unl-out', 'Selecione um PDF.', 'error'); return; }
+    const senha = document.getElementById('unl-senha').value;
+    if (!senha) { output('unl-out', 'Digite a senha. Esta ferramenta não quebra senha — só remove a proteção de quem já sabe abrir.', 'error'); return; }
+    try {
+      output('unl-out', '⏳ Abrindo e reconstruindo página por página...');
+      const r = await PDFUtils.unlockWithPassword(await file.arrayBuffer(), senha);
+      PDFUtils.download(r, 'destravado.pdf');
+      output('unl-out', '✅ PDF sem senha. Atenção: as páginas viraram imagem, então o texto não é mais selecionável.', 'success');
+    } catch(e) {
+      const m = /password/i.test(e.message) ? 'Senha incorreta.' : e.message;
+      output('unl-out', m, 'error');
+    }
+  };
+};
+
+// ── Comparar ──
+TOOLS['pdf-compare'] = () => `
+<div class="tool-header"><div class="tool-title">⚖️ Comparar PDFs</div><div class="tool-subtitle">Acha as páginas que mudaram</div></div>
+<div class="form-section">
+  <div class="row">
+    <div>${dropPDF('cmpA', 'PDF original')}</div>
+    <div>${dropPDF('cmpB', 'PDF novo')}</div>
+  </div>
+  <div class="btn-group">${btn('Comparar', 'runCompare()')}</div>
+</div>
+<div class="form-section">${outBlock('cmp-out')}</div>`;
+TOOL_INIT['pdf-compare'] = () => {
+  let a = null, b = null;
+  setupDrop('cmpA-drop', 'cmpA-input', f => { a = f[0]; fileChips([f[0]], 'cmpA-list'); });
+  setupDrop('cmpB-drop', 'cmpB-input', f => { b = f[0]; fileChips([f[0]], 'cmpB-list'); });
+  window.runCompare = async () => {
+    if (!a || !b) { output('cmp-out', 'Selecione os dois PDFs.', 'error'); return; }
+    try {
+      output('cmp-out', '⏳ Comparando o texto...');
+      const r = await PDFUtils.compare(await a.arrayBuffer(), await b.arrayBuffer());
+      const linhas = [`${r.totalA} página(s) no original, ${r.totalB} no novo.`,
+                      `${r.iguais} iguais, ${r.diferentes} diferentes.`, ''];
+      for (const pg of r.paginas.filter(x => !x.igual)) {
+        linhas.push(`── Página ${pg.page}${pg.soEmA ? ' (só no original)' : pg.soEmB ? ' (só no novo)' : ''}`);
+        if (!pg.soEmA && !pg.soEmB) {
+          linhas.push('  original: ' + (pg.a || '(vazio)').slice(0, 160));
+          linhas.push('  novo:     ' + (pg.b || '(vazio)').slice(0, 160));
+        }
+      }
+      output('cmp-out', linhas.join('\n'), r.diferentes ? '' : 'success');
+    } catch(e) { output('cmp-out', e.message, 'error'); }
+  };
+};
+
+// ── PDF → Markdown ──
+TOOLS['pdf-markdown'] = () => `
+<div class="tool-header"><div class="tool-title">📝 PDF → Markdown</div><div class="tool-subtitle">O texto em formato Markdown</div></div>
+<div class="form-section">${dropPDF('mkd')}
+  <div style="margin-top:14px"><label>Título do documento (opcional)</label>
+    <input type="text" id="mkd-titulo" placeholder="vira o # do topo"></div>
+  <div class="btn-group">${btn('Converter', 'runMarkdown()')}${btn('Baixar .md', 'baixarMarkdown()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('mkd-out')}</div>`;
+TOOL_INIT['pdf-markdown'] = () => {
+  let file = null, md = '';
+  setupDrop('mkd-drop', 'mkd-input', f => { file = f[0]; fileChips([f[0]], 'mkd-list'); });
+  window.runMarkdown = async () => {
+    if (!file) { output('mkd-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      output('mkd-out', '⏳ Extraindo...');
+      md = await PDFUtils.toMarkdown(await file.arrayBuffer(),
+        {titulo: document.getElementById('mkd-titulo').value.trim() || null});
+      output('mkd-out', md, 'success');
+    } catch(e) { output('mkd-out', e.message, 'error'); }
+  };
+  window.baixarMarkdown = () => {
+    if (!md) { output('mkd-out', 'Converta primeiro.', 'error'); return; }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([md], {type: 'text/markdown'}));
+    a.download = (file.name || 'documento').replace(/\.pdf$/i, '') + '.md';
+    a.click(); URL.revokeObjectURL(a.href);
+  };
+};
+
+// ── Preencher formulário ──
+TOOLS['pdf-form-fill'] = () => `
+<div class="tool-header"><div class="tool-title">🖊️ Preencher Formulário</div><div class="tool-subtitle">Campos de um PDF de formulário</div></div>
+<div class="form-section">${dropPDF('frm', 'PDF com formulário')}
+  <div id="frm-campos" style="margin-top:14px"></div>
+  <div class="btn-group">${btn('Preencher e baixar', 'runFill()')}</div>
+</div>
+<div class="form-section">${outBlock('frm-out')}</div>`;
+TOOL_INIT['pdf-form-fill'] = () => {
+  let file = null, nomes = [];
+  setupDrop('frm-drop', 'frm-input', async f => {
+    file = f[0]; fileChips([f[0]], 'frm-list');
+    try {
+      const doc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
+      nomes = doc.getForm().getFields().map(c => c.getName());
+      const div = document.getElementById('frm-campos');
+      if (!nomes.length) { div.innerHTML = ''; output('frm-out', 'Este PDF não tem campos de formulário.', 'error'); return; }
+      div.innerHTML = nomes.map(n =>
+        `<label style="margin-top:10px">${n}</label><input type="text" data-campo="${n}">`).join('');
+      output('frm-out', `${nomes.length} campo(s) encontrado(s).`);
+    } catch(e) { output('frm-out', e.message, 'error'); }
+  });
+  window.runFill = async () => {
+    if (!file) { output('frm-out', 'Selecione um PDF.', 'error'); return; }
+    if (!nomes.length) { output('frm-out', 'Este PDF não tem campos para preencher.', 'error'); return; }
+    try {
+      const vals = {};
+      document.querySelectorAll('#frm-campos [data-campo]').forEach(i => {
+        if (i.value) vals[i.dataset.campo] = i.value;
+      });
+      output('frm-out', '⏳ Preenchendo...');
+      PDFUtils.download(await PDFUtils.fillForm(await file.arrayBuffer(), vals), 'preenchido.pdf');
+      output('frm-out', `✅ ${Object.keys(vals).length} campo(s) preenchido(s).`, 'success');
+    } catch(e) { output('frm-out', e.message, 'error'); }
+  };
+};
+
+// ── Achatar formulário ──
+TOOLS['pdf-form-flat'] = () => `
+<div class="tool-header"><div class="tool-title">🔏 Achatar Formulário</div><div class="tool-subtitle">Congela o que está preenchido</div></div>
+<div class="form-section">${dropPDF('flt', 'PDF preenchido')}
+  <div class="btn-group">${btn('Achatar e baixar', 'runFlat()')}</div>
+</div>
+<div class="form-section">${outBlock('flt-out')}</div>`;
+TOOL_INIT['pdf-form-flat'] = () => {
+  let file = null;
+  setupDrop('flt-drop', 'flt-input', f => { file = f[0]; fileChips([f[0]], 'flt-list'); });
+  window.runFlat = async () => {
+    if (!file) { output('flt-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      output('flt-out', '⏳ Achatando...');
+      const buf = await file.arrayBuffer();
+      const antes = (await PDFLib.PDFDocument.load(buf.slice(0))).getForm().getFields().length;
+      PDFUtils.download(await PDFUtils.flattenForm(buf), 'achatado.pdf');
+      output('flt-out', antes ? `✅ ${antes} campo(s) congelado(s); o texto continua visível mas não editável.`
+                              : '✅ Pronto. Este PDF não tinha campos de formulário.', 'success');
+    } catch(e) { output('flt-out', e.message, 'error'); }
+  };
+};
+
+// ── Editar metadados ──
+TOOLS['pdf-edit-meta'] = () => `
+<div class="tool-header"><div class="tool-title">🏷️ Editar Metadados</div><div class="tool-subtitle">Título, autor e assunto</div></div>
+<div class="form-section">${dropPDF('edm')}
+  <div style="margin-top:14px">
+    <label>Título</label><input type="text" id="edm-titulo">
+    <label style="margin-top:10px">Autor</label><input type="text" id="edm-autor">
+    <label style="margin-top:10px">Assunto</label><input type="text" id="edm-assunto">
+  </div>
+  <div class="btn-group">${btn('Gravar e baixar', 'runEditMeta()')}</div>
+</div>
+<div class="form-section">${outBlock('edm-out')}</div>`;
+TOOL_INIT['pdf-edit-meta'] = () => {
+  let file = null;
+  setupDrop('edm-drop', 'edm-input', async f => {
+    file = f[0]; fileChips([f[0]], 'edm-list');
+    try {
+      const m = await PDFUtils.getPdfLibMetadata(await file.arrayBuffer());
+      document.getElementById('edm-titulo').value = m.title || '';
+      document.getElementById('edm-autor').value = m.author || '';
+      document.getElementById('edm-assunto').value = m.subject || '';
+      output('edm-out', 'Metadados atuais carregados nos campos acima.');
+    } catch(e) { output('edm-out', e.message, 'error'); }
+  });
+  window.runEditMeta = async () => {
+    if (!file) { output('edm-out', 'Selecione um PDF.', 'error'); return; }
+    try {
+      output('edm-out', '⏳ Gravando...');
+      const r = await PDFUtils.setMetadata(await file.arrayBuffer(), {
+        title: document.getElementById('edm-titulo').value,
+        author: document.getElementById('edm-autor').value,
+        subject: document.getElementById('edm-assunto').value,
+      });
+      PDFUtils.download(r, 'com-metadados.pdf');
+      output('edm-out', '✅ Metadados gravados.', 'success');
+    } catch(e) { output('edm-out', e.message, 'error'); }
+  };
+};
+
+// ── PDF em branco ──
+TOOLS['pdf-blank'] = () => `
+<div class="tool-header"><div class="tool-title">📃 PDF em Branco</div><div class="tool-subtitle">Cria um documento vazio</div></div>
+<div class="form-section">
+  <div class="row">
+    <div><label>Páginas</label><input type="number" id="blk-pags" value="1" min="1" max="500"></div>
+    <div><label>Tamanho</label><select id="blk-tam">
+      <option value="595x842">A4 retrato</option><option value="842x595">A4 paisagem</option>
+      <option value="612x792">Carta retrato</option><option value="420x595">A5 retrato</option>
+    </select></div>
+  </div>
+  <div class="btn-group">${btn('Criar e baixar', 'runBlank()')}</div>
+</div>
+<div class="form-section">${outBlock('blk-out')}</div>`;
+TOOL_INIT['pdf-blank'] = () => {
+  window.runBlank = async () => {
+    try {
+      const pages = parseInt(document.getElementById('blk-pags').value, 10) || 1;
+      const [w, h] = document.getElementById('blk-tam').value.split('x').map(Number);
+      const r = await PDFUtils.createBlankPDF({pages, width: w, height: h});
+      PDFUtils.download(r, 'branco.pdf');
+      output('blk-out', `✅ PDF com ${pages} página(s) em branco.`, 'success');
+    } catch(e) { output('blk-out', e.message, 'error'); }
   };
 };
 
