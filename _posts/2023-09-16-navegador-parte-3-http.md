@@ -6,6 +6,7 @@ description: "Com o cano aberto, falta combinar o que pedir. Esta parte mede o q
 ---
 
 *Série **Um navegador por dentro**, o percurso completo:
+**0.** [as camadas](/2023/08/navegador-parte-0-as-camadas/) ·
 **1.** [do nome ao endereço](/2023/09/navegador-parte-1-do-nome-ao-endereco/) ·
 **2.** [a conexão e a sessão](/2023/09/navegador-parte-2-a-conexao/) ·
 **3.** o HTTP que anda por cima (esta) ·

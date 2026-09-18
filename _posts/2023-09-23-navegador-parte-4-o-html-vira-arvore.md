@@ -6,6 +6,7 @@ description: "O parser de HTML não rejeita nada. Esta parte mostra, com dez ent
 ---
 
 *Série **Um navegador por dentro**, o percurso completo:
+**0.** [as camadas](/2023/08/navegador-parte-0-as-camadas/) ·
 **1.** [do nome ao endereço](/2023/09/navegador-parte-1-do-nome-ao-endereco/) ·
 **2.** [a conexão e a sessão](/2023/09/navegador-parte-2-a-conexao/) ·
 **3.** [o HTTP que anda por cima](/2023/09/navegador-parte-3-http/) ·

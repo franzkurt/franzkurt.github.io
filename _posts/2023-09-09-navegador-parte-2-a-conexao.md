@@ -6,6 +6,7 @@ description: "Um endereço IP não é uma conexão. Entre um e outro há três i
 ---
 
 *Série **Um navegador por dentro**, o percurso completo:
+**0.** [as camadas](/2023/08/navegador-parte-0-as-camadas/) ·
 **1.** [do nome ao endereço](/2023/09/navegador-parte-1-do-nome-ao-endereco/) ·
 **2.** a conexão e a sessão (esta) ·
 **3.** [o HTTP que anda por cima](/2023/09/navegador-parte-3-http/) ·
