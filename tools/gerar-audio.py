@@ -117,7 +117,8 @@ def roteiro(markdown, titulo, autor, data_extenso):
                 i += 1
             i += 1
             omitidos["codigo"] += 1
-            blocos.append(f"Aqui vai um bloco de {lang} com {n} linhas, "
+            blocos.append(f"Aqui vai um bloco de {lang} com {n} "
+                          f"{'linha' if n == 1 else 'linhas'}, "
                           f"disponível no texto do artigo.")
             continue
 
@@ -143,7 +144,8 @@ def roteiro(markdown, titulo, autor, data_extenso):
                 i += 1
             omitidos["tabela"] += 1
             dados = max(linhas_tabela - 2, 0)     # cabeçalho + separador
-            blocos.append(f"Segue uma tabela com {dados} linhas de dados, "
+            blocos.append(f"Segue uma tabela com {dados} "
+                          f"{'linha' if dados == 1 else 'linhas'} de dados, "
                           f"disponível no texto.")
             continue
 
@@ -347,26 +349,35 @@ def agrupa_para_qwen(blocos, teto=QWEN_PALAVRAS_POR_BLOCO,
         grupos.append(" ".join(atual))
 
     # Nenhuma unidade curta demais para o modelo conseguir parar: funde com a
-    # vizinha. Medido: 6 palavras falha sempre, 29 passa em 2 de 3. A fusão
-    # escolhe o vizinho que ainda cabe no teto — estourar o teto trocaria uma
-    # falha por outra, porque aí o áudio sai truncado em --max-new.
+    # vizinha. Medido: 6 palavras falha sempre, 29 passa em 2 de 3.
+    #
+    # A primeira versão disto deixava o grupo curto passar quando ele não cabia
+    # atrás, contando com a volta seguinte para fundi-lo — mas a volta seguinte
+    # só funde se o PRÓXIMO for curto. Sobravam 21 unidades abaixo do mínimo no
+    # acervo, uma delas com 7 palavras. Agora, quando não cabe atrás, ele
+    # ABSORVE o próximo, e repete até alcançar o mínimo.
     def n_pal(s):
         return len(s.split())
 
-    fundidos = []
-    for i, g in enumerate(grupos):
-        if fundidos and n_pal(g) < minimo:
-            proximo = grupos[i + 1] if i + 1 < len(grupos) else ""
-            cabe_atras = n_pal(fundidos[-1]) + n_pal(g) <= teto
-            cabe_na_frente = proximo and n_pal(g) + n_pal(proximo) <= teto
-            if cabe_atras or not cabe_na_frente:
-                fundidos[-1] += " " + g      # gruda no anterior
+    fundidos, i = [], 0
+    while i < len(grupos):
+        atual = grupos[i]
+        i += 1
+        while n_pal(atual) < minimo:
+            if fundidos and n_pal(fundidos[-1]) + n_pal(atual) <= teto:
+                fundidos[-1] += " " + atual      # cabe atrás
+                atual = None
+                break
+            if i < len(grupos):
+                atual += " " + grupos[i]         # puxa o próximo
+                i += 1
                 continue
-        fundidos.append(g)                   # abre unidade (funde com o próximo
-                                             # na volta seguinte, se preciso)
-    while len(fundidos) > 1 and n_pal(fundidos[0]) < minimo:
-        fundidos[1] = fundidos[0] + " " + fundidos[1]
-        fundidos.pop(0)
+            if fundidos:
+                fundidos[-1] += " " + atual      # último do texto, gruda atrás
+                atual = None
+            break
+        if atual is not None:
+            fundidos.append(atual)
     return fundidos
 
 
