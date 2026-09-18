@@ -209,6 +209,9 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="pdf" onclick="openTool('pdf-form-flat')"><div class="card-icon">🔏</div><div class="card-name">Achatar Formulário</div><div class="card-desc">Congela os campos preenchidos, sem edição</div></div>
   <div class="card" data-group="pdf" onclick="openTool('pdf-edit-meta')"><div class="card-icon">🏷️</div><div class="card-name">Editar Metadados</div><div class="card-desc">Muda título, autor e assunto do arquivo</div></div>
   <div class="card" data-group="pdf" onclick="openTool('pdf-blank')"><div class="card-icon">📃</div><div class="card-name">PDF em Branco</div><div class="card-desc">Cria um PDF vazio no tamanho que escolher</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-redact')"><div class="card-icon">⬛</div><div class="card-name">Tarjar PDF</div><div class="card-desc">Cobre trechos com retângulo opaco</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-add-text')"><div class="card-icon">✍️</div><div class="card-name">Inserir Texto</div><div class="card-desc">Escreve sobre a página, onde você clicar</div></div>
+  <div class="card" data-group="pdf" onclick="openTool('pdf-add-image')"><div class="card-icon">🖼️</div><div class="card-name">Inserir Imagem</div><div class="card-desc">Carimbo, logo ou assinatura no PDF</div></div>
 
   <div class="grid-header" data-header="ocr" data-also="fiscal">🔍 OCR &amp; Fiscal / XML / SPED</div>
   <div class="card" data-group="ocr" onclick="openTool('ocr-image')"><div class="card-icon">🤖</div><div class="card-name">OCR — Imagem</div><div class="card-desc">Reconhece texto em imagens via Tesseract.js</div></div>
@@ -216,11 +219,13 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="fiscal" onclick="openTool('xml-nfe')"><div class="card-icon">🧾</div><div class="card-name">Parser NFe</div><div class="card-desc">Extrai dados estruturados de XML de NFe</div></div>
   <div class="card" data-group="fiscal" onclick="openTool('xml-cte')"><div class="card-icon">🚚</div><div class="card-name">Parser CT-e</div><div class="card-desc">Extrai dados estruturados de XML de CT-e</div></div>
   <div class="card" data-group="fiscal" onclick="openTool('sped')"><div class="card-icon">📋</div><div class="card-name">Parser SPED</div><div class="card-desc">Processa arquivo EFD/SPED Fiscal (pipe-delimited)</div></div>
+  <div class="card" data-group="fiscal" onclick="openTool('xml-query')"><div class="card-icon">🔎</div><div class="card-name">Consultar XML</div><div class="card-desc">Extrai o conteúdo de qualquer tag</div></div>
 
   <div class="grid-header" data-header="qr" data-also="validators">📱 QR / Barras &amp; ✅ Validadores / Extratores</div>
   <div class="card" data-group="qr" onclick="openTool('qr-gen')"><div class="card-icon">📱</div><div class="card-name">Gerar QR Code</div><div class="card-desc">Cria QR Code a partir de texto ou URL</div></div>
   <div class="card" data-group="qr" onclick="openTool('qr-read')"><div class="card-icon">📷</div><div class="card-name">Ler QR Code</div><div class="card-desc">Decodifica QR Code de uma imagem</div></div>
   <div class="card" data-group="qr" onclick="openTool('barcode-gen')"><div class="card-icon">📊</div><div class="card-name">Gerar Código de Barras</div><div class="card-desc">CODE128, EAN-13, CODE39 e outros formatos</div></div>
+  <div class="card" data-group="qr" onclick="openTool('qr-camera')"><div class="card-icon">📷</div><div class="card-name">Ler QR pela Câmera</div><div class="card-desc">Aponta a câmera e lê o código na hora</div></div>
   <div class="card" data-group="validators" onclick="openTool('validate-multi')"><div class="card-icon">✔️</div><div class="card-name">Validadores BR</div><div class="card-desc">CPF, CNPJ, PIS, RENAVAM, OAB, CNJ, CEP, IE — valida e gera</div></div>
   <div class="card" data-group="extractors" onclick="openTool('extract-all')"><div class="card-icon">🗂️</div><div class="card-name">Extrair Tudo</div><div class="card-desc">CPF, CNPJ, CEP, e-mails, telefones e mais de um texto</div></div>
 
@@ -235,6 +240,7 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="sheets" onclick="openTool('xlsx-parse')"><div class="card-icon">📥</div><div class="card-name">XLSX → JSON/CSV</div><div class="card-desc">Converte planilha Excel para JSON ou CSV</div></div>
   <div class="card" data-group="sheets" onclick="openTool('csv-json')"><div class="card-icon">🔁</div><div class="card-name">CSV ↔ JSON</div><div class="card-desc">Converte CSV para JSON e vice-versa</div></div>
   <div class="card" data-group="sheets" onclick="openTool('json-xlsx')"><div class="card-icon">📤</div><div class="card-name">JSON → XLSX</div><div class="card-desc">Exporta array JSON para planilha Excel</div></div>
+  <div class="card" data-group="sheets" onclick="openTool('csv-xlsx')"><div class="card-icon">📊</div><div class="card-name">CSV → XLSX</div><div class="card-desc">Gera planilha do Excel a partir de CSV</div></div>
 
   <div class="grid-header" data-header="utils">🛠 Utilidades</div>
   <div class="card" data-group="utils" onclick="openTool('uuid')"><div class="card-icon">🆔</div><div class="card-name">UUID Generator</div><div class="card-desc">Gera e valida UUIDs v4 em lote</div></div>
@@ -242,6 +248,7 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="utils" onclick="openTool('timestamp')"><div class="card-icon">⏱️</div><div class="card-name">Timestamp</div><div class="card-desc">Converte datas Unix, ISO e formatos locais</div></div>
   <div class="card" data-group="utils" onclick="openTool('timezone')"><div class="card-icon">🌍</div><div class="card-name">Timezone</div><div class="card-desc">Converte horários entre fusos e verifica horário comercial</div></div>
   <div class="card" data-group="utils" onclick="openTool('slug')"><div class="card-icon">🔗</div><div class="card-name">Slug Generator</div><div class="card-desc">Gera slugs URL-safe a partir de texto</div></div>
+  <div class="card" data-group="utils" onclick="openTool('date-calc')"><div class="card-icon">📆</div><div class="card-name">Calculadora de Datas</div><div class="card-desc">Diferença entre datas e soma de prazo</div></div>
 
 </div>
 </div><!-- /#home -->
@@ -478,6 +485,34 @@ const COMO_FUNCIONA = {
  "pdf-blank": {
   "entrada": "Quantas páginas e qual tamanho de folha.",
   "saida": "Um PDF vazio, para imprimir ou usar como base."
+ },
+ "pdf-redact": {
+  "entrada": "Um PDF. Você arrasta o mouse sobre a prévia da página para marcar o que cobrir.",
+  "saida": "O PDF com retângulos pretos opacos por cima. Atenção: isto ESCONDE, não apaga — o texto por baixo continua dentro do arquivo."
+ },
+ "pdf-add-text": {
+  "entrada": "Um PDF, o texto a escrever, e um clique na prévia dizendo onde ele começa.",
+  "saida": "O PDF com o texto desenhado por cima da página."
+ },
+ "pdf-add-image": {
+  "entrada": "Um PDF, uma imagem PNG ou JPG, e um clique na prévia marcando o canto inferior esquerdo.",
+  "saida": "O PDF com a imagem inserida na largura que você escolheu, mantendo a proporção."
+ },
+ "qr-camera": {
+  "entrada": "Permissão de câmera. O navegador vai pedir.",
+  "saida": "O texto do QR assim que ele aparecer na imagem. Nada é gravado nem enviado — os quadros são lidos e descartados."
+ },
+ "csv-xlsx": {
+  "entrada": "Um CSV colado, com a primeira linha de cabeçalho.",
+  "saida": "Um arquivo .xlsx para baixar, com as colunas do cabeçalho."
+ },
+ "xml-query": {
+  "entrada": "Um XML qualquer e o nome de uma tag. O botão ao lado lista todas as tags do arquivo.",
+  "saida": "O conteúdo de cada ocorrência daquela tag, numerado."
+ },
+ "date-calc": {
+  "entrada": "Duas datas para a diferença, ou uma data e um prazo em dias, horas e minutos para somar.",
+  "saida": "A diferença em anos, meses, semanas, dias, horas, minutos e segundos — ou a data resultante da soma."
  }
 };
 
@@ -1650,6 +1685,405 @@ TOOL_INIT['qr-read'] = () => {
   };
 };
 
+// ── Calculadora de datas ──
+TOOLS['date-calc'] = () => `
+<div class="tool-header"><div class="tool-title">📆 Calculadora de Datas</div><div class="tool-subtitle">Diferença entre datas e soma de prazo</div></div>
+<div class="form-section">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('dc','dif',this)">Diferença</button>
+    <button class="tab" onclick="switchTab('dc','soma',this)">Somar prazo</button>
+  </div>
+  <div id="dc-dif" class="tab-content active">
+    <div class="row">
+      <div><label>De</label><input type="datetime-local" id="dc-a" oninput="runDiff()"></div>
+      <div><label>Até</label><input type="datetime-local" id="dc-b" oninput="runDiff()"></div>
+    </div>
+  </div>
+  <div id="dc-soma" class="tab-content">
+    <div><label>A partir de</label><input type="datetime-local" id="dc-base" oninput="runSoma()"></div>
+    <div class="row" style="margin-top:12px">
+      <div><label>Dias</label><input type="number" id="dc-d" value="0" oninput="runSoma()"></div>
+      <div><label>Horas</label><input type="number" id="dc-h" value="0" oninput="runSoma()"></div>
+      <div><label>Minutos</label><input type="number" id="dc-m" value="0" oninput="runSoma()"></div>
+    </div>
+  </div>
+</div>
+<div class="form-section">${outBlock('dc-out')}</div>`;
+TOOL_INIT['date-calc'] = () => {
+  const seg = id => {
+    const v = document.getElementById(id).value;
+    return v ? Math.floor(new Date(v).getTime() / 1000) : null;
+  };
+  window.runDiff = () => {
+    const a = seg('dc-a'), b = seg('dc-b');
+    if (a === null || b === null) { output('dc-out', 'Preencha as duas datas.'); return; }
+    const d = TimestampUtils.diff(a, b);
+    const sentido = b >= a ? 'adiante' : 'atrás';
+    output('dc-out',
+      `${d.days} dia(s), ou:\n` +
+      `  ${d.years} ano(s)\n  ${d.months} mês(es)\n  ${d.weeks} semana(s)\n` +
+      `  ${d.hours} hora(s)\n  ${d.minutes} minuto(s)\n  ${d.seconds} segundo(s)\n\n` +
+      `A segunda data está ${sentido} da primeira.`, 'success');
+  };
+  window.runSoma = () => {
+    const base = seg('dc-base');
+    if (base === null) { output('dc-out', 'Escolha a data de partida.'); return; }
+    const n = id => parseInt(document.getElementById(id).value, 10) || 0;
+    const r = TimestampUtils.add(base, {days: n('dc-d'), hours: n('dc-h'), minutes: n('dc-m')});
+    const unix = typeof r === 'number' ? r : (r && r.unix);
+    output('dc-out', `${TimestampUtils.format(unix)}\n(${TimestampUtils.toRelative(unix)})`, 'success');
+  };
+};
+
+// ── CSV → XLSX ──
+TOOLS['csv-xlsx'] = () => `
+<div class="tool-header"><div class="tool-title">📊 CSV → XLSX</div><div class="tool-subtitle">Planilha do Excel a partir de CSV</div></div>
+<div class="form-section">
+  <label>Cole o CSV (a primeira linha é o cabeçalho)</label>
+  <textarea id="cx-in" style="min-height:160px" placeholder="nome,idade&#10;Ana,30&#10;Bruno,25"></textarea>
+  <div class="row" style="margin-top:12px">
+    <div><label>Nome da aba</label><input type="text" id="cx-aba" value="Dados"></div>
+    <div><label>Nome do arquivo</label><input type="text" id="cx-arq" value="planilha.xlsx"></div>
+  </div>
+  <div class="btn-group">${btn('Converter e baixar', 'runCsvXlsx()')}</div>
+</div>
+<div class="form-section">${outBlock('cx-out')}</div>`;
+TOOL_INIT['csv-xlsx'] = () => {
+  window.runCsvXlsx = () => {
+    const csv = document.getElementById('cx-in').value.trim();
+    if (!csv) { output('cx-out', 'Cole algum CSV.', 'error'); return; }
+    try {
+      const linhas = XLSXUtils.csvToJSON(csv);
+      const buf = XLSXUtils.csvToXLSX(csv, document.getElementById('cx-aba').value || 'Dados');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([buf],
+        {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
+      a.download = document.getElementById('cx-arq').value || 'planilha.xlsx';
+      a.click(); URL.revokeObjectURL(a.href);
+      const cols = linhas.length ? Object.keys(linhas[0]).length : 0;
+      output('cx-out', `✅ ${linhas.length} linha(s) e ${cols} coluna(s) na planilha.`, 'success');
+    } catch(e) { output('cx-out', e.message, 'error'); }
+  };
+};
+
+// ── Consulta XML ──
+TOOLS['xml-query'] = () => `
+<div class="tool-header"><div class="tool-title">🔎 Consultar XML</div><div class="tool-subtitle">Extrai o conteúdo de uma tag, em qualquer XML</div></div>
+<div class="form-section">
+  <label>XML</label>
+  <textarea id="xq-in" style="min-height:150px" placeholder="&lt;raiz&gt;&lt;item&gt;a&lt;/item&gt;&lt;item&gt;b&lt;/item&gt;&lt;/raiz&gt;"></textarea>
+  <div style="margin-top:12px"><label>Nome da tag</label>
+    <input type="text" id="xq-tag" placeholder="item" oninput="runXmlQuery()"></div>
+  <div class="btn-group">${btn('Consultar', 'runXmlQuery()')}${btn('Listar todas as tags', 'listarTags()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('xq-out')}</div>`;
+TOOL_INIT['xml-query'] = () => {
+  const doc = () => {
+    const x = document.getElementById('xq-in').value.trim();
+    if (!x) throw new Error('Cole um XML.');
+    const d = XMLUtils.parse(x);
+    const err = d.querySelector('parsererror');
+    if (err) throw new Error('XML malformado: ' + err.textContent.slice(0, 80));
+    return d;
+  };
+  window.runXmlQuery = () => {
+    const tag = document.getElementById('xq-tag').value.trim();
+    if (!tag) { output('xq-out', 'Digite o nome da tag.'); return; }
+    try {
+      const todos = XMLUtils.getAll(doc(), tag);
+      output('xq-out', todos.length
+        ? `${todos.length} ocorrência(s) de <${tag}>:\n\n` + todos.map((v, i) => `${i+1}. ${v}`).join('\n')
+        : `Nenhuma tag <${tag}> neste XML.`, todos.length ? 'success' : 'error');
+    } catch(e) { output('xq-out', e.message, 'error'); }
+  };
+  window.listarTags = () => {
+    try {
+      const nomes = {};
+      doc().querySelectorAll('*').forEach(el => { nomes[el.tagName] = (nomes[el.tagName] || 0) + 1; });
+      const ord = Object.entries(nomes).sort((a, b) => b[1] - a[1]);
+      output('xq-out', `${ord.length} tag(s) distinta(s):\n\n` +
+        ord.map(([n, q]) => `${String(q).padStart(4)}×  ${n}`).join('\n'), 'success');
+    } catch(e) { output('xq-out', e.message, 'error'); }
+  };
+};
+
+// ── Ler QR pela câmera ──
+// Usa getUserMedia + jsQR quadro a quadro. Não precisa de Html5Qrcode, que é o
+// que o startCameraScanner do módulo exigiria e não está carregado na página.
+TOOLS['qr-camera'] = () => `
+<div class="tool-header"><div class="tool-title">📷 Ler QR pela Câmera</div><div class="tool-subtitle">Aponta a câmera para o código</div></div>
+<div class="form-section">
+  <div class="btn-group">${btn('Ligar câmera', 'ligarCamera()')}${btn('Desligar', 'desligarCamera()', 'btn-secondary')}</div>
+  <video id="qc-video" playsinline muted style="width:100%;max-width:420px;border-radius:var(--radius-sm);margin-top:14px;display:none;background:#000"></video>
+</div>
+<div class="form-section">${outBlock('qc-out')}</div>`;
+TOOL_INIT['qr-camera'] = () => {
+  let stream = null, timer = null;
+  const video = () => document.getElementById('qc-video');
+  window.desligarCamera = () => {
+    if (timer) { clearInterval(timer); timer = null; }
+    if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+    const v = video(); if (v) { v.srcObject = null; v.style.display = 'none'; }
+  };
+  window.ligarCamera = async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      output('qc-out', 'Este navegador não expõe a câmera. Use a ferramenta "Ler QR Code" com uma foto.', 'error');
+      return;
+    }
+    try {
+      output('qc-out', '⏳ Pedindo acesso à câmera...');
+      stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}});
+      const v = video();
+      v.srcObject = stream; v.style.display = 'block';
+      await v.play();
+      output('qc-out', 'Aponte para o QR Code.');
+      timer = setInterval(async () => {
+        if (!v.videoWidth) return;
+        const r = await QRUtils.readFromVideo(v);
+        if (r && r.text) {
+          output('qc-out', `✅ ${r.text}`, 'success');
+          desligarCamera();
+        }
+      }, 400);
+    } catch(e) {
+      // A mensagem crua do navegador é em inglês e não diz o que fazer: sem
+      // câmera o Chromium devolve só "Not supported". Cada caso vira uma frase
+      // útil, e o desconhecido diz para onde ir.
+      const sinal = (e.name || '') + ' ' + (e.message || '');
+      const alternativa = ' Use a ferramenta "Ler QR Code", que aceita uma foto.';
+      let m;
+      if (/NotAllowed|Permission|Denied/i.test(sinal)) {
+        m = 'O navegador negou o acesso à câmera. Autorize nas permissões do site e tente de novo.';
+      } else if (/NotFound|DevicesNotFound/i.test(sinal)) {
+        m = 'Nenhuma câmera encontrada neste aparelho.' + alternativa;
+      } else if (/NotReadable|TrackStart/i.test(sinal)) {
+        m = 'A câmera existe mas está ocupada por outro programa.';
+      } else if (/NotSupported|not supported|SecurityError/i.test(sinal)) {
+        m = 'Este navegador não libera a câmera aqui — costuma exigir HTTPS.' + alternativa;
+      } else {
+        m = 'Não deu para abrir a câmera (' + sinal.trim() + ').' + alternativa;
+      }
+      output('qc-out', m, 'error');
+      desligarCamera();
+    }
+  };
+};
+
+// ════════ Posicionamento visual sobre a página do PDF ════════
+// Tarjar, inserir texto e inserir imagem precisam de COORDENADA. Digitar
+// número em campo é inutilizável para isso, então as três compartilham uma
+// prévia: renderiza a página, o leitor clica ou arrasta, e a conversão para
+// pontos do PDF acontece aqui.
+//
+// Duas conversões, e as duas erram fácil:
+//  · o canvas é renderizado em escala 2, o PDF trabalha em pontos (1/72");
+//  · o canvas tem origem no topo-esquerda e o PDF no rodapé-esquerda, então
+//    o Y é invertido.
+const PREVIA_ESCALA = 2;
+
+async function previaPDF(buffer, pagina, canvasId) {
+  const r = await PDFUtils.renderPageToImage(buffer, pagina, {scale: PREVIA_ESCALA});
+  const cv = document.getElementById(canvasId);
+  const img = new Image();
+  await new Promise(ok => { img.onload = ok; img.src = r.dataUrl; });
+  cv.width = img.width; cv.height = img.height;
+  cv.style.width = '100%'; cv.style.maxWidth = '520px'; cv.style.cursor = 'crosshair';
+  cv.getContext('2d').drawImage(img, 0, 0);
+  cv._fundo = img;
+  return cv;
+}
+
+/** Coordenada do evento -> ponto do PDF, já com Y invertido. */
+function pontoPDF(cv, ev) {
+  const b = cv.getBoundingClientRect();
+  const cx = (ev.clientX - b.left) * (cv.width / b.width);
+  const cy = (ev.clientY - b.top) * (cv.height / b.height);
+  return {cx, cy, x: cx / PREVIA_ESCALA, y: (cv.height - cy) / PREVIA_ESCALA};
+}
+
+function redesenha(cv, caixas, cor = 'rgba(0,0,0,.75)') {
+  const ctx = cv.getContext('2d');
+  ctx.drawImage(cv._fundo, 0, 0);
+  ctx.fillStyle = cor;
+  for (const c of caixas) ctx.fillRect(c.cx, c.cy, c.cw, c.ch);
+}
+
+// ── Tarjar ──
+TOOLS['pdf-redact'] = () => `
+<div class="tool-header"><div class="tool-title">⬛ Tarjar PDF</div><div class="tool-subtitle">Cobre trechos com retângulo opaco</div></div>
+<div class="form-section">${dropPDF('rdc')}
+  <div class="row" style="margin-top:14px">
+    <div><label>Página</label><input type="number" id="rdc-pag" value="1" min="1" oninput="carregarRedact()"></div>
+  </div>
+  <canvas id="rdc-cv" style="display:none;margin-top:14px;border:1px solid var(--border);border-radius:var(--radius-sm)"></canvas>
+  <div class="tool-subtitle" style="margin-top:8px">Arraste sobre a página para marcar o que cobrir.</div>
+  <div class="btn-group">${btn('Tarjar e baixar', 'runRedact()')}${btn('Limpar marcas', 'limparRedact()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('rdc-out')}</div>`;
+TOOL_INIT['pdf-redact'] = () => {
+  let file = null, buf = null, caixas = [], cv = null, arrastando = null;
+  setupDrop('rdc-drop', 'rdc-input', async f => {
+    file = f[0]; fileChips([f[0]], 'rdc-list');
+    buf = await file.arrayBuffer();
+    await carregarRedact();
+  });
+  window.carregarRedact = async () => {
+    if (!buf) return;
+    try {
+      const pag = parseInt(document.getElementById('rdc-pag').value, 10) || 1;
+      const total = await PDFUtils.getPageCount(buf.slice(0));
+      if (pag < 1 || pag > total) { output('rdc-out', `O documento tem ${total} páginas.`, 'error'); return; }
+      caixas = [];
+      cv = await previaPDF(buf.slice(0), pag, 'rdc-cv');
+      cv.style.display = 'block';
+      cv.onmousedown = e => { const p = pontoPDF(cv, e); arrastando = {x0: p.cx, y0: p.cy}; };
+      cv.onmousemove = e => {
+        if (!arrastando) return;
+        const p = pontoPDF(cv, e);
+        redesenha(cv, caixas.concat([{cx: Math.min(arrastando.x0, p.cx), cy: Math.min(arrastando.y0, p.cy),
+          cw: Math.abs(p.cx - arrastando.x0), ch: Math.abs(p.cy - arrastando.y0)}]));
+      };
+      cv.onmouseup = e => {
+        if (!arrastando) return;
+        const p = pontoPDF(cv, e);
+        const cw = Math.abs(p.cx - arrastando.x0), ch = Math.abs(p.cy - arrastando.y0);
+        if (cw > 4 && ch > 4) {
+          const cx = Math.min(arrastando.x0, p.cx), cy = Math.min(arrastando.y0, p.cy);
+          caixas.push({cx, cy, cw, ch, page: pag - 1,
+                       x: cx / PREVIA_ESCALA, y: (cv.height - cy - ch) / PREVIA_ESCALA,
+                       width: cw / PREVIA_ESCALA, height: ch / PREVIA_ESCALA});
+        }
+        arrastando = null;
+        redesenha(cv, caixas);
+        output('rdc-out', `${caixas.length} marca(s) nesta página.`);
+      };
+      output('rdc-out', `Página ${pag} de ${total}. Arraste para marcar.`);
+    } catch(e) { output('rdc-out', e.message, 'error'); }
+  };
+  window.limparRedact = () => { caixas = []; if (cv) redesenha(cv, caixas); output('rdc-out', 'Marcas apagadas.'); };
+  window.runRedact = async () => {
+    if (!buf) { output('rdc-out', 'Selecione um PDF.', 'error'); return; }
+    if (!caixas.length) { output('rdc-out', 'Arraste sobre a página para marcar o que cobrir.', 'error'); return; }
+    try {
+      output('rdc-out', '⏳ Tarjando...');
+      PDFUtils.download(await PDFUtils.redact(buf.slice(0), caixas), 'tarjado.pdf');
+      output('rdc-out', `✅ ${caixas.length} trecho(s) coberto(s). O retângulo é opaco e o formulário foi achatado — mas o texto por baixo continua no arquivo, então isto esconde, não apaga.`, 'success');
+    } catch(e) { output('rdc-out', e.message, 'error'); }
+  };
+};
+
+// ── Inserir texto ──
+TOOLS['pdf-add-text'] = () => `
+<div class="tool-header"><div class="tool-title">✍️ Inserir Texto</div><div class="tool-subtitle">Escreve sobre a página</div></div>
+<div class="form-section">${dropPDF('adt')}
+  <div class="row" style="margin-top:14px">
+    <div><label>Página</label><input type="number" id="adt-pag" value="1" min="1" oninput="carregarAddText()"></div>
+    <div><label>Tamanho (pt)</label><input type="number" id="adt-size" value="14" min="6" max="72"></div>
+  </div>
+  <div style="margin-top:12px"><label>Texto</label><input type="text" id="adt-txt" placeholder="o que escrever"></div>
+  <canvas id="adt-cv" style="display:none;margin-top:14px;border:1px solid var(--border);border-radius:var(--radius-sm)"></canvas>
+  <div class="tool-subtitle" style="margin-top:8px">Clique na página onde o texto começa.</div>
+  <div class="btn-group">${btn('Inserir e baixar', 'runAddText()')}</div>
+</div>
+<div class="form-section">${outBlock('adt-out')}</div>`;
+TOOL_INIT['pdf-add-text'] = () => {
+  let buf = null, pos = null, cv = null;
+  setupDrop('adt-drop', 'adt-input', async f => {
+    fileChips([f[0]], 'adt-list'); buf = await f[0].arrayBuffer(); await carregarAddText();
+  });
+  window.carregarAddText = async () => {
+    if (!buf) return;
+    try {
+      const pag = parseInt(document.getElementById('adt-pag').value, 10) || 1;
+      pos = null;
+      cv = await previaPDF(buf.slice(0), pag, 'adt-cv');
+      cv.style.display = 'block';
+      cv.onclick = e => {
+        const p = pontoPDF(cv, e);
+        pos = p;
+        redesenha(cv, [{cx: p.cx - 3, cy: p.cy - 3, cw: 6, ch: 6}], 'rgba(220,40,40,.9)');
+        output('adt-out', `Posição marcada: ${p.x.toFixed(0)}, ${p.y.toFixed(0)} pt.`);
+      };
+      output('adt-out', `Página ${pag}. Clique onde o texto começa.`);
+    } catch(e) { output('adt-out', e.message, 'error'); }
+  };
+  window.runAddText = async () => {
+    const txt = document.getElementById('adt-txt').value;
+    if (!buf) { output('adt-out', 'Selecione um PDF.', 'error'); return; }
+    if (!txt) { output('adt-out', 'Digite o texto.', 'error'); return; }
+    if (!pos) { output('adt-out', 'Clique na página para escolher onde escrever.', 'error'); return; }
+    try {
+      const pag = parseInt(document.getElementById('adt-pag').value, 10) || 1;
+      const size = parseInt(document.getElementById('adt-size').value, 10) || 14;
+      output('adt-out', '⏳ Inserindo...');
+      const r = await PDFUtils.addText(buf.slice(0), pag - 1, txt, pos.x, pos.y, {size});
+      PDFUtils.download(r, 'com-texto.pdf');
+      output('adt-out', '✅ Texto inserido.', 'success');
+    } catch(e) { output('adt-out', e.message, 'error'); }
+  };
+};
+
+// ── Inserir imagem ──
+TOOLS['pdf-add-image'] = () => `
+<div class="tool-header"><div class="tool-title">🖼️ Inserir Imagem</div><div class="tool-subtitle">Carimbo, logo ou assinatura</div></div>
+<div class="form-section">${dropPDF('adi')}
+  <div style="margin-top:14px"><label>Imagem (PNG ou JPG)</label>
+    <input type="file" id="adi-img" accept="image/png,image/jpeg"></div>
+  <div class="row" style="margin-top:12px">
+    <div><label>Página</label><input type="number" id="adi-pag" value="1" min="1" oninput="carregarAddImg()"></div>
+    <div><label>Largura (pt)</label><input type="number" id="adi-w" value="120" min="10"></div>
+  </div>
+  <canvas id="adi-cv" style="display:none;margin-top:14px;border:1px solid var(--border);border-radius:var(--radius-sm)"></canvas>
+  <div class="tool-subtitle" style="margin-top:8px">Clique onde fica o canto inferior esquerdo da imagem.</div>
+  <div class="btn-group">${btn('Inserir e baixar', 'runAddImg()')}</div>
+</div>
+<div class="form-section">${outBlock('adi-out')}</div>`;
+TOOL_INIT['pdf-add-image'] = () => {
+  let buf = null, img = null, fmt = 'png', pos = null, cv = null, prop = 1;
+  setupDrop('adi-drop', 'adi-input', async f => {
+    fileChips([f[0]], 'adi-list'); buf = await f[0].arrayBuffer(); await carregarAddImg();
+  });
+  document.getElementById('adi-img').addEventListener('change', async e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    img = await f.arrayBuffer();
+    fmt = /jpe?g/i.test(f.type) ? 'jpeg' : 'png';
+    const bmp = await createImageBitmap(f);
+    prop = bmp.height / bmp.width;
+    output('adi-out', `Imagem ${bmp.width}×${bmp.height} carregada.`);
+  });
+  window.carregarAddImg = async () => {
+    if (!buf) return;
+    try {
+      const pag = parseInt(document.getElementById('adi-pag').value, 10) || 1;
+      pos = null;
+      cv = await previaPDF(buf.slice(0), pag, 'adi-cv');
+      cv.style.display = 'block';
+      cv.onclick = e => {
+        const p = pontoPDF(cv, e);
+        pos = p;
+        const w = (parseInt(document.getElementById('adi-w').value, 10) || 120) * PREVIA_ESCALA;
+        redesenha(cv, [{cx: p.cx, cy: p.cy - w * prop, cw: w, ch: w * prop}], 'rgba(40,120,220,.35)');
+        output('adi-out', `Canto marcado: ${p.x.toFixed(0)}, ${p.y.toFixed(0)} pt.`);
+      };
+      output('adi-out', `Página ${pag}. Clique no canto inferior esquerdo.`);
+    } catch(e) { output('adi-out', e.message, 'error'); }
+  };
+  window.runAddImg = async () => {
+    if (!buf) { output('adi-out', 'Selecione um PDF.', 'error'); return; }
+    if (!img) { output('adi-out', 'Escolha a imagem.', 'error'); return; }
+    if (!pos) { output('adi-out', 'Clique na página para escolher onde colocar.', 'error'); return; }
+    try {
+      const pag = parseInt(document.getElementById('adi-pag').value, 10) || 1;
+      const w = parseInt(document.getElementById('adi-w').value, 10) || 120;
+      output('adi-out', '⏳ Inserindo...');
+      const r = await PDFUtils.addImage(buf.slice(0), pag - 1, img, pos.x, pos.y, w, w * prop, {format: fmt});
+      PDFUtils.download(r, 'com-imagem.pdf');
+      output('adi-out', '✅ Imagem inserida.', 'success');
+    } catch(e) { output('adi-out', e.message, 'error'); }
+  };
+};
+
 // ---- Barcode ----
 TOOLS['barcode-gen'] = () => `
 <div class="tool-header"><div class="tool-title">📊 Gerar Código de Barras</div><div class="tool-subtitle">CODE128, EAN-13, CODE39 e outros</div></div>
@@ -1729,16 +2163,30 @@ TOOLS['jwt'] = () => `
   <label>Token JWT</label>
   <textarea id="jwt-in" placeholder="eyJ..." style="min-height:80px;word-break:break-all" oninput="runJWT()"></textarea>
 </div>
-<div class="form-section">${outBlock('jwt-out', 'Análise JWT')}</div>`;
+<div class="form-section">${outBlock('jwt-out', 'Análise JWT')}</div>
+<div class="form-section">
+  <label>Segredo HS256 (opcional)</label>
+  <input type="text" id="jwt-segredo" placeholder="deixe vazio para apenas decodificar">
+  <div class="tool-subtitle" style="margin-top:6px">Sem o segredo, o inspetor só decodifica — o que qualquer um faz e não prova nada.</div>
+</div>`;
 TOOL_INIT['jwt'] = () => {
-  window.runJWT = () => {
+  window.runJWT = async () => {
     const token = document.getElementById('jwt-in').value.trim();
     if (!token) { output('jwt-out', ''); return; }
     try {
       const data = JWTInspector.inspect(token);
       const { analysis } = data;
       const expiredBadge = analysis.isExpired === true ? '❌ EXPIRADO' : analysis.isExpired === false ? '✅ VÁLIDO' : '';
-      output('jwt-out', `${expiredBadge ? expiredBadge + '\n\n' : ''}${JSON.stringify(data, null, 2)}`, analysis.isExpired ? 'error' : 'success');
+      const segredo = (document.getElementById('jwt-segredo') || {}).value || '';
+      let assinatura = '';
+      if (segredo) {
+        try {
+          assinatura = (await JWTUtils.verify(token, segredo))
+            ? '🔐 Assinatura confere com o segredo informado\n\n'
+            : '⚠️ Assinatura NÃO confere: ou o segredo está errado, ou o token foi alterado\n\n';
+        } catch (e) { assinatura = '⚠️ Não deu para verificar: ' + e.message + '\n\n'; }
+      }
+      output('jwt-out', `${expiredBadge ? expiredBadge + '\n\n' : ''}${assinatura}${JSON.stringify(data, null, 2)}`, analysis.isExpired ? 'error' : 'success');
     } catch(e) { output('jwt-out', e.message, 'error'); }
   };
 };
@@ -1989,7 +2437,7 @@ TOOL_INIT['uuid'] = () => {
 
 // ---- Checksum ----
 TOOLS['checksum'] = () => `
-<div class="tool-header"><div class="tool-title">🧮 Checksums</div><div class="tool-subtitle">CRC32, Luhn, EAN-13, ISBN, Módulo 11</div></div>
+<div class="tool-header"><div class="tool-title">🧮 Checksums</div><div class="tool-subtitle">CRC32, Adler-32, Fletcher-16, Luhn, EAN-13, ISBN, Módulo 11</div></div>
 <div class="form-section">
   <div class="tabs">
     <button class="tab active" onclick="switchTab('cs','crc32',this)">CRC32</button>
@@ -1997,6 +2445,8 @@ TOOLS['checksum'] = () => `
     <button class="tab" onclick="switchTab('cs','ean',this)">EAN-13</button>
     <button class="tab" onclick="switchTab('cs','isbn',this)">ISBN</button>
     <button class="tab" onclick="switchTab('cs','mod11',this)">Módulo 11</button>
+    <button class="tab" onclick="switchTab('cs','adler',this)">Adler-32</button>
+    <button class="tab" onclick="switchTab('cs','fletcher',this)">Fletcher-16</button>
   </div>
   <div id="cs-crc32" class="tab-content active"><label>Texto</label><input type="text" id="cs-crc32-in" placeholder="texto" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.crc32(this.value)"></div>
   <div id="cs-luhn" class="tab-content"><label>Número (cartão, IMEI)</label><input type="text" id="cs-luhn-in" placeholder="4111111111111111" oninput="runLuhn()"></div>
@@ -2006,6 +2456,8 @@ TOOLS['checksum'] = () => `
     <div id="isbn-13" class="tab-content active"><label>ISBN-13</label><input type="text" id="cs-isbn13-in" placeholder="978-3-16-148410-0" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.validateISBN13(this.value)?'✅ ISBN-13 Válido':'❌ Inválido'"></div>
     <div id="isbn-10" class="tab-content"><label>ISBN-10</label><input type="text" id="cs-isbn10-in" placeholder="0-306-40615-2" oninput="document.getElementById('cs-out').textContent=ChecksumUtils.validateISBN10(this.value)?'✅ ISBN-10 Válido':'❌ Inválido'"></div>
   </div>
+  <div id="cs-adler" class="tab-content"><label>Texto</label><input type="text" id="cs-adler-in" placeholder="texto" oninput="document.getElementById('cs-out').textContent='Adler-32: '+ChecksumUtils.adler32(this.value)"></div>
+  <div id="cs-fletcher" class="tab-content"><label>Texto</label><input type="text" id="cs-fletcher-in" placeholder="texto" oninput="document.getElementById('cs-out').textContent='Fletcher-16: '+ChecksumUtils.fletcher16(this.value)"></div>
   <div id="cs-mod11" class="tab-content"><label>Número para Módulo 11</label><input type="text" id="cs-mod11-in" placeholder="123456" oninput="document.getElementById('cs-out').textContent='Dígito verificador: '+ChecksumUtils.modulo11(this.value)"></div>
   <div style="margin-top:14px;font-size:16px;font-weight:600;color:var(--text)" id="cs-out"></div>
 </div>`;
