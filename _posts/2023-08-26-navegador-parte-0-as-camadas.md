@@ -12,7 +12,8 @@ description: "Antes do navegador pedir qualquer coisa, a máquina já tinha ende
 **3.** [o HTTP que anda por cima](/2023/09/navegador-parte-3-http/) ·
 **4.** [o HTML vira árvore](/2023/09/navegador-parte-4-o-html-vira-arvore/) ·
 **5.** [estilo, layout e pintura](/2023/09/navegador-parte-5-estilo-e-layout/) ·
-**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/)*
+**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/) ·
+**7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 A [parte 1](/2023/09/navegador-parte-1-do-nome-ao-endereco/) começa com o
 navegador precisando de um endereço IP. Repare no que ela já toma como dado: que
@@ -61,8 +62,10 @@ Descer uma camada é acrescentar um cabeçalho. O seu `GET /` sai assim:
 ```
 
 Esses tamanhos não são decorativos, e dá para confirmá-los sem abrir o
-Wireshark. O `ping` permite fixar o tamanho da carga e proibir
-fragmentação; o ponto exato em que ele para de passar denuncia a conta:
+Wireshark. A ferramenta é o `ping`, que fala **ICMP** — o protocolo de controle
+da camada de rede, usado para diagnóstico e para avisar erros, e não para
+transportar dados de aplicação. O `ping` permite fixar o tamanho da carga e
+proibir fragmentação; o ponto exato em que ele para de passar denuncia a conta:
 
 | família | carga | quadro total | passa? |
 |---|---:|---:|---|
@@ -167,12 +170,11 @@ inet6 2001:db8::5c3f:9e01  scope global temporary dynamic      preferred_lft  51
 inet6 2001:db8::a1b2:c3d4  scope global dynamic mngtmpaddr     preferred_lft 372428s
 ```
 
-O segundo é estável. O primeiro é **temporário**, trocado a cada poucas horas, e
+O segundo é estável; o primeiro é **temporário**, trocado a cada poucas horas, e
 é o que a máquina usa para sair. O motivo é privacidade: a forma original de
-montar o endereço IPv6 derivava os 64 bits finais do endereço MAC da placa, o que
-significava que a mesma máquina era rastreável por qualquer site, em qualquer
-rede do mundo, para sempre. A
-[RFC 8981](https://www.rfc-editor.org/rfc/rfc8981.html) resolveu isso gerando
+montar o endereço IPv6 derivava os 64 bits finais do MAC da placa, o que tornava
+a máquina rastreável por qualquer site, em qualquer rede, para sempre. A
+[RFC 8981](https://www.rfc-editor.org/rfc/rfc8981.html) resolveu isso com
 endereços aleatórios que expiram.
 
 Confirmei qual dos dois sai para a rede perguntando a um serviço externo qual
@@ -225,11 +227,11 @@ internet. Comparando o que a máquina tem com o que um servidor externo enxerga:
 | IPv4 | privado (RFC 1918) | outro, público | **não** — há NAT |
 | IPv6 | o temporário global | o mesmo | **sim** — sem NAT |
 
-No IPv4 o roteador reescreve o endereço de origem de cada pacote que sai e
-mantém uma tabela para saber a quem devolver a resposta. Isso resolveu a falta de
-endereços e criou, de brinde, uma assimetria: conexões de dentro para fora
-funcionam, de fora para dentro não — o que virou a base de como quase toda rede
-doméstica se defende, sem nunca ter sido projetado para isso.
+No IPv4 o roteador reescreve o endereço de origem de cada pacote que sai e guarda
+uma tabela para saber a quem devolver a resposta. Isso resolveu a falta de
+endereços e criou de brinde uma assimetria — de dentro para fora funciona, de
+fora para dentro não —, que virou a base de como quase toda rede doméstica se
+defende, sem nunca ter sido projetada para isso.
 
 No IPv6 não há NAT: o endereço da interface é o endereço na internet. Mais
 simples, e permite conexões diretas — ao custo de o firewall ter de virar decisão

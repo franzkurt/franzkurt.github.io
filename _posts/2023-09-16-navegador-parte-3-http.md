@@ -12,7 +12,8 @@ description: "Com o cano aberto, falta combinar o que pedir. Esta parte mede o q
 **3.** o HTTP que anda por cima (esta) ·
 **4.** [o HTML vira árvore](/2023/09/navegador-parte-4-o-html-vira-arvore/) ·
 **5.** [estilo, layout e pintura](/2023/09/navegador-parte-5-estilo-e-layout/) ·
-**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/)*
+**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/) ·
+**7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 A [parte 2](/2023/09/navegador-parte-2-a-conexao/) deixou um cano cifrado e
 confiável entre o navegador e o servidor. O cano não sabe nada sobre páginas: ele

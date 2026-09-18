@@ -12,7 +12,8 @@ description: "A árvore existe, mas não tem tamanho nem cor. Esta parte mede as
 **3.** [o HTTP que anda por cima](/2023/09/navegador-parte-3-http/) ·
 **4.** [o HTML vira árvore](/2023/09/navegador-parte-4-o-html-vira-arvore/) ·
 **5.** estilo, layout e pintura (esta) ·
-**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/)*
+**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/) ·
+**7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 O DOM da [parte 4](/2023/09/navegador-parte-4-o-html-vira-arvore/) é uma árvore de
 objetos sem nenhuma informação visual. Nenhum nó sabe o próprio tamanho, a
@@ -187,7 +188,10 @@ uma lista de comandos de desenho.
 
 Essa lista não vira uma imagem só. O conteúdo é dividido em **camadas**, e
 camadas são rasterizadas separadamente, muitas vezes no processo de GPU. A
-composição junta as camadas na tela.
+**composição** junta as camadas na tela — e quem faz isso é o **compositor**, que
+roda em outra thread, fora daquela onde o seu JavaScript executa. Guarde essa
+separação: ela é a razão de a rolagem continuar suave em páginas cujo código
+travou.
 
 É daí que vem a vantagem real de `transform` e `opacity`: são as duas coisas que
 o compositor consegue aplicar a uma camada já pronta, sem repintar nada. Mudar

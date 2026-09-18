@@ -12,7 +12,8 @@ description: "Um endereço IP não é uma conexão. Entre um e outro há três i
 **3.** [o HTTP que anda por cima](/2023/09/navegador-parte-3-http/) ·
 **4.** [o HTML vira árvore](/2023/09/navegador-parte-4-o-html-vira-arvore/) ·
 **5.** [estilo, layout e pintura](/2023/09/navegador-parte-5-estilo-e-layout/) ·
-**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/)*
+**6.** [o JavaScript e a volta do laço](/2023/10/navegador-parte-6-javascript/) ·
+**7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 Na [parte 1](/2023/09/navegador-parte-1-do-nome-ao-endereco/) o nome virou
 endereço. Ter o endereço, porém, não é ter para onde mandar um pedido — é saber

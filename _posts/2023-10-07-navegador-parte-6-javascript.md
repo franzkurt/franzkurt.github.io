@@ -12,7 +12,8 @@ description: "Tudo que as cinco partes anteriores descreveram roda numa thread s
 **3.** [o HTTP que anda por cima](/2023/09/navegador-parte-3-http/) ·
 **4.** [o HTML vira árvore](/2023/09/navegador-parte-4-o-html-vira-arvore/) ·
 **5.** [estilo, layout e pintura](/2023/09/navegador-parte-5-estilo-e-layout/) ·
-**6.** o JavaScript e a volta do laço (esta)*
+**6.** o JavaScript e a volta do laço (esta) ·
+**7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 Chegamos com uma página desenhada na tela. Falta o que a torna um aplicativo em
 vez de um documento — e falta a restrição que explica quase todo problema de
@@ -42,6 +43,12 @@ Duas filas com regras opostas. Da fila de **tarefas** sai um item por volta:
 `setTimeout`, um evento de clique, uma resposta de rede. A fila de
 **microtarefas** é drenada até o fim: `Promise.then`, `queueMicrotask`,
 `MutationObserver`.
+
+E fora das duas filas está o `requestAnimationFrame`: uma função que você
+registra para rodar **imediatamente antes do próximo quadro ser desenhado**. Não
+é um temporizador — não tem prazo, tem lugar. É onde se anima alguma coisa sem
+brigar com o navegador, porque a alteração acontece no instante exato em que ele
+ia recalcular tudo de qualquer jeito.
 
 A diferença aparece direto no console:
 
