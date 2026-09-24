@@ -1,7 +1,7 @@
 ---
 title: "A tríade, parte 1: o código em C que compila, roda e mente"
 date: 2026-09-07 10:00:00 -0300
-tags: [c, rust, python, compiladores, engenharia]
+tags: [c, rust, python, compiladores]
 description: "Uma verificação de overflow que o compilador apaga. Uma checagem de ponteiro nulo que desaparece do assembly. Os dois casos compilam sem aviso, rodam sem erro, e devolvem a resposta errada."
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Por que `1 and 2 and 3` devolve 3"
 date: 2026-09-11 10:00:00 -0300
-tags: [python, operadores, casos-de-canto, cpython, engenharia]
+tags: [python, operadores, casos-de-canto, cpython]
 description: "and e or não devolvem True nem False: devolvem um dos operandos. O bytecode mostra por quê, e a explicação cabe numa instrução chamada COPY."
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 2: a conexão e a sessão"
 date: 2023-09-09 10:00:00 -0300
-tags: [navegador, redes, tcp, tls, engenharia]
+tags: [navegador, redes, tcp, tls]
 description: "Um endereço IP não é uma conexão. Entre um e outro há três idas e voltas, um estado compartilhado que ninguém transmite, e o handshake que finalmente prova que o servidor é quem diz ser."
 ---
 

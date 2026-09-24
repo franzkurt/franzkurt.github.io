@@ -1,7 +1,7 @@
 ---
 title: "Cache inline: como o interpretador aprende com o que já viu"
 date: 2021-01-16 10:00:00 -0300
-tags: [python, interpretadores, performance, cpython, engenharia]
+tags: [python, interpretadores, performance, cpython]
 description: "Ler o.x parece de graça, mas é uma busca de nome dentro de um tipo, toda vez. O truque que resolve isso é de 1984, e o seu CPython reserva 18 bytes por leitura de atributo para usá-lo."
 ---
 

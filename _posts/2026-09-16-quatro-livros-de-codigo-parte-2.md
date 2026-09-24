@@ -1,7 +1,7 @@
 ---
 title: "Cinco livros, quatro distâncias — parte 2: onde o seu código realmente dói"
 date: 2026-09-16 10:00:00 -0300
-tags: [livros, engenharia, arquitetura, python]
+tags: [livros, arquitetura, python]
 description: "Os três livros da parte 1 dizem como o código deveria ser. Os dois do Adam Tornhill dizem que a sua opinião sobre qual parte do seu sistema está pior provavelmente está errada — e mostram como medir."
 ---
 

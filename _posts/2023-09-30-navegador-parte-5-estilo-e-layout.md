@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 5: estilo, layout e pintura"
 date: 2023-09-30 10:00:00 -0300
-tags: [navegador, css, layout, desempenho, engenharia]
+tags: [navegador, css, layout, performance]
 description: "A árvore existe, mas não tem tamanho nem cor. Esta parte mede as três etapas que faltam — e derruba dois conselhos de desempenho de CSS que todo mundo repete."
 ---
 

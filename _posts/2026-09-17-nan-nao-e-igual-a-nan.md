@@ -1,7 +1,7 @@
 ---
 title: "nan não é igual a nan, e mesmo assim está na lista"
 date: 2026-09-17 10:00:00 -0300
-tags: [python, operadores, casos-de-canto, tipos, engenharia]
+tags: [python, operadores, casos-de-canto, tipos]
 description: "Cinco objetos de cinco tipos diferentes viram um só num set. Uma tupla imutável muda de conteúdo num erro. E sorted devolve uma lista fora de ordem sem avisar nada."
 audio: /assets/audio/nan-nao-e-igual-a-nan.mp3
 audio_duracao: "5:51"

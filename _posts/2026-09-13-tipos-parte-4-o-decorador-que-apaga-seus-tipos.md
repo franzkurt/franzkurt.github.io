@@ -1,7 +1,7 @@
 ---
 title: "Tipos e estruturas, parte 4: o decorador que apaga os seus tipos"
 date: 2026-09-13 10:00:00 -0300
-tags: [python, tipagem, design, engenharia]
+tags: [python, tipagem, design]
 description: "Você anotou a função inteira, pôs um @cronometra em cima, e o mypy passou a aceitar soma(\"isso\", \"nao e float\"). O decorador apagou a assinatura — e existe uma construção para isso desde o 3.10."
 ---
 

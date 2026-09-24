@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 7: conferir tudo com tcpdump e scapy"
 date: 2023-10-14 10:00:00 -0300
-tags: [redes, tcpdump, scapy, python, pacotes, engenharia]
+tags: [navegador, redes, tcpdump, scapy, python, pacotes]
 description: "As sete partes anteriores afirmaram dezenas de coisas sobre pacotes que você não viu. Esta mostra como abrir os bytes e conferir cada uma — e o que o próprio laboratório distorce."
 ---
 

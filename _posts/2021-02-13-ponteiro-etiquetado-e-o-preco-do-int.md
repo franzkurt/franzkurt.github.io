@@ -1,7 +1,7 @@
 ---
 title: "O ponteiro que carrega o número, e por que o CPython não pode usá-lo"
 date: 2021-02-13 10:00:00 -0300
-tags: [python, c, cpython, performance, memoria, engenharia]
+tags: [python, c, cpython, performance, memória]
 description: "Somar dois inteiros etiquetados: 5 instruções, nenhum acesso à memória. Somar dois inteiros alocados: 10 instruções, uma delas é call malloc. O truque tem 40 anos, e o CPython está impedido de usá-lo."
 ---
 

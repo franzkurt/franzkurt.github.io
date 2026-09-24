@@ -1,7 +1,7 @@
 ---
 title: "A tríade, parte 2: o C não venceu como linguagem, venceu como interface"
 date: 2026-09-08 10:00:00 -0300
-tags: [c, python, rust, arquitetura, engenharia]
+tags: [c, python, rust, arquitetura]
 description: "Rode ldd no seu Python e veja contra o que ele liga. A razão de o C ainda sustentar tudo não é a quantidade de código escrito nele — é que ele é o único vocabulário que todas as linguagens concordam em falar."
 ---
 

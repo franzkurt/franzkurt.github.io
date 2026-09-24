@@ -1,7 +1,7 @@
 ---
 title: "Como funciona a Internet Afinal"
 date: 2021-05-11 20:35:54 -0300
-tags: [mosaic, internet, redes, network, browsers]
+tags: [mosaic, internet, redes, network, navegador]
 description: "Neste post iremos aprender a desbravar os tópicos de redes na raça!"
 canonical_url: https://franzkurt.medium.com/como-funciona-a-internet-afinal-ff6182c0ec7a
 medium_url: https://franzkurt.medium.com/como-funciona-a-internet-afinal-ff6182c0ec7a

@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 0: as camadas, e o que já estava pronto"
 date: 2023-08-26 10:00:00 -0300
-tags: [navegador, redes, osi, tcp-ip, dhcp, engenharia]
+tags: [navegador, redes, osi, tcp-ip, dhcp]
 description: "Antes do navegador pedir qualquer coisa, a máquina já tinha endereço, rota e o MAC do roteador. Esta parte abre as camadas de baixo — e mostra quem entregou cada uma dessas três coisas."
 ---
 

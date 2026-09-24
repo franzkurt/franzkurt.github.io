@@ -1,7 +1,7 @@
 ---
 title: "A tríade, parte 3: quanto custa sair do Python"
 date: 2026-09-09 10:00:00 -0300
-tags: [python, c, rust, performance, engenharia]
+tags: [python, c, rust, performance]
 description: "ctypes custa 13 vezes uma extensão nativa para chamar a mesma função em C. E uma extensão em C, numa chamada trivial, mal ganha do Python puro. O que decide não é a linguagem — é quanto trabalho cabe em cada travessia."
 ---
 

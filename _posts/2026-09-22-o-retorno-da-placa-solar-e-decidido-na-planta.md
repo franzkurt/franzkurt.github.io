@@ -1,7 +1,7 @@
 ---
 title: "O retorno da placa solar é decidido na planta, não no telhado"
 date: 2026-09-22 10:00:00 -0300
-tags: [energia, solar, arquitetura, python, medicao, engenharia]
+tags: [energia, solar, arquitetura, python, medição]
 description: "A Lei 14.300 mudou onde está o valor de um sistema fotovoltaico: saiu da energia exportada e foi para a consumida na hora. Calculei o quanto isso vale, e escrevi um script para você rodar na sua casa."
 ---
 

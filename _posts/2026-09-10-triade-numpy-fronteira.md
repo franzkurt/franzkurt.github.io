@@ -1,7 +1,7 @@
 ---
 title: "A tríade, parte 4: quando o numpy perde para uma lista"
 date: 2026-09-10 10:00:00 -0300
-tags: [python, c, performance, numpy, engenharia]
+tags: [python, c, performance, numpy]
 description: "Somar cem mil números: 21 µs no numpy vetorizado, 628 µs numa lista comum — e 5.202 µs com sum() sobre o array numpy. O array perde para a lista por oito vezes, e o motivo é o mesmo da parte 3."
 ---
 

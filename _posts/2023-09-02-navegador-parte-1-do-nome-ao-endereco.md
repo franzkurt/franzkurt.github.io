@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 1: do nome ao endereço"
 date: 2023-09-02 10:00:00 -0300
-tags: [navegador, redes, dns, http, engenharia]
+tags: [navegador, redes, dns, http]
 description: "Entre apertar enter e o primeiro byte sair da placa de rede, o navegador já tomou meia dúzia de decisões. Esta parte abre a primeira delas: transformar um nome em um endereço IP."
 ---
 

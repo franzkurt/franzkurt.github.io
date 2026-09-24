@@ -1,7 +1,7 @@
 ---
 title: "O objeto que contém a si mesmo, e as três defesas do CPython"
 date: 2019-05-04 10:00:00 -0300
-tags: [python, cpython, casos-de-canto, engenharia]
+tags: [python, cpython, casos-de-canto]
 description: "ls = []; ls.append(ls). Agora imprima. O interpretador não trava — e o que ele faz para não travar aparece em três lugares diferentes, cada um com uma estratégia."
 ---
 

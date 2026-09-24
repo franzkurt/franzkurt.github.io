@@ -1,7 +1,7 @@
 ---
 title: "O Hamlet negativo: quando nada está quebrado"
 date: 2025-10-11 09:00:00 -0300
-tags: [segurança, design, engenharia, ddd, arquitetura]
+tags: [segurança, design, ddd, arquitetura]
 description: "Firewall certo, portas fechadas, sem SQL injection, sem XSS. E os clientes davam desconto a si mesmos comprando quantidades negativas. Secure by Design é sobre a falha que nenhum scanner acha, porque tecnicamente não há falha."
 ---
 

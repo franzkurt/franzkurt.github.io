@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 6: o JavaScript e a volta do laço"
 date: 2023-10-07 10:00:00 -0300
-tags: [navegador, javascript, event-loop, desempenho, engenharia]
+tags: [navegador, javascript, event-loop, performance]
 description: "Tudo que as cinco partes anteriores descreveram roda numa thread só, e o JavaScript divide essa thread com elas. Esta parte mede o que acontece quando ele não devolve o controle."
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Python e Rust: duas apostas opostas, e o que cada uma cobrou"
 date: 2026-09-05 10:00:00 -0300
-tags: [python, rust, arquitetura, engenharia, linguagens]
+tags: [python, rust, arquitetura, linguagens]
 description: "A linguagem mais usada e a mais admirada escolheram o contrário uma da outra em quase tudo. E o desfecho tem ironia: as ferramentas de Python que mais crescem hoje são escritas em Rust."
 ---
 

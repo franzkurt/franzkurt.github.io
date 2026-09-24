@@ -1,7 +1,7 @@
 ---
 title: "Diátaxis na era dos agentes: quatro documentos, não um"
 date: 2026-08-18 18:00:00 -0300
-tags: [documentação, escrita, agentes, ia, engenharia]
+tags: [documentação, escrita, agentes, ia]
 description: "Um README costuma ter quatro intenções misturadas, e por isso nenhuma das quatro funciona. Cada tipo tem uma regra do que ele não pode fazer — e ignorá-las custa mais agora que boa parte dos leitores é máquina."
 ---
 

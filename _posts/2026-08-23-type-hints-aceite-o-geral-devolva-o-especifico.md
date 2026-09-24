@@ -1,7 +1,7 @@
 ---
 title: "Tipos e estruturas, parte 3: aceite o mais geral, devolva o mais específico"
 date: 2026-08-23 10:00:00 -0300
-tags: [python, tipagem, design, engenharia]
+tags: [python, tipagem, design]
 description: "Declarar dict quando você só lê é exigir do chamador mais do que você precisa. A hierarquia de collections.abc existe para isso — e o verificador de tipos até sugere a correção sozinho."
 ---
 

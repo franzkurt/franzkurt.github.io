@@ -1,7 +1,7 @@
 ---
 title: "A fronteira que o JIT não atravessa, e o contrabando que resolve"
 date: 2024-01-20 10:00:00 -0300
-tags: [python, c, performance, cpython, pypy, engenharia]
+tags: [python, c, performance, cpython, pypy]
 description: "No PyPy, chamar uma extensão em C é 2,7 vezes mais lento que no CPython — a linguagem rápida perde da lenta. A causa é a mesma que faz ctypes custar 11 vezes uma chamada normal aqui."
 ---
 

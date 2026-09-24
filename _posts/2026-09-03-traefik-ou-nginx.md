@@ -1,7 +1,7 @@
 ---
 title: "Traefik ou nginx: medi os dois fazendo a mesma coisa"
 date: 2026-09-03 10:00:00 -0300
-tags: [nginx, traefik, infraestrutura, containers, engenharia]
+tags: [nginx, traefik, infraestrutura, containers]
 description: "Subi os dois roteando os mesmos serviços, acrescentei um terceiro e cronometrei. A diferença de desempenho que todo mundo cita não apareceu; a que decide a escolha é outra."
 ---
 

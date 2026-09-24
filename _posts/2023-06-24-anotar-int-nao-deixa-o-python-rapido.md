@@ -1,7 +1,7 @@
 ---
 title: "Anotar `int` não deixa o Python rápido"
 date: 2023-06-24 10:00:00 -0300
-tags: [python, tipos, compiladores, performance, engenharia]
+tags: [python, tipos, compiladores, performance]
 description: "Doze linhas em que o mypy --strict passa sem um erro, a anotação diz int, e a soma devolve 42. Não é bug do verificador: é o que uma anotação promete, e o que ela não promete."
 ---
 

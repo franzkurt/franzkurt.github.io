@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 4: o HTML vira árvore"
 date: 2023-09-23 10:00:00 -0300
-tags: [navegador, html, dom, parsing, engenharia]
+tags: [navegador, html, dom, parsing]
 description: "O parser de HTML não rejeita nada. Esta parte mostra, com dez entradas quebradas e o DOM que sai de cada uma, por que ele é assim — e o que isso custa em tempo de carregamento."
 ---
 

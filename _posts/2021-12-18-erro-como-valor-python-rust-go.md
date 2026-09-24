@@ -1,7 +1,7 @@
 ---
 title: "Erro como valor: o que Rust e Go fazem, e quanto isso custa em Python"
 date: 2021-12-18 10:00:00 -0300
-tags: [python, rust, go, tipagem, design, engenharia]
+tags: [python, rust, go, tipagem, design]
 description: "Dos três estilos de tratar erro, só um faz o verificador de tipos exigir que você trate. E ele é o mais caro: 2,5 vezes o custo da exceção no caminho feliz. Os dois números medidos aqui."
 ---
 

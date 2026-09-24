@@ -1,7 +1,7 @@
 ---
 title: "O AGI pessoal de Garry Tan: a biblioteca e o bibliotecário"
 date: 2026-08-15 10:00:00 -0300
-tags: [ia, agentes, conhecimento, processo, engenharia]
+tags: [ia, agentes, conhecimento, processo]
 description: "O presidente do Y Combinator abriu o próprio sistema de conhecimento e disse que todo mundo deveria ter um. A tese se sustenta — e o ponto em que ela quebra é um parágrafo que dura meio minuto no meio da palestra."
 ---
 

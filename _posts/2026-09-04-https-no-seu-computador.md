@@ -1,7 +1,7 @@
 ---
 title: "HTTPS no seu computador: nip.io e a cadeia de confiança"
 date: 2026-09-04 10:00:00 -0300
-tags: [tls, certificados, dns, nginx, traefik, engenharia]
+tags: [tls, certificados, dns, nginx, traefik]
 description: "Certificado é emitido para nome, não para IP — e no seu laptop não há nome. O nip.io resolve isso com DNS puro, e abrir a cadeia com openssl explica por que o navegador confia em uns e não em outros."
 ---
 

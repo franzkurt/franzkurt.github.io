@@ -1,7 +1,7 @@
 ---
 title: "Cinco livros, quatro distâncias — parte 1: como o código deveria ser"
 date: 2026-09-15 10:00:00 -0300
-tags: [livros, engenharia, arquitetura, segurança, python]
+tags: [livros, arquitetura, segurança, python]
 description: "Python Fluente, Clean Architecture e Secure by Design olham o mesmo código de três distâncias — a linha, o sistema e o adversário. Os três dizem como o código deveria ser; a quarta distância, na parte 2, diz que seu palpite sobre o seu código está errado."
 ---
 

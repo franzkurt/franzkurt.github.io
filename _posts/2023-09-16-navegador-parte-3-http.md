@@ -1,7 +1,7 @@
 ---
 title: "Um navegador por dentro, parte 3: o HTTP que anda por cima"
 date: 2023-09-16 10:00:00 -0300
-tags: [navegador, http, redes, cache, engenharia]
+tags: [navegador, http, redes, cache]
 description: "Com o cano aberto, falta combinar o que pedir. Esta parte mede o que o HTTP/2 realmente ganha do HTTP/1.1 — e a resposta é bem menor do que se costuma dizer."
 ---
 

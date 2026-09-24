@@ -1,7 +1,7 @@
 ---
 title: "As ferramentas do blog, e por que elas não sobem nada"
 date: 2026-09-18 21:00:00 -0300
-tags: [ferramentas, javascript, privacidade, pdf, ocr, engenharia]
+tags: [ferramentas, javascript, privacidade, pdf, ocr]
 description: "Cinquenta e três utilitários que rodam inteiros no navegador. Este texto explica as mais úteis — o que cada uma usa por baixo, o que ela consegue e onde ela para."
 ---
 

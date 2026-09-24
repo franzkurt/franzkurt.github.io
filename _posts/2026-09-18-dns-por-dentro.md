@@ -1,7 +1,7 @@
 ---
 title: "DNS por dentro: 12 bytes de cabeçalho e uma árvore de delegação"
 date: 2026-09-18 10:00:00 -0300
-tags: [dns, redes, protocolos, privacidade, engenharia]
+tags: [dns, redes, protocolos, privacidade]
 description: "Toda conexão começa com uma pergunta que quase ninguém vê. Este texto abre o pacote, segue a resolução da raiz até a resposta, e mostra como usar isso a seu favor com o AdGuard."
 ---
 
