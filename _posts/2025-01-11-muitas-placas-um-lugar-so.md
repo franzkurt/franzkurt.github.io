@@ -34,19 +34,29 @@ a uma criança que aquele pássaro é um pardal, e ela corre o risco de nunca ma
 ver o pássaro. Ela vê o nome. O conhecimento, que deveria aproximar, vira uma
 cortina entre você e a coisa.
 
-Vale separar duas coisas que essa ideia costuma embaralhar. Ela não é um recado
-contra saber — é um recado contra **parar** no que se sabe. O nome do pássaro é
-útil; ele só não é o pássaro. A mesma distinção funciona para a palavra que você
-usa para descrever uma pessoa, um povo, uma religião, um partido.
+Repare que são dois usos bem diferentes da mesma palavra, e essa é talvez a
+distinção mais útil do texto todo. Um **rótulo** é colado *na* coisa: ele cobre,
+e quem lê o rótulo para de olhar o que está embaixo. "Pardal" colado no pássaro,
+"gente assim" colado numa pessoa. Já uma **placa** aponta para fora de si mesma —
+ela só existe para mandar você a outro lugar, e por isso várias placas diferentes
+podem conviver apontando para o mesmo ponto.
+
+É o mesmo conceito nas duas situações. O que muda é o uso: como rótulo, ele
+separa; como placa, ele une. E dá para saber em qual dos dois você está por uma
+pergunta simples — o que eu falei encerra o assunto, ou convida a ir ver?
+
+E vale desfazer um mal-entendido que a ideia provoca: não é um recado contra
+saber, é contra **parar** no que se sabe. O nome do pássaro é útil; ele só não é
+o pássaro. Vale igual para a palavra que você usa para descrever uma pessoa, um
+povo, uma religião, um partido.
 
 ## Verdades relativas, e por que impor uma produz violência
 
-Daí vem o passo que sustenta o argumento. Todo conceito é um ponto de vista;
-todo ponto de vista é, por definição, parcial. Logo, nenhum conceito é a coisa
-inteira.
+Daí vem o passo que sustenta o argumento: todo conceito é um ponto de vista,
+todo ponto de vista é parcial, logo nenhum conceito é a coisa inteira.
 
-Isso não desqualifica os conceitos — a gente vive deles, e a conversa toda é
-feita de conceitos. O que muda é o que você faz com eles. Uma verdade que se
+Isso não desqualifica os conceitos — a gente vive deles, e esta conversa é feita
+deles. O que muda é o que você faz com eles. Uma verdade que se
 sabe parcial convida a perguntar o que o outro está vendo. Uma verdade que se
 toma por completa só tem um movimento disponível: impor.
 
@@ -55,6 +65,53 @@ possíveis do mesmo fato. A primeira: essa pessoa está errada. A segunda: essa
 pessoa está de pé em outro lugar, vendo uma parte que daqui eu não vejo.
 
 As duas leituras cabem no mesmo dado. Só a segunda produz uma conversa.
+
+## A casa construída em cima da ponte
+
+Falta explicar por que a primeira leitura é sempre a que chega primeiro, e aqui
+a conversa oferece a imagem que, para mim, é a melhor do episódio inteiro.
+
+Ele descreve três camadas em nós. O corpo, que é instinto. A mente, que é o
+intelecto, a razão. E a consciência, que é a camada que a razão não alcança. E
+diz que a mente deveria ser a **ponte** — o que leva do instinto ao que está do
+outro lado.
+
+O problema, na formulação dele, é que construímos a nossa casa em cima da ponte.
+Moramos na razão. E quem mora na ponte nunca chega ao outro lado.
+
+Repare que é a mesma forma da imagem anterior. A placa existe para apontar, e a
+gente passa a defender a chapa de metal. A ponte existe para atravessar, e a
+gente monta casa nela. O erro não está na placa nem na ponte — está em parar
+nelas.
+
+Ele encosta isso na ciência sem hostilidade: a razão cataloga, põe numa caixa e
+declara entendido. Catalogar é útil — é o que me fez ir conferir as fontes deste
+texto. Só não é tudo que existe.
+
+## As duas faculdades que fabricam o tempo
+
+Da mesma conversa sai uma frase curta que reorganiza bastante coisa: o passado é
+um traço da memória, e o futuro é um traço da imaginação. Fora da mente humana,
+nenhum dos dois existe.
+
+Isso dá à imaginação um papel bem diferente do que se costuma atribuir a ela.
+Não é só a faculdade de criar — é a que constrói o tempo que ainda não chegou. E
+por isso, segundo ele, é a matéria-prima do medo: medo psicológico é sempre medo
+de algo no futuro, e o futuro é imaginado. Ele provoca com uma pergunta difícil
+de responder: que medo você tem **neste** instante, agora?
+
+Mas repare para onde essa mesma faculdade também serve, e esse é o ponto que me
+interessa. Se imaginar é conseguir habitar um tempo que não está aqui, é a mesma
+capacidade que permite habitar, por um instante, o lugar de onde o outro está
+vendo. Sem ela, a segunda leitura da discordância nem chega a existir como
+opção. A imaginação que fabrica o medo é a mesma que fabrica a empatia.
+
+E tem um lado disso tudo que é francamente unificador. Se a reação automática é
+a condição de todo mundo, a resposta atravessada que alguém teve comigo não é um
+veredito sobre mim: é o padrão dela respondendo a um estímulo. E a minha
+irritação com aquilo é o meu padrão respondendo. Isso não desculpa nada nem
+dispensa conversa — só tira da mesa a suposição de que houve intenção onde, na
+maior parte das vezes, havia piloto automático dos dois lados.
 
 ## A sala vazia, e o que de fato temos em comum
 
