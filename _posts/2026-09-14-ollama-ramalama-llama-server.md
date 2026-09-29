@@ -7,7 +7,7 @@ description: "As três resolvem o mesmo problema — rodar um LLM na sua máquin
 
 Quando se decide rodar um modelo de linguagem localmente, três nomes aparecem:
 Ollama, RamaLama e o llama-server. À primeira vista parecem concorrentes fazendo a
-mesma coisa. Não são — ou não exatamente. Os três empacotam o **mesmo motor** de
+mesma coisa. Não são, ou não exatamente. Os três empacotam o **mesmo motor** de
 formas diferentes, e a escolha certa depende do que você valoriza: facilidade,
 isolamento ou controle. Este texto tenta ir além da folha de propaganda de cada um,
 até os detalhes que só aparecem depois de uma semana de uso.
@@ -25,14 +25,14 @@ o embrulha em containers. O **llama-server** é o próprio llama.cpp exposto com
 servidor HTTP, sem embrulho nenhum.
 
 Ou seja: não são três motores rivais. São três camadas de conveniência sobre a mesma
-peça — do mais abstrato ao mais direto. Isso tem uma consequência que raramente se
+peça, do mais abstrato ao mais direto. Isso tem uma consequência que raramente se
 diz: **a qualidade da inferência é essencialmente idêntica nos três**, porque é o
 mesmo código gerando os tokens. O que muda é tudo ao redor. Vale reter isso: quando
 um deles parecer "dar respostas melhores", quase sempre a diferença está em um
 parâmetro de configuração, não no modelo.
 
 Uma nota de contexto sobre a saúde do motor: em fevereiro de 2026 a ggml.ai, de
-Gerganov, juntou-se ao Hugging Face para garantir a sustentabilidade do projeto — o
+Gerganov, juntou-se ao Hugging Face para garantir a sustentabilidade do projeto, o
 que é relevante quando se aposta uma stack inteira sobre uma peça de base.
 
 ## Ollama: o que simplesmente funciona
@@ -46,7 +46,7 @@ ollama run llama3.2
 
 Ele mantém um daemon em segundo plano, uma biblioteca curada de modelos, um
 aplicativo com janela de conversa e uma API local. Você não escolhe arquivo de
-modelo, nível de quantização nem parâmetro de inferência — ele decide por você, e
+modelo, nível de quantização nem parâmetro de inferência, ele decide por você, e
 para o caso comum a decisão é boa.
 
 **Forte em:** a menor distância entre "quero testar" e "está rodando". Atualização de
@@ -57,12 +57,12 @@ o menos divulgado. O Ollama tem uma janela de contexto padrão baixa (a própria
 documentação diverge entre 2048 e 4096 tokens, dependendo da página). Quando a
 conversa, o documento ou o laço de um agente ultrapassa esse limite, **o Ollama
 descarta as mensagens mais antigas sem erro, sem aviso, sem nada na resposta indicar
-que aconteceu.** O modelo continua respondendo — só que sem enxergar o começo. Para
+que aconteceu.** O modelo continua respondendo, só que sem enxergar o começo. Para
 um chat curto é invisível; para resumir um documento grande ou rodar um agente, é a
 diferença entre uma resposta correta e uma que ignora metade da entrada, e você não
 descobre pela saída. Pior: o endpoint compatível com a OpenAI (`/v1`) não tem campo
 para ajustar a janela por requisição, então um cliente que fale OpenAI não consegue
-corrigir isso sozinho — é preciso mudar o padrão do servidor ou embutir a janela num
+corrigir isso sozinho, é preciso mudar o padrão do servidor ou embutir a janela num
 Modelfile.
 
 <div class="nota-editorial" markdown="1">
@@ -80,7 +80,7 @@ constante universal é o erro, não o valor específico.
 </div>
 
 
-**A questão da atribuição.** Vale saber, porque afeta a confiança de longo prazo: o
+**A questão da atribuição.** Isso afeta a confiança de longo prazo: o
 Ollama demorou a atribuir com clareza que sua inferência inteira vem do llama.cpp, e
 o aplicativo foi desenvolvido em repositório privado e distribuído sem licença por um
 período, com o código só integrado ao repositório público em novembro de 2025. Nada
@@ -88,7 +88,7 @@ disso quebra o produto, mas contrasta com a imagem de projeto aberto.
 
 **Lock-in de formato.** O Ollama reempacota modelos GGUF no seu próprio formato, via
 `Modelfile`. Um modelo empacotado para o Ollama não roda direto em outra ferramenta
-baseada em llama.cpp sem retrabalho — o que alguns chamam de jardim murado.
+baseada em llama.cpp sem retrabalho, o que alguns chamam de jardim murado.
 
 Licença MIT. Projeto em [github.com/ollama/ollama](https://github.com/ollama/ollama).
 
@@ -105,14 +105,14 @@ ramalama run llama3.1
 A CLI parece a do Ollama, mas o que acontece embaixo é diferente. O RamaLama detecta
 sua GPU, baixa uma **imagem de container** com o runtime certo para o seu hardware
 (CUDA, ROCm, Vulkan…) e roda o modelo isolado dentro dela. O modelo em si pode vir de
-qualquer lugar — Hugging Face, Ollama, ModelScope ou um registry OCI — o que evita
+qualquer lugar — Hugging Face, Ollama, ModelScope ou um registry OCI, o que evita
 justamente o lock-in de formato do parágrafo anterior.
 
 O ganho central é isolamento de verdade, e por padrão, não como opção:
 
 - roda **rootless**, sem privilégios do host;
 - monta o modelo como volume **somente leitura**;
-- usa `--network=none` — o modelo **não tem acesso à rede**, então não há como um
+- usa `--network=none`, o modelo **não tem acesso à rede**, então não há como um
   modelo ou uma cadeia de ferramentas vazar dado para fora;
 - descarta capabilities do kernel e remove o container ao terminar.
 
@@ -122,7 +122,7 @@ virtual e ainda assim boot abaixo de um segundo.
 
 **Forte em:** segurança e reprodutibilidade de fábrica. Suporta llama.cpp e também
 vLLM como runtime. Encaixa em quem já padroniza Podman, OpenShift ou assinatura de
-imagem — o modelo entra no mesmo fluxo operacional do resto da infraestrutura.
+imagem, o modelo entra no mesmo fluxo operacional do resto da infraestrutura.
 
 <div class="nota-editorial" markdown="1">
 <span class="nota-editorial__rotulo">Correção de outubro de 2026</span>
@@ -133,7 +133,7 @@ testei (RamaLama 0.24 com Docker). A man page promete `127.0.0.1` como default;
 o comportamento medido publica a porta com `-p PORT:PORT`, ou seja, em
 `0.0.0.0`. Com `--host 127.0.0.1` explícito, ele publica certo. Então "o modelo
 não tem acesso à rede, não há como vazar dado para fora" é forte demais para o
-default desta versão — o desenho do projeto trata a questão, o default dessa
+default desta versão, o desenho do projeto trata a questão, o default dessa
 combinação de versão e engine contradiz a própria documentação. Confira a porta
 em vez de confiar na promessa.
 
@@ -164,16 +164,16 @@ Licença MIT.
 
 O [llama-server](https://github.com/ggml-org/llama.cpp/tree/master/tools/server) é o
 servidor HTTP que vem no próprio llama.cpp. Nenhum daemon de fundo, nenhuma
-biblioteca curada, nenhum container — um binário, um arquivo de modelo, uma porta:
+biblioteca curada, nenhum container, um binário, um arquivo de modelo, uma porta:
 
 ```bash
 ./llama-server -m modelo.gguf -c 4096 -ngl 99
 ```
 
-Repare no `-c 4096`: aqui a janela de contexto é um argumento explícito que você
+No `-c 4096`: aqui a janela de contexto é um argumento explícito que você
 controla, o oposto exato do truncamento silencioso do Ollama. Ele expõe endpoints
 compatíveis com a API da OpenAI, então qualquer cliente que fale com a OpenAI fala
-com ele — e expõe **tudo**: camadas na GPU (`-ngl`), slots paralelos (`-np`),
+com ele, e expõe **tudo**: camadas na GPU (`-ngl`), slots paralelos (`-np`),
 decodificação especulativa, troca de LoRA a quente, split entre múltiplas GPUs.
 
 **Forte em:** controle absoluto e nenhuma dependência. Você aponta para qualquer
@@ -213,19 +213,19 @@ Se for testar por conta própria, um exercício revela a diferença mais rápido
 qualquer especificação: **cole um documento de umas 8 mil palavras e peça um resumo.**
 
 - No **Ollama** com padrão de fábrica, o resumo pode sair confiante e errado, cobrindo
-  só o fim do texto — a janela truncou o resto e nada avisou. Você só descobre
+  só o fim do texto, a janela truncou o resto e nada avisou. Você só descobre
   conferindo contra o original, ou setando `num_ctx` na mão.
 - No **llama-server**, se a janela do `-c` não couber, você recebe o problema na cara,
   como parâmetro que precisa ajustar, não como resposta silenciosamente incompleta.
 - No **RamaLama**, o comportamento é o do runtime que ele containeriza (llama.cpp ou
   vLLM), com a diferença de que o processo está isolado e sem rede.
 
-Esse teste não mede qualidade de modelo — os três rodam o mesmo motor. Mede o que a
+Esse teste não mede qualidade de modelo, os três rodam o mesmo motor. Mede o que a
 ferramenta faz *com você* quando algo passa do limite: esconde, avisa ou isola.
 
 ## Qual escolher
 
-A pergunta não é "qual é o melhor", é "o que você valoriza" — e o que você tolera:
+A pergunta não é "qual é o melhor", é "o que você valoriza", e o que você tolera:
 
 - **Quer testar rápido, ou não vive no terminal?** Ollama. Ele foi feito para tirar o
   atrito do caminho. Só configure a janela de contexto antes de confiar nele com
@@ -234,7 +234,7 @@ A pergunta não é "qual é o melhor", é "o que você valoriza" — e o que voc
   seu fluxo de containers com segurança de fábrica, ao custo de alguns segundos de
   partida e da dependência de um runtime de container.
 - **Quer o máximo do hardware, ou controlar cada parâmetro?** llama-server. É o motor
-  cru, e nada fica entre você e ele — nem a conveniência, nem a rede de proteção.
+  cru, e nada fica entre você e ele, nem a conveniência, nem a rede de proteção.
 
 No fundo, os três são o mesmo motor com três filosofias sobre quanto decidir por
 você. Saber onde cada um decide — e onde cala — é o que evita a surpresa depois.

@@ -16,7 +16,7 @@ description: "Um endereço IP não é uma conexão. Entre um e outro há três i
 **7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 Na [parte 1](/2023/09/navegador-parte-1-do-nome-ao-endereco/) o nome virou
-endereço. Ter o endereço, porém, não é ter para onde mandar um pedido — é saber
+endereço. Ter o endereço, porém, não é ter para onde mandar um pedido, é saber
 para onde mandar o **primeiro pacote**. Entre esse pacote e o primeiro byte de
 HTML há três idas e voltas completas, e vale muito a pena saber qual é o preço
 de cada uma.
@@ -87,8 +87,8 @@ Sobre essa quádrupla o TCP mantém o que o IP não dá:
 
 - **ordem** — os pacotes podem chegar trocados; os números de sequência os
   recolocam na fila;
-- **confiabilidade** — o que não for confirmado é retransmitido;
 - **controle de fluxo** — a janela anunciada impede que o emissor afogue o
+- **controle de fluxo**, a janela anunciada impede que o emissor afogue o
   receptor;
 - **controle de congestionamento** — e este é o que aparece na medição.
 
@@ -202,11 +202,11 @@ dns=0.000000 tcp=0.000000 tls=0.000000   ← o terceiro tampouco
 
 Zero. Não há DNS, não há handshake TCP, não há TLS. E a conexão já saiu da
 partida lenta, então a janela está larga. Os 94 ms de preparo são pagos **uma
-vez por conexão**, não uma vez por recurso — e é exatamente por isso que o
+vez por conexão**, não uma vez por recurso, e é exatamente por isso que o
 HTTP/2, que enfia tudo numa conexão só, é o assunto da
 [parte 3](/2023/09/navegador-parte-3-http/).
 
-## O que fica
+## Três idas e voltas, e o que cada uma compra
 
 **Três idas e voltas antes do primeiro byte.** TCP, TLS, pedido. Nesta medição,
 94 ms de preparo para 3,8 ms de transferência.
@@ -223,8 +223,8 @@ aceitável, e é onde o HTTP/2 é escolhido sem custo nenhum.
 
 ## Referências
 
-- [RFC 9293 — Transmission Control Protocol](https://www.rfc-editor.org/rfc/rfc9293.html) — a especificação consolidada do TCP
-- [RFC 6928 — Increasing TCP's Initial Window](https://www.rfc-editor.org/rfc/rfc6928.txt) — de onde vêm os 10 segmentos
-- [RFC 8446 — TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446.txt) — o handshake de uma ida e volta, e o 0-RTT
-- [RFC 7301 — ALPN](https://www.rfc-editor.org/rfc/rfc7301.txt) — como o HTTP/2 é negociado sem viagem extra
+- [RFC 9293 — Transmission Control Protocol](https://www.rfc-editor.org/rfc/rfc9293.html), a especificação consolidada do TCP
+- [RFC 6928 — Increasing TCP's Initial Window](https://www.rfc-editor.org/rfc/rfc6928.txt), de onde vêm os 10 segmentos
+- [RFC 8446 — TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446.txt), o handshake de uma ida e volta, e o 0-RTT
+- [RFC 7301 — ALPN](https://www.rfc-editor.org/rfc/rfc7301.txt), como o HTTP/2 é negociado sem viagem extra
 - [High Performance Browser Networking (Ilya Grigorik)](https://hpbn.co/) — livro inteiro, de graça, sobre esta parte do caminho

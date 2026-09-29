@@ -37,7 +37,7 @@ Accept-Encoding: gzip
 O `curl` gastou **81 bytes** nisso. Um navegador gasta bem mais — manda
 `Accept-Language`, `Referer`, o conjunto de `Sec-Fetch-*`, as dicas de cliente
 `Sec-CH-UA`, e os cookies do domínio. É comum passar de 500 bytes, e em sites com
-sessão gorda, de 1 kB. Guarde esse número: ele volta quando falarmos de HTTP/2.
+sessão gorda, de 1 kB. Esse número importa: ele volta quando falarmos de HTTP/2.
 
 A resposta tem a mesma forma, com uma linha de estado na frente:
 
@@ -56,7 +56,7 @@ age: 0
 Seiscentos e cinquenta e seis bytes de cabeçalho para 4.028 de corpo. E duas
 linhas contam coisas que não são sobre esta requisição: `via: 1.1 varnish` diz
 que há um CDN na frente do servidor de verdade, e `age: 0` diz que este CDN
-acabou de buscar a página — se dissesse `age: 240`, a cópia estaria no cache
+acabou de buscar a página, se dissesse `age: 240`, a cópia estaria no cache
 dele há quatro minutos.
 
 ## Compressão: o ganho que ainda é o maior de todos
@@ -72,14 +72,14 @@ $ curl -s -o /dev/null -w '%{size_download}\n' -H 'Accept-Encoding: gzip' https:
 repetitivo comprime absurdamente bem. Nenhuma outra otimização de transporte
 chega perto disso.
 
-Vale notar o que *não* aconteceu:
+O que *não* aconteceu:
 
 ```
 $ curl -s -o /dev/null -w '%{size_download}\n' -H 'Accept-Encoding: br' https://franzkurt.github.io/
 13147
 ```
 
-Pedindo brotli, veio cru. O GitHub Pages não serve brotli — o cliente pede,
+Pedindo brotli, veio cru. O GitHub Pages não serve brotli, o cliente pede,
 o servidor não tem, e manda sem compressão nenhuma. Brotli costuma render mais
 15 a 20% sobre o gzip em HTML, e aqui esse ganho simplesmente não existe. É o
 tipo de coisa que você só descobre medindo, porque o navegador não reclama.
@@ -90,7 +90,7 @@ tipo de coisa que você só descobre medindo, porque o navegador não reclama.
 minutos **sem perguntar nada**. Essa é a única forma de cache que é realmente
 grátis: zero pacotes.
 
-Passados os dez minutos, a cópia não é jogada fora — ela vira suspeita. O
+Passados os dez minutos, a cópia não é jogada fora, ela vira suspeita. O
 navegador pergunta se ainda vale, usando o `ETag` que veio junto:
 
 ```
@@ -99,7 +99,7 @@ $ curl -s -o /dev/null -w 'HTTP %{http_code}, %{size_download} bytes em %{time_t
 HTTP 304, 0 bytes em 0.184698s
 ```
 
-Zero bytes de corpo — e 185 milissegundos. Esse é o ponto que quase todo mundo
+Zero bytes de corpo, e 185 milissegundos. Esse é o ponto que quase todo mundo
 erra ao pensar em cache: **um 304 economiza banda, não tempo**. Você ainda paga
 a conexão inteira e a ida e volta do pedido. Num recurso pequeno, revalidar
 custa quase o mesmo que baixar de novo.
@@ -138,7 +138,7 @@ Doze arquivos reais deste blog, mesma origem, conexão nova a cada rodada:
 | HTTP/2 multiplexado, uma conexão | **0,152 · 0,161 · 0,168 · 0,162 · 0,150 s** |
 
 Três vezes mais rápido. É esse o número que costuma aparecer nas apresentações
-sobre HTTP/2 — e ele compara o HTTP/2 bem usado com o HTTP/1.1 usado do pior
+sobre HTTP/2, e ele compara o HTTP/2 bem usado com o HTTP/1.1 usado do pior
 jeito possível.
 
 A comparação honesta é contra o que os navegadores de fato faziam, com seis
@@ -155,20 +155,20 @@ que os 3× da tabela anterior.
 O ganho de verdade do HTTP/2 é menos sobre velocidade bruta e mais sobre o que
 ele deixa de exigir: uma conexão em vez de seis significa um handshake em vez
 de seis, uma partida lenta em vez de seis, e o fim do espalhamento por
-subdomínios — que, com HTTP/2, passa de otimização a **prejuízo**, porque força
+subdomínios, que, com HTTP/2, passa de otimização a **prejuízo**, porque força
 conexões extras onde uma bastava.
 
 ## O que o HTTP/2 não resolveu
 
 O multiplexação do HTTP/2 vive dentro de uma conexão TCP, e o TCP entrega em
 ordem estrita. Se um pacote se perder, o núcleo do sistema segura **todos** os
-fluxos até a retransmissão chegar — inclusive os que não tinham nada naquele
+fluxos até a retransmissão chegar, inclusive os que não tinham nada naquele
 pacote. O bloqueio de cabeça de fila saiu do HTTP e desceu para o TCP.
 
 Resolver isso exigia trocar o transporte, e é o que o HTTP/3 faz: roda sobre
 QUIC, em UDP, com os fluxos de fato independentes. A perda de um pacote atrapalha
 só o fluxo dele. Em rede boa a diferença é pequena; em rede ruim — celular, Wi-Fi
-lotado — é onde ela aparece.
+lotado, é onde ela aparece.
 
 ## E então o corpo começa a chegar
 
@@ -182,7 +182,7 @@ inteira, e é por isso que a ordem das coisas dentro do HTML muda tanto o que o
 usuário vê — assunto da
 [parte 4](/2023/09/navegador-parte-4-o-html-vira-arvore/).
 
-## O que fica
+## O que o HTTP/2 realmente entrega
 
 **Comprimir ainda é o maior ganho isolado.** 30,6% do tamanho, e um servidor sem
 brotli deixa mais 15% na mesa sem avisar ninguém.
@@ -201,5 +201,5 @@ só sai de cena com o QUIC.
 - [RFC 9110 — HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html) — métodos, estados, cabeçalhos, sem depender de versão
 - [RFC 9111 — HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111.html) — `Cache-Control`, `ETag`, revalidação
 - [RFC 9113 — HTTP/2](https://www.rfc-editor.org/rfc/rfc9113.html) — quadros, fluxos e HPACK
-- [RFC 9114 — HTTP/3](https://www.rfc-editor.org/rfc/rfc9114.html) — o HTTP sobre QUIC
-- [HTTP/2 é o futuro? (Daniel Stenberg, http2 explained)](https://http2-explained.haxx.se/) — do autor do curl, e honesto sobre os limites
+- [RFC 9114 — HTTP/3](https://www.rfc-editor.org/rfc/rfc9114.html), o HTTP sobre QUIC
+- [HTTP/2 é o futuro? (Daniel Stenberg, http2 explained)](https://http2-explained.haxx.se/), do autor do curl, e honesto sobre os limites

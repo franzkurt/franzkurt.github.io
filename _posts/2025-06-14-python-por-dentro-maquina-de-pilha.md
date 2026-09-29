@@ -10,7 +10,7 @@ audio_duracao: "6:53"
 *Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
 os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
 a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
+linguagem simples, e é lá que está o índice das partes e dos aprofundamentos.*
 
 O bytecode que sai da [parte 1](/2025/06/python-por-dentro-do-fonte-ao-bytecode/)
 precisa de alguém que o execute. Esse alguém é
@@ -26,7 +26,7 @@ definidas em
 [`Python/bytecodes.c`](https://github.com/python/cpython/blob/main/Python/bytecodes.c),
 numa linguagem de domínio criada só para isso, e o interpretador sai dali.
 
-Este texto é sobre a escolha de arquitetura desse laço — e sobre uma explicação
+Este texto é sobre a escolha de arquitetura desse laço, e sobre uma explicação
 muito repetida que não sobreviveu quando eu fui medir.
 
 <!--more-->
@@ -59,7 +59,7 @@ para ver:
 ```
 
 Dois. É o máximo que aquela função empilha ao mesmo tempo. Nada é alocado durante
-a execução — o espaço já está lá quando o frame nasce.
+a execução, o espaço já está lá quando o frame nasce.
 
 ## A explicação que todo mundo repete
 
@@ -89,7 +89,7 @@ explicação folclórica não se sustenta como está.
 
 ## O motivo real, e ele cabe num byte
 
-A restrição de tamanho existe — só que não é onde se costuma dizer.
+A restrição de tamanho existe, só que não é onde se costuma dizer.
 
 Desde o Python 3.6, cada instrução ocupa **exatamente dois bytes**: um para o
 opcode e um para o argumento. E daí saem dois tetos duros.
@@ -126,14 +126,14 @@ referências, busca de atributo. Trocar a arquitetura para economizar despacho
 seria otimizar o que não domina.
 
 **E quando o despacho começou a pesar, eles não trocaram a arquitetura.**
-Fundiram instruções. Repare no que aparece hoje ao desmontar um laço comum:
+Fundiram instruções. Ao desmontar um laço comum hoje:
 
 ```
 LOAD_FAST_LOAD_FAST      1 (total, i)
 ```
 
 É uma **superinstrução**: dois `LOAD_FAST` num opcode só. Metade do despacho,
-mesma arquitetura — e o custo é uma vaga naquelas cem que restam. É a troca que
+mesma arquitetura, e o custo é uma vaga naquelas cem que restam. É a troca que
 a pilha permite e que a máquina de registradores tornaria mais cara.
 
 ## A brecha que as ferramentas usam
@@ -142,7 +142,7 @@ Um último detalhe que explica muita ferramenta.
 
 Quando o interpretador vai executar um objeto de código, ele monta um frame e
 chama `_PyEval_EvalFrame()`. Por padrão, essa função executa o frame da forma
-usual — mas, pela [PEP 523](https://peps.python.org/pep-0523/), isso é
+usual, mas, pela [PEP 523](https://peps.python.org/pep-0523/), isso é
 **configurável**: dá para substituir a função de avaliação de frames do
 interpretador inteiro.
 
@@ -153,12 +153,12 @@ executa, não.
 ---
 
 *Próxima parte: ler bytecode de verdade com o `dis`, num laço, numa compreensão e
-numa chamada de função — e o que a sequência revela sobre o custo de cada uma.*
+numa chamada de função, e o que a sequência revela sobre o custo de cada uma.*
 
 ## Referências
 
-- [The bytecode interpreter](https://github.com/python/cpython/blob/main/InternalDocs/interpreter.md) — a documentação interna de onde vêm as citações
-- [`Python/ceval.c`](https://github.com/python/cpython/blob/main/Python/ceval.c) — o laço do interpretador
-- [`Python/bytecodes.c`](https://github.com/python/cpython/blob/main/Python/bytecodes.c) — as definições de instrução, em DSL, de onde o `switch` é gerado
+- [The bytecode interpreter](https://github.com/python/cpython/blob/main/InternalDocs/interpreter.md), a documentação interna de onde vêm as citações
+- [`Python/ceval.c`](https://github.com/python/cpython/blob/main/Python/ceval.c), o laço do interpretador
+- [`Python/bytecodes.c`](https://github.com/python/cpython/blob/main/Python/bytecodes.c), as definições de instrução, em DSL, de onde o `switch` é gerado
 - [PEP 523 — Adding a frame evaluation API to CPython](https://peps.python.org/pep-0523/)
-- [`dis`](https://docs.python.org/3/library/dis.html) — a lista de opcodes e o que cada um faz
+- [`dis`](https://docs.python.org/3/library/dis.html), a lista de opcodes e o que cada um faz

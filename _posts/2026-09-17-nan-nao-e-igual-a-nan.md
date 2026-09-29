@@ -12,7 +12,7 @@ operadores fazem exatamente o que prometem. Este é sobre o outro lado: os
 **tipos** que fazem a promessa parecer quebrada.
 
 Todos os casos abaixo foram medidos no Python 3.13.5, e a maioria não é bug de
-canto nenhum — é consequência direta de decisões de projeto que valem para o
+canto nenhum, é consequência direta de decisões de projeto que valem para o
 código que você escreve todo dia.
 
 <!--more-->
@@ -33,7 +33,7 @@ True
 ```
 
 `True` vale 1 e `False` vale 0, em qualquer lugar onde um número caiba. Isso é
-útil — `sum(lista_de_condicoes)` conta quantas são verdadeiras — e é a origem de
+útil — `sum(lista_de_condicoes)` conta quantas são verdadeiras, e é a origem de
 vários casos adiante.
 
 ## Cinco tipos, uma chave só
@@ -112,12 +112,12 @@ Este é o único da lista que eu classificaria como perigoso de verdade:
 | `[1, 3, nan]` | `[1, 3, nan]` |
 
 Três listas com os mesmos elementos, três resultados diferentes, **nenhum
-ordenado** — e nenhum erro. O algoritmo de ordenação assume que a comparação é
+ordenado**, e nenhum erro. O algoritmo de ordenação assume que a comparação é
 consistente, e `nan` não é: ele devolve `False` para `<`, `>` e `==` ao mesmo
 tempo. Sem relação de ordem, o algoritmo não tem como funcionar, e ele não tem
 como saber disso.
 
-O `max` e o `min` da mesma lista acertam — mas por sorte da posição, não por
+O `max` e o `min` da mesma lista acertam, mas por sorte da posição, não por
 tratarem o caso.
 
 Se os seus dados podem ter `nan`, filtre antes de ordenar. `math.isnan` existe
@@ -187,10 +187,10 @@ Não é inconsistência: é a convenção matemática. "Existe algum verdadeiro?
 coleção vazia é não; "todos são verdadeiros?" é vacuamente sim. Isso morde em
 validação — `all(regras)` numa lista de regras vazia aprova tudo.
 
-## O que fica
+## Os casos de canto, reunidos
 
 **Igualdade é o eixo em que quase todos esses casos giram.** `bool` ser `int`,
-cinco tipos virando uma chave, `nan` furando o `sorted` — em todos, a operação
+cinco tipos virando uma chave, `nan` furando o `sorted`, em todos, a operação
 está certa e a intuição sobre o que é "igual" é que estava errada.
 
 **Identidade é conferida antes de igualdade, e isso é visível.** Resolve o
@@ -205,6 +205,6 @@ avisa e muta; o `sorted` com `nan` não avisa e entrega lixo. O segundo é pior,
 
 - [Comparisons](https://docs.python.org/3/reference/expressions.html#comparisons) — `in`, `is`, e a regra de identidade antes de igualdade
 - [Truth Value Testing](https://docs.python.org/3/library/stdtypes.html#truth-value-testing) — `__bool__`, `__len__` e a ordem entre eles
-- [`math.isnan`](https://docs.python.org/3/library/math.html#math.isnan) — o teste que o `==` não faz
+- [`math.isnan`](https://docs.python.org/3/library/math.html#math.isnan), o teste que o `==` não faz
 - [Numeric Types](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex) — `bool` como subtipo de `int`
-- [PEP 285 — Adding a bool type](https://peps.python.org/pep-0285/) — por que `bool` herdou de `int`, decidido em 2002
+- [PEP 285 — Adding a bool type](https://peps.python.org/pep-0285/), por que `bool` herdou de `int`, decidido em 2002

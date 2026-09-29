@@ -13,7 +13,7 @@ minutos e não exige saber programar.
 
 Este texto é a parte prática: como instalar, o que baixar, o que esperar do
 resultado. Não entra no mérito de a inteligência artificial ser boa ou ruim para
-o mundo — é um assunto legítimo, mas é outro assunto. Aqui o objetivo é só que
+o mundo, é um assunto legítimo, mas é outro assunto. Aqui o objetivo é só que
 você consiga rodar uma no seu notebook e decidir por conta própria se serve para
 alguma coisa que você faz.
 
@@ -25,7 +25,7 @@ Quando você usa o ChatGPT, o Gemini ou o Claude, o texto que você escreve viaj
 pela internet até um servidor da empresa, o modelo processa lá e a resposta volta
 para a sua tela. O computador que faz o trabalho pesado não é o seu.
 
-Rodar local inverte isso. O modelo — um arquivo grande, de alguns gigabytes —
+Rodar local inverte isso. O modelo, um arquivo grande, de alguns gigabytes —
 fica no seu disco. Quando você pergunta alguma coisa, é o seu processador que
 calcula a resposta. Três consequências práticas:
 
@@ -41,7 +41,7 @@ adiante.
 ## A ferramenta: Ollama
 
 O [Ollama](https://ollama.com) é um programa gratuito e de código aberto — licença
-MIT, criado em 2023 — que cuida de baixar, guardar e executar esses modelos.
+MIT, criado em 2023, que cuida de baixar, guardar e executar esses modelos.
 Existe para macOS, Windows e Linux, e hoje tem um aplicativo com janela de
 conversa, então o caminho básico não passa por terminal nenhum.
 
@@ -68,7 +68,7 @@ Dois detalhes que mudam o resultado:
 - **Mac com chip M1 ou mais novo** vai bem mesmo com 8 GB, porque a memória é
   compartilhada com o vídeo.
 - **PC com placa de vídeo dedicada** (NVIDIA ou AMD recente) fica bem mais rápido,
-  mas não é requisito — sem ela o modelo roda no processador, mais devagar.
+  mas não é requisito, sem ela o modelo roda no processador, mais devagar.
 
 Se o modelo não couber na memória, ele não quebra: fica lento, às vezes ao ponto
 de escrever uma palavra por segundo. É desconfortável, não é perigoso.
@@ -88,7 +88,7 @@ qualquer outro programa, sem pergunta complicada no meio.
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-Em todos os casos, o Ollama passa a rodar em segundo plano — no Mac aparece um
+Em todos os casos, o Ollama passa a rodar em segundo plano, no Mac aparece um
 ícone na barra do topo, no Windows perto do relógio.
 
 ## Passo 2 — Baixar um modelo
@@ -127,7 +127,7 @@ ollama run llama3.2
 
 e sai da conversa digitando `/bye`.
 
-A primeira resposta demora alguns segundos a mais que as seguintes — é o modelo
+A primeira resposta demora alguns segundos a mais que as seguintes, é o modelo
 sendo carregado na memória. Depois disso o ritmo fica constante.
 
 ## O que esperar, e o que não esperar
@@ -168,7 +168,7 @@ ollama list          # mostra os modelos baixados e o tamanho
 ollama rm gemma3:1b  # apaga o que você não quer mais
 ```
 
-Apagar não tem consequência nenhuma além de liberar disco — se precisar de novo,
+Apagar não tem consequência nenhuma além de liberar disco, se precisar de novo,
 é só baixar outra vez.
 
 ## Perguntas que sempre aparecem
@@ -183,7 +183,7 @@ sai da máquina.
 
 **É a mesma coisa que o ChatGPT?** Não. É a mesma ideia em escala muito menor.
 Comparar o `llama3.2:3b` com os modelos grandes de serviço pago não é uma
-comparação justa em nenhuma direção — é como comparar um carro popular com um
+comparação justa em nenhuma direção, é como comparar um carro popular com um
 caminhão: tamanhos diferentes para propósitos diferentes.
 
 **Vai estragar meu computador?** Não. Um modelo grande demais deixa a máquina
@@ -194,4 +194,4 @@ ao normal.
 
 Vale a pena instalar mesmo sem ter certeza de que vai usar. Meia hora com a coisa
 rodando na sua frente esclarece mais sobre o que essa tecnologia faz e não faz do
-que qualquer texto sobre ela — inclusive este.
+que qualquer texto sobre ela, inclusive este.

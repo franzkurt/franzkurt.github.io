@@ -17,7 +17,7 @@ ls = []
 ls.append(ls)
 ```
 
-Agora a lista contém a si mesma. Imprimir isso deveria ser um laço infinito — o
+Agora a lista contém a si mesma. Imprimir isso deveria ser um laço infinito, o
 `repr` da lista chama o `repr` do conteúdo, que é a própria lista, que chama o
 `repr` do conteúdo...
 
@@ -29,7 +29,7 @@ Só que não trava:
 ```
 
 Aquele `...` não é um enfeite. É uma defesa, e o interessante é que o CPython
-tem **três** defesas diferentes para o mesmo problema — cada uma com uma
+tem **três** defesas diferentes para o mesmo problema, cada uma com uma
 estratégia, e uma delas simplesmente desiste.
 
 <!--more-->
@@ -64,7 +64,7 @@ True
 ```
 
 A segunda linha é a que revela o mecanismo. `ls` e `[ls]` são objetos
-**diferentes**, então a comparação desce para os elementos — e ali encontra `ls`
+**diferentes**, então a comparação desce para os elementos, e ali encontra `ls`
 contra `ls`, que é o mesmo objeto. A comparação de itens confere identidade
 antes de conferir igualdade, e a identidade responde na hora.
 
@@ -81,15 +81,15 @@ A terceira aparece quando não existe resposta certa. Serializar para JSON:
 ValueError: Circular reference detected
 ```
 
-E aqui está a decisão de projeto que eu acho a mais correta das três. Não existe
-JSON que represente uma lista que contém a si mesma — o formato não tem como
+A decisão de projeto mais correta das três é esta. Não existe
+JSON que represente uma lista que contém a si mesma, o formato não tem como
 expressar isso. Então o `json` **não inventa** uma saída: ele detecta, para, e
 diz exatamente o que houve.
 
 Compare com o que teria acontecido sem a detecção: estouro de pilha, uma
 `RecursionError` com mil quadros, e nenhuma pista sobre a causa.
 
-O `copy.deepcopy`, por sua vez, dá conta — ele mantém uma tabela do que já
+O `copy.deepcopy`, por sua vez, dá conta, ele mantém uma tabela do que já
 copiou, e ao reencontrar o original aponta para a cópia já feita:
 
 ```python
@@ -118,7 +118,7 @@ Um set precisa do *hash* do que guarda, e set não tem hash — justamente porqu
 mutável, e o hash mudaria junto. A proibição que impede a auto-referência é a
 mesma que mantém o set funcionando.
 
-A saída, em ambos os casos, é uma camada de indireção — um objeto que contém a
+A saída, em ambos os casos, é uma camada de indireção, um objeto que contém a
 tupla, e que se coloca dentro dela:
 
 ```python
@@ -150,7 +150,7 @@ class S:
 {set(...)}
 ```
 
-## O que fica
+## As três defesas, lado a lado
 
 **Recursão em estrutura de dados não é erro; é um caso que precisa de resposta.**
 As três defesas mostram três respostas válidas: representar de forma abreviada,
@@ -171,7 +171,7 @@ coisa vista de outro ângulo — assunto que a
 ## Referências
 
 - [Recursive Python objects](https://bernsteinbear.com/blog/recursive-python-objects/) — Max Bernstein, o texto que originou este
-- [`reprlib`](https://docs.python.org/3/library/reprlib.html) — a biblioteca padrão para representação com limite
-- [`copy`](https://docs.python.org/3/library/copy.html) — a tabela de memo que faz o `deepcopy` sobreviver a ciclos
-- [`json`](https://docs.python.org/3/library/json.html) — onde `check_circular` está documentado
+- [`reprlib`](https://docs.python.org/3/library/reprlib.html), a biblioteca padrão para representação com limite
+- [`copy`](https://docs.python.org/3/library/copy.html), a tabela de memo que faz o `deepcopy` sobreviver a ciclos
+- [`json`](https://docs.python.org/3/library/json.html), onde `check_circular` está documentado
 - [`Objects/object.c`](https://github.com/python/cpython/blob/main/Objects/object.c) — `Py_ReprEnter` e `Py_ReprLeave`, a defesa 1 na fonte

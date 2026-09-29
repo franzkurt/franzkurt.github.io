@@ -17,7 +17,7 @@ description: "A árvore existe, mas não tem tamanho nem cor. Esta parte mede as
 
 O DOM da [parte 4](/2023/09/navegador-parte-4-o-html-vira-arvore/) é uma árvore de
 objetos sem nenhuma informação visual. Nenhum nó sabe o próprio tamanho, a
-posição ou a cor. Faltam três etapas — estilo, layout e pintura — e cada uma tem
+posição ou a cor. Faltam três etapas — estilo, layout e pintura, e cada uma tem
 um custo bem diferente do que a sabedoria comum sobre CSS sugere.
 
 Tudo aqui foi contado, não estimado: os números vêm dos contadores internos do
@@ -29,7 +29,7 @@ e quantos layouts realmente aconteceram.
 ## O CSS é a linguagem bem-comportada da dupla
 
 Ao contrário do HTML, o CSS **é** livre de contexto. Tem uma gramática léxica e
-uma sintática, e o parser **pode** ser gerado a partir delas — o WebKit fez isso
+uma sintática, e o parser **pode** ser gerado a partir delas, o WebKit fez isso
 por anos, com Flex e Bison. Os motores atuais não fazem mais: o Blink
 [trocou o parser gerado por um escrito à mão em 2015](https://groups.google.com/a/chromium.org/d/topic/blink-dev/r9bthijsX3A),
 por saúde do código, não porque a gramática tenha deixado de ser tratável.
@@ -104,7 +104,7 @@ tocados, não a forma do seletor.**
 
 É por isso que mexer numa classe do `<body>` costuma ser caro: um seletor como
 `body.escuro .item` faz com que trocar uma classe na raiz invalide a subárvore
-inteira. Pôr a classe no menor ancestral comum é a otimização que vale — e ela
+inteira. Pôr a classe no menor ancestral comum é a otimização que vale, e ela
 não aparece em nenhuma tabela de "seletores rápidos".
 
 ## O layout, e o pior erro de desempenho que se comete em JavaScript
@@ -140,7 +140,7 @@ for (const e of itens) e.style.width = (h % 2 ? 50 : 51) + 'px';
 | intercalado | **2.000** | 1.701 ms | 1.790 ms |
 | em lote | **0** | 0 ms | **1,8 ms** |
 
-Mil vezes. Não é uma diferença de constante — é a diferença entre dois mil
+Mil vezes. Não é uma diferença de constante, é a diferença entre dois mil
 layouts e nenhum. O nome disso é *layout thrashing*, e é quase sempre o que está
 por trás de uma lista que trava ao rolar.
 
@@ -183,14 +183,14 @@ animação — exatamente o quadro em que o usuário está olhando.
 ## Pintura e composição
 
 Falta transformar caixas em pixels. A pintura percorre a árvore na ordem de
-empilhamento do CSS — fundo, imagem de fundo, borda, filhos, contorno — e produz
+empilhamento do CSS — fundo, imagem de fundo, borda, filhos, contorno, e produz
 uma lista de comandos de desenho.
 
 Essa lista não vira uma imagem só. O conteúdo é dividido em **camadas**, e
 camadas são rasterizadas separadamente, muitas vezes no processo de GPU. A
-**composição** junta as camadas na tela — e quem faz isso é o **compositor**, que
-roda em outra thread, fora daquela onde o seu JavaScript executa. Guarde essa
-separação: ela é a razão de a rolagem continuar suave em páginas cujo código
+**composição** junta as camadas na tela, e quem faz isso é o **compositor**, que
+roda em outra thread, fora daquela onde o seu JavaScript executa. Essa
+separação importa: ela é a razão de a rolagem continuar suave em páginas cujo código
 travou.
 
 É daí que vem a vantagem real de `transform` e `opacity`: são as duas coisas que
@@ -199,10 +199,10 @@ o compositor consegue aplicar a uma camada já pronta, sem repintar nada. Mudar
 compositor para desenhar a mesma textura alguns pixels adiante.
 
 Camadas também custam memória, e promover tudo com `will-change` troca um
-problema por outro — uma página cheia de camadas pode gastar mais memória de GPU
+problema por outro, uma página cheia de camadas pode gastar mais memória de GPU
 do que o aparelho tem.
 
-## O que fica
+## Onde o tempo de renderização realmente vai
 
 **A forma do seletor não importa — 15% entre a melhor e a pior.** O que importa é
 quantos elementos você invalida, e isso é linear até 400×.
@@ -215,13 +215,13 @@ De `none` para `translateX`, cinquenta layouts; de `translateX` para
 `translateX`, nenhum.
 
 **E tudo isso ainda é uma única thread.** Estilo, layout, pintura e o seu
-JavaScript disputam a mesma — que é o assunto da
+JavaScript disputam a mesma, que é o assunto da
 [parte 6](/2023/10/navegador-parte-6-javascript/).
 
 ## Referências
 
-- [CSS Syntax Level 3](https://www.w3.org/TR/css-syntax-3/) — a gramática e as regras de descarte
+- [CSS Syntax Level 3](https://www.w3.org/TR/css-syntax-3/), a gramática e as regras de descarte
 - [CSS Cascading and Inheritance Level 5](https://www.w3.org/TR/css-cascade-5/) — origem, especificidade e ordem
-- [RenderingNG (Chrome)](https://developer.chrome.com/docs/chromium/renderingng) — a arquitetura atual do pipeline de renderização
-- [Inside a super fast CSS engine: Quantum CSS (Lin Clark)](https://hacks.mozilla.org/2017/08/inside-a-super-fast-css-engine-quantum-css-aka-stylo/) — por que o casamento é da direita para a esquerda, e como o Firefox paraleliza
-- [Avoid large, complex layouts and layout thrashing (web.dev)](https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing) — a lista de propriedades que forçam layout
+- [RenderingNG (Chrome)](https://developer.chrome.com/docs/chromium/renderingng), a arquitetura atual do pipeline de renderização
+- [Inside a super fast CSS engine: Quantum CSS (Lin Clark)](https://hacks.mozilla.org/2017/08/inside-a-super-fast-css-engine-quantum-css-aka-stylo/), por que o casamento é da direita para a esquerda, e como o Firefox paraleliza
+- [Avoid large, complex layouts and layout thrashing (web.dev)](https://web.dev/articles/avoid-large-complex-layouts-and-layout-thrashing), a lista de propriedades que forçam layout

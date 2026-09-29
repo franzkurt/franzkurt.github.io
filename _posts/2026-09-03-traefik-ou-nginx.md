@@ -51,7 +51,7 @@ server {
 ```
 
 Dez linhas, e funciona. (Aqueles nomes `.nip.io` resolvem para `127.0.0.1` sem
-você configurar nada — é o assunto do outro texto.)
+você configurar nada, é o assunto do outro texto.)
 
 No Traefik, **nenhum arquivo de rotas**. A configuração vai em rótulos, no
 próprio serviço:
@@ -68,7 +68,7 @@ O Traefik descobre pelo socket do runtime. Os dois entregaram o mesmo resultado.
 
 ## O teste que separa os dois
 
-Aqui está a diferença que importa. Acrescentei um terceiro serviço e cronometrei
+A diferença que importa é esta. Acrescentei um terceiro serviço e cronometrei
 o que cada caminho exige:
 
 | | Traefik | nginx |
@@ -89,7 +89,7 @@ a razão pela qual o Traefik existe.
 Agora a parte que me surpreendeu.
 
 Medi primeiro com `curl` num laço: **11,2 ms de mediana nos dois**. Mas esse
-número não vale nada — o custo de subir o processo do `curl` domina, e é igual
+número não vale nada, o custo de subir o processo do `curl` domina, e é igual
 para os dois.
 
 Refiz com conexão persistente, 3.000 requisições, que é como um cliente real se
@@ -100,8 +100,8 @@ comporta:
 | nginx | 0,510 ms | 0,664 ms | 0,788 ms | 1.961 |
 | Traefik | 0,476 ms | 0,599 ms | 0,676 ms | 2.102 |
 
-O Traefik saiu **na frente**. Desconfiei do resultado — é exatamente o tipo de
-número que engana — e repeti cinco vezes, alternando qual roda primeiro para
+O Traefik saiu **na frente**. Desconfiei do resultado, é exatamente o tipo de
+número que engana, e repeti cinco vezes, alternando qual roda primeiro para
 não favorecer nenhum:
 
 | rodada | nginx | Traefik |
@@ -138,7 +138,7 @@ containers, começam a decidir.
 
 E aquelas 446 opções de linha de comando são as duas faces da mesma moeda:
 o Traefik faz mais coisas sozinho — certificado automático, métricas,
-*middlewares*, painel — e por isso tem mais o que configurar errado.
+*middlewares*, painel, e por isso tem mais o que configurar errado.
 
 ## Como eu escolheria
 
@@ -152,16 +152,16 @@ uploads, cache. Aí o Traefik precisaria de alguém atrás dele, e você teria d
 processos onde um bastava.
 
 **E não escolha por desempenho** sem medir o seu caso. Eu tentei medir e não
-achei diferença; se a sua carga for outra, a sua medição é que decide — não a
+achei diferença; se a sua carga for outra, a sua medição é que decide, não a
 minha, e muito menos a frase que circula.
 
-## O que fica
+## Como eu escolheria hoje
 
 **A escolha é de modelo operacional, não de velocidade.** Arquivo de
 configuração contra descoberta automática: é essa a pergunta.
 
 **"X é mais rápido que Y" costuma ser folclore repetido.** Medi cinco vezes,
-alternando a ordem, e deu empate. A primeira medição que fiz — a do `curl` em
+alternando a ordem, e deu empate. A primeira medição que fiz, a do `curl` em
 laço — teria dado empate por motivo errado, porque media o `curl`.
 
 **Servidor web e roteador não são a mesma coisa.** O nginx é os dois; o Traefik
@@ -170,7 +170,7 @@ laço — teria dado empate por motivo errado, porque media o `curl`.
 ## Referências
 
 - [Documentação do Traefik](https://doc.traefik.io/traefik/) — provedores, roteadores e a configuração por rótulo
-- [nginx: reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) — o guia oficial de `proxy_pass`
-- [nginx: controlando o processo](https://nginx.org/en/docs/control.html) — o que `-s reload` faz por dentro
-- [Traefik: Docker provider](https://doc.traefik.io/traefik/providers/docker/) — os rótulos usados aqui
-- [nip.io](https://nip.io/) — os nomes de teste usados nos exemplos
+- [nginx: reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/), o guia oficial de `proxy_pass`
+- [nginx: controlando o processo](https://nginx.org/en/docs/control.html), o que `-s reload` faz por dentro
+- [Traefik: Docker provider](https://doc.traefik.io/traefik/providers/docker/), os rótulos usados aqui
+- [nip.io](https://nip.io/), os nomes de teste usados nos exemplos

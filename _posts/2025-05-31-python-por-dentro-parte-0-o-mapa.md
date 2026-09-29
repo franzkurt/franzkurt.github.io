@@ -27,8 +27,8 @@ Você escreve um arquivo, digita `python programa.py`, aperta enter, e algo
 acontece. Este texto é sobre esse *algo*.
 
 Ele abre a série **Python in-depth**, que desce bem fundo no funcionamento do
-Python — e esta parte existe para que **não seja preciso saber nada de antemão**
-para acompanhar. Aqui está o mapa e o vocabulário; as partes seguintes gastam uma
+Python, e esta parte existe para que **não seja preciso saber nada de antemão**
+para acompanhar. Este texto é o mapa e o vocabulário; as partes seguintes gastam uma
 seção inteira em cada caixinha dele.
 
 Se você é estagiário, está no primeiro emprego, ou simplesmente nunca pensou
@@ -47,7 +47,7 @@ executa diretamente, e você distribui o resultado. E as **interpretadas**, em q
 um programa lê o seu código e vai executando linha por linha.
 
 O Python não é nenhum dos dois puros. Ele faz uma **tradução**, como uma
-linguagem compilada — mas não traduz para instruções do processador. Traduz para
+linguagem compilada, mas não traduz para instruções do processador. Traduz para
 uma linguagem intermediária, inventada para ele, chamada **bytecode**. E aí um
 segundo programa, o **interpretador**, executa esse bytecode.
 
@@ -111,7 +111,7 @@ o arquivo é carregado. O que vem depois é a **execução**.
 
 Aqueles arquivos `.pyc` na pasta `__pycache__` que aparecem sozinhos? É o
 bytecode guardado em disco, para não refazer os cinco passos na próxima vez.
-Nunca foi mistério nem sujeira — é cache.
+Nunca foi mistério nem sujeira, é cache.
 
 ## Você pode ver tudo isso agora
 
@@ -141,22 +141,22 @@ Essa é a máquina que a série vai destrinchar.
 
 ## O que vem em cada parte
 
-- **[Parte 1](/2025/06/python-por-dentro-do-fonte-ao-bytecode/) — os cinco
+- **[Parte 1](/2025/06/python-por-dentro-do-fonte-ao-bytecode/), os cinco
   passos por dentro.** Quem faz cada um, em qual arquivo do CPython, e a troca
   do analisador de sintaxe que aconteceu no Python 3.9.
-- **[Parte 2](/2025/06/python-por-dentro-maquina-de-pilha/) — por que pilha.**
+- **[Parte 2](/2025/06/python-por-dentro-maquina-de-pilha/), por que pilha.**
   Existe outro jeito de organizar isso, usado por outras linguagens. Por que o
-  Python não foi por ali — e por que a explicação que se repete não sobreviveu
+  Python não foi por ali, e por que a explicação que se repete não sobreviveu
   quando fui medir.
 - **[Parte 3](/2025/06/python-por-dentro-lendo-bytecode/) — lendo bytecode de
   verdade.** Um laço, uma compreensão de lista e três formas de acessar um
   valor, com o custo de cada uma.
-- **[Parte 4](/2025/06/python-por-dentro-interpretador-especializado/) — o
+- **[Parte 4](/2025/06/python-por-dentro-interpretador-especializado/), o
   bytecode que muda sozinho.** Desde o 3.11, o interpretador reescreve as
   próprias instruções enquanto o programa roda. Dá para ver acontecendo.
-- **[Parte 5](/2025/07/python-por-dentro-do-39-ao-313/) — o que mudou em cada
+- **[Parte 5](/2025/07/python-por-dentro-do-39-ao-313/), o que mudou em cada
   versão**, e por que as mudanças formam uma corrente em vez de uma lista.
-- **[Parte 6](/2025/07/python-por-dentro-o-que-guido-escreveu/) — o que os
+- **[Parte 6](/2025/07/python-por-dentro-o-que-guido-escreveu/), o que os
   projetistas escreveram**, contra o que se repete por aí.
 
 ## Por que isso vale o seu tempo
@@ -176,9 +176,9 @@ muito melhor.
 
 ## Referências
 
-- [`dis`](https://docs.python.org/3/library/dis.html) — o desmontador usado nos exemplos, e a lista de opcodes
-- [Glossário do Python](https://docs.python.org/3/glossary.html) — as definições oficiais de bytecode, token e afins
-- [PEP 3147 — PYC Repository Directories](https://peps.python.org/pep-3147/) — de onde veio o `__pycache__`
-- [Cached bytecode invalidation](https://docs.python.org/3/reference/import.html#cached-bytecode-invalidation) — quando o `.pyc` é reaproveitado e quando é refeito
-- [Design and History FAQ](https://docs.python.org/3/faq/design.html) — as perguntas de projeto respondidas pelos próprios mantenedores
-- [InternalDocs/compiler.md](https://github.com/python/cpython/blob/main/InternalDocs/compiler.md) — o caminho do fonte ao bytecode, na fonte
+- [`dis`](https://docs.python.org/3/library/dis.html), o desmontador usado nos exemplos, e a lista de opcodes
+- [Glossário do Python](https://docs.python.org/3/glossary.html), as definições oficiais de bytecode, token e afins
+- [PEP 3147 — PYC Repository Directories](https://peps.python.org/pep-3147/), de onde veio o `__pycache__`
+- [Cached bytecode invalidation](https://docs.python.org/3/reference/import.html#cached-bytecode-invalidation), quando o `.pyc` é reaproveitado e quando é refeito
+- [Design and History FAQ](https://docs.python.org/3/faq/design.html), as perguntas de projeto respondidas pelos próprios mantenedores
+- [InternalDocs/compiler.md](https://github.com/python/cpython/blob/main/InternalDocs/compiler.md), o caminho do fonte ao bytecode, na fonte

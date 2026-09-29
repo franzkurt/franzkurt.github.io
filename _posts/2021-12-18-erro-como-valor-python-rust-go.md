@@ -44,7 +44,7 @@ def divide_go(x: float, y: float) -> tuple[float, ZeroDivisionError | None]:
     return x / y, None
 ```
 
-**`Result`**, o jeito do Rust — um de dois tipos, e só um deles tem o valor:
+**`Result`**, o jeito do Rust, um de dois tipos, e só um deles tem o valor:
 
 ```python
 class Ok(Generic[T, E]):
@@ -99,7 +99,7 @@ error: Item "Err[float, ZeroDivisionError]" of "Ok[...] | Err[...]"
 
 Só o `Result` cobra. E o motivo é estrutural: o tipo de retorno é uma **união**,
 e o verificador sabe que um dos lados não tem o atributo. Você é obrigado a
-estreitar — com `match`, com `isinstance`, ou com `unwrap_or` — antes de chegar
+estreitar, com `match`, com `isinstance`, ou com `unwrap_or` — antes de chegar
 ao valor.
 
 O estilo do Go **não** cobra, e isso me surpreendeu. A tupla anota o erro no tipo,
@@ -130,7 +130,7 @@ se mantiveram em três execuções seguidas; os absolutos variam com a máquina.
 
 Duas leituras saem daí.
 
-**A exceção é o estilo mais barato — quando não acontece.** É o desenho do
+**A exceção é o estilo mais barato, quando não acontece.** É o desenho do
 Python: `try` não custa nada enquanto nada é levantado, e levantar custa caro.
 Isso está certo para erro que é exceção de verdade.
 
@@ -156,14 +156,14 @@ críticas isso vale muito mais que 100 nanossegundos.
 
 E vale a comparação com o Rust de verdade, que o blog já
 [fez por outros ângulos](/2026/09/python-e-rust-duas-apostas/): lá o `Result` não
-aloca — ele é um *enum* de tamanho conhecido, resolvido em tempo de compilação, e
+aloca, ele é um *enum* de tamanho conhecido, resolvido em tempo de compilação, e
 o `?` propaga sem custo. O padrão é o mesmo; o preço, não. Em Python ele é uma
 convenção construída em cima de objetos; em Rust, é o próprio sistema de tipos.
 
 ## Referências
 
 - [Exceptions in Python, Rust and Go](https://jellis18.github.io/post/2021-12-13-python-exceptions-rust-go/) — Justin A. Ellis, o texto que originou este
-- [Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html) — o `Result` no livro oficial do Rust
-- [Effective Go: errors](https://go.dev/doc/effective_go#errors) — a convenção do Go
-- [PEP 634 — Structural Pattern Matching](https://peps.python.org/pep-0634/) — o `match` usado aqui
+- [Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html), o `Result` no livro oficial do Rust
+- [Effective Go: errors](https://go.dev/doc/effective_go#errors), a convenção do Go
+- [PEP 634 — Structural Pattern Matching](https://peps.python.org/pep-0634/), o `match` usado aqui
 - [`typing`](https://docs.python.org/3/library/typing.html) — `Generic`, `NoReturn` e `Union`

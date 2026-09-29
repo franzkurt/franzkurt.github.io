@@ -20,7 +20,7 @@ Os três anteriores dizem como o código deveria ser. O Adam Tornhill faz outra
 pergunta, e é por isso que ele é o mais interessante do grupo: **onde, neste
 repositório específico, está o problema de verdade?**
 
-Antes da resposta, a premissa — que já vale o livro. Se você fosse otimizar uma
+Antes da resposta, a premissa, que já vale o livro. Se você fosse otimizar uma
 única coisa no desenvolvimento de software, o que seria? A resposta convencional
 é desempenho. A dele:
 
@@ -29,7 +29,7 @@ Antes da resposta, a premissa — que já vale o livro. Se você fosse otimizar 
 
 O raciocínio é direto: passamos mais tempo **entendendo** código existente do que
 escrevendo código novo, e otimizar a atividade mais cara multiplica o ganho total.
-E, num time ágil, não existe uma fase de manutenção lá na frente — quando começam
+E, num time ágil, não existe uma fase de manutenção lá na frente, quando começam
 as mudanças no código já escrito? *"Iteration two, at the latest."* A manutenção
 começa na segunda iteração, o que significa que se entra em modo de manutenção
 imediatamente.
@@ -58,13 +58,13 @@ semana passada. Tornhill troca o palpite por evidência: o repositório já sabe
 qual é o trecho mais custoso, e você nunca perguntou.
 
 Uma ressalva de honestidade: Tornhill é fundador e CTO do CodeScene, produto
-comercial que faz exatamente essas análises. O livro não é um folheto — as
-técnicas saem de `git log` e scripts, e dá para reproduzir tudo à mão — mas vale
+comercial que faz exatamente essas análises. O livro não é um folheto, as
+técnicas saem de `git log` e scripts, e dá para reproduzir tudo à mão, mas vale
 saber de onde vem o entusiasmo.
 
 ## A mesma distância, mais longe: *Software Design X-Rays*
 
-Três anos depois, Tornhill escreveu a continuação — e ela não repete o primeiro.
+Três anos depois, Tornhill escreveu a continuação, e ela não repete o primeiro.
 O *Crime Scene* te ensina a achar o hotspot. O *X-Rays* pergunta o que fazer com
 ele, e chega a uma resposta que muda o endereço do problema.
 
@@ -84,7 +84,7 @@ ao mesmo tempo.
 histórico. Só que agora enxerga, dentro dele, a organização que produziu o código
 em vez de só o código.
 
-O achado que mais me fez mudar de opinião, porém, é sobre duplicação — e
+O achado que mais me fez mudar de opinião, porém, é sobre duplicação, e
 contradiz o reflexo de todo mundo que leu um livro de design:
 
 > *Copy-paste isn't a problem in itself; copying and pasting may well be the
@@ -95,12 +95,11 @@ contradiz o reflexo de todo mundo que leu um livro de design:
 Ou seja: **duplicação não é o defeito; co-mudança é**. Dois trechos parecidos que
 seguem caminhos distintos estão certos como estão, e abstraí-los cria uma peça
 com duas razões para mudar. Dois trechos que você sempre altera junto são o
-problema, mesmo que não se pareçam em nada — e um detector textual não acha esse
+problema, mesmo que não se pareçam em nada, e um detector textual não acha esse
 caso, porque a semelhança está no `git log`, não no texto.
 
-Repare como isso conversa com o *Clean Architecture*: lá, a orientação é traçar
-fronteiras no ponto de inflexão do custo. Aqui está o instrumento que mede se
-esse ponto chegou.
+Isso conversa com o *Clean Architecture*: lá, a orientação é traçar
+fronteiras no ponto de inflexão do custo. Este é o instrumento que mede se esse ponto chegou.
 
 ### A ressalva que o livro faz contra si mesmo
 
@@ -125,12 +124,12 @@ essa é a frase que precisa estar no primeiro slide, não numa nota de rodapé.
 Se fosse recomendar uma ordem, inverteria a expectativa: **comece pela última
 distância**. O *Crime Scene* é o único que fala do seu código, não de código em
 geral. Uma tarde com `git log` e alguns scripts te diz quais três arquivos
-concentram a dor do seu sistema — e aí os outros deixam de ser teoria e viram
+concentram a dor do seu sistema, e aí os outros deixam de ser teoria e viram
 instruções para um lugar específico.
 
 Depois disso: *Clean Architecture* pela regra de dependência, *Secure by Design*
 pela ideia de tornar o estado inválido inexprimível, e *Python Fluente* se o seu
-dia a dia for Python — esse dá para ir lendo aos pedaços, por anos, e continua
+dia a dia for Python, esse dá para ir lendo aos pedaços, por anos, e continua
 rendendo.
 
 O *X-Rays* eu deixaria por último, e não por ser o menos importante. Ele responde

@@ -8,11 +8,11 @@ description: "Fui às fontes primárias — o blog do Guido, o FAQ oficial, as l
 *Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
 os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
 a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
+linguagem simples, e é lá que está o índice das partes e dos aprofundamentos.*
 
 Na [parte 2](/2025/06/python-por-dentro-maquina-de-pilha/) desta série eu fui
-medir uma explicação que se repete em toda parte — a de que bytecode de máquina
-de pilha é mais compacto que o de registradores — e ela quase empatou. A
+medir uma explicação que se repete em toda parte, a de que bytecode de máquina
+de pilha é mais compacto que o de registradores, e ela quase empatou. A
 justificativa folclórica não sobreviveu à régua.
 
 Isso me deixou com uma pergunta incômoda: **quantas das outras explicações que eu
@@ -29,7 +29,7 @@ cinco a explicação corrente é a que os projetistas escreveram.
 **O que se repete:** que o Guido não gosta de programação funcional.
 
 **O que ele escreveu**, em dois posts de abril de 2009 no blog dele, é bem mais
-específico — e nem fala de gosto:
+específico, e nem fala de gosto:
 
 > A eliminação de rastreamentos de pilha para algumas chamadas e não para outras
 > certamente confundiria muitos usuários, que não foram criados na religião das
@@ -37,7 +37,7 @@ específico — e nem fala de gosto:
 > algumas delas num depurador.
 
 O argumento é de **depuração**, não de paradigma. Quando o frame some, some junto
-a informação de que aquele caminho foi tomado — e quem estiver no depurador
+a informação de que aquele caminho foi tomado, e quem estiver no depurador
 dentro da função chamada não tem como saber de onde veio.
 
 E há um segundo argumento, que eu nunca tinha visto citado:
@@ -47,7 +47,7 @@ E há um segundo argumento, que eu nunca tinha visto citado:
 > do código, mas torna a depuração mais difícil.
 
 Ou seja: para a maioria das chamadas de cauda, não há ganho de complexidade a
-perder — só se perde o rastreamento.
+perder, só se perde o rastreamento.
 
 Mas o que eu achei mais interessante foi outra coisa. No segundo post, ele
 **revisa a própria posição**: reconhece que tinha confundido recursão de cauda
@@ -97,8 +97,8 @@ não estética:
 > interpretador que uma atribuição foi feita para uma variável de instância, e não
 > para uma local.
 
-Repare na consequência. Em Python, **o que define uma variável como local é a
-atribuição** — não uma declaração. Então, sem o `self.`, escrever `x = 1` dentro
+A consequência: Em Python, **o que define uma variável como local é a
+atribuição**, não uma declaração. Então, sem o `self.`, escrever `x = 1` dentro
 de um método seria ambíguo: criar uma local ou escrever no objeto? As outras
 linguagens resolvem isso com declaração de variável; o Python resolveu com o
 prefixo.
@@ -122,7 +122,7 @@ E a segunda, que explica um monte de coisa:
 > corretamente.
 
 A decisão foi tomada pensando em **quem embute o Python dentro de outro
-programa** — um caso de uso que a maioria de quem escreve Python nunca encontra, e
+programa**, um caso de uso que a maioria de quem escreve Python nunca encontra, e
 que moldou o gerenciamento de memória da linguagem inteira.
 
 ## 5. Por que o GIL demorou tanto
@@ -130,7 +130,7 @@ que moldou o gerenciamento de memória da linguagem inteira.
 **O que se repete:** que ninguém tentou, ou que havia resistência de princípio.
 
 **O que aconteceu** é mais interessante, e tem data. Em 1999, Greg Stein removeu
-o GIL do CPython substituindo-o por travas de granularidade fina. Funcionou — e
+o GIL do CPython substituindo-o por travas de granularidade fina. Funcionou, e
 deixou o interpretador quase **duas vezes mais lento** em código de thread única.
 Com dois processadores, a versão sem GIL mal fazia mais trabalho que a versão com
 GIL num processador só.
@@ -143,7 +143,7 @@ Em 2007, o Guido publicou a condição, e ela não é uma recusa:
 
 Isso muda a leitura inteira. Não era princípio: era um **critério de aceitação
 publicado**, esperando quem o cumprisse. A resposta demorou dezesseis anos e veio
-na forma da PEP 703 — que, entre outras coisas, precisou dos objetos imortais e da
+na forma da PEP 703, que, entre outras coisas, precisou dos objetos imortais e da
 contagem de referências enviesada que a
 [parte 5](/2025/07/python-por-dentro-do-39-ao-313/) descreve, justamente para não
 pagar o custo que derrubou a tentativa de 1999.
@@ -173,7 +173,7 @@ busca de distância, e quase sempre diz algo mais interessante que o resumo.**
 
 O FAQ de projeto é um documento oficial, pesquisável, com as respostas escritas por
 quem decidiu. As PEPs registram a discussão inteira, incluindo as objeções. Os
-blogs e as listas têm o raciocínio em movimento — com o projetista mudando de
+blogs e as listas têm o raciocínio em movimento, com o projetista mudando de
 ideia no meio, que é onde mais se aprende.
 
 Quando a explicação que você repete não tem uma fonte que você possa apontar, vale
@@ -183,6 +183,6 @@ estava.
 ## Referências
 
 - [Neopythonic — Tail Recursion Elimination](http://neopythonic.blogspot.com/2009/04/tail-recursion-elimination.html) e [Final Words on Tail Calls](http://neopythonic.blogspot.com/2009/04/final-words-on-tail-calls.html), Guido van Rossum, abril de 2009
-- [Design and History FAQ](https://docs.python.org/3/faq/design.html) — a fonte das respostas sobre `len()`, `self` e coletor de lixo
+- [Design and History FAQ](https://docs.python.org/3/faq/design.html), a fonte das respostas sobre `len()`, `self` e coletor de lixo
 - [It isn't Easy to Remove the GIL](https://www.artima.com/weblogs/viewpost.jsp?thread=214235), Guido van Rossum, 2007
 - [PEP 703 — Making the Global Interpreter Lock Optional](https://peps.python.org/pep-0703/)

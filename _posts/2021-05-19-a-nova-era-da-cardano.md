@@ -13,7 +13,7 @@ audio_duracao: "9:08"
 Este texto é de maio de 2021, no calor de uma queda de 40% do Bitcoin, e faz
 previsões que o tempo já resolveu. Vale a leitura com o desfecho em mãos:
 
-- A pergunta central de Mark Cuban — *"por que não há contratos inteligentes?"* — foi
+- A pergunta central de Mark Cuban — *"por que não há contratos inteligentes?"*, foi
   respondida em **13 de setembro de 2021**, quando o hard fork
   [Alonzo](https://www.coindesk.com/tech/2021/09/12/cardano-gains-smart-contract-capability-following-alonzo-hard-fork)
   trouxe os smart contracts (via Plutus) à [Cardano](https://cardano.org), quatro meses depois deste artigo.

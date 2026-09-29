@@ -8,7 +8,7 @@ description: "Modelo de difusão custa o mesmo para 32 ou para 512 tokens — me
 Modelo de linguagem por difusão tem uma propriedade que soa como vantagem óbvia:
 ele não gera token a token. Refina um bloco inteiro mascarado, N vezes. Se o custo
 é por passo de refinamento e não por token, então **gerar mais texto deveria ser
-de graça** — e existiria um comprimento a partir do qual a difusão ganha do
+de graça**, e existiria um comprimento a partir do qual a difusão ganha do
 autorregressivo.
 
 Medi isso numa máquina de 16 GB, com os pesos que existem hoje em GGUF. A primeira
@@ -45,23 +45,23 @@ Três pedidos de comprimento muito diferente, **o mesmo tempo**: 248, 246, 247
 segundos. O custo da difusão é `steps × forward do bloco`. Quantos tokens saem
 daquele bloco não entra na conta.
 
-Medido por step: **~1,9 s/step** no LLaDA. E aqui aparece a diferença entre
-arquiteturas: o `Dream-v0-Instruct-7B` custa **1,58 s/step** — 20% mais rápido,
+Medido por step: **~1,9 s/step** no LLaDA. A diferença entre arquiteturas aparece aqui:
+ o `Dream-v0-Instruct-7B` custa **1,58 s/step** — 20% mais rápido,
 apesar de as duas gerações serem comparáveis e de ele ser 7B contra 8B.
 
 ## O sinal que eu li errado
 
-Repare na coluna do autorregressivo acima: 8,5 s para 32 tokens, **6,2 s** para
+Na coluna do autorregressivo acima: 8,5 s para 32 tokens, **6,2 s** para
 128. Tempo caindo enquanto o comprimento cresce.
 
 Isso é impossível, e eu passei direto. A causa: `-n`/`num_predict` é **teto, não
-alvo** — o modelo para no stop token antes de chegar lá. Medido pela API,
+alvo**, o modelo para no stop token antes de chegar lá. Medido pela API,
 `-n 512` gerou 443 tokens com `done_reason=stop`. Aqueles 8,5 s não eram geração,
 eram warm-up do carregamento.
 
 Refeito com contagem real por `eval_count`/`eval_duration` e prompt que força
 saída longa, a taxa do autorregressivo é **27,5 tok/s, estável**. A coluna da
-difusão não muda — ela não tem stop token, roda os N steps sempre.
+difusão não muda, ela não tem stop token, roda os N steps sempre.
 
 Deixo a tabela contaminada no texto de propósito. O número impossível estava à
 vista desde o início e eu segui em frente; é assim que erro de medição sobrevive.
@@ -72,7 +72,7 @@ Com a taxa corrigida, o cruzamento sai onde a aritmética manda: **~5.900 tokens
 Abaixo disso o autorregressivo ganha; acima, a difusão.
 
 O `max_length` do LLaDA é **512**. O cruzamento está **11× acima do que o modelo
-consegue gerar**. O teto é do modelo, não da ferramenta — não há flag que
+consegue gerar**. O teto é do modelo, não da ferramenta, não há flag que
 resolva.
 
 E há um segundo motivo, mais interessante que o primeiro, porque não se conserta
@@ -83,7 +83,7 @@ inválidas e um teste que afirma que o reverso de `"world"` é `"world"`. Subir 
 execução.
 
 Ou seja: a região em que a difusão ganharia tempo é exatamente a região em que
-ela precisa de mais steps para não degradar — e o custo é linear em steps. A
+ela precisa de mais steps para não degradar, e o custo é linear em steps. A
 vantagem de custo constante **só vale enquanto os steps ficam constantes**, e eles
 não ficam.
 
@@ -96,10 +96,10 @@ utilizável. Com 32 steps cai para 64 s e a saída fica ilegível.
 A pergunta que motivou tudo era outra: **a razão steps/token é o invariante?** Ou
 seja, 128 steps para 128 tokens degradaria igual a 32 steps para 32 tokens?
 
-Não respondi. Vale dizer por quê, porque o motivo é instrutivo.
+Não respondi. O motivo é instrutivo.
 
 Eu precisava de um eixo de comprimento controlável. `-n` é ignorado nesse caminho
-da CLI. Troquei por `--diffusion-block-length` e validei a troca — mas
+da CLI. Troquei por `--diffusion-block-length` e validei a troca, mas
 `block_length` é a **granularidade do denoising**, e a CLI encadeia blocos até
 esgotar o `-n`. Com block length 32 saíram 156, 320 e 336 tokens em probes
 diferentes. O denominador nunca esteve sob controle, então a razão nunca pôde ser
@@ -141,7 +141,7 @@ Nada disto é uma afirmação sobre difusão como arquitetura. É uma medição 
 conjuntos de pesos, num hardware, num mês. O que mudaria:
 
 - **Modelo com `max_length` maior.** O teto de 512 é o que impede chegar ao
-  cruzamento — e é do modelo.
+  cruzamento, e é do modelo.
 - **Hardware com mais paralelismo.** 1,9 s/step é o forward de um 8B em GPU
   integrada. Onde o step custar uma fração disso, a conta inteira se move, porque
   a difusão escala com steps e não com tokens.

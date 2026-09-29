@@ -28,7 +28,7 @@ justamente ao chamar código nativo. E a explicação vale para muito além do P
 
 O JIT do PyPy trabalha rastreando o programa e especializando o que vê. Dentro de
 Python ele é excelente nisso: descobre que uma variável é sempre um inteiro de
-máquina, e passa a tratá-la como um inteiro de máquina — sem objeto, sem
+máquina, e passa a tratá-la como um inteiro de máquina, sem objeto, sem
 alocação, num registrador.
 
 Aí a chamada à extensão em C acontece, e o contrato da API do CPython exige um
@@ -69,7 +69,7 @@ máquina, e o resultado é:
 | PyPy **com** os tipos | **168,1 ms** |
 
 Treze vezes mais rápido que o próprio PyPy, e cinco vezes mais rápido que o
-CPython. O trabalho que sumiu não era a conta — era a conversão.
+CPython. O trabalho que sumiu não era a conta, era a conversão.
 
 ## O mesmo problema, medido aqui
 
@@ -83,7 +83,7 @@ Comparando três formas de tirar uma raiz quadrada — mínimo de 25 repetiçõe
 | Python puro, 4 iterações de Newton | 173 ns | 7,9× |
 | `ctypes` chamando `libm.sqrt` | 240 ns | **11×** |
 
-Repare na última linha, porque ela é o mesmo fenômeno. `math.sqrt` e
+A última linha é o mesmo fenômeno. `math.sqrt` e
 `libm.sqrt` são **a mesma função da mesma biblioteca**. A diferença de 11 vezes é
 inteiramente cerimônia: o `ctypes` monta a chamada em tempo de execução, converte
 cada argumento conforme a assinatura declarada, e converte o retorno de volta.
@@ -96,10 +96,10 @@ iterações, escrito em Python puro, ganha do `ctypes` chamando a raiz nativa.
 tinha levantado por outro caminho: o que decide não é a linguagem do outro lado,
 é quanto trabalho cabe em cada travessia.
 
-## O que fica
+## Quanto custa atravessar a fronteira
 
 **A conversão de representação é o custo real da interoperabilidade.** Não é a
-chamada, não é a troca de linguagem — é traduzir como um valor se parece na
+chamada, não é a troca de linguagem, é traduzir como um valor se parece na
 memória. O mesmo diagnóstico do
 [ponteiro etiquetado](/2021/02/ponteiro-etiquetado-e-o-preco-do-int/), visto do
 lado de fora.
@@ -116,7 +116,7 @@ vale mais.
 ## Referências
 
 - [Type information for faster Python C extensions](https://bernsteinbear.com/blog/typed-c-extensions/) — Max Bernstein, o texto que originou este, e a origem dos números de PyPy
-- [Dr Wenowdis: Specializing Dynamic Language C Extensions using Type Information](https://arxiv.org/abs/2403.02420) — o artigo acadêmico correspondente
-- [`ctypes`](https://docs.python.org/3/library/ctypes.html) — o caminho medido acima
+- [Dr Wenowdis: Specializing Dynamic Language C Extensions using Type Information](https://arxiv.org/abs/2403.02420), o artigo acadêmico correspondente
+- [`ctypes`](https://docs.python.org/3/library/ctypes.html), o caminho medido acima
 - [Extending Python with C](https://docs.python.org/3/extending/extending.html) — `PyMethodDef` e o campo `ml_name` usado no truque
-- [cpyext](https://doc.pypy.org/en/latest/discussion/rawrefcount.html) — como o PyPy implementa a API do CPython
+- [cpyext](https://doc.pypy.org/en/latest/discussion/rawrefcount.html), como o PyPy implementa a API do CPython

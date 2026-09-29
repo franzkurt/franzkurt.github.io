@@ -9,7 +9,7 @@ description: "Doze linhas em que o mypy --strict passa sem um erro, a anotação
 
 Existe uma frase que circula em toda discussão sobre desempenho de Python: *"se
 tem type hint, dá para compilar para código nativo"*. Ela é intuitiva, e está
-errada — mas o motivo de estar errada é mais interessante que a correção.
+errada, mas o motivo de estar errada é mais interessante que a correção.
 
 Este artigo traz para o português o argumento de
 [Max Bernstein](https://bernsteinbear.com/blog/typed-python/), com as medições
@@ -65,7 +65,7 @@ caminho.
 
 ## O que `x: int` promete de verdade
 
-Aqui está a dobra do argumento. Quando você escreve `x: int`, você não está
+A dobra do argumento é esta. Quando você escreve `x: int`, você não está
 dizendo "x é um inteiro". Está dizendo:
 
 > x é uma instância de `int` **ou de qualquer subclasse de `int`**.
@@ -80,7 +80,7 @@ lugar, a mesma cascata de verificações que o interpretador já faz. Bernstein
 descreve o despacho de operador binário do CPython pedindo ao leitor apenas que
 diga *"ooh"*, *"aah"* e *"wow, so many if-statements"*.
 
-## O interpretador resolve isso — e a solução explica o problema
+## O interpretador resolve isso, e a solução explica o problema
 
 O detalhe que fecha o raciocínio, e que eu não vi no texto original: **o CPython
 já faz essa otimização.** Só que em tempo de execução.
@@ -116,8 +116,8 @@ chamadas:
 
 Pouco mais que o dobro, e **a anotação é a mesma nos dois casos**.
 
-Repare no que isso significa. O interpretador consegue o que o compilador
-estático não consegue, e não é por ser mais esperto — é por **poder voltar
+Isso significa uma coisa forte. O interpretador consegue o que o compilador
+estático não consegue, e não é por ser mais esperto, é por **poder voltar
 atrás**. Ele especula que os tipos continuarão os mesmos, instala uma guarda
 barata, e se a guarda falhar ele *desotimiza* e cai no caminho genérico.
 
@@ -156,7 +156,7 @@ builtins.len = lambda x: 999
 area(1.5)                  # 999
 ```
 
-O bytecode mostra por quê — não há chamada fixa, há uma consulta:
+O bytecode mostra por quê, não há chamada fixa, há uma consulta:
 
 ```
 LOAD_GLOBAL   len + NULL
@@ -173,14 +173,14 @@ code"*. O acesso mais banal do Python é um ponto de extensão.
 
 ## Então o que funciona
 
-Funciona, e bem — só que não do jeito que a frase do começo sugere. Mypyc,
+Funciona, e bem, só que não do jeito que a frase do começo sugere. Mypyc,
 Cython e Numba entregam ganhos reais, e a razão é a mesma nos três: eles **não
 compilam Python**. Compilam um dialeto restrito, que troca dinamismo por
 velocidade.
 
 O caso mais explícito é o Static Python, do Cinder: com `import __static__`, o
 Cinder troca o compilador de bytecode padrão por outro que, na frase do próprio
-texto, *"compiles a different language!"* — ele passa a proibir criação
+texto, *"compiles a different language!"*, ele passa a proibir criação
 dinâmica de atributo, converte as classes para `__slots__` automaticamente e
 gera bytecode diferente.
 
@@ -192,7 +192,7 @@ só descreve a restrição que você concordou em aceitar.
 Três coisas.
 
 **Anotação é contrato de interface, não declaração de representação.** Ela diz
-o que você pode fazer com o valor, não como ele está na memória — e é a segunda
+o que você pode fazer com o valor, não como ele está na memória, e é a segunda
 informação que um compilador precisa.
 
 **"É subclasse" é a cláusula que quase ninguém lê.** Todo raciocínio sobre
@@ -200,8 +200,8 @@ otimização baseado em tipo esbarra nela, e a mesma cláusula é o que faz hera
 funcionar. Não dá para ter as duas.
 
 **Quando o ganho aparece, procure a restrição que o pagou.** Se um projeto ficou
-rápido "só de adicionar tipos", alguma dinamicidade foi embora junto. Vale saber
-qual, antes de descobrir no dia em que precisar dela.
+rápido "só de adicionar tipos", alguma dinamicidade foi embora junto. Convém
+saber qual, antes de descobrir no dia em que precisar dela.
 
 Nada disso desmerece anotar. Só é outro benefício, e a
 [parte 3 da série de tipos](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/)
@@ -211,7 +211,7 @@ faz é te dar um `add` de processador.
 ## Referências
 
 - [Compiling typed Python](https://bernsteinbear.com/blog/typed-python/) — Max Bernstein, o texto que originou este
-- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/) — a especialização medida acima
-- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c) — o inteiro alocado no heap
-- [`dis`](https://docs.python.org/3/library/dis.html) — o desmontador, e o parâmetro `adaptive`
-- [Static Python](https://github.com/facebookincubator/cinder) — o dialeto do Cinder citado no fim
+- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/), a especialização medida acima
+- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c), o inteiro alocado no heap
+- [`dis`](https://docs.python.org/3/library/dis.html), o desmontador, e o parâmetro `adaptive`
+- [Static Python](https://github.com/facebookincubator/cinder), o dialeto do Cinder citado no fim

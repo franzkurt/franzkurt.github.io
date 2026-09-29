@@ -19,7 +19,7 @@ Os bytes começaram a chegar. A partir daqui o navegador está sozinho: a rede f
 a parte dela, e o que acontece agora é processamento local, dentro do processo
 que desenha a aba.
 
-O primeiro passo é transformar uma sequência de bytes numa árvore de objetos — o
+O primeiro passo é transformar uma sequência de bytes numa árvore de objetos, o
 DOM. E a característica que define esse passo é a que mais surpreende quem vem
 de outras linguagens: **o parser de HTML não tem como falhar**.
 
@@ -101,7 +101,7 @@ DOM:      <b> "a"
 Este é o mais interessante. O negrito atravessava a fronteira do parágrafo, o que
 não pode existir numa árvore. O parser **duplicou** o `<b>`: um fora,
 outro dentro do `<p>`, cobrindo só o que era para estar em negrito. Esse
-comportamento tem nome na especificação — *adoption agency algorithm* — e a
+comportamento tem nome na especificação — *adoption agency algorithm*, e a
 descrição dele ocupa páginas.
 
 ```
@@ -114,7 +114,7 @@ DOM:      <div> "fora"
 ```
 
 Duas coisas de uma vez. A `<div>` não pode estar dentro de uma tabela, então foi
-**movida para fora**, antes da tabela — e o texto dela aparece acima, o que já
+**movida para fora**, antes da tabela, e o texto dela aparece acima, o que já
 confundiu muita gente. E o `<tbody>`, que ninguém escreveu, foi inventado, porque
 a estrutura da tabela o exige.
 
@@ -137,7 +137,7 @@ DOM:      <p> "a" <script> "var s='</p>';" "b"
 
 Dentro de `<script>` o tokenizador entra num estado diferente, em que tags não
 são tags. O `</p>` continuou sendo texto. Se fosse `</script>` dentro da
-string, aí sim o script seria cortado no meio — é a origem de uma classe inteira
+string, aí sim o script seria cortado no meio, é a origem de uma classe inteira
 de falhas de injeção.
 
 Nenhum desses casos produziu erro. Todos produziram *alguma* árvore. É por isso
@@ -160,7 +160,7 @@ Medindo com um servidor local que segura cada recurso por 300 ms:
 | `<script async src>` | **12 ms** | 12 ms | 314 ms |
 
 O script comum custou os 300 ms inteiros à construção do DOM. Com `defer` a
-árvore ficou pronta em 13 ms — o download aconteceu em paralelo, e o script só
+árvore ficou pronta em 13 ms, o download aconteceu em paralelo, e o script só
 rodou no fim, antes do `DOMContentLoaded`. Com `async`, o script roda assim que
 chega, sem ordem garantida, e nem segura o `DOMContentLoaded`.
 
@@ -170,7 +170,7 @@ no topo, praticamente nunca.
 
 ## O parser especulativo
 
-Repare numa coisa na primeira linha. A página de teste tinha uma imagem **depois**
+A primeira linha tem um detalhe. A página de teste tinha uma imagem **depois**
 do script bloqueante, e mesmo assim:
 
 ```
@@ -180,7 +180,7 @@ pedidos: /p.html@15ms  /lento.js@27ms  /foto.png@27ms
 A imagem foi pedida no mesmo instante que o script, não 300 ms depois. Enquanto
 a construção da árvore está travada, um segundo parser corre à frente pelo
 resto do documento procurando só por URLs, e vai disparando os downloads. Ele não
-constrói nada — não pode, já que o script ainda vai rodar e pode mudar tudo —,
+constrói nada, não pode, já que o script ainda vai rodar e pode mudar tudo —,
 mas tira a rede da fila crítica.
 
 É por isso que `<link rel=preload>` funciona, e por isso que recursos declarados
@@ -197,7 +197,7 @@ não bloqueiam a análise. Medindo:
 | dentro do `<head>` | 29 ms |
 | dentro do `<body>` | **312 ms** |
 
-No `<head>`, não bloqueia — como se ensina. No `<body>`, bloqueia os 300 ms
+No `<head>`, não bloqueia, como se ensina. No `<body>`, bloqueia os 300 ms
 inteiros. E há um segundo caso, independente da posição: um `<script>` embutido
 logo **depois** de uma folha pendente também espera por ela, porque o script pode
 ler `getComputedStyle` e a resposta dependeria da folha:
@@ -220,7 +220,7 @@ Quase todo código que espera `load` queria, na verdade, `DOMContentLoaded`. A
 diferença na tabela acima é pequena porque a página de teste é pequena; num site
 com imagens de verdade, são segundos.
 
-## O que fica
+## O que o parser faz com o seu HTML
 
 **O parser não rejeita nada.** Toda entrada vira uma árvore, e as regras de
 recuperação estão na especificação, com nome e número. Elas movem elementos,
@@ -235,13 +235,13 @@ mesma página.
 **E a posição da folha de estilo importa mais do que se diz.** No `<body>`, ela
 bloqueia. Antes de um script embutido, também.
 
-A árvore está pronta. Ela ainda não tem cor, tamanho nem posição — é disso que
+A árvore está pronta. Ela ainda não tem cor, tamanho nem posição, é disso que
 trata a [parte 5](/2023/09/navegador-parte-5-estilo-e-layout/).
 
 ## Referências
 
-- [HTML Standard, seção 13.2 — Parsing HTML documents](https://html.spec.whatwg.org/multipage/parsing.html) — o tokenizador, os modos de inserção e o *adoption agency*
-- [Encoding Standard](https://encoding.spec.whatwg.org/) — a ordem de precedência e por que o padrão é `windows-1252`
-- [How browsers work (Tali Garsiel e Paul Irish)](https://web.dev/articles/howbrowserswork) — a explicação clássica do WebKit e do Gecko
-- [Inside look at modern web browser (Mariko Kosaka, Chrome)](https://developer.chrome.com/blog/inside-browser-part1) — a arquitetura de processos por trás disso tudo
-- [Preload scanner (web.dev)](https://web.dev/articles/preload-scanner) — o parser que corre à frente
+- [HTML Standard, seção 13.2 — Parsing HTML documents](https://html.spec.whatwg.org/multipage/parsing.html), o tokenizador, os modos de inserção e o *adoption agency*
+- [Encoding Standard](https://encoding.spec.whatwg.org/), a ordem de precedência e por que o padrão é `windows-1252`
+- [How browsers work (Tali Garsiel e Paul Irish)](https://web.dev/articles/howbrowserswork), a explicação clássica do WebKit e do Gecko
+- [Inside look at modern web browser (Mariko Kosaka, Chrome)](https://developer.chrome.com/blog/inside-browser-part1), a arquitetura de processos por trás disso tudo
+- [Preload scanner (web.dev)](https://web.dev/articles/preload-scanner), o parser que corre à frente

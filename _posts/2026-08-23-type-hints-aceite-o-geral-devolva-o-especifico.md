@@ -7,12 +7,12 @@ description: "Declarar dict quando você só lê é exigir do chamador mais do q
 
 *Série em quatro partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/) · **4.** [o decorador que apaga os seus tipos](/2026/09/tipos-parte-4-o-decorador-que-apaga-seus-tipos/).*
 
-Os dois textos anteriores desta linha olharam o que os tipos **são** — os
-[não-compostos por dentro](/2026/08/tipos-em-python-por-dentro/) — e o que as
+Os dois textos anteriores desta linha olharam o que os tipos **são**, os
+[não-compostos por dentro](/2026/08/tipos-em-python-por-dentro/), e o que as
 estruturas **fazem** — [lista, set e dict](/2026/08/lista-set-dict-por-dentro/).
 Falta o terceiro movimento: como **declarar** o que a sua função aceita.
 
-E aqui a maioria do código erra na mesma direção. Não por falta de anotação: por
+A maioria do código erra na mesma direção. Não por falta de anotação: por
 anotar **demais**.
 
 ```python
@@ -20,7 +20,7 @@ def processar(config: dict[str, int]) -> int:
     return config["timeout"] * 2
 ```
 
-Essa função só **lê** o `config`. Mas a anotação exige um `dict` — e com isso
+Essa função só **lê** o `config`. Mas a anotação exige um `dict`, e com isso
 recusa qualquer outra coisa que se comporte como um mapa, e não promete nada
 sobre não modificar o que recebeu. As duas pontas do contrato estão erradas ao
 mesmo tempo.
@@ -59,12 +59,12 @@ punhado de métodos. Medindo direto no Python:
 | `Mapping` | `__getitem__`, `__iter__`, `__len__` | **ler** um mapa |
 | `MutableMapping` | os três + `__setitem__`, `__delitem__` | ler **e escrever** |
 
-Repare na última dupla, porque é a mais útil na prática. A diferença entre
+A última dupla é a mais útil na prática. A diferença entre
 `Mapping` e `MutableMapping` são exatamente os dois métodos de **escrita**.
 
 Ou seja: quando você anota um parâmetro como `Mapping`, está fazendo uma promessa
 verificável de que **não vai modificar** aquilo. Não é comentário, não é
-convenção — é checável.
+convenção, é checável.
 
 ## E o verificador cobra
 
@@ -82,7 +82,7 @@ error: Unsupported target for indexed assignment ("Mapping[str, int]")
 
 A anotação deixou de ser documentação e virou barreira. Se alguém no futuro
 acrescentar uma escrita naquela função, o verificador reprova antes do teste
-rodar — e o chamador, que passou o dicionário dele, continua sabendo que ninguém
+rodar, e o chamador, que passou o dicionário dele, continua sabendo que ninguém
 mexeu nele.
 
 Volte ao exemplo do começo e aplique:
@@ -122,14 +122,14 @@ note: Consider using "Sequence" instead, which is covariant
 
 O motivo é a **mutabilidade**. Se `list[Cachorro]` pudesse ser passada onde se
 espera `list[Animal]`, a função poderia fazer `xs.append(Gato())` — perfeitamente
-válido para uma lista de animais — e quem chamou ficaria com um gato dentro da
+válido para uma lista de animais, e quem chamou ficaria com um gato dentro da
 lista de cachorros dele.
 
 Por isso `list` é **invariante**: não aceita subtipos nem supertipos, só o tipo
 exato. E por isso `Sequence`, que é somente-leitura, pode ser **covariante**: sem
 escrita, o problema não existe.
 
-Repare no que o verificador fez: ele **sugeriu a solução**. Trocar `list` por
+O verificador fez algo notável: ele **sugeriu a solução**. Trocar `list` por
 `Sequence` no parâmetro resolve a variância *e* aplica a regra geral do texto, de
 uma vez.
 
@@ -138,7 +138,7 @@ uma vez.
 Há um caso em que nenhum tipo abstrato pronto serve: quando o que você precisa é
 "qualquer coisa que tenha o método `fechar`".
 
-Em Python isso sempre funcionou em tempo de execução — é *duck typing*. O que não
+Em Python isso sempre funcionou em tempo de execução, é *duck typing*. O que não
 existia era uma forma de **declarar** isso. A
 [PEP 544](https://peps.python.org/pep-0544/) resolveu, com **protocolos**:
 
@@ -200,7 +200,7 @@ BaseABC.register(SoTemFechar)        # o dono da ABC precisa autorizar
 isinstance(SoTemFechar(), BaseABC)   # True
 ```
 
-Repare em quem faz o `register`: é **o lado da abstração**. Para tipar uma
+Quem faz o `register` importa: é **o lado da abstração**. Para tipar uma
 classe de uma biblioteca de terceiros, você teria que registrá-la você mesmo, de
 fora, para uma hierarquia que não é sua.
 
@@ -272,7 +272,7 @@ Ou seja: `runtime_checkable` é útil para despachar, não para garantir.
 ### O `collections.abc` já era meio protocolo
 
 Fecha o círculo com a tabela lá de cima. Aquelas abstrações não exigem herança
-de verdade — elas implementam `__subclasshook__` e aceitam pela forma:
+de verdade, elas implementam `__subclasshook__` e aceitam pela forma:
 
 ```python
 from collections.abc import Iterable
@@ -284,12 +284,12 @@ isinstance(MeuIteravel(), Iterable)   # True, sem herdar nada
 ```
 
 Então quando você anota `Iterable` ou `Sized`, já está fazendo tipagem
-estrutural — a PEP 544 generalizou para os seus próprios tipos um mecanismo que
+estrutural, a PEP 544 generalizou para os seus próprios tipos um mecanismo que
 a biblioteca padrão vinha usando desde o 2.6.
 
 ## A sintaxe foi ficando mais leve
 
-Vale registrar como a escrita disso mudou, porque código antigo parece diferente
+A escrita disso mudou, porque código antigo parece diferente
 sem estar errado:
 
 - **3.9 ([PEP 585](https://peps.python.org/pep-0585/))** — `list[str]` e
@@ -302,7 +302,7 @@ sem estar errado:
   cerimônia: `def primeiro[T](xs: Sequence[T]) -> T`, sem declarar `TypeVar` nem
   herdar de `Generic`.
 
-Se o seu código ainda importa `List`, `Dict` e `Optional`, não está errado — está
+Se o seu código ainda importa `List`, `Dict` e `Optional`, não está errado, está
 velho. Dá para trocar mecanicamente.
 
 ## Quando restringir passa do ponto
@@ -313,13 +313,13 @@ Duas armadilhas na direção oposta, porque a regra tem dois lados.
 força quem chama a converter antes de indexar ou medir. O retorno é promessa:
 prometa o que você tem. Se devolve `list`, anote `list`.
 
-**`Any` desliga tudo.** Ele não é "tipo desconhecido" — é "não verifique". Quando
+**`Any` desliga tudo.** Ele não é "tipo desconhecido", é "não verifique". Quando
 o tipo é mesmo desconhecido, `object` é honesto e continua sendo checado: você é
 obrigado a estreitar antes de usar.
 
 E uma ressalva que vale para o texto inteiro: nada disso acelera o seu programa
 em um microssegundo. Anotação não chega ao bytecode. O que ela muda é **quando**
-o erro aparece — na sua máquina, ao editar, em vez de em produção, às três da
+o erro aparece, na sua máquina, ao editar, em vez de em produção, às três da
 manhã. Por que nem o `int` mais explícito acelera uma soma tem explicação
 própria, e ela é boa: [está aqui](/2023/06/anotar-int-nao-deixa-o-python-rapido/).
 
@@ -329,10 +329,10 @@ pelo decorador que apaga a assinatura que você acabou de escrever.
 
 ## Referências
 
-- [`collections.abc`](https://docs.python.org/3/library/collections.abc.html) — a hierarquia e o que cada tipo exige
-- [`typing`](https://docs.python.org/3/library/typing.html) — o módulo e a documentação de variância
+- [`collections.abc`](https://docs.python.org/3/library/collections.abc.html), a hierarquia e o que cada tipo exige
+- [`typing`](https://docs.python.org/3/library/typing.html), o módulo e a documentação de variância
 - [`abc`](https://docs.python.org/3/library/abc.html) — `register`, `__subclasshook__` e a instanciação barrada
-- [PEP 3119 — Introducing Abstract Base Classes](https://peps.python.org/pep-3119/) — o desenho das ABCs, de 2007
+- [PEP 3119 — Introducing Abstract Base Classes](https://peps.python.org/pep-3119/), o desenho das ABCs, de 2007
 - [PEP 544 — Protocols: Structural subtyping](https://peps.python.org/pep-0544/)
 - [PEP 585 — Type Hinting Generics In Standard Collections](https://peps.python.org/pep-0585/)
 - [PEP 604 — Allow writing union types as X | Y](https://peps.python.org/pep-0604/)

@@ -9,12 +9,12 @@ Lista de "livros que todo programador deve ler" é barata — normalmente é o m
 punhado de títulos repetido sem que ninguém diga o que muda depois de lê-los. Os
 cinco aqui têm uma relação entre si que raramente se aponta: **não competem**.
 Cada um olha exatamente o mesmo código de uma distância diferente, da linha que
-você acabou de digitar até o histórico de cinco anos do repositório — e os dois
+você acabou de digitar até o histórico de cinco anos do repositório, e os dois
 últimos, do mesmo autor, ocupam a mesma distância, um continuando o outro.
 
 E há uma tensão boa entre eles. Os três primeiros dizem como o código *deveria*
 ser. A última distância diz que a sua opinião sobre qual parte do *seu* sistema
-está pior provavelmente está errada — e mostra como medir.
+está pior provavelmente está errada, e mostra como medir.
 
 <!--more-->
 
@@ -26,7 +26,7 @@ está pior provavelmente está errada — e mostra como medir.
 | A história | Your Code as a Crime Scene | Qual trecho deste repositório custa mais caro? |
 | A história, mais longe | Software Design X-Rays | E quanto disso é problema de código, afinal? |
 
-Esta parte cobre as três primeiras distâncias. A última — a que mede em vez de
+Esta parte cobre as três primeiras distâncias. A última, a que mede em vez de
 prescrever — fica na [parte 2](/2026/09/quatro-livros-de-codigo-parte-2/), junto
 com a ordem de leitura e os dados bibliográficos dos cinco.
 
@@ -35,7 +35,7 @@ com a ordem de leitura e os dados bibliográficos dos cinco.
 O livro do [Luciano Ramalho](https://github.com/ramalho) parte de uma ideia que
 reorganiza tudo o que vem depois: Python é uma linguagem **pequena e coerente**,
 desde que você entenda o *data model*. Os métodos com underscore duplo — `__len__`,
-`__iter__`, `__enter__` — não são truques esotéricos. São o protocolo que o próprio
+`__iter__`, `__enter__`, não são truques esotéricos. São o protocolo que o próprio
 interpretador usa. Quando você implementa `__len__`, não está "sobrescrevendo uma
 função mágica": está entrando no mesmo contrato que `list` e `dict` cumprem.
 
@@ -49,7 +49,7 @@ O que ele **não** é: um primeiro livro de Python. São cerca de mil páginas n
 segunda edição, e elas pressupõem que você já escreve Python e quer escrever
 melhor. Quem está começando vai se afogar.
 
-E aqui está o melhor detalhe, que quase ninguém no Brasil sabe: **a segunda edição
+O melhor detalhe, que quase ninguém no Brasil sabe: **a segunda edição
 em português é gratuita e legal**. Quando entregou o manuscrito, Ramalho negociou
 com a O'Reilly a liberação da tradução brasileira sob licença aberta; a editora
 que publicou a primeira edição não quis seguir nesses termos, e o texto completo
@@ -59,7 +59,7 @@ português, de graça. Não há desculpa.
 
 ## O sistema: *Clean Architecture*
 
-O objetivo que Robert C. Martin declara não é elegância — é **minimizar o esforço
+O objetivo que Robert C. Martin declara não é elegância, é **minimizar o esforço
 humano** para construir e manter um sistema. E o que consome esse esforço tem
 nome: acoplamento a decisões prematuras. Uma decisão é prematura quando não tem
 nada a ver com a regra de negócio: o framework, o banco, o servidor web, o
@@ -109,7 +109,7 @@ antecipa:
 
 O modelo de dados é arquitetural; o RDBMS é detalhe. Daí sai uma proibição
 concreta e verificável: passar linhas e tabelas do banco como objetos pelo
-sistema é **erro de arquitetura**. O critério prático não é "ORM sim ou não" — é
+sistema é **erro de arquitetura**. O critério prático não é "ORM sim ou não", é
 onde o objeto de linha pode aparecer. Confinado a repositórios que devolvem
 estruturas simples, tudo bem. Circulando dentro da regra de negócio, não.
 
@@ -122,7 +122,7 @@ sistema que não precisava, estava tecnicamente certo, e escreve:
 
 O cliente queria o banco como item de checklist comercial. A conclusão dele é a
 lição: quando o requisito é político e não técnico, a resposta arquitetural é
-**satisfazê-lo atrás de um canal estreito**, mantendo o núcleo intacto — não
+**satisfazê-lo atrás de um canal estreito**, mantendo o núcleo intacto, não
 brigar. Vale igual para exigência de stack, de dashboard e de "tem que ter IA".
 
 Fronteira, aliás, custa nos dois sentidos — construir cedo demais desperdiça, e
@@ -143,7 +143,7 @@ dos autores é declarada logo no começo, e é quase provocativa:
 
 O enquadramento que sustenta o livro inteiro cabe em cinco palavras: **segurança é
 uma preocupação, não uma feature**. E o exemplo histórico que eles usam para isso
-é ótimo — o assalto ao Öst-Götha Bank, em 1854. O banco investiu em fechaduras
+é ótimo, o assalto ao Öst-Götha Bank, em 1854. O banco investiu em fechaduras
 impossíveis de arrombar. O ladrão arrancou as **dobradiças**. As features foram
 entregues; a preocupação, não.
 
@@ -164,7 +164,7 @@ inteira de bug some, não porque alguém lembrou de checar, mas porque não há 
 escrever o estado errado.
 
 A outra peça que uso toda semana é a **ordem canônica de validação**. Não é a lista
-que importa, é a ordem — o mais barato e mais brutal primeiro, porque cada etapa
+que importa, é a ordem, o mais barato e mais brutal primeiro, porque cada etapa
 custa mais que a anterior e você não quer pagar a cara para lixo óbvio:
 
 | | Etapa | O que checa |
@@ -187,7 +187,7 @@ exatamente os que a gente esquece.
 
 Uma honestidade que o livro merece e que aprendi na prática: **validar no
 construtor não basta se a forma da validação estiver errada**. Já vi um validador
-de CPF que fazia `if len(cpf) > 11: raise` e logo em seguida `cpf.zfill(11)` — só
+de CPF que fazia `if len(cpf) > 11: raise` e logo em seguida `cpf.zfill(11)`, só
 barrava o comprido, e completava o curto em silêncio. `'123'` virava documento
 válido. O tipo existia, a invariante existia, e o bug passava. "Domain primitive"
 não é garantia automática; é um lugar onde a garantia *pode* morar.
@@ -199,8 +199,8 @@ e não há edição em português.
 ## O que fica para a parte 2
 
 As três distâncias acima têm uma coisa em comum: elas dizem como o código
-**deveria** ser. São prescrições — a regra de dependência, o estado inválido
-inexprimível, o data model da linguagem — e todas valem para código em geral.
+**deveria** ser. São prescrições, a regra de dependência, o estado inválido
+inexprimível, o data model da linguagem, e todas valem para código em geral.
 
 A quarta distância faz o oposto. Ela não prescreve nada: pega o **seu**
 repositório, lê o histórico dele, e responde qual trecho custa mais caro. E a resposta

@@ -16,7 +16,7 @@ description: "Tudo que as cinco partes anteriores descreveram roda numa thread s
 **7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 Chegamos com uma página desenhada na tela. Falta o que a torna um aplicativo em
-vez de um documento — e falta a restrição que explica quase todo problema de
+vez de um documento, e falta a restrição que explica quase todo problema de
 desempenho que você vai encontrar na web.
 
 A restrição é esta: **a análise do HTML, o cálculo de estilo, o layout, a pintura
@@ -46,7 +46,7 @@ Duas filas com regras opostas. Da fila de **tarefas** sai um item por volta:
 
 E fora das duas filas está o `requestAnimationFrame`: uma função que você
 registra para rodar **imediatamente antes do próximo quadro ser desenhado**. Não
-é um temporizador — não tem prazo, tem lugar. É onde se anima alguma coisa sem
+é um temporizador, não tem prazo, tem lugar. É onde se anima alguma coisa sem
 brigar com o navegador, porque a alteração acontece no instante exato em que ele
 ia recalcular tudo de qualquer jeito.
 
@@ -157,7 +157,7 @@ vezes na GPU. É o que faz a rolagem continuar suave em páginas cujo JavaScript
 travou, e é a razão técnica do conselho da
 [parte 5](/2023/09/navegador-parte-5-estilo-e-layout/) sobre `transform`.
 
-**Web Workers.** Uma thread de verdade para o seu código — sem acesso ao DOM, e
+**Web Workers.** Uma thread de verdade para o seu código, sem acesso ao DOM, e
 a comunicação é por mensagens. É a única forma de tirar cálculo pesado da thread
 principal, e é subusada.
 
@@ -185,10 +185,10 @@ quadro, uma vez só, com todas as suas alterações juntas. E é exatamente por 
 que ler `offsetHeight` no meio é tão caro: você força o navegador a antecipar
 essas etapas, e ele as refaz na próxima alteração.
 
-O ciclo fecha a série. A página não é um resultado — é um estado que é
+O ciclo fecha a série. A página não é um resultado, é um estado que é
 reconstruído, parcialmente, sessenta vezes por segundo, enquanto durar a aba.
 
-## O que fica
+## Uma thread, e o orçamento que ela tem
 
 **Uma thread para tudo.** Análise, estilo, layout, pintura e o seu código. O
 paralelismo real está na rede, no compositor e nos workers.
@@ -209,8 +209,8 @@ quase tudo sobre não fazer o trabalho.
 
 ## Referências
 
-- [HTML Standard — Event loops](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops) — as duas filas, os passos de renderização e a regra dos 4 ms
-- [Tasks, microtasks, queues and schedules (Jake Archibald)](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) — a melhor explicação escrita sobre a ordem
-- [In The Loop (Jake Archibald, JSConf Asia 2018)](https://www.youtube.com/watch?v=cCOL7MC4Pl0) — a mesma coisa, com animação
-- [Optimize long tasks (web.dev)](https://web.dev/articles/optimize-long-tasks) — como fatiar trabalho e ceder o controle
-- [RenderingNG (Chrome)](https://developer.chrome.com/docs/chromium/renderingng) — o que roda em qual thread
+- [HTML Standard — Event loops](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops), as duas filas, os passos de renderização e a regra dos 4 ms
+- [Tasks, microtasks, queues and schedules (Jake Archibald)](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/), a melhor explicação escrita sobre a ordem
+- [In The Loop (Jake Archibald, JSConf Asia 2018)](https://www.youtube.com/watch?v=cCOL7MC4Pl0), a mesma coisa, com animação
+- [Optimize long tasks (web.dev)](https://web.dev/articles/optimize-long-tasks), como fatiar trabalho e ceder o controle
+- [RenderingNG (Chrome)](https://developer.chrome.com/docs/chromium/renderingng), o que roda em qual thread

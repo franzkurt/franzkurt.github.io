@@ -8,7 +8,7 @@ description: "Ollama, llama-server e RamaLama sabem ajustar o modelo ao máximo 
 Existe uma pergunta que toda ferramenta de inferência local deveria fazer e
 nenhuma faz: **isto cabe no que eu tenho para gastar?**
 
-Repare na formulação, porque a diferença é tudo. As ferramentas do caminho
+A formulação é o que decide tudo. As ferramentas do caminho
 dominante — Ollama, llama-server, RamaLama — sabem ajustar o modelo ao máximo do
 dispositivo. Existe mecanismo. O que não existe é **orçamento**: nenhuma delas
 aceita "você tem 8,8 GB, decida com isso". E em memória unificada, onde CPU e GPU
@@ -16,7 +16,7 @@ dividem a mesma RAM, "o máximo do dispositivo" é a máquina inteira. Ajustar a
 máximo significa tomar tudo o que tem.
 
 O custo disso não é hipotético. Num laptop de 16 GB, um modelo de 14B carregado
-sem pergunta nenhuma matou um processo meu — o sistema escolheu a vítima, e não
+sem pergunta nenhuma matou um processo meu, o sistema escolheu a vítima, e não
 fui consultado.
 
 <!--more-->
@@ -37,7 +37,7 @@ modelo, que nenhuma listagem de "tamanho do modelo" mostra, e que aparecem depoi
 que você já apertou enter.
 
 O Ollama serve o mesmo arquivo sem drama porque corta o contexto em 4k por
-default. Mesmo blob, mesma máquina, dois resultados opostos — e a diferença está
+default. Mesmo blob, mesma máquina, dois resultados opostos, e a diferença está
 num default que nenhum dos dois te pede para confirmar.
 
 ## O que um preflight faz
@@ -51,13 +51,13 @@ Quatro vereditos, e o quarto é o que importa:
 
 - `admit` — cabe.
 - `admit_degraded` — cabe com `--ctx-size` reduzido, e ele diz qual.
-- `refuse` — não cabe.
+- `refuse`, não cabe.
 - `unknown` — **não sei**.
 
 O `unknown` é a parte que custa disciplina. Quando o GGUF não declara
 `context_length`, a tentação é assumir 4096 e seguir. Uma implementação
 concorrente do mesmo script fazia exatamente isso, e o resultado era um `admit`
-de 0,33 GB — um número inventado, com cara de medição, para um modelo cujo
+de 0,33 GB, um número inventado, com cara de medição, para um modelo cujo
 consumo real ninguém sabia.
 
 Um admissor que chuta é pior que nenhum, porque transfere a responsabilidade sem
@@ -95,7 +95,7 @@ O quarto era de outra natureza:
 
 > Um GGUF **dividido em shards** era estimado pelo peso de **um só shard**.
 
-Silenciosamente. Sem erro, sem aviso — só um número três vezes menor que o real, e
+Silenciosamente. Sem erro, sem aviso, só um número três vezes menor que o real, e
 um `admit` confiante.
 
 Pense no modo de falha: um checador de admissão que **subestima** aprova
@@ -114,7 +114,7 @@ de dado.
 
 ## A segunda camada: o teto que sabe o que matar
 
-Admissão é conselho, e conselho se contorna — o meu foi, por um servidor lançado
+Admissão é conselho, e conselho se contorna, o meu foi, por um servidor lançado
 fora do caminho que tinha o guard. Então há uma segunda camada, e o desenho dela
 saiu de uma medição, não de uma preferência.
 
@@ -134,7 +134,7 @@ Duas decisões saem daí:
 - **`MemorySwapMax=0`.** Sem isso o excesso anônimo vai para swap, e o modo de
   falha deixa de ser um kill contido e vira a máquina inteira à velocidade do
   disco.
-- **`MemoryHigh` deliberadamente ausente.** Ele forçaria reclaim antes do teto — e
+- **`MemoryHigh` deliberadamente ausente.** Ele forçaria reclaim antes do teto, e
   o que seria reclamado são os pesos mapeados. Trocaria um problema de memória por
   um problema de disco, com tok/s despencando e nada explodindo. Thrashing
   disfarçado de funcionamento é a pior classe de falha que existe aqui.

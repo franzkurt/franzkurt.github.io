@@ -13,7 +13,7 @@ origem de metade dos mal-entendidos sobre a linguagem.
 A primeira é o **tipo em tempo de execução**: todo objeto carrega um ponteiro
 para o seu tipo, e é isso que decide o que `+` faz. A segunda é a **anotação de
 tipo**: `def f(x: int) -> str`, que o interpretador guarda e **não usa para
-nada**. Este texto trata das duas, na ordem — e a parte interessante é que a
+nada**. Este texto trata das duas, na ordem, e a parte interessante é que a
 segunda não afeta a primeira em ponto algum.
 
 Vou ao código do CPython onde for possível, porque a maior parte das surpresas
@@ -47,7 +47,7 @@ Duas coisas para reter dessa tabela.
 
 **Quase tudo aqui é imutável.** A única exceção é `bytearray`. Isso não é
 detalhe estético: imutabilidade é o que permite compartilhar objetos entre
-referências sem risco, e é a base de tudo o que vem a seguir — se `1` pudesse ser
+referências sem risco, e é a base de tudo o que vem a seguir, se `1` pudesse ser
 alterado, o cache de inteiros seria impossível.
 
 **`None` custa 16 bytes e não guarda nada.** Esses 16 bytes são o cabeçalho e
@@ -63,7 +63,7 @@ True
 True
 ```
 
-Guarde esse `hash` igual — ele reaparece mais adiante, causando estrago.
+Esse `hash` igual reaparece mais adiante, causando estrago.
 
 ## Todo objeto tem um cabeçalho
 
@@ -127,8 +127,8 @@ return (PyObject *)&_PyLong_SMALL_INTS[_PY_NSMALLNEGINTS + ival];
 
 ## 256 ou 1024? Depende de quando você lê isto
 
-Repare no `1025` acima e no `256` do exemplo. Os dois estão certos, em versões
-diferentes — e essa divergência é recente:
+Compare o `1025` acima com o `256` do exemplo. Os dois estão certos, em versões
+diferentes, e essa divergência é recente:
 
 | Versão | `_PY_NSMALLPOSINTS` | Faixa cacheada |
 |---|---|---|
@@ -148,7 +148,7 @@ A proposta mostra o efeito de aumentar o cache no pyperformance, faixa por faixa
   `spectral_norm`, `xml` e outros
 - **100 mil** → soma 9% em `scimark_monte_carlo` e 12% em `spectral_norm`
 
-Ou seja: quanto maior, melhor — e a pergunta deixa de ser técnica e vira de
+Ou seja: quanto maior, melhor, e a pergunta deixa de ser técnica e vira de
 projeto. Cada inteiro cacheado é um objeto pré-alocado que existe **em todo
 processo Python**, use-se ou não. Pararam em 1024 porque cobre o uso cotidiano e
 parsing iterativo sem cobrar memória de quem nunca vai passar de 100.
@@ -175,8 +175,8 @@ no 3.12: objetos que existem durante toda a vida do interpretador recebem um
 refcount saturado, e as operações de incremento e decremento simplesmente **não
 mexem nele**.
 
-Repare onde a fronteira cai: `1` é imortal, `257` não. É exatamente o limite do
-cache — o que é imortal é o que foi pré-alocado.
+A fronteira cai num ponto exato: `1` é imortal, `257` não. É exatamente o limite do
+cache, o que é imortal é o que foi pré-alocado.
 
 O motivo não é economizar as instruções de soma. É o *free threading*. Com o GIL
 removido, cada incremento de refcount em `None` ou em `True` seria uma escrita
@@ -228,7 +228,7 @@ a mais, um dígito a mais, exatamente onde 30 bits se esgotam. Continua assim:
 
 Aqueles 28 bytes iniciais, aliás, são quase todos cabeçalho. O número em si são 4
 bytes; o resto é refcount, ponteiro de tipo e tamanho. Uma lista de um milhão de
-inteiros pequenos não custa 4 MB: custa o array de ponteiros mais os objetos — e
+inteiros pequenos não custa 4 MB: custa o array de ponteiros mais os objetos, e
 se forem todos menores que 1024, os objetos já existem e você paga só os
 ponteiros.
 
@@ -278,7 +278,7 @@ def f(x: int) -> str:
 ```
 
 Isso roda. Devolve um `int` onde a anotação promete `str`, e o interpretador não
-reclama — porque a anotação é só um objeto guardado num dicionário. A
+reclama, porque a anotação é só um objeto guardado num dicionário. A
 [PEP 484](https://peps.python.org/pep-0484/), do 3.5, foi explícita: anotações
 são para ferramentas externas, e o runtime não as verifica.
 
@@ -289,7 +289,7 @@ solução foi revertida:
 - **3.7 (PEP 563)** — `from __future__ import annotations` transforma toda
   anotação em **string**. Resolveu referência para frente (`def f() -> "Arvore"`)
   e o custo de avaliar tipos caros na importação. Mas quebrou quem lê anotações em
-  tempo de execução — Pydantic, FastAPI, dataclasses — que passaram a receber
+  tempo de execução — Pydantic, FastAPI, dataclasses, que passaram a receber
   texto e ter que reavaliar.
 - **3.14 (PEP 649 + 749)** — a solução que ficou: a anotação continua sendo
   **código de verdade**, só que o compilador gera uma função `__annotate__` que é
@@ -304,13 +304,13 @@ de ler `__annotations__` na mão.
 
 ## Os casos de canto
 
-Cada afirmação deste texto tem um caso de canto que a demonstra — a fronteira
+Cada afirmação deste texto tem um caso de canto que a demonstra, a fronteira
 assimétrica do cache, a dobra de constantes que faz o exemplo do 257 só valer no
 REPL, um emoji que quadruplica uma string. Reuni os sete daqui com os oito do
 texto sobre estruturas de dados em
 [Quinze casos de canto do Python, todos medidos](/2026/08/casos-de-canto-do-python/).
 
-## O que fica
+## O que acontece quando você escreve x = 1
 
 Três coisas que eu levaria deste texto para o trabalho:
 
@@ -324,14 +324,14 @@ porque alguém rodou o pyperformance faixa por faixa e mostrou onde o ganho
 aparecia. A discussão inteira está aberta, numerada e pública.
 
 **As duas tipagens não se encontram.** A anotação não acelera nada, não valida
-nada e não muda a representação de nenhum objeto. Ela serve a ferramentas — e
+nada e não muda a representação de nenhum objeto. Ela serve a ferramentas, e
 serve bem, mas por um caminho que passa longe do interpretador.
 
 ## Referências
 
-- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c) — o inteiro de tamanho arbitrário e os dígitos de 30 bits
-- [`pycore_runtime_structs.h`](https://github.com/python/cpython/blob/main/Include/internal/pycore_runtime_structs.h) — onde `_PY_NSMALLPOSINTS` é definido, hoje em 1025
-- [PEP 683 — Immortal Objects](https://peps.python.org/pep-0683/) — os objetos que não têm contagem de referência
-- [PEP 484 — Type Hints](https://peps.python.org/pep-0484/) — a origem das anotações
-- [PEP 563](https://peps.python.org/pep-0563/), [PEP 649](https://peps.python.org/pep-0649/) e [PEP 749](https://peps.python.org/pep-0749/) — a longa discussão sobre quando a anotação é avaliada
-- [`sys.getsizeof`](https://docs.python.org/3/library/sys.html#sys.getsizeof) — o que ele mede, e o que não mede
+- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c), o inteiro de tamanho arbitrário e os dígitos de 30 bits
+- [`pycore_runtime_structs.h`](https://github.com/python/cpython/blob/main/Include/internal/pycore_runtime_structs.h), onde `_PY_NSMALLPOSINTS` é definido, hoje em 1025
+- [PEP 683 — Immortal Objects](https://peps.python.org/pep-0683/), os objetos que não têm contagem de referência
+- [PEP 484 — Type Hints](https://peps.python.org/pep-0484/), a origem das anotações
+- [PEP 563](https://peps.python.org/pep-0563/), [PEP 649](https://peps.python.org/pep-0649/) e [PEP 749](https://peps.python.org/pep-0749/), a longa discussão sobre quando a anotação é avaliada
+- [`sys.getsizeof`](https://docs.python.org/3/library/sys.html#sys.getsizeof), o que ele mede, e o que não mede

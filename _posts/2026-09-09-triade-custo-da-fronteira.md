@@ -38,7 +38,7 @@ função escrita em C dos dois lados.
 
 O motivo é que `math.sqrt` **já é** uma extensão em C. Ele não "é Python": é a
 mesma travessia que eu acabei de fazer à mão, feita pela biblioteca padrão. O que
-eu medi ali não é a diferença entre linguagens — é a diferença entre duas
+eu medi ali não é a diferença entre linguagens, é a diferença entre duas
 implementações da mesma travessia.
 
 E agora as duas últimas linhas, que são o achado. **O `ctypes` custa treze vezes
@@ -61,7 +61,7 @@ A extensão nativa não faz nada disso. Ela recebe os objetos Python direto, cha
 dela e foi compilada uma vez.
 
 O `cffi` fica no meio porque gera parte dessa ponte antecipadamente, e por isso
-custa metade do `ctypes` — mas ainda sete vezes o nativo.
+custa metade do `ctypes`, mas ainda sete vezes o nativo.
 
 ## Segundo resultado: e quando há trabalho de verdade?
 
@@ -69,7 +69,7 @@ O primeiro teste é injusto de propósito: uma raiz quadrada é trabalho de meno
 para justificar qualquer travessia. A pergunta útil é **a partir de quanto
 trabalho por chamada a conta vira.**
 
-Medi uma função que soma `n` raízes quadradas — em Python puro num laço, e numa
+Medi uma função que soma `n` raízes quadradas, em Python puro num laço, e numa
 extensão em C que faz o laço inteiro do lado de lá:
 
 | n (raízes por chamada) | Python puro | Extensão em C | Ganho |
@@ -84,7 +84,7 @@ Duas coisas saltam.
 
 **O ganho satura.** Ele sobe rápido até cerca de cem operações por chamada e
 depois quase para, estabilizando em torno de vinte vezes. Depois desse ponto,
-você não está mais amortizando a travessia — está apenas medindo a diferença
+você não está mais amortizando a travessia, está apenas medindo a diferença
 entre um laço em C e um laço em Python, que é o que ela é.
 
 **E o começo da tabela é o interessante.** Com uma operação por chamada, o ganho
@@ -117,7 +117,7 @@ biblioteca Python que chama Rust por arquivo analisado; é um programa em Rust q
 faz o trabalho inteiro do lado de lá e devolve o resultado uma vez. A travessia
 acontece uma vez por execução, não uma vez por item.
 
-É a linha de baixo da tabela acima, levada ao limite — e é uma decisão de
+É a linha de baixo da tabela acima, levada ao limite, e é uma decisão de
 arquitetura, não de linguagem.
 
 ## O que fazer com isso
@@ -135,6 +135,6 @@ já era C, e você teria feito o trabalho para ganhar 14%.
 
 ## Referências
 
-- [Extending Python with C or C++](https://docs.python.org/3/extending/extending.html) — a API que a extensão nativa usa
-- [`ctypes`](https://docs.python.org/3/library/ctypes.html) e [cffi](https://cffi.readthedocs.io/) — os dois caminhos sem compilação
-- [PyO3](https://pyo3.rs/) — o equivalente do lado do Rust
+- [Extending Python with C or C++](https://docs.python.org/3/extending/extending.html), a API que a extensão nativa usa
+- [`ctypes`](https://docs.python.org/3/library/ctypes.html) e [cffi](https://cffi.readthedocs.io/), os dois caminhos sem compilação
+- [PyO3](https://pyo3.rs/), o equivalente do lado do Rust

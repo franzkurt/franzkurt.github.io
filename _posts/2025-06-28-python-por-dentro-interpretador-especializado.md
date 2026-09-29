@@ -8,14 +8,14 @@ description: "Chame a mesma função duzentas vezes com inteiros e o BINARY_OP d
 *Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
 os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
 a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
+linguagem simples, e é lá que está o índice das partes e dos aprofundamentos.*
 
 A [parte 3](/2025/06/python-por-dentro-lendo-bytecode/) terminou com uma
 ressalva: o que o `dis` mostra é o ponto de partida, não o que roda depois. Esta
 parte é sobre o que acontece no meio.
 
 O problema é o seguinte. Python é de tipagem dinâmica, então `a + b` não pode
-virar uma soma de inteiros na compilação — o compilador não sabe o que são `a` e
+virar uma soma de inteiros na compilação, o compilador não sabe o que são `a` e
 `b`. A instrução precisa ser genérica: descobrir os tipos, procurar o método de
 soma de cada um, decidir quem tem precedência, e só então somar. **Toda vez.**
 
@@ -46,7 +46,7 @@ BINARY_OP            +
 RETURN_VALUE
 ```
 
-Agora chame duzentas vezes com inteiros — `for _ in range(200): soma(1, 2)` — e
+Agora chame duzentas vezes com inteiros — `for _ in range(200): soma(1, 2)`, e
 desmonte de novo, com `dis.get_instructions(soma, adaptive=True)`:
 
 ```
@@ -100,7 +100,7 @@ inteiras tem uma justificativa que eu achei elegante:
 > ela não pode ocorrer no meio de uma região.
 
 Compiladores que otimizam blocos grandes precisam saber voltar atrás a partir de
-qualquer ponto interno — o que exige guardar estado suficiente para reconstruir a
+qualquer ponto interno, o que exige guardar estado suficiente para reconstruir a
 execução no meio do caminho. É a parte difícil e cara de um JIT.
 
 Especializando uma instrução por vez, esse problema simplesmente não existe. Ou a
@@ -112,7 +112,7 @@ Lá atrás eu pedi para guardar um detalhe: o compilador **não consegue
 distinguir** uma variável global de um builtin. As duas viram `LOAD_GLOBAL`,
 porque a diferença só é conhecida quando o programa roda.
 
-É exatamente o tipo de informação que só existe em tempo de execução — e é
+É exatamente o tipo de informação que só existe em tempo de execução, e é
 exatamente o que o interpretador especializado captura. Ele observa de onde o
 nome veio, e troca a instrução por uma que já sabe onde procurar.
 
@@ -144,19 +144,19 @@ instrução especializada ocupam espaço, embutidos no próprio bytecode. Aquela
 entradas `CACHE` que o `dis` esconde por padrão são isso. Foi memória trocada por
 tempo, deliberadamente.
 
-Vale notar o que **não** aconteceu: nada disso trocou a máquina de pilha da
+O que **não** aconteceu: nada disso trocou a máquina de pilha da
 [parte 2](/2025/06/python-por-dentro-maquina-de-pilha/) por outra arquitetura. O
 ganho veio de tornar as instruções existentes mais espertas, mantendo tudo o mais
 no lugar — compatibilidade de C API, semântica, ferramentas.
 
 ---
 
-*Próxima parte: o que mudou por dentro em cada versão, do 3.9 até hoje — e por
+*Próxima parte: o que mudou por dentro em cada versão, do 3.9 até hoje, e por
 que as decisões formam uma linha só.*
 
 ## Referências
 
-- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/) — de onde vêm as citações
-- [`Python/specialize.c`](https://github.com/python/cpython/blob/main/Python/specialize.c) — a implementação da especialização
-- [`Python/bytecodes.c`](https://github.com/python/cpython/blob/main/Python/bytecodes.c) — onde as variantes especializadas são definidas
-- [`dis.get_instructions(..., adaptive=True)`](https://docs.python.org/3/library/dis.html#dis.get_instructions) — o que revela o bytecode especializado
+- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/), de onde vêm as citações
+- [`Python/specialize.c`](https://github.com/python/cpython/blob/main/Python/specialize.c), a implementação da especialização
+- [`Python/bytecodes.c`](https://github.com/python/cpython/blob/main/Python/bytecodes.c), onde as variantes especializadas são definidas
+- [`dis.get_instructions(..., adaptive=True)`](https://docs.python.org/3/library/dis.html#dis.get_instructions), o que revela o bytecode especializado

@@ -10,16 +10,16 @@ audio_duracao: "7:36"
 *Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
 os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
 a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
+linguagem simples, e é lá que está o índice das partes e dos aprofundamentos.*
 
 Quando você roda um `.py`, o Python não interpreta o seu texto. Ele **compila**
-— não para código de máquina, mas para bytecode — e só então executa. Entre uma
+— não para código de máquina, mas para bytecode, e só então executa. Entre uma
 coisa e outra existem cinco etapas bem definidas, e cada uma mora num arquivo
 diferente do CPython.
 
 Esta série percorre esse caminho por dentro, citando o código-fonte, e usa as
 decisões de projeto que foram tomadas ao longo dos anos para explicar por que o
-Python de hoje é como é. Começa aqui, no caminho do fonte ao bytecode — e a
+Python de hoje é como é. Começa aqui, no caminho do fonte ao bytecode, e a
 segunda etapa dele foi **trocada por inteiro no Python 3.9**, que é onde a série
 começa.
 
@@ -37,14 +37,14 @@ A documentação interna do CPython é direta ao listar o que acontece:
 > 4. Construir um Grafo de Fluxo de Controle e otimizá-lo — `Python/flowgraph.c`
 > 5. Emitir bytecode a partir do grafo — `Python/assemble.c`
 
-Repare que são **cinco arquivos distintos**, e que a fronteira entre eles é
+São **cinco arquivos distintos**, e que a fronteira entre eles é
 nítida. Isso não é detalhe de organização: cada estágio tem uma representação
-própria do programa, e trocar um estágio sem tocar nos outros é possível — que é
+própria do programa, e trocar um estágio sem tocar nos outros é possível, que é
 exatamente o que aconteceu no 3.9.
 
 ## Estágio 1: o tokenizador
 
-O primeiro passo transforma texto em símbolos. Nada de estrutura ainda — só a
+O primeiro passo transforma texto em símbolos. Nada de estrutura ainda, só a
 classificação de cada pedaço.
 
 Dá para ver acontecendo, porque o Python expõe o próprio tokenizador:
@@ -61,13 +61,13 @@ NUMBER   '1'
 ```
 
 O tokenizador do Python tem uma responsabilidade que a maioria não tem: ele
-**gera os tokens de indentação**. `INDENT` e `DEDENT` não existem no texto — são
+**gera os tokens de indentação**. `INDENT` e `DEDENT` não existem no texto, são
 inventados aqui, contando espaços. É por isso que a indentação do Python é
 sintaxe de verdade e não convenção: ela vira token antes de qualquer análise.
 
 ## Estágio 2: o parser, que mudou no 3.9
 
-Aqui está a decisão de projeto mais interessante desta parte da série.
+A decisão de projeto mais interessante desta parte da série vem agora.
 
 Até o Python 3.8, o parser era **LL(1)** — uma família de analisadores que decide
 o que está lendo olhando **um único token à frente**. É rápido e simples de
@@ -107,7 +107,7 @@ Há um detalhe de implementação que o CPython chama de incomum, e ele importa:
 > tanto incomum. É incomum no sentido de que a entrada do parser é **um fluxo de
 > tokens**, e não um fluxo de caracteres, que é o mais comum em parsers PEG.
 
-Ou seja, mantiveram o tokenizador separado em vez de fundir as duas etapas — o
+Ou seja, mantiveram o tokenizador separado em vez de fundir as duas etapas, o
 que preservou o estágio 1 intacto durante a troca.
 
 E vale saber de onde o parser vem: ele é **gerado**. A gramática fica em
@@ -130,7 +130,7 @@ Module(
         right=Constant(value=1)))])
 ```
 
-Repare no `ctx=Store()` contra `ctx=Load()`: a árvore já sabe que `x` está sendo
+Compare `ctx=Store()` com `ctx=Load()`: a árvore já sabe que `x` está sendo
 **escrito** e `a` está sendo **lido**. Essa distinção, que o texto não carrega, é
 o que permite o compilador escolher instruções diferentes mais adiante.
 
@@ -140,7 +140,7 @@ Da AST em diante o trabalho é do compilador, e ele se divide em três.
 
 **`Python/compile.c`** percorre a árvore e emite uma sequência de instruções.
 É aqui que se decide, por exemplo, que carregar uma variável local usa uma
-instrução e carregar uma global usa outra — a informação de escopo é resolvida
+instrução e carregar uma global usa outra, a informação de escopo é resolvida
 neste ponto, não em tempo de execução.
 
 **`Python/flowgraph.c`** monta o grafo de fluxo de controle e otimiza. É onde
@@ -148,7 +148,7 @@ código inalcançável some, saltos para saltos são encurtados e blocos vazios
 desaparecem. Otimização em Python acontece aqui, e é bem mais modesta do que as
 pessoas imaginam.
 
-**`Python/assemble.c`** transforma o grafo em bytecode linear — a sequência de
+**`Python/assemble.c`** transforma o grafo em bytecode linear, a sequência de
 bytes que vai para o objeto de código, junto com a tabela de constantes, os nomes
 de variáveis e a tabela de exceções.
 
@@ -160,14 +160,14 @@ Três coisas que eu levaria daqui.
 espaço não é questão de estilo: é ambiguidade num tokenizador que precisa contar
 colunas.
 
-**Mensagem de erro melhor não é cosmética — é consequência de arquitetura.** As
+**Mensagem de erro melhor não é cosmética, é consequência de arquitetura.** As
 mensagens mais úteis que chegaram do 3.10 em diante só foram possíveis porque o
 parser novo sabe qual alternativa da gramática ele estava tentando. O parser
 antigo não tinha essa informação para dar.
 
 **Sintaxe nova custa menos do que parece.** Como a gramática é um arquivo que
 gera o parser, propor sintaxe é editar uma regra e rodar o gerador. O que é caro
-é decidir se a sintaxe deve existir — não implementá-la.
+é decidir se a sintaxe deve existir, não implementá-la.
 
 ---
 
@@ -176,8 +176,8 @@ quando se mede a alternativa em vez de repetir a explicação de sempre.*
 
 ## Referências
 
-- [Compiler design](https://github.com/python/cpython/blob/main/InternalDocs/compiler.md) — a documentação interna do CPython que lista os cinco estágios
+- [Compiler design](https://github.com/python/cpython/blob/main/InternalDocs/compiler.md), a documentação interna do CPython que lista os cinco estágios
 - [PEP 617 — New PEG parser for CPython](https://peps.python.org/pep-0617/)
-- [`Grammar/python.gram`](https://github.com/python/cpython/blob/main/Grammar/python.gram) — a gramática de onde o parser é gerado
+- [`Grammar/python.gram`](https://github.com/python/cpython/blob/main/Grammar/python.gram), a gramática de onde o parser é gerado
 - [`Python/compile.c`](https://github.com/python/cpython/blob/main/Python/compile.c) · [`Python/flowgraph.c`](https://github.com/python/cpython/blob/main/Python/flowgraph.c) · [`Python/assemble.c`](https://github.com/python/cpython/blob/main/Python/assemble.c)
-- [`tokenize`](https://docs.python.org/3/library/tokenize.html) e [`ast`](https://docs.python.org/3/library/ast.html) — os módulos usados nos exemplos
+- [`tokenize`](https://docs.python.org/3/library/tokenize.html) e [`ast`](https://docs.python.org/3/library/ast.html), os módulos usados nos exemplos

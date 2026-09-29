@@ -36,7 +36,7 @@ rede movimentada sem perder pacote.
 **`scapy`** disseca e constrói. É uma biblioteca Python em que cada camada é uma
 classe e o operador `/` empilha uma sobre a outra: `IP()/UDP()/DNS()` é
 literalmente um pacote. Ela lê o arquivo que o `tcpdump` gravou, e também monta
-pacotes do zero — o que a torna a ferramenta certa para *validar*, e não só
+pacotes do zero, o que a torna a ferramenta certa para *validar*, e não só
 olhar. (Já apareceu por aqui antes, em
 [outro contexto](/2021/05/como-eu-criei-um-script-para-quebra-de-senhas-de-rede-wi-fi-com-scapy/).)
 
@@ -247,7 +247,7 @@ campo:
   ARCOUNT  0000  = 0
 ```
 
-O `flags` valendo `0x0100` é o bit **RD**, *recursion desired* — o cliente pedindo
+O `flags` valendo `0x0100` é o bit **RD**, *recursion desired*, o cliente pedindo
 ao resolvedor que faça a busca inteira por ele. Trocando `rd=1` por `rd=0`, o
 campo vira `0x0000`. É um bit, e é a diferença entre resolução recursiva e
 iterativa.
@@ -282,14 +282,14 @@ no hospedeiro:        eth0  mtu 1500
 
 A rede virtual do container não tem enlace físico, então usa uma MTU enorme. O
 MSS anunciado na captura é propriedade do laboratório, não do caminho até o
-servidor — e o servidor, que está na internet de verdade, respondeu com 4096.
+servidor, e o servidor, que está na internet de verdade, respondeu com 4096.
 
 É a classe de erro que mais me pega: **o instrumento alterou o que estava sendo
 medido.** Tudo que depende de tamanho de quadro precisa ser verificado no
 hospedeiro; o que depende de estrutura — cabeçalhos, flags, sequência, checksum —
 vale igual nos dois.
 
-## O que fica
+## Como conferir por conta própria
 
 **`tcpdump` captura, scapy pergunta.** Um imprime o que passou; o outro deixa
 você escrever `assert` sobre os bytes.
@@ -310,9 +310,9 @@ instrumento para não precisar acreditar em nada disso.
 
 ## Referências
 
-- [manual do tcpdump](https://www.tcpdump.org/manpages/tcpdump.1.html) — as flags e a sintaxe de saída
-- [pcap-filter(7)](https://www.tcpdump.org/manpages/pcap-filter.7.html) — a linguagem de filtro que vira BPF
+- [manual do tcpdump](https://www.tcpdump.org/manpages/tcpdump.1.html), as flags e a sintaxe de saída
+- [pcap-filter(7)](https://www.tcpdump.org/manpages/pcap-filter.7.html), a linguagem de filtro que vira BPF
 - [documentação do scapy](https://scapy.readthedocs.io/en/latest/usage.html) — dissecar, montar e enviar
-- [RFC 9293 — TCP](https://www.rfc-editor.org/rfc/rfc9293.html) — as flags, o `dataofs` e as opções do handshake
-- [RFC 1035 — Domain Names](https://www.rfc-editor.org/rfc/rfc1035.txt) — os 12 bytes de cabeçalho e o formato dos rótulos
 - [RFC 1071 — Computing the Internet Checksum](https://www.rfc-editor.org/rfc/rfc1071.txt) — o algoritmo que o scapy recalcula
+- [RFC 1035 — Domain Names](https://www.rfc-editor.org/rfc/rfc1035.txt), os 12 bytes de cabeçalho e o formato dos rótulos
+- [RFC 1071 — Computing the Internet Checksum](https://www.rfc-editor.org/rfc/rfc1071.txt), o algoritmo que o scapy recalcula

@@ -18,8 +18,8 @@ por baixo de cada ferramenta.
 ## O problema que isso resolve
 
 Para juntar dois PDFs, o caminho comum é subir os dois para o site de alguém.
-Costuma funcionar. Mas você acabou de mandar um documento — que pode ser um
-contrato, um holerite, um exame — para uma máquina que não é sua, operada por
+Costuma funcionar. Mas você acabou de mandar um documento, que pode ser um
+contrato, um holerite, um exame, para uma máquina que não é sua, operada por
 gente que você não conhece, sob uma política de retenção que você não leu.
 
 A alternativa é fazer a conta no seu próprio computador. O navegador moderno já
@@ -29,8 +29,8 @@ imagem, roda WebAssembly. Falta só alguém escrever a página.
 ## A afirmação, medida
 
 "Roda no seu computador" é fácil de dizer. Testei do jeito mais direto que achei:
-carreguei a página, **cortei a rede** — todo pedido a partir dali passa a ser
-abortado e registrado — e mandei oito ferramentas trabalharem.
+carreguei a página, **cortei a rede**, todo pedido a partir dali passa a ser
+abortado e registrado, e mandei oito ferramentas trabalharem.
 
 ```
 rede cortada — qualquer pedido a partir daqui é abortado E registrado
@@ -76,7 +76,7 @@ mexer: mover página, girar, escrever texto por cima, mudar metadado, juntar
 documentos. O resultado continua sendo um PDF de verdade, com texto
 selecionável.
 
-**`pdf.js` — a mesma da Mozilla que desenha PDF no Firefox — renderiza.** Ela
+**`pdf.js`, a mesma da Mozilla que desenha PDF no Firefox — renderiza.** Ela
 transforma página em pixel. É o que permite "PDF → Imagens", a pré-visualização
 onde você clica para posicionar um carimbo, e o OCR de página escaneada.
 
@@ -110,7 +110,7 @@ a ferramenta a ter uma que finge.
 ## OCR: o modelo desce, a sua imagem não sobe
 
 Reconhecer texto em imagem dentro do navegador soa improvável, e é a ferramenta
-que mais surpreende. Usa **Tesseract.js**, que é o Tesseract de sempre — o motor
+que mais surpreende. Usa **Tesseract.js**, que é o Tesseract de sempre, o motor
 de OCR da Google, de 2006 — compilado para **WebAssembly**, um formato binário
 que o navegador executa perto da velocidade de código nativo.
 
@@ -137,7 +137,7 @@ onde a imagem viaja e o modelo fica.
 
 ## Validadores: o dígito verificador, não uma lista
 
-"Validar CPF" não consulta nada — não há base de dados envolvida, e nenhum site
+"Validar CPF" não consulta nada, não há base de dados envolvida, e nenhum site
 sério teria acesso a uma. O que se valida é **aritmética**: os dois últimos
 dígitos são calculados a partir dos nove primeiros, por módulo 11.
 
@@ -153,7 +153,7 @@ passa no módulo 11, e é rejeitado por uma regra à parte. Um validador que só
 a conta aceita onze sequências iguais como válidas.
 
 A ferramenta faz CPF, CNPJ, PIS, RENAVAM, OAB, número de processo CNJ, CEP e
-inscrição estadual — e também **gera** números válidos, que é o que você precisa
+inscrição estadual, e também **gera** números válidos, que é o que você precisa
 para testar sistema sem usar o CPF de ninguém.
 
 ## Hash, Base64 e JWT: o que o navegador já sabe fazer
@@ -172,7 +172,7 @@ legado, ele está escrito à mão ali do lado.
 
 O inspetor de **JWT** merece uma frase de contexto, porque o mal-entendido é
 comum. Um JWT tem três partes separadas por ponto; as duas primeiras são apenas
-**Base64**, e Base64 não é cifra — é uma forma de escrever bytes com as letras do
+**Base64**, e Base64 não é cifra, é uma forma de escrever bytes com as letras do
 alfabeto. Qualquer um lê o conteúdo de um JWT.
 
 O que o token garante não é sigilo, é **integridade**: a terceira parte é uma
@@ -183,11 +183,11 @@ nunca ponha dado sensível dentro de um JWT. Abrir um não é quebrar nada.
 
 Gerar usa o `qrcode-generator`; ler imagem usa o `jsQR`; e há uma versão que
 abre a câmera e decodifica ao vivo, quadro a quadro, pela API de mídia do
-navegador — a imagem da câmera nunca chega a virar arquivo.
+navegador, a imagem da câmera nunca chega a virar arquivo.
 
 Uma nota de cicatriz: a biblioteca de geração foi trocada porque a anterior
 quebrava com **acento**. Ela escolhia o tamanho do QR contando caracteres, e
-depois codificava em UTF-8 — onde "ã" ocupa dois bytes. Com acento, o conteúdo
+depois codificava em UTF-8, onde "ã" ocupa dois bytes. Com acento, o conteúdo
 não cabia no tamanho escolhido.
 
 ## E o resto, em uma linha
@@ -197,7 +197,7 @@ Planilhas (XLSX ↔ JSON ↔ CSV) pela biblioteca `xlsx`; leitores de **NFe**,
 raramente têm ferramenta boa de graça; e os utilitários de sempre — UUID,
 timestamp, fuso horário, slug, cálculo de prazo.
 
-## O que fica
+## O que muda para quem usa
 
 **Cinquenta e três ferramentas, zero pedidos de rede ao usar.** Medido cortando
 a rede e vendo se ainda funcionavam. Funcionaram.

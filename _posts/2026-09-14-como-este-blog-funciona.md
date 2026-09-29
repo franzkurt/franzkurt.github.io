@@ -6,7 +6,7 @@ description: "Um site estático hospedado de graça, com build no servidor de ou
 ---
 
 Este blog roda em GitHub Pages com Jekyll, e a pergunta que me fazem sobre isso
-nunca é "como publico um artigo" — é se vale a pena.
+nunca é "como publico um artigo", é se vale a pena.
 
 São duas coisas separadas que costumam ser citadas como uma só, e entender onde
 uma termina e a outra começa é o que explica tanto as vantagens quanto as
@@ -43,10 +43,9 @@ O texto começa aqui.
 ```
 
 A regra que organiza tudo: arquivos em `_posts/` viram artigos, e o nome do
-arquivo precisa ser `AAAA-MM-DD-titulo.md`. Guarde isso, porque volta como
-armadilha mais adiante.
+arquivo precisa ser `AAAA-MM-DD-titulo.md`. Isso volta como armadilha mais adiante.
 
-## GitHub Pages é o que hospeda — e o que impõe as regras
+## GitHub Pages é o que hospeda, e o que impõe as regras
 
 GitHub Pages é hospedagem estática gratuita. Você dá `git push`, e eles rodam o
 Jekyll e publicam. Não há servidor para manter, certificado para renovar nem
@@ -147,7 +146,7 @@ publicação é sempre manual. Eu escolhi a terceira.
 Com `permalink: /:year/:month/:title/`, o `:title` **não** sai do `title:` do
 front matter. Sai do nome do arquivo.
 
-Então mudar o título de um artigo publicado não faz nada com a URL — e renomear
+Então mudar o título de um artigo publicado não faz nada com a URL, e renomear
 o arquivo muda a URL sem você ter tocado no título. É o contrário do que a
 intuição diz.
 
@@ -168,14 +167,14 @@ Qualquer coisa em que o conteúdo é o mesmo para todo mundo e muda por commit.
 
 **É ruim para:** qualquer coisa com login, comentários nativos, busca no
 servidor, formulário que grava dados, ou conteúdo que muda sem alguém publicar.
-Dá para contornar com serviços de terceiros, mas aí a simplicidade — que era o
+Dá para contornar com serviços de terceiros, mas aí a simplicidade, que era o
 motivo de estar aqui — vai embora pedaço por pedaço.
 
 **O teste que eu usaria:** se duas pessoas diferentes precisam ver coisas
 diferentes na mesma URL, site estático é a ferramenta errada. Se todo mundo vê o
 mesmo, é difícil achar coisa melhor.
 
-## O que fica
+## Vale a pena?
 
 **São duas decisões, não uma.** Jekyll gera; GitHub Pages hospeda. Dá para trocar
 qualquer um dos dois sem mexer no outro, e saber disso ajuda quando um dos lados
@@ -193,6 +192,6 @@ vira 404 sem avisar ninguém.
 ## Referências
 
 - [Limites do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits) — 1 GB, 100 GB/mês, 10 builds/hora
-- [Versões e plugins que o Pages fixa](https://pages.github.com/versions/) — a lista completa do que roda lá
+- [Versões e plugins que o Pages fixa](https://pages.github.com/versions/), a lista completa do que roda lá
 - [Documentação do Jekyll](https://jekyllrb.com/docs/) — front matter, coleções, layouts
-- [jekyll-redirect-from](https://github.com/jekyll/jekyll-redirect-from) — o plugin que evita a terceira armadilha
+- [jekyll-redirect-from](https://github.com/jekyll/jekyll-redirect-from), o plugin que evita a terceira armadilha

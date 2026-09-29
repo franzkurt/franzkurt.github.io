@@ -36,7 +36,7 @@ parece banal e não é:
 > Num dado ponto do código, o objeto que chega costuma ser do mesmo tipo que o
 > objeto que chegou da última vez que aquele ponto executou.
 
-Repare na precisão da frase. Não diz "programas dinâmicos usam poucos tipos" —
+A frase é precisa. Não diz "programas dinâmicos usam poucos tipos" —
 isso seria falso. Diz que **cada ponto do código**, individualmente, costuma ver
 sempre o mesmo tipo. Um programa com cinquenta classes pode ter um `o.x` que só
 vê `Pedido`, outro que só vê `Cliente`, e os dois estarem certos.
@@ -56,8 +56,8 @@ A ideia é anexar a cada instrução um espacinho de memória com duas coisas:
 E a instrução passa a ter três caminhos:
 
 1. **Cache vazio** — faz a busca completa, guarda o resultado e o tipo.
-2. **Acerto** — o tipo bate com a chave. Usa o valor guardado, sem busca.
 3. **Erro** — o tipo é outro. Joga fora, faz a busca, guarda de novo.
+3. **Erro**, o tipo é outro. Joga fora, faz a busca, guarda de novo.
 
 É só isso. E funciona porque o caso 2 domina.
 
@@ -127,7 +127,7 @@ de leituras:
 
 ## Uma medição que eu não consegui fazer
 
-Vale registrar, porque a tentativa ensina mais que o resultado.
+Registro porque a tentativa ensina mais que o resultado.
 
 Eu quis medir a **penalidade de o cache errar** — a mesma função vendo tipos
 alternados. Montei o teste, rodei, e deu 1,27×. Rodei de novo: 0,59×. E de novo:
@@ -136,13 +136,13 @@ alternados. Montei o teste, rodei, e deu 1,27×. Rodei de novo: 0,59×. E de nov
 Isso não é medição, é ruído. O efeito, nesta máquina, é menor que a variação
 entre execuções, e a única conclusão honesta é que **não consegui medir**. Fica o
 registro de que o CPython absorve troca de tipo melhor do que o cache
-monomórfico ingênuo sugeriria — mas quanto melhor, eu não sei dizer.
+monomórfico ingênuo sugeriria, mas quanto melhor, eu não sei dizer.
 
 A primeira versão deste texto ia publicar o 1,27×. Teria sido um número inventado
 com aparência de dado, que é o defeito que
 [um artigo inteiro deste blog](/2025/09/sete-erros-de-medicao/) descreve.
 
-## O que fica
+## O que o cache inline compra
 
 **A otimização não vem de saber o tipo, vem de apostar nele.** O cache não prova
 que `o` é `ComDict`; aposta que será, e confere a aposta com uma comparação
@@ -154,7 +154,7 @@ e um compilador antecipado, e é o motivo de
 a anotação não dá a garantia, e o interpretador não precisa dela.
 
 **O cache é por ponto do código.** Isso explica por que uma função utilitária
-chamada com dez tipos diferentes é mais lenta que dez funções específicas — não
+chamada com dez tipos diferentes é mais lenta que dez funções específicas, não
 por causa do `if`, mas porque ela tem um cache só para dez apostas.
 
 Falta uma peça. Mesmo quando o cache acerta, ainda sobra o custo de *verificar se
@@ -165,7 +165,7 @@ elimina até isso, reescrevendo o bytecode em execução.
 ## Referências
 
 - [Inline caching](https://bernsteinbear.com/blog/inline-caching/) — Max Bernstein, o texto que originou este
-- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/) — como o CPython implementa isso
-- [`dis`](https://docs.python.org/3/library/dis.html) — o desmontador, `adaptive=True` e `_inline_cache_entries`
+- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/), como o CPython implementa isso
+- [`dis`](https://docs.python.org/3/library/dis.html), o desmontador, `adaptive=True` e `_inline_cache_entries`
 - [Efficient implementation of the Smalltalk-80 system](https://www.semanticscholar.org/paper/Efficient-implementation-of-the-smalltalk-80-system-Deutsch-Schiffman/2f4002755b309cdb91e18116b8028005497d8400) — Deutsch e Schiffman, 1984, a observação original
-- [InternalDocs/interpreter.md](https://github.com/python/cpython/blob/main/InternalDocs/interpreter.md) — a especialização documentada pelos mantenedores
+- [InternalDocs/interpreter.md](https://github.com/python/cpython/blob/main/InternalDocs/interpreter.md), a especialização documentada pelos mantenedores

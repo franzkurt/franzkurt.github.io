@@ -10,7 +10,7 @@ partir de 2023, o retorno financeiro da energia solar residencial deixou de ser
 decidido por quem instala e passou a ser decidido por quem desenhou a casa.
 
 A tese está certa. Fui conferir os números, calculei o que dava para calcular, e
-saiu um script que você pode rodar na sua casa — está no fim, junto com o vídeo.
+saiu um script que você pode rodar na sua casa, está no fim, junto com o vídeo.
 
 <!--more-->
 
@@ -21,7 +21,7 @@ dividiu quem gera energia em casa em dois grupos, e o critério não é o tamanh
 do sistema nem a marca do painel. É a data do pedido de acesso à distribuidora.
 
 **Quem já existia, ou protocolou solicitação de acesso em até 12 meses da
-publicação da lei** — o grupo que o setor chama de GD1. A lei é de 6 de janeiro
+publicação da lei**, o grupo que o setor chama de GD1. A lei é de 6 de janeiro
 de 2022, então o prazo fechou no começo de janeiro de 2023. Para esse grupo vale
 a regra antiga, e o art. 26 é explícito quanto ao prazo: as disposições do art.
 17 *"não se aplicam até 31 de dezembro de 2045"*.
@@ -37,20 +37,20 @@ A fração sobe todo ano, pelo art. 27:
 |---|---:|---:|---:|---:|---:|---:|
 | fração do fio B paga | 15% | 30% | 45% | **60%** | 75% | 90% |
 
-E aqui o ponto em que quase todo material sobre o assunto — inclusive o vídeo —
+O ponto em que quase todo material sobre o assunto, inclusive o vídeo —
 simplifica demais. **Não existe "100% do fio B" em 2029.** Fui ler o art. 27, e
 o inciso VII não traz percentual nenhum: manda aplicar *"a regra disposta no art.
 17 desta Lei a partir de 2029"*.
 
 E o art. 17 é outra coisa. Ele diz que as unidades serão faturadas pela
 incidência *"de todas as componentes tarifárias não associadas ao custo da
-energia"* — base mais ampla que só o fio B — e que *"deverão ser abatidos todos
+energia"* — base mais ampla que só o fio B, e que *"deverão ser abatidos todos
 os benefícios ao sistema elétrico"* propiciados pela geração distribuída,
 conforme regulação da ANEEL.
 
 Ou seja: de 2029 em diante a base de cálculo aumenta e um desconto novo entra,
 e o saldo depende de uma valoração que ainda não existe. Pode dar mais que 100%
-do fio B de hoje, pode dar menos. É cenário, não calendário — e é assim que vou
+do fio B de hoje, pode dar menos. É cenário, não calendário, e é assim que vou
 tratar.
 
 ## O que a lei realmente mudou
@@ -66,7 +66,7 @@ consulta pública vai mexer nisso.
 Então o valor do seu sistema passou a depender de uma fração que o setor chama de
 **fator de simultaneidade**: quanto da sua geração você consome na hora em que
 ela acontece. E essa fração não é decidida pelo instalador. Ela é decidida pelo
-encaixe entre duas curvas — a geração, que tem o horário do sol, e o consumo, que
+encaixe entre duas curvas, a geração, que tem o horário do sol, e o consumo, que
 tem o horário da sua vida.
 
 No Brasil essas duas curvas estão desencontradas por projeto. O pico do consumo
@@ -78,7 +78,7 @@ Aqui eu precisei calcular, porque o número que circula não bateu.
 
 O vídeo afirma que um telhado voltado para o sul gera 47% menos que um voltado
 para o norte. Calculei com `pvlib` — posição solar real, céu claro pelo modelo
-Ineichen, transposição para o plano inclinado por Hay-Davies — e a 20° de
+Ineichen, transposição para o plano inclinado por Hay-Davies, e a 20° de
 inclinação, que é telhado brasileiro comum:
 
 | cidade | perda do telhado sul |
@@ -88,7 +88,7 @@ inclinação, que é telhado brasileiro comum:
 | Brasília | −16,2% |
 | Fortaleza | −4,1% |
 
-Não são 47%. Mas o número não é inventado — ele é **condicional**, e a condição
+Não são 47%. Mas o número não é inventado, ele é **condicional**, e a condição
 é a inclinação:
 
 | inclinação | Curitiba | São Paulo | Brasília |
@@ -128,7 +128,7 @@ cronograma do fio B. Mesmo sistema de 5 kWp, mesmos R$ 22.500 em todas:
 ```
 
 Três anos e dez meses contra cinco anos e quatro meses. Um ano e meio de
-diferença, no mesmo equipamento, pelo mesmo dinheiro — e a diferença foi criada
+diferença, no mesmo equipamento, pelo mesmo dinheiro, e a diferença foi criada
 de graça, anos antes, num desenho.
 
 ## O achado que eu não esperava
@@ -161,11 +161,11 @@ A sua geladeira tem selo. O ar-condicionado tem. A lâmpada tem. A casa de
 meio milhão que consome mais que todos eles somados, e que você vai pagar por 30
 anos, não tem nada na parede na hora que você assina.
 
-O programa existe — é o **PBE Edifica**, com a etiqueta ENCE numa escala de A a
+O programa existe, é o **PBE Edifica**, com a etiqueta ENCE numa escala de A a
 E, avaliada pela INI-R. O que falta é ele ser exigido na venda.
 
 E tem um detalhe nessa história que vale mais que o resto. Pela INI-R, atender o
-procedimento simplificado da NBR 15575 — o mínimo obrigatório, a norma de
+procedimento simplificado da NBR 15575, o mínimo obrigatório, a norma de
 desempenho que toda obra precisa cumprir — equivale à **classe C** da envoltória.
 Para chegar a B ou A é preciso avaliação por método simplificado ou por
 simulação.
@@ -180,7 +180,7 @@ vendedor no shopping, vizinho que virou integrador. Agora conte quantas vezes
 alguém te ofereceu orientação de telhado.
 
 A diferença não é de mérito técnico. Placa tem código de barras, estoque,
-parcelamento, comissão e anúncio. Orientação de telhado não tem nada disso — não
+parcelamento, comissão e anúncio. Orientação de telhado não tem nada disso, não
 dá para entregar de caminhão nem parcelar em doze vezes.
 
 Então a casa vira uma escada: a envoltória foi cortada para caber no orçamento,
@@ -189,7 +189,7 @@ para resolver a conta, aí o fio B sobe e vendem bateria para resolver a placa.
 Cada aparelho conserta o anterior, e a parede continua exatamente onde estava.
 
 Tem um detalhe final que fecha o raciocínio. O integrador dimensiona o sistema
-pela média da sua conta dos últimos doze meses — é a prática padrão. Mas essa
+pela média da sua conta dos últimos doze meses, é a prática padrão. Mas essa
 conta já é o consumo inflado por uma casa que esquenta demais. **Quanto pior a
 casa, maior o sistema que te vendem**, e ninguém no processo tem motivo para
 perguntar se dava para consumir menos antes de comprar mais.
@@ -205,8 +205,8 @@ $ python3 selo-casa.py --tabela      # o retorno ano a ano
 $ python3 selo-casa.py --json minha-casa.json
 ```
 
-Ele imprime a memória de cálculo inteira — cada ponto somado, cada correção
-aplicada — porque o objetivo é você discordar de um peso e trocar, não aceitar
+Ele imprime a memória de cálculo inteira, cada ponto somado, cada correção
+aplicada, porque o objetivo é você discordar de um peso e trocar, não aceitar
 um número.
 
 **O que ele não é:** uma ENCE. A etiqueta oficial sai pelos métodos da INI-R,
@@ -215,7 +215,7 @@ Inmetro. A classe que ele imprime é indicativa e serve para **ordenar decisões
 não para certificar nada. O cálculo de orientação, esse sim, é solar de verdade
 e está em [`tools/orientacao-telhado.py`](https://github.com/franzkurt/franzkurt.github.io/blob/main/tools/orientacao-telhado.py).
 
-## O que fica
+## O que decidir antes de comprar
 
 **A placa continua valendo a pena.** Nada aqui diz para não instalar; ela segue
 derrubando a conta de luz de forma significativa.
@@ -240,8 +240,8 @@ orientação são meus, e a ressalva sobre o 100% de 2029 está no vídeo també
 
 ## Referências
 
-- [Lei 14.300/2022](https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2022/lei/L14300.htm) — o marco legal da geração distribuída, o art. 27 e a transição
-- [PBE Edifica — INI-R](https://pbeedifica.com.br/inir) — os métodos de classificação residencial e a escala A–E
-- [INI-R, texto da instrução normativa](https://labeee.ufsc.br/sites/default/files/documents/2020.11.09-INI-R_V1.pdf) — onde o mínimo da NBR 15575 é ancorado na classe C
-- [pvlib](https://pvlib-python.readthedocs.io/) — a biblioteca usada nos cálculos de irradiação
 - [EPE — Uso de ar-condicionado no setor residencial brasileiro](https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-341/NT%20EPE%20030_2018_18Dez2018.pdf) — de onde vem a participação da climatização no consumo
+- [PBE Edifica — INI-R](https://pbeedifica.com.br/inir), os métodos de classificação residencial e a escala A–E
+- [INI-R, texto da instrução normativa](https://labeee.ufsc.br/sites/default/files/documents/2020.11.09-INI-R_V1.pdf), onde o mínimo da NBR 15575 é ancorado na classe C
+- [pvlib](https://pvlib-python.readthedocs.io/), a biblioteca usada nos cálculos de irradiação
+- [EPE — Uso de ar-condicionado no setor residencial brasileiro](https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-341/NT%20EPE%20030_2018_18Dez2018.pdf), de onde vem a participação da climatização no consumo

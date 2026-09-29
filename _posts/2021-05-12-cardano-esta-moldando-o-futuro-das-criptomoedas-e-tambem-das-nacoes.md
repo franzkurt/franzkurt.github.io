@@ -24,7 +24,7 @@ Muito diferente das rivais, sendo a que mais se aproxima de sua proposta é a re
 
 <div class="nota-editorial" markdown="1">
 <span class="nota-editorial__rotulo">Nota de 2026</span>
-Escrito em maio de 2021, este texto defende a Cardano com entusiasmo — inclusive
+Escrito em maio de 2021, este texto defende a Cardano com entusiasmo, inclusive
 sugerindo "fazer o *stake* de ADA". Cinco anos depois, o balanço é misto e vale tê-lo
 em mente ao ler:
 
@@ -35,7 +35,7 @@ em mente ao ler:
 - Mas o "imbatível" não se sustentou como investimento: o *crypto winter* de 2022
   (colapso da Terra/Luna e da FTX) derrubou o mercado inteiro, e o preço do ADA nunca
   recuperou a máxima daquele período.
-- Como sempre, entusiasmo por um ativo não é conselho financeiro — e um texto que
+- Como sempre, entusiasmo por um ativo não é conselho financeiro, e um texto que
   sugere comprar uma criptomoeda envelhece de um jeito particular.
 </div>
 
@@ -56,7 +56,7 @@ Antes de continuar vale explicar de onde vem esse "terceira geração", porque �
 enquadramento que organiza a conversa inteira e quase nunca é explicado.
 
 A divisão é do próprio Charles Hoskinson, e cada geração nasceu de uma limitação
-concreta da anterior — não de marketing.
+concreta da anterior, não de marketing.
 
 **Primeira geração — Bitcoin, 2009.** Resolveu um problema que ninguém tinha
 resolvido: transferir valor entre desconhecidos, sem intermediário, sem que
@@ -72,7 +72,7 @@ abriu tudo o que veio depois — DeFi, NFT, DAO.
 E criou três problemas novos, que são exatamente os da terceira geração:
 
 - **Escalabilidade.** Cada nó executa cada contrato. Quando a rede cresce, o
-  custo por transação cresce junto — foi o que produziu taxas de dezenas de
+  custo por transação cresce junto, foi o que produziu taxas de dezenas de
   dólares para operações triviais.
 - **Interoperabilidade.** Cada rede virou uma ilha. Mover valor entre elas exige
   uma ponte, e ponte é onde o dinheiro é roubado.
@@ -80,7 +80,7 @@ E criou três problemas novos, que são exatamente os da terceira geração:
   saírem? Sem um mecanismo de tesouro e de governança, a rede depende da boa
   vontade de quem está lá hoje.
 
-**Terceira geração.** É a que tenta resolver esses três — e é aí que a Cardano se
+**Terceira geração.** É a que tenta resolver esses três, e é aí que a Cardano se
 posiciona, com uma aposta metodológica específica: **publicar e revisar por pares
 antes de implementar.** O protocolo de consenso dela, o Ouroboros, foi publicado
 como artigo acadêmico e passou por revisão antes de virar código, que é o oposto
@@ -99,7 +99,7 @@ quarta, e ela já saiu do papel.
 
 Hoskinson a definiu por aquilo que as três primeiras deixaram de fora:
 *"o que está faltando é **privacidade, identidade e cooperação de verdade**"*. E a
-mudança de atitude importa tanto quanto a lista — em vez de mais uma rede
+mudança de atitude importa tanto quanto a lista, em vez de mais uma rede
 disputando substituir as outras, a proposta é **unificar em vez de substituir**.
 A pergunta que ele faz é: por que Bitcoin, Ethereum e Cardano não podem coexistir
 e se complementar?
@@ -111,7 +111,7 @@ novembro de 2022. O diagnóstico do anúncio é direto:
 > usuário, mas até aqui as soluções ou **revelam dados demais**, ou são
 > **secretas demais** para muitos casos de uso.
 
-Repare na simetria, porque é o ponto: numa blockchain pública comum, tudo o que
+A simetria é o ponto: numa blockchain pública comum, tudo o que
 você faz é visível para sempre — saldo, contraparte, valor. Nas redes focadas em
 anonimato, nada é visível, o que as torna inutilizáveis para qualquer empresa que
 precise provar conformidade a um regulador. As duas pontas falham pelo mesmo
@@ -132,11 +132,11 @@ o alvo não é o anonimato maximalista, é a empresa que precisa de confidencial
 Onde isso está hoje: a **mainnet federada entrou no ar em 31 de março de 2026**,
 com Google, Vodafone e uma empresa da Fortune 500 não identificada entre os
 operadores de nó. O modelo é de duas moedas — NIGHT para governança, DUST para
-custo de transação — e os contratos podem ser escritos em TypeScript, o que baixa
+custo de transação, e os contratos podem ser escritos em TypeScript, o que baixa
 bastante a barreira em relação a linguagens próprias de blockchain.
 
 Duas ressalvas honestas, para não repetir o entusiasmo de 2021. **Federada**
-significa que o conjunto de operadores é fechado por enquanto — é um passo de
+significa que o conjunto de operadores é fechado por enquanto, é um passo de
 lançamento, não a descentralização final. E "quarta geração" é, de novo, um
 enquadramento de quem está construindo: descreve a ambição, e o histórico das
 três anteriores sugere prudência com o prazo.

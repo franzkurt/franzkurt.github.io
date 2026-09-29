@@ -8,7 +8,7 @@ description: "Cinco versões que parecem uma lista de novidades e são uma cadei
 *Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
 os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
 a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
+linguagem simples, e é lá que está o índice das partes e dos aprofundamentos.*
 
 As quatro partes anteriores desta série olharam o Python parado: o
 [caminho do fonte ao bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/),
@@ -44,7 +44,7 @@ lookahead"* — pode considerar quantos tokens precisar antes de decidir a regra
 Em troca, precisa de uma técnica chamada *packrat parsing* para não estourar o
 tempo, porque a busca com retrocesso seria exponencial sem ela.
 
-E aqui está a parte que eu achava ser só interpretação minha, até ler o plano de
+Esta parte eu achava ser só interpretação minha, até ler o plano de
 migração da própria PEP. Não é que "nenhum recurso novo apareceu" por acaso:
 **foi proibido aparecer.**
 
@@ -55,7 +55,7 @@ Ou seja, o 3.9 entregou de propósito um parser mais capaz **sem usar a
 capacidade nova**, para que a troca pudesse ser revertida se desse errado. O
 retorno ficou represado por uma versão inteira, por decisão explícita.
 
-## 3.10 — os recursos que só existem por causa do 3.9
+## 3.10, os recursos que só existem por causa do 3.9
 
 Removido o parser antigo, a represa abre. Duas coisas chegam, e as duas têm a
 mesma origem.
@@ -72,7 +72,7 @@ with (
 
 Parece detalhe de formatação e não é. Com um token de antecedência, ao encontrar
 o `(` o parser não tem como saber se aquilo é uma tupla comum ou uma lista de
-gerenciadores — o que distingue os dois é o `as`, que pode estar muitos tokens
+gerenciadores, o que distingue os dois é o `as`, que pode estar muitos tokens
 depois. A documentação do 3.10 não deixa dúvida sobre a causa:
 
 > *This new syntax uses the non LL(1) capacities of the new parser.*
@@ -111,7 +111,7 @@ Trocar uma peça central um ciclo antes de precisar dela, e segurar o benefício
 de propósito para poder voltar atrás, é o tipo de decisão que só se reconhece
 depois.
 
-## 3.11 — a maior aceleração de uma versão só
+## 3.11, a maior aceleração de uma versão só
 
 O **interpretador adaptativo especializado**
 ([PEP 659](https://peps.python.org/pep-0659/)), assunto da parte 4, chega junto
@@ -128,7 +128,7 @@ parou de pagar pedágio pelo caso que não acontece.
 **Localização fina de erro**
 ([PEP 657](https://peps.python.org/pep-0657/)): o rastreamento passou a apontar
 a **coluna exata**, não só a linha. Aquele `^^^^` embaixo da subexpressão que
-falhou vem daqui — e é possível porque cada instrução de bytecode agora carrega
+falhou vem daqui, e é possível porque cada instrução de bytecode agora carrega
 o intervalo de colunas que a originou.
 
 ## 3.12 — duas mudanças que parecem não ter relação
@@ -148,16 +148,16 @@ E **objetos imortais** ([PEP 683](https://peps.python.org/pep-0683/)), que
 passaram quase sem comentário: objetos que vivem o processo inteiro ganham uma
 contagem de referências que nunca é alterada.
 
-Essa última parece uma micro-otimização. Não é — é a próxima peça da cadeia.
+Essa última parece uma micro-otimização. Não é, é a próxima peça da cadeia.
 
-## 3.13 — o elo que explica o 3.12
+## 3.13, o elo que explica o 3.12
 
 Chega o **free threading** ([PEP 703](https://peps.python.org/pep-0703/)), ainda
 experimental: um build do CPython **sem o GIL**.
 
 Agora olhe para trás. Sem GIL, cada incremento de contagem de referências em
 `None`, em `True` ou no inteiro `1` viraria uma escrita atômica numa linha de
-cache disputada por todas as threads do processo — o padrão que destrói
+cache disputada por todas as threads do processo, o padrão que destrói
 escalabilidade. Tornar esses objetos **imortais** no 3.12 elimina a escrita.
 
 Ou seja: os objetos imortais não eram uma micro-otimização. Eram **pré-requisito**.
@@ -202,4 +202,4 @@ recurso que aparece na manchete normalmente já estava pago.
 - [PEP 703 — Making the Global Interpreter Lock Optional](https://peps.python.org/pep-0703/)
 - [PEP 709 — Inlined Comprehensions](https://peps.python.org/pep-0709/)
 - [PEP 744 — JIT Compilation](https://peps.python.org/pep-0744/)
-- [What's New in Python](https://docs.python.org/3/whatsnew/index.html) — as notas oficiais de cada versão
+- [What's New in Python](https://docs.python.org/3/whatsnew/index.html), as notas oficiais de cada versão

@@ -19,7 +19,7 @@ Nenhum dos dois devolveu `True`. E não é curiosidade de canto: é como `and` e
 
 Este texto mede o comportamento e desce até o bytecode, onde a explicação acaba
 sendo uma instrução só. Um [segundo texto](/2026/09/nan-nao-e-igual-a-nan/) trata
-do outro lado — os tipos que fazem o operador parecer mentir.
+do outro lado, os tipos que fazem o operador parecer mentir.
 
 <!--more-->
 
@@ -42,7 +42,7 @@ Confira contra a medição:
 | `[] or {} or ()` | `()` | `tuple` |
 | `None or 0 or ''` | `''` | `str` |
 
-Repare na penúltima: três valores falsos, e o resultado é o último — uma tupla
+Na penúltima: três valores falsos, e o resultado é o último, uma tupla
 vazia, não `False`.
 
 ## O bytecode explica, e a explicação é uma instrução
@@ -104,7 +104,7 @@ que explodiria:
 'x'
 ```
 
-Nenhum `ZeroDivisionError`. O `or` achou `'x'` verdadeiro e parou — o `1/0` nunca
+Nenhum `ZeroDivisionError`. O `or` achou `'x'` verdadeiro e parou, o `1/0` nunca
 rodou. O `POP_JUMP_IF_TRUE` do bytecode pulou por cima dele.
 
 ## O idioma que isso permite, e a armadilha dele
@@ -152,7 +152,7 @@ Este é o par que mais confunde quem vem de outra linguagem:
 Duas diferenças, e as duas importam:
 
 - `&` e `|` **não curto-circuitam**. O bytecode deles é um `BINARY_OP` simples,
-  sem desvio — os dois lados são sempre avaliados.
+  sem desvio, os dois lados são sempre avaliados.
 - Eles operam sobre **bits**, não sobre verdade. Só coincidem com `and`/`or`
   quando os dois lados já são booleanos.
 
@@ -191,7 +191,7 @@ not a == b        # True   — é not (a == b)
 (not a) == b      # False  — outra coisa
 ```
 
-## O que fica
+## A regra, em uma frase
 
 **`and` e `or` são operadores de seleção, não de lógica booleana.** Eles
 escolhem um dos operandos e o entregam inteiro, com tipo e tudo. `not` é o único
@@ -203,15 +203,15 @@ bytecode, e é a razão mecânica de o valor original sobreviver.
 **`or` como valor padrão testa verdade, não ausência.** Use `is None` quando a
 pergunta for "veio alguma coisa?".
 
-O outro lado disso é o comportamento dos **tipos** dentro dessas operações — por
+O outro lado disso é o comportamento dos **tipos** dentro dessas operações, por
 que `bool` é um `int`, por que `nan` não é igual a si mesmo, e por que cinco
 objetos diferentes viram um só num `set`. É o
 [texto seguinte](/2026/09/nan-nao-e-igual-a-nan/).
 
 ## Referências
 
-- [Boolean operations](https://docs.python.org/3/reference/expressions.html#boolean-operations) — a definição normativa de `and`, `or` e `not`
-- [Comparisons](https://docs.python.org/3/reference/expressions.html#comparisons) — o encadeamento e a regra de avaliação única
-- [Operator precedence](https://docs.python.org/3/reference/expressions.html#operator-precedence) — a tabela completa
-- [Truth Value Testing](https://docs.python.org/3/library/stdtypes.html#truth-value-testing) — o que conta como falso
+- [Boolean operations](https://docs.python.org/3/reference/expressions.html#boolean-operations), a definição normativa de `and`, `or` e `not`
+- [Comparisons](https://docs.python.org/3/reference/expressions.html#comparisons), o encadeamento e a regra de avaliação única
+- [Operator precedence](https://docs.python.org/3/reference/expressions.html#operator-precedence), a tabela completa
+- [Truth Value Testing](https://docs.python.org/3/library/stdtypes.html#truth-value-testing), o que conta como falso
 - [`dis`](https://docs.python.org/3/library/dis.html) — `COPY`, `TO_BOOL` e os saltos usados aqui

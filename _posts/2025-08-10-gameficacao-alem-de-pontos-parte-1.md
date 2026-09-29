@@ -8,7 +8,7 @@ description: "Em 2012 o Gartner previu que 80% das aplicações gameficadas falh
 Em 2012 o Gartner publicou duas previsões sobre gameficação. A primeira ficou
 famosa: até 2014, 70% das grandes organizações do mundo teriam ao menos uma
 aplicação gameficada. A segunda quase não foi citada, e é a interessante: **80%
-delas falhariam — por mau design**.
+delas falhariam, por mau design**.
 
 Passei um tempo estudando por que, e o material virou um curso de 106 slides que
 nunca virou texto. Este é o texto, cinco anos atrasado, em duas partes. Esta
@@ -32,7 +32,7 @@ divertido.
 A imagem que Chou usa para desmontar isso é a melhor do livro. Um comandante
 moderno que dissesse "os gregos mandaram um cavalo de madeira e venceram Troia,
 vamos mandar um cavalo de madeira" teria copiado a casca da ideia e jogado fora
-o que a fazia funcionar — os soldados lá dentro. Pontos e medalhas são o cavalo.
+o que a fazia funcionar, os soldados lá dentro. Pontos e medalhas são o cavalo.
 Eles existem em jogos excelentes e existem igualmente em jogos ruins e fracassados.
 
 > Aprenda com o design; não copie o design.
@@ -55,7 +55,7 @@ Gameficação soa como invenção dos anos 2010, e não é.
 
 - **1973** — Charles Coonradt funda o *The Game of Work*, perguntando por que
   as pessoas pagam para trabalhar duro no fim de semana — esquiar, correr,
-  jogar — e precisam ser pagas para trabalhar durante a semana. O livro com o
+  jogar, e precisam ser pagas para trabalhar durante a semana. O livro com o
   mesmo nome sai depois, em 1984.
 - **1978** — Roy Trubshaw e Richard Bartle escrevem o **MUD1**, o primeiro mundo
   multiusuário persistente. Bartle volta na parte 2, e não por acaso.
@@ -63,9 +63,9 @@ Gameficação soa como invenção dos anos 2010, e não é.
   enjoyable user interfaces: lessons from computer games*. Trinta anos antes da
   moda, um paper acadêmico já perguntava o que tornar software divertido exige.
 - **2002** — Nick Pelling cunha o termo **"gamification"**.
-- **2003–2010** — a produção de livros sobre o assunto dispara.
-- **2012** — as duas previsões do Gartner.
 - **2013** — a Gallup mede que apenas **13% dos funcionários no mundo estão
+- **2012**, as duas previsões do Gartner.
+- **2013**, a Gallup mede que apenas **13% dos funcionários no mundo estão
   engajados** no trabalho. É o tamanho do problema que a gameficação se propõe a
   atacar.
 
@@ -97,7 +97,7 @@ seja executada, então projeta-se o caminho mais eficiente até ela. As pessoas 
 uma peça do processo.
 
 Chou propõe o **design orientado ao humano**: parte-se de por que uma pessoa
-faria aquilo — e do fato de que ela tem sentimentos, inseguranças e razões para
+faria aquilo, e do fato de que ela tem sentimentos, inseguranças e razões para
 não fazer. Se o sistema funciona quando as pessoas são obrigadas, ele está
 orientado à função. Se funciona quando elas poderiam simplesmente ir embora, está
 orientado ao humano.
@@ -107,7 +107,7 @@ milhões de horas são investidas neles voluntariamente.
 
 ## Os oito motivadores
 
-Essa é a ferramenta central do livro — a **Octalysis**, chamada assim pelo
+Essa é a ferramenta central do livro, a **Octalysis**, chamada assim pelo
 octógono em que Chou dispõe os oito. A afirmação por trás dela é forte: toda ação
 humana voluntária é movida por ao menos um destes oito. Se não há nenhum, não há
 ação.
@@ -125,7 +125,7 @@ o pertencimento a uma cultura.
 
 A sensação de crescer e a de ter conseguido algo por mérito próprio.
 
-É o único dos oito em que pontos e medalhas realmente funcionam bem — e é por
+É o único dos oito em que pontos e medalhas realmente funcionam bem, e é por
 isso que a falácia dos PBL é tão convincente: ela acerta um oitavo do problema e
 se apresenta como o problema inteiro. **Mercado Livre**: quanto mais você compra,
 mais alto o seu nível; o frete grátis é a realização.
@@ -159,7 +159,7 @@ sem multa. Só a comparação.
 
 Querer justamente porque é difícil ou raro.
 
-Você não precisa da **Mona Lisa**, mas se pudesse tê-la, teria — e é única. O
+Você não precisa da **Mona Lisa**, mas se pudesse tê-la, teria, e é única. O
 **Facebook** nasceu assim: fechado a Harvard, depois às universidades da Ivy
 League. A dificuldade de entrar era o produto.
 

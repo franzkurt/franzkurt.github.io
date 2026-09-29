@@ -7,7 +7,7 @@ description: "Os mesmos mil números custam 8 KB numa lista e 36 KB num dict. A 
 
 *Série em quatro partes: **1.** [os tipos escalares por dentro](/2026/08/tipos-em-python-por-dentro/) · **2.** [as estruturas de dados](/2026/08/lista-set-dict-por-dentro/) · **3.** [como declarar o que sua função aceita](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/) · **4.** [o decorador que apaga os seus tipos](/2026/09/tipos-parte-4-o-decorador-que-apaga-seus-tipos/).*
 
-Guarde os números de 0 a 999 nas quatro estruturas embutidas e meça:
+Coloque os números de 0 a 999 nas quatro estruturas embutidas e meça:
 
 ```python
 >>> import sys
@@ -22,7 +22,7 @@ Mesmo conteúdo, **quatro vezes mais memória** no set e no dict. Não é
 desperdício: é o preço da busca em tempo constante, e saber de onde ele vem muda
 a escolha.
 
-Este texto é sobre as três estruturas por dentro — e sobre como o dict mudou de
+Este texto é sobre as três estruturas por dentro, e sobre como o dict mudou de
 forma no Python 3.6, de um jeito que reduziu o tamanho dele e, de quebra, deu
 ordem de inserção a todo mundo.
 
@@ -30,7 +30,7 @@ ordem de inserção a todo mundo.
 
 ## Quais são os tipos compostos
 
-Este texto trata dos tipos que guardam **uma coleção**, e não um valor — os
+Este texto trata dos tipos que guardam **uma coleção**, e não um valor, os
 escalares ficam [no outro](/2026/08/tipos-em-python-por-dentro/). São oito
 embutidos, e organizá-los por quatro propriedades já resolve a maior parte das
 dúvidas de escolha:
@@ -47,7 +47,7 @@ dúvidas de escolha:
 | `range` | sequência | 48 B | não | sim | **sim** |
 
 A coluna que mais decide é a última. **Hashável é o que pode ser chave de dict ou
-elemento de set** — e, entre os embutidos, hashável é exatamente o que é
+elemento de set**, e, entre os embutidos, hashável é exatamente o que é
 imutável. O motivo é direto: a posição de um objeto na tabela vem do hash dele;
 se o objeto mudasse, a posição ficaria errada e o valor sumiria.
 
@@ -59,7 +59,7 @@ E a propriedade é **recursiva**, o que pega muita gente:
 TypeError: unhashable type: 'list'
 ```
 
-A tupla é imutável, mas ela contém uma lista que não é — então a tupla inteira
+A tupla é imutável, mas ela contém uma lista que não é, então a tupla inteira
 deixa de ser hashável.
 
 Vale reparar também no `range`, que é o estranho da tabela: ele é uma sequência
@@ -153,14 +153,14 @@ Então o desperdício por slot vazio caiu de 24 bytes para **1 byte** num dict
 pequeno. É daí que vêm os 20 a 25% de economia que se cita sobre o 3.6.
 
 Duas outras coisas que valem saber do mesmo arquivo: a tabela cresce quando passa
-de **dois terços** de ocupação — `#define USABLE_FRACTION(n) (((n) << 1)/3)` — e
+de **dois terços** de ocupação — `#define USABLE_FRACTION(n) (((n) << 1)/3)`, e
 um slot apagado não volta a ser "nunca usado", vira **dummy** (`DKIX_DUMMY`),
 porque senão a sequência de sondagem de uma colisão não teria como saber que ali
 já houve algo.
 
 ## A ordem foi um efeito colateral
 
-Repare que ninguém projetou o dict ordenado. O `dk_entries` é denso e preenchido
+Ninguém projetou o dict ordenado. O `dk_entries` é denso e preenchido
 em sequência **porque é assim que se economiza memória**; iterar por ele na ordem
 em que foi preenchido é simplesmente o jeito mais barato de iterar.
 
@@ -201,7 +201,7 @@ chaves**.
 
 A consequência prática é sobre **forma**: o ganho vem de as instâncias terem o
 mesmo conjunto de chaves. Quando uma classe produz objetos de formatos
-diferentes — atributos atribuídos condicionalmente, fora do `__init__` — o
+diferentes — atributos atribuídos condicionalmente, fora do `__init__`, o
 compartilhamento se desfaz.
 
 Medi o tamanho disso, porque a versão que se costuma repetir ("nunca atribua
@@ -224,7 +224,7 @@ explica no topo por que divergiram, e o motivo é ótimo:
 > case.*
 
 Quando você faz `d[k]`, provavelmente `k` existe. Quando você faz `x in s`,
-provavelmente você não sabe — e o caso "não está" precisa ser tão rápido quanto o
+provavelmente você não sabe, e o caso "não está" precisa ser tão rápido quanto o
 caso "está".
 
 Daí duas escolhas diferentes do dict:
@@ -247,7 +247,7 @@ não é.
 
 E o set **não** ganhou o formato compacto do dict. Ele guarda as entradas
 diretamente na tabela esparsa. Por isso set não tem ordem, nunca teve, e
-`{'a','b','c'}` pode iterar em qualquer sequência — inclusive diferente entre
+`{'a','b','c'}` pode iterar em qualquer sequência, inclusive diferente entre
 execuções, porque o hash de strings é aleatorizado por processo desde o 3.3.
 
 ## Qual usar
@@ -265,7 +265,7 @@ Com o que está acima, a escolha para de ser preferência:
 Duas armadilhas que a implementação explica:
 
 **`x in lista` é O(n).** Parece igual a `x in set`, e é linear. Num laço, vira
-quadrático — é o mesmo defeito do N+1, com outra roupa. Se a lista é consultada
+quadrático, é o mesmo defeito do N+1, com outra roupa. Se a lista é consultada
 mais de uma vez, converta para set antes.
 
 **Set e dict custam ~4× a lista** para o mesmo conteúdo. Se você só vai iterar,
@@ -283,7 +283,7 @@ texto sobre tipos em
 ## Como declarar tudo isso
 
 Saber o que cada estrutura faz é metade; a outra é **declarar** qual delas a sua
-função aceita — e o erro mais comum é exigir `dict` quando bastaria um mapa que
+função aceita, e o erro mais comum é exigir `dict` quando bastaria um mapa que
 se possa ler. É o assunto do
 [texto seguinte](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/), sobre
 a hierarquia de `collections.abc` e por que `list[Cachorro]` não serve onde se
@@ -306,10 +306,10 @@ do dict, ninguém projetou: ela caiu do layout.
 
 ## Referências
 
-- [`Objects/listobject.c`](https://github.com/python/cpython/blob/main/Objects/listobject.c) — o array de ponteiros e a regra de superalocação
-- [`Objects/dictobject.c`](https://github.com/python/cpython/blob/main/Objects/dictobject.c) — o dict compacto, com as notas de projeto no topo do arquivo
-- [`Objects/setobject.c`](https://github.com/python/cpython/blob/main/Objects/setobject.c) — por que o set não seguiu o mesmo caminho do dict
-- [`Objects/dictnotes.txt`](https://github.com/python/cpython/blob/main/Objects/dictnotes.txt) — as explorações de projeto do dict, para onde o próprio `dictobject.c` aponta
-- [PEP 412 — Key-Sharing Dictionary](https://peps.python.org/pep-0412/) — os dicionários de instância que compartilham chaves
-- [PEP 468](https://peps.python.org/pep-0468/) e [PEP 520](https://peps.python.org/pep-0520/) — os dois lugares em que a ordem virou garantia antes do dict em geral
-- [Mapping types — dict](https://docs.python.org/3/library/stdtypes.html#dict) — onde a ordem de inserção está documentada como garantia da linguagem
+- [`Objects/listobject.c`](https://github.com/python/cpython/blob/main/Objects/listobject.c), o array de ponteiros e a regra de superalocação
+- [`Objects/dictobject.c`](https://github.com/python/cpython/blob/main/Objects/dictobject.c), o dict compacto, com as notas de projeto no topo do arquivo
+- [`Objects/setobject.c`](https://github.com/python/cpython/blob/main/Objects/setobject.c), por que o set não seguiu o mesmo caminho do dict
+- [`Objects/dictnotes.txt`](https://github.com/python/cpython/blob/main/Objects/dictnotes.txt), as explorações de projeto do dict, para onde o próprio `dictobject.c` aponta
+- [PEP 412 — Key-Sharing Dictionary](https://peps.python.org/pep-0412/), os dicionários de instância que compartilham chaves
+- [PEP 468](https://peps.python.org/pep-0468/) e [PEP 520](https://peps.python.org/pep-0520/), os dois lugares em que a ordem virou garantia antes do dict em geral
+- [Mapping types — dict](https://docs.python.org/3/library/stdtypes.html#dict), onde a ordem de inserção está documentada como garantia da linguagem

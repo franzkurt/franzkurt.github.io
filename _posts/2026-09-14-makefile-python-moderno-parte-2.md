@@ -67,7 +67,7 @@ Makefile:8: *** missing separator.  Stop.
 ```
 
 Não é "espaço a mais"; é "aqui tinha que ser TAB". A defesa é configurar o editor para
-não expandir tab dentro de `Makefile`, ou conferir com `cat -A Makefile` — um tab
+não expandir tab dentro de `Makefile`, ou conferir com `cat -A Makefile`, um tab
 aparece como `^I`.
 
 ## Armadilha 2: `.PHONY` não é decoração
@@ -121,7 +121,7 @@ lint:  ## corrige lint e formatação (ruff)
 
 Agora `make help` lê o próprio arquivo e imprime cada alvo com sua descrição, alinhados
 e coloridos. A descrição fica ao lado do comando que ela descreve, então nunca
-envelhece separada — é o padrão que uso nos meus projetos e o único jeito de o help não
+envelhece separada, é o padrão que uso nos meus projetos e o único jeito de o help não
 virar mentira. Fazer `make` sem argumento cair no help é um bônus:
 
 ```makefile
@@ -130,7 +130,7 @@ virar mentira. Fazer `make` sem argumento cair no help é um bônus:
 
 ## Parâmetros com valor padrão
 
-Para um alvo que aceita variação — a porta do servidor, por exemplo — use `?=`, que
+Para um alvo que aceita variação, a porta do servidor, por exemplo — use `?=`, que
 define um padrão que a linha de comando pode sobrescrever:
 
 ```makefile
@@ -146,7 +146,7 @@ run:  ## sobe o servidor (make run PORT=3000)
 
 ## O Makefile que eu levaria para um projeto novo
 
-Juntando tudo — a stack da parte 1, o help auto-documentado e os padrões acima:
+Juntando tudo, a stack da parte 1, o help auto-documentado e os padrões acima:
 
 ```makefile
 UV := uv
@@ -185,7 +185,7 @@ clean:  ## limpa caches e o venv
 
 O `make check` é o alvo que amarra a parte 1: um comando, e a máquina roda a stack
 inteira na ordem certa. É o que vai no gancho de *pre-commit* e é a mesma linha que o
-CI executa — o que garante que "passou na minha máquina" e "passou no CI" querem dizer
+CI executa, o que garante que "passou na minha máquina" e "passou no CI" querem dizer
 exatamente a mesma coisa.
 
 Depois disso, o único comando de Python que você precisa lembrar é `make`.

@@ -16,7 +16,7 @@ num fio único é **uma** forma de organizar isso. Existem outras, e algumas
 resolvem problemas que a cadeia cria.
 
 Este texto percorre seis alternativas — algumas em produção há anos, outras ainda
-mais promessa que rede — e termina numa proposta que não muda o formato do grafo:
+mais promessa que rede, e termina numa proposta que não muda o formato do grafo:
 muda o que uma transação contém.
 
 <!--more-->
@@ -40,16 +40,16 @@ A IOTA propôs, no artigo *The Tangle* de Serguei Popov (2016), abandonar o bloc
 
 Não há mineradores, não há blocos e não há taxa. A regra é uma só: **para emitir
 uma transação, você precisa validar duas transações anteriores**. O resultado é um
-grafo acíclico dirigido — cada transação aponta para duas outras, e a confiança em
+grafo acíclico dirigido, cada transação aponta para duas outras, e a confiança em
 uma transação cresce conforme outras se apoiam nela, direta ou indiretamente.
 
 A inversão é bonita. Na cadeia, quem transaciona **paga** a quem valida. No
 Tangle, quem transaciona **é** quem valida. E daí sai a propriedade que motivou o
-projeto: quanto mais gente usa, mais rápida a rede fica — o oposto da cadeia, onde
+projeto: quanto mais gente usa, mais rápida a rede fica, o oposto da cadeia, onde
 uso é congestionamento. Foi desenhado pensando em dispositivos de internet das
 coisas trocando micropagamentos, onde uma taxa de centavos inviabilizaria tudo.
 
-**E aqui vem a parte honesta.** O argumento de segurança depende de haver um
+**Agora a parte honesta.** O argumento de segurança depende de haver um
 fluxo alto e constante de transações novas. Com pouco movimento, um atacante com
 capacidade modesta consegue emitir transações suficientes para dominar o grafo.
 A solução, até hoje, é o **Coordenador**: um nó operado pela própria IOTA
@@ -58,7 +58,7 @@ Foundation que marca pontos de referência periódicos na rede.
 Ou seja: a rede que se propõe a superar a centralização da cadeia funciona, neste
 momento, com um nó central da fundação. A remoção dele é prometida há anos, sob o
 nome de Coordicide. Enquanto não acontecer, a arquitetura é uma proposta elegante
-com uma muleta no meio — e vale julgá-la por isso.
+com uma muleta no meio, e vale julgá-la por isso.
 
 ## Block lattice: uma cadeia por conta
 
@@ -73,12 +73,12 @@ A consequência é que uma transferência deixa de ser um evento e vira **dois**
 bloco de envio na cadeia de quem paga, e um bloco de recebimento na cadeia de quem
 recebe. Cada um escreve no próprio livro, de forma assíncrona.
 
-Repare no que isso elimina. Como ninguém compartilha a cadeia com ninguém, **não
+Isso elimina bastante coisa. Como ninguém compartilha a cadeia com ninguém, **não
 há competição por espaço em bloco** — logo, não há taxa e não há fila. Duas
 transferências entre pessoas diferentes não têm por que se atrapalhar, e no
 modelo da Nano, não se atrapalham.
 
-O consenso só é acionado quando há conflito de verdade — um dono tentando gastar
+O consenso só é acionado quando há conflito de verdade, um dono tentando gastar
 duas vezes na própria cadeia. Aí entra o mecanismo próprio da rede, o **voto por
 representante aberto**: cada conta escolhe livremente um representante, cujo peso
 de voto é a soma dos saldos de quem o escolheu, e a transação é confirmada quando
@@ -88,7 +88,7 @@ Vale insistir num detalhe que quase sempre se perde, porque faz o modelo ser
 confundido com Proof of Stake delegado: **delegar aqui não bloqueia nada**. O
 dinheiro continua disponível, e o peso do representante muda sozinho conforme as
 pessoas gastam e recebem. Não há recompensa de bloco e, por consequência, não há
-taxa — os [modelos de consenso](/2021/05/modelos-de-consenso-blockchain/) do texto
+taxa, os [modelos de consenso](/2021/05/modelos-de-consenso-blockchain/) do texto
 anterior detalham por que isso é outra família, e não uma variante.
 
 **O custo aqui também é estrutural.** Sem taxa, não há receita para quem opera um
@@ -108,12 +108,12 @@ quê a quem, e quando**. É o que eles chamam de *gossip about gossip*.
 
 E aí acontece a parte elegante. Como todo nó acaba sabendo **quem soube de cada
 coisa e em que momento**, cada um consegue calcular sozinho como os outros
-votariam — sem que nenhum voto precise ser transmitido. É a **votação virtual**:
+votariam, sem que nenhum voto precise ser transmitido. É a **votação virtual**:
 o resultado da eleição é derivado do grafo de comunicação, não da eleição.
 
 Isso dá uma propriedade forte, chamada BFT assíncrono: a rede chega a acordo
 definitivo tolerando até um terço de nós maliciosos, **sem depender de suposições
-sobre o tempo de entrega das mensagens** — que é a hipótese frágil da maioria dos
+sobre o tempo de entrega das mensagens**, que é a hipótese frágil da maioria dos
 protocolos.
 
 **E agora a parte que precisa ser dita.** O algoritmo é **patenteado**, o que por
@@ -129,7 +129,7 @@ marketing sugere.
 
 ## Obyte: doze testemunhas, e ninguém finge o contrário
 
-A Obyte — lançada como Byteball por Anton Churyumov em 2016 — é outro grafo, mas
+A Obyte — lançada como Byteball por Anton Churyumov em 2016, é outro grafo, mas
 merece estar aqui por uma escolha de projeto que eu considero honesta.
 
 Como todo DAG, ela precisa de um jeito de estabelecer ordem quando duas
@@ -143,7 +143,7 @@ será removida. A Obyte tem **doze**, nomeadas, escolhidas pelo usuário, e
 assumidas como parte permanente do desenho.
 
 Nenhuma das duas é trustless. Uma admite isso na documentação; a outra chama de
-fase de transição — e já dura anos.
+fase de transição, e já dura anos.
 
 ## Holochain: e se não houvesse consenso global?
 
@@ -157,8 +157,8 @@ participantes do planeta precisam concordar sobre uma mensagem entre duas
 pessoas?**
 
 O Holochain inverte o modelo: em vez de centrado na cadeia, é **centrado no
-agente**. Cada participante mantém a própria cadeia local — o registro das
-próprias ações, assinado — e publica o que for público numa tabela hash
+agente**. Cada participante mantém a própria cadeia local, o registro das
+próprias ações, assinado, e publica o que for público numa tabela hash
 distribuída. As regras de validação viajam junto com a aplicação, e quem recebe
 um dado **valida contra essas regras**. Se alguém emitir algo inválido, os
 vizinhos que validam detectam, e a evidência é compartilhada.
@@ -167,9 +167,9 @@ Não existe livro-razão global. Existe um monte de livros pessoais e uma rede q
 verifica uns aos outros.
 
 O que isso compra é escala real: sem consenso global, não há teto global de
-transações por segundo. O que custa é justamente o caso do dinheiro — sem ordem
+transações por segundo. O que custa é justamente o caso do dinheiro, sem ordem
 total, impedir gasto duplo volta a ser difícil, e é por isso que a abordagem
-aparece em aplicações colaborativas e não em moedas. Vale dizer que é a menos
+aparece em aplicações colaborativas e não em moedas. é a menos
 madura das que estão aqui, ainda mais promessa do que rede em produção.
 
 ## Mina: a cadeia que não cresce, por prova
@@ -177,7 +177,7 @@ madura das que estão aqui, ainda mais promessa do que rede em produção.
 E há uma abordagem que ataca o problema do histórico infinito de frente, com
 criptografia em vez de estrutura.
 
-A ideia da Mina — que se chamava Coda até o ano passado e abriu a rede principal
+A ideia da Mina, que se chamava Coda até o ano passado e abriu a rede principal
 há poucos meses — usa **zk-SNARKs recursivos**. A tradução prática: em vez de
 guardar o histórico, guarda-se uma **prova** de que o histórico era válido. E como
 a prova é recursiva, a prova nova engloba a anterior, que engloba a anterior, e
@@ -189,7 +189,7 @@ transações, nem com os anos. Um celular verifica a rede inteira.
 
 Compare com o Bitcoin, onde entrar como nó completo significa baixar centenas de
 gigabytes e validar mais de uma década de história. A diferença de custo de
-entrada não é de grau, é de categoria — e custo de entrada é o que decide quantas
+entrada não é de grau, é de categoria, e custo de entrada é o que decide quantas
 pessoas conseguem participar sem pedir licença a ninguém.
 
 ## E então: Mimblewimble
@@ -210,7 +210,7 @@ O que ele propõe é radical em três frentes:
 duas partes. Não há um campo "para" que possa ser lido e agregado depois.
 
 **Os valores são ocultos.** As quantias entram como compromissos criptográficos.
-Quem valida não vê os valores — mas consegue verificar que a soma das entradas é
+Quem valida não vê os valores, mas consegue verificar que a soma das entradas é
 igual à das saídas, que é a única coisa que precisa ser verdade.
 
 **As transações são fundidas.** Um bloco não é uma lista de transações
@@ -219,7 +219,7 @@ saída.
 
 E vem daí a propriedade que eu acho a mais interessante de todo este texto: o
 **cut-through**. Se uma saída foi criada e depois gasta dentro do histórico, ela
-não é mais necessária para provar que o estado atual é válido — e pode ser
+não é mais necessária para provar que o estado atual é válido, e pode ser
 **descartada**.
 
 Pense no que isso significa. Em toda arquitetura que vimos até agora, o histórico
@@ -230,11 +230,11 @@ depende de quanto tempo ela já existe.
 
 As duas implementações práticas apareceram quase juntas, no começo de 2019: a
 **Grin**, minimalista e sem pré-mineração, e a **Beam**, com mais recursos e
-estrutura de empresa. Vale notar o preço da proposta: sem scripts, não há
+estrutura de empresa. O preço da proposta: sem scripts, não há
 contratos inteligentes no sentido da Ethereum. Privacidade e simplicidade foram
 compradas com expressividade.
 
-## O que fica
+## As seis arquiteturas, resumidas
 
 Colocando os quatro lado a lado:
 
@@ -257,7 +257,7 @@ saber que existem outras muda as perguntas que se faz ao avaliar uma rede nova.
 E a pergunta mais útil continua sendo a mais chata: **o que esta arquitetura está
 pagando, e quem paga?** No Tangle, é a fundação que opera o Coordenador. Na Nano,
 é quem hospeda nó sem receber. No Mimblewimble, é quem queria escrever um
-contrato. Toda escolha tem uma dessas — e desconfiar quando ela não está escrita
+contrato. Toda escolha tem uma dessas, e desconfiar quando ela não está escrita
 costuma ser mais produtivo do que ler o white paper.
 
 ---

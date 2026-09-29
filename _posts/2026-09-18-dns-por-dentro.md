@@ -11,7 +11,7 @@ poucos milissegundos num pacote pequeno que quase ninguém olha.
 
 Este texto abre esse pacote. Tudo que está aqui foi medido nesta máquina com o
 `dig`, e as afirmações sobre o formato foram conferidas contra a
-[RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.txt), de 1987 — que continua
+[RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.txt), de 1987, que continua
 sendo a especificação em vigor.
 
 No fim, o uso prático: o AdGuard, que transforma esse mesmo mecanismo num
@@ -77,9 +77,9 @@ sobrou em quarenta anos:
 +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
 ```
 
-O `ID` de 16 bits é o que casa pergunta e resposta — e, como o transporte padrão
+O `ID` de 16 bits é o que casa pergunta e resposta, e, como o transporte padrão
 é UDP, **é praticamente só ele** que impede alguém de responder no lugar do
-servidor. Guarde isso para o fim do texto.
+servidor. Isso volta no fim do texto.
 
 Os quatro contadores dizem quantos registros vêm em cada seção: pergunta,
 resposta, autoridade e adicional. E os bits do meio são os flags que o `dig`
@@ -130,21 +130,21 @@ saiu da máquina. É esse cache, repetido em cada camada, que impede os treze
 servidores-raiz de receberem todas as perguntas do planeta.
 
 Um detalhe que atrapalha quem tenta medir: no `1.1.1.1` o TTL sobe e desce entre
-consultas. Não é defeito — é **anycast**. O mesmo endereço IP existe em dezenas
+consultas. Não é defeito, é **anycast**. O mesmo endereço IP existe em dezenas
 de lugares do mundo, e cada instância tem o cache dela.
 
 ## Três maneiras de não ter resposta
 
 Aqui mora uma confusão comum, e a diferença é visível:
 
-**`NXDOMAIN` — o nome não existe.** A seção de resposta vem vazia, e a de
+**`NXDOMAIN`, o nome não existe.** A seção de resposta vem vazia, e a de
 autoridade traz o `SOA` de quem podia ter dito o contrário.
 
 ```
 naoexiste-xyz-987.python.org  →  NXDOMAIN, respostas=0, autoridade=1
 ```
 
-**`NOERROR` com zero respostas — o nome existe, o tipo não.** É o chamado
+**`NOERROR` com zero respostas, o nome existe, o tipo não.** É o chamado
 *NODATA*. `franzkurt.github.io` não tem servidor de e-mail:
 
 ```
@@ -231,7 +231,7 @@ resolvedores:
 | `python.org` | 151.101.0.223 | 151.101.128.223 |
 
 `0.0.0.0` não é um lugar. O navegador tenta conectar, não vai a lugar nenhum, e o
-rastreador não carrega — sem extensão, sem plugin, e valendo para **todo
+rastreador não carrega, sem extensão, sem plugin, e valendo para **todo
 aplicativo do aparelho**, não só o navegador.
 
 São três servidores, e a escolha importa:
@@ -286,10 +286,10 @@ dig doubleclick.net A +short
 ```
 
 Uma ressalva honesta: você troca confiar no seu provedor por confiar no AdGuard.
-Não é privacidade absoluta — é escolher em quem confiar, e o AdGuard tem política
+Não é privacidade absoluta, é escolher em quem confiar, e o AdGuard tem política
 de não registrar consultas, o que o provedor normalmente não tem.
 
-## O que fica
+## Os quatro pontos que sustentam o DNS
 
 **A delegação é o que faz o sistema escalar.** Ninguém tem a lista de todos os
 nomes; cada nível sabe apenas quem pergunta em seguida.
@@ -301,13 +301,13 @@ camada, transforma bilhões de perguntas em um punhado que chega à raiz.
 flag `tc`, a queda para TCP, o EDNS, e o 1232 que a Cloudflare anuncia.
 
 **E o DNS é o único ponto por onde passa tudo.** É o que o torna o lugar certo
-para bloquear rastreio — e também o lugar por onde a sua navegação vaza.
+para bloquear rastreio, e também o lugar por onde a sua navegação vaza.
 
 ## Referências
 
-- [RFC 1035 — Domain Names: Implementation and Specification](https://www.rfc-editor.org/rfc/rfc1035.txt) — o formato do pacote, os limites, o cabeçalho
-- [RFC 1034 — Domain Names: Concepts and Facilities](https://www.rfc-editor.org/rfc/rfc1034.txt) — a árvore e a delegação
-- [RFC 6891 — Extension Mechanisms for DNS (EDNS(0))](https://www.rfc-editor.org/rfc/rfc6891.txt) — como sair dos 512 bytes
-- [RFC 8484 — DNS Queries over HTTPS](https://www.rfc-editor.org/rfc/rfc8484.txt) — o DoH
-- [AdGuard DNS](https://adguard-dns.io/en/public-dns.html) — os endereços dos três perfis
-- [Root Servers](https://root-servers.org/) — quem opera os treze da raiz
+- [RFC 1035 — Domain Names: Implementation and Specification](https://www.rfc-editor.org/rfc/rfc1035.txt), o formato do pacote, os limites, o cabeçalho
+- [RFC 1034 — Domain Names: Concepts and Facilities](https://www.rfc-editor.org/rfc/rfc1034.txt), a árvore e a delegação
+- [RFC 6891 — Extension Mechanisms for DNS (EDNS(0))](https://www.rfc-editor.org/rfc/rfc6891.txt), como sair dos 512 bytes
+- [RFC 8484 — DNS Queries over HTTPS](https://www.rfc-editor.org/rfc/rfc8484.txt), o DoH
+- [AdGuard DNS](https://adguard-dns.io/en/public-dns.html), os endereços dos três perfis
+- [Root Servers](https://root-servers.org/), quem opera os treze da raiz

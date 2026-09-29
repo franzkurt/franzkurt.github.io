@@ -27,7 +27,7 @@ Não `[1, 2, 3, 4, 5]`. Todas as cinco devolvem o mesmo número, e o número é 
 
 A explicação que se ouve é "Python usa *late binding*: a variável é consultada
 quando a função roda, não quando ela é criada". É verdade, e não explica o
-suficiente — porque a versão **correta** também consulta na hora de rodar.
+suficiente, porque a versão **correta** também consulta na hora de rodar.
 
 <!--more-->
 
@@ -42,7 +42,7 @@ def mais_um(x):
 funcoes = [mais_um(i) for i in range(5)]     # [1, 2, 3, 4, 5]
 ```
 
-Agora desmonte as duas lambdas — a errada e a certa:
+Agora desmonte as duas lambdas, a errada e a certa:
 
 ```
 COPY_FREE_VARS
@@ -94,11 +94,11 @@ Trocando "a variável é lida na hora da chamada" por:
 
 Isso explica os três casos de uma vez, explica por que o bytecode é igual, e dá o
 critério prático: **conte quantos escopos o seu laço cria.** Um laço não cria
-escopo por iteração — nem `for`, nem compreensão. Uma chamada de função cria.
+escopo por iteração, nem `for`, nem compreensão. Uma chamada de função cria.
 
 ## O detalhe que mudou no 3.12, e o que não mudou
 
-Vale registrar porque confunde. Desde a [PEP 709](https://peps.python.org/pep-0709/),
+Registro porque confunde. Desde a [PEP 709](https://peps.python.org/pep-0709/),
 compreensões são embutidas na função que as contém, e a variável do laço não
 vaza:
 
@@ -119,28 +119,28 @@ Mas repare no que **não** mudou: mesmo sem vazar, a compreensão continua usand
 uma célula só, e o bug continua exatamente igual. A PEP 709 mudou a visibilidade
 da variável, não a quantidade de escopos.
 
-Aliás, com `for` comum o resultado é o mesmo `[5, 5, 5, 5, 5]` — é o mesmo bug,
+Aliás, com `for` comum o resultado é o mesmo `[5, 5, 5, 5, 5]`, é o mesmo bug,
 e a compreensão não tem culpa nenhuma.
 
-## O que fica
+## Como não escrever esse bug de novo
 
 **Quando duas versões de um código geram o mesmo bytecode, a diferença está no
 ambiente, não no código.** É um reflexo útil de diagnóstico: se `dis` não
 distingue, olhe as células, os `__defaults__`, os globais.
 
 **"Late binding" nomeia o mecanismo, não a causa.** É o tipo de explicação que
-soa suficiente e não é — e este blog já
+soa suficiente e não é, e este blog já
 [refez uma dessas](/2025/07/python-por-dentro-o-que-guido-escreveu/) contra as
 fontes primárias.
 
 **A correção por `i=i` funciona por um motivo diferente das outras.** Ela não
-conserta a célula: ela elimina a closure. Vale saber, porque é a única das três
-que continua funcionando se alguém reatribuir a variável depois.
+conserta a célula: ela elimina a closure. É a única das três que continua funcionando se alguém
+reatribuir a variável depois.
 
 ## Referências
 
 - [Late Binding in Python](https://jellis18.github.io/post/2022-11-23-late-binding-python/) — Justin A. Ellis, o texto que originou este
-- [PEP 709 — Inlined comprehensions](https://peps.python.org/pep-0709/) — o que mudou no 3.12
+- [PEP 709 — Inlined comprehensions](https://peps.python.org/pep-0709/), o que mudou no 3.12
 - [`dis`](https://docs.python.org/3/library/dis.html) — `LOAD_DEREF`, `COPY_FREE_VARS` e as variáveis livres
-- [Execution model: binding of names](https://docs.python.org/3/reference/executionmodel.html#binding-of-names) — a definição normativa de escopo e célula
-- [`functools.partial`](https://docs.python.org/3/library/functools.html#functools.partial) — a quarta correção, que também copia o valor na criação
+- [Execution model: binding of names](https://docs.python.org/3/reference/executionmodel.html#binding-of-names), a definição normativa de escopo e célula
+- [`functools.partial`](https://docs.python.org/3/library/functools.html#functools.partial), a quarta correção, que também copia o valor na criação

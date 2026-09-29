@@ -19,7 +19,7 @@ A pergunta é: existe um protocolo que faça os generais leais chegarem à mesma
 decisão, mesmo com traidores entre eles?
 
 Cada modelo de consenso é uma resposta diferente a essa pergunta. Este texto
-percorre os principais — e o que cada um cobra.
+percorre os principais, e o que cada um cobra.
 
 <!--more-->
 
@@ -62,7 +62,7 @@ destruir a garantia.
 
 O problema difícil aqui chama-se **nada em jogo**. Em PoW, apostar em duas
 cadeias ao mesmo tempo custa o dobro de energia, então ninguém faz. Em PoS,
-assinar dois blocos concorrentes é quase de graça — e se todo mundo fizer isso,
+assinar dois blocos concorrentes é quase de graça, e se todo mundo fizer isso,
 a rede nunca converge. Resolver isso exige penalidades explícitas e uma
 matemática que não é óbvia.
 
@@ -70,7 +70,7 @@ A maior aposta nessa direção está em curso enquanto escrevo: a **Ethereum** e
 migrando de Proof of Work para Proof of Stake. A *Beacon Chain*, que é a cadeia
 de consenso em PoS, entrou no ar em **dezembro de 2020** e já roda em paralelo à
 rede principal, acumulando validadores. A fusão das duas — juntar a execução da
-cadeia atual ao consenso da nova — é o passo que falta, e é de longe a troca de
+cadeia atual ao consenso da nova, é o passo que falta, e é de longe a troca de
 motor mais arriscada já tentada numa rede com esse valor em cima.
 
 Foi aí que a **Ouroboros** se destacou: publicada por Aggelos Kiayias e coautores
@@ -96,14 +96,14 @@ Traduzido para protocolo, isso aparece em pelo menos três formatos bem
 diferentes, e confundi-los é comum.
 
 **Proof of Stake delegado.** Os detentores elegem um conjunto pequeno e fixo de
-validadores — vinte e um, cem, conforme a rede — e esses produzem os blocos. Com
+validadores — vinte e um, cem, conforme a rede, e esses produzem os blocos. Com
 poucos validadores conhecidos, a coordenação é rápida: segundos em vez de minutos.
 O custo é que a rede passa a depender de um número pequeno de entidades, e a
 pergunta "isso é descentralizado?" ganha uma resposta desconfortável.
 
 **Delegação sem conjunto fixo**, que é o caso da Cardano. Qualquer um pode operar
 um *pool*, qualquer detentor delega a quem quiser, e a delegação **não trava o
-dinheiro** — você continua podendo gastar. O protocolo ainda inclui mecanismos
+dinheiro**, você continua podendo gastar. O protocolo ainda inclui mecanismos
 que desestimulam a concentração num único pool. É mais próximo do espírito da
 democracia líquida do que o formato anterior, porque não há assento a ser
 disputado.
@@ -191,7 +191,7 @@ A migração da Ethereum descrita acima como "o passo que falta" aconteceu: a fu
 entre a cadeia de execução e a Beacon Chain foi concluída em **15 de setembro de
 2022**, no evento que ficou conhecido como *The Merge*. O consumo de energia da
 rede caiu em mais de 99% de um dia para o outro, e a troca de motor ocorreu sem
-interrupção de serviço — o que, para o tamanho do risco, é um resultado de
+interrupção de serviço, o que, para o tamanho do risco, é um resultado de
 engenharia notável.
 </div>
 
@@ -200,7 +200,7 @@ engenharia notável.
 Quem quiser o panorama acadêmico completo, a referência é
 [*SoK: Consensus in the Age of Blockchains*](https://arxiv.org/abs/1711.03936),
 de Bano e coautores. É uma sistematização que compara as famílias de protocolo por
-propriedades de segurança e desempenho, em vez de por narrativa de projeto — e
+propriedades de segurança e desempenho, em vez de por narrativa de projeto, e
 deixa explícito o que cada uma assume para funcionar, que é justamente o que os
 white papers costumam deixar implícito.
 

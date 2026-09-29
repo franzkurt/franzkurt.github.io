@@ -16,7 +16,7 @@ description: "Antes do navegador pedir qualquer coisa, a máquina já tinha ende
 **7.** [tcpdump e scapy](/2023/10/navegador-parte-7-tcpdump-e-scapy/)*
 
 A [parte 1](/2023/09/navegador-parte-1-do-nome-ao-endereco/) começa com o
-navegador precisando de um endereço IP. Repare no que ela já toma como dado: que
+navegador precisando de um endereço IP. Ela já toma três coisas como dadas: que
 a sua máquina **tem** um endereço, que **sabe** para onde mandar um pacote
 destinado ao mundo, e que existe um caminho físico até lá.
 
@@ -43,8 +43,8 @@ OSI (7)                TCP/IP (4)        o que de fato existe aqui
 1 física           ┴─  enlace            Ethernet, Wi-Fi
 ```
 
-Vale dizer sem rodeio: as camadas 5 e 6 do OSI não correspondem a nada num
-sistema real. O TLS é frequentemente chamado de "camada 6" e não é — ele roda
+Sem rodeio: as camadas 5 e 6 do OSI não correspondem a nada num
+sistema real. O TLS é frequentemente chamado de "camada 6" e não é, ele roda
 sobre TCP e entrega para o HTTP, o que faz dele aplicação em cima de transporte,
 sem camada nova. O OSI serve para conversar; o TCP/IP, para explicar o código.
 
@@ -74,11 +74,11 @@ proibir fragmentação; o ponto exato em que ele para de passar denuncia a conta
 | IPv6 | 1452 B | 1452 + 8 + **40** = **1500** | sim |
 | IPv6 | 1453 B | 1501 | **não** |
 
-Exatamente 20 bytes de diferença entre as famílias — que é exatamente a diferença
+Exatamente 20 bytes de diferença entre as famílias, que é exatamente a diferença
 entre o cabeçalho IPv4 de 20 bytes e o IPv6 de 40. O limite de 1500 é a **MTU**
 da Ethernet, e é de onde sai o MSS que o TCP anuncia: 1460 em IPv4, 1440 em IPv6.
 
-É por isso que uma VPN, que acrescenta mais um cabeçalho, reduz a MTU — e por
+É por isso que uma VPN, que acrescenta mais um cabeçalho, reduz a MTU, e por
 que uma MTU mal configurada quebra as páginas grandes e nunca o `ping`.
 
 > Tentei medir também a proporção entre bytes úteis e bytes no fio, lendo os
@@ -107,7 +107,7 @@ escolhido precisa ouvir isso para liberar o endereço que reservou.
 
 E o DHCP não entrega só um endereço. Nesta máquina, o cliente **pediu** 22 opções
 diferentes — máscara de sub-rede, roteador, servidores de DNS, domínio de busca,
-servidores de NTP, MTU da interface, rotas estáticas, caminho de raiz, WPAD — e o
+servidores de NTP, MTU da interface, rotas estáticas, caminho de raiz, WPAD, e o
 servidor respondeu cinco:
 
 ```
@@ -132,7 +132,7 @@ default via 192.168.0.1 dev wlan0 proto dhcp src 192.168.0.42 metric 600
 ```
 
 O `proto dhcp` é o sistema registrando que aquela rota não foi configurada por
-ninguém — foi negociada.
+ninguém, foi negociada.
 
 ## A concessão não é permanente
 
@@ -161,7 +161,7 @@ IP6.GATEWAY: fe80::...
 ```
 
 É um endereço *link-local*, válido só naquele segmento, e toda interface IPv6
-tem um — o roteamento funciona antes de existir qualquer endereço global.
+tem um, o roteamento funciona antes de existir qualquer endereço global.
 
 E há dois endereços globais, não um:
 
@@ -182,7 +182,7 @@ endereço ele enxerga: é o temporário.
 
 ## ARP: o IP não basta para entregar nada
 
-Aqui está o passo que quase todo diagrama omite. Você tem o IP de destino. A
+Este é o passo que quase todo diagrama omite. Você tem o IP de destino. A
 placa de rede não sabe o que fazer com ele — Ethernet e Wi-Fi endereçam por
 **MAC**, não por IP.
 
@@ -205,14 +205,14 @@ fe80::1     dev wlan0 lladdr 00:11:22:33:44:55 router REACHABLE
 `REACHABLE` é um dos estados de uma máquina que também tem `STALE`, `DELAY` e
 `PROBE`: depois de um tempo sem uso a entrada envelhece, e antes de descartá-la o
 sistema reconfirma. No IPv6 o mecanismo tem outro nome — **NDP**, descoberta de
-vizinhos — e roda sobre ICMPv6 em vez de ser um protocolo separado, o que é uma
+vizinhos, e roda sobre ICMPv6 em vez de ser um protocolo separado, o que é uma
 arrumação evidente do que o ARP tinha de estranho.
 
-Repare que as duas linhas apontam para o mesmo MAC. É a mesma caixa, atendendo às
+As duas linhas apontam para o mesmo MAC. É a mesma caixa, atendendo às
 duas famílias de endereço.
 
 O ARP não tem autenticação nenhuma. Qualquer máquina da rede pode responder
-"o roteador sou eu" e passar a ver o tráfego alheio — é o ataque clássico de rede
+"o roteador sou eu" e passar a ver o tráfego alheio, é o ataque clássico de rede
 local, e a razão prática de o HTTPS da
 [parte 2](/2023/09/navegador-parte-2-a-conexao/) não ser opcional num café.
 
@@ -229,7 +229,7 @@ internet. Comparando o que a máquina tem com o que um servidor externo enxerga:
 
 No IPv4 o roteador reescreve o endereço de origem de cada pacote que sai e guarda
 uma tabela para saber a quem devolver a resposta. Isso resolveu a falta de
-endereços e criou de brinde uma assimetria — de dentro para fora funciona, de
+endereços e criou de brinde uma assimetria, de dentro para fora funciona, de
 fora para dentro não —, que virou a base de como quase toda rede doméstica se
 defende, sem nunca ter sido projetada para isso.
 
@@ -256,7 +256,7 @@ Quatro saltos dentro de cinco milissegundos, e o quinto custando 30. Esse salto
 [parte 2](/2023/09/navegador-parte-2-a-conexao/) mede três vezes seguidas. A
 distância física é o custo, e ela aparece num salto só.
 
-## O que fica
+## O que já estava pronto antes de você digitar
 
 **O modelo de sete camadas é vocabulário, não arquitetura.** O que está
 implementado tem quatro, e não há camada de sessão nem de apresentação em lugar
@@ -272,7 +272,7 @@ máscara vêm no mesmo pacote, e é daí que vem tudo que a parte 1 assumia pron
 **O IPv6 nem usa DHCP aqui, e troca de endereço para não ser rastreável.**
 
 **E antes de tudo isso, ARP.** Sem o MAC do roteador, o IP de destino não leva o
-pacote a lugar nenhum — e é o elo sem autenticação nenhuma da pilha inteira.
+pacote a lugar nenhum, e é o elo sem autenticação nenhuma da pilha inteira.
 
 Com endereço, rota e vizinho resolvidos, a máquina finalmente pode perguntar onde
 fica um nome. É onde começa a
@@ -280,9 +280,9 @@ fica um nome. É onde começa a
 
 ## Referências
 
-- [RFC 1122 — Requirements for Internet Hosts](https://www.rfc-editor.org/rfc/rfc1122.txt) — o modelo de quatro camadas, e o que cada uma deve fazer
-- [RFC 2131 — Dynamic Host Configuration Protocol](https://www.rfc-editor.org/rfc/rfc2131.txt) — o DORA, os temporizadores T1 e T2
-- [RFC 826 — Address Resolution Protocol](https://www.rfc-editor.org/rfc/rfc826.txt) — o ARP, de 1982, em quatro páginas
-- [RFC 4861 — Neighbor Discovery for IPv6](https://www.rfc-editor.org/rfc/rfc4861.txt) — o NDP e os anúncios de roteador
-- [RFC 8981 — Temporary Address Extensions for SLAAC](https://www.rfc-editor.org/rfc/rfc8981.html) — por que há dois endereços IPv6
 - [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918.txt) — as faixas privadas por trás do NAT
+- [RFC 2131 — Dynamic Host Configuration Protocol](https://www.rfc-editor.org/rfc/rfc2131.txt), o DORA, os temporizadores T1 e T2
+- [RFC 826 — Address Resolution Protocol](https://www.rfc-editor.org/rfc/rfc826.txt), o ARP, de 1982, em quatro páginas
+- [RFC 4861 — Neighbor Discovery for IPv6](https://www.rfc-editor.org/rfc/rfc4861.txt), o NDP e os anúncios de roteador
+- [RFC 8981 — Temporary Address Extensions for SLAAC](https://www.rfc-editor.org/rfc/rfc8981.html), por que há dois endereços IPv6
+- [RFC 1918 — Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918.txt), as faixas privadas por trás do NAT

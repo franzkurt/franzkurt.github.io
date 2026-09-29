@@ -17,7 +17,7 @@ em [medição](/2025/09/sete-erros-de-medicao/), em
 
 Este texto é sobre a forma mais pura dele, uma camada abaixo de tudo: o
 comportamento indefinido do C. Não é bug do compilador, não é erro de quem
-escreveu. É a linguagem funcionando como especificada — e o resultado é código
+escreveu. É a linguagem funcionando como especificada, e o resultado é código
 que compila sem aviso, roda sem erro, e responde errado.
 
 <!--more-->
@@ -116,13 +116,13 @@ A lógica é a mesma da anterior. Desreferenciar ponteiro nulo é comportamento
 indefinido. O código desreferenciou `p`. Portanto `p` não é nulo. Portanto a
 comparação com `NULL` é sempre falsa, e o `return -1` é inalcançável.
 
-Repare no efeito prático. Alguém escreveu essa proteção justamente porque `p`
-pode ser nulo. O compilador leu a mesma função e concluiu o contrário — e quem
+O efeito prático: Alguém escreveu essa proteção justamente porque `p`
+pode ser nulo. O compilador leu a mesma função e concluiu o contrário, e quem
 tem razão, na hora de gerar código, é ele.
 
 ## Por que a linguagem é assim
 
-Vale dizer, porque não é descuido.
+E não é descuido.
 
 O comportamento indefinido existe para dar liberdade ao compilador. Se overflow
 com sinal fosse definido, toda soma precisaria gerar código que se comporta de
@@ -134,7 +134,7 @@ Essa troca foi feita em 1972 num contexto em que ela fazia muito sentido: máqui
 lentas, arquiteturas que discordavam sobre o que fazer com overflow, e um
 compilador que precisava ser simples.
 
-O que mudou não foi a troca — foi o **poder dos otimizadores**. O compilador de
+O que mudou não foi a troca, foi o **poder dos otimizadores**. O compilador de
 1990 não conseguia encadear "isto é UB, logo não acontece, logo aquela linha é
 morta". O de 2026 consegue, e faz isso o tempo todo. A linguagem ficou parada e a
 ferramenta ficou muito mais esperta, então uma premissa que era teórica virou
@@ -160,7 +160,7 @@ Em compilação otimizada:
   checa_overflow(MAX)     = false
 ```
 
-Duas respostas diferentes — e **nenhuma delas é mentira**. Em debug, o programa
+Duas respostas diferentes, e **nenhuma delas é mentira**. Em debug, o programa
 para e diz exatamente o que houve. Em release, o valor dá a volta de forma
 definida, e a comparação devolve `false`, que é a resposta correta.
 
@@ -174,7 +174,7 @@ aqui acontece, e está escrito".
 Três coisas concretas para quem escreve C, e uma para quem não escreve.
 
 **Nunca detecte overflow depois do fato.** `a + b < a` não funciona. Verifique
-antes — `if (b > INT_MAX - a)` — ou use os *builtins* de overflow do compilador,
+antes — `if (b > INT_MAX - a)`, ou use os *builtins* de overflow do compilador,
 que devolvem um sinalizador.
 
 **Ligue os sanitizadores no desenvolvimento.** `-fsanitize=undefined` instrumenta
@@ -182,22 +182,22 @@ o binário e **reclama em tempo de execução** quando o UB acontece. Ele é len
 demais para produção e é exatamente por isso que existe: transforma silêncio em
 erro na hora de testar.
 
-**Trate aviso do compilador como erro.** Vários casos de UB têm aviso — nem
+**Trate aviso do compilador como erro.** Vários casos de UB têm aviso, nem
 todos, mas muitos. `-Wall -Wextra -Werror` converte o que seria ignorado em algo
 que interrompe.
 
 E para quem só escreve Python: isto não é curiosidade alheia. O interpretador que
 roda o seu código é um programa em C, e as mesmas regras valem para ele. Boa parte
-do trabalho de quem mantém o CPython é justamente não pisar nessas minas — e é
+do trabalho de quem mantém o CPython é justamente não pisar nessas minas, e é
 por isso que o build sem GIL levou anos, e não meses.
 
-A pergunta seguinte é por que aceitamos tudo isso — por que uma linguagem com
+A pergunta seguinte é por que aceitamos tudo isso, por que uma linguagem com
 esse comportamento continua embaixo de praticamente todo software em produção. É
 a [parte 2](/2026/09/triade-por-que-o-c-sustenta-tudo/).
 
 ## Referências
 
-- [C undefined behavior](https://en.cppreference.com/w/c/language/behavior) — a definição normativa das categorias de comportamento
-- [Options that control optimization](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html) — a documentação do `-fwrapv` e vizinhos
+- [C undefined behavior](https://en.cppreference.com/w/c/language/behavior), a definição normativa das categorias de comportamento
+- [Options that control optimization](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html), a documentação do `-fwrapv` e vizinhos
 - [UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html)
-- [Integer overflow — Rust reference](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow) — o comportamento definido em debug e em release
+- [Integer overflow — Rust reference](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow), o comportamento definido em debug e em release

@@ -9,20 +9,20 @@ audio_duracao: "9:11"
 
 O ferramental do Python tem fama de bagunça: um programa para o ambiente virtual,
 outro para instalar pacotes, um para formatar, um para o *lint*, um para checar
-tipos — cada um com sua configuração e sua lentidão. Nos últimos anos, três
+tipos, cada um com sua configuração e sua lentidão. Nos últimos anos, três
 ferramentas escritas em Rust vêm substituindo essa pilha: **uv** para o ambiente,
 **Ruff** para a higiene do código e **Pyrefly** para os tipos. Este texto monta um
-projeto do zero com as três — mas antes situa de onde elas vêm, porque isso mudou
+projeto do zero com as três, mas antes situa de onde elas vêm, porque isso mudou
 recentemente e afeta a aposta.
 
 <!--more-->
 
-## De onde vêm — e por que isso importa agora
+## De onde vêm, e por que isso importa agora
 
 As três não saíram do mesmo lugar, e a política por trás delas mudou em 2026.
 
 **uv e Ruff são da [Astral](https://astral.sh)**, empresa fundada por Charlie Marsh.
-E aqui está a novidade que reordena o tabuleiro: em **19 de março de 2026, a OpenAI
+A novidade que reordena o tabuleiro: em **19 de março de 2026, a OpenAI
 adquiriu a Astral** por um valor de nove dígitos, e a equipe passou a integrar o time
 do Codex, o agente de código da OpenAI ([análise do Simon
 Willison](https://simonw.substack.com/p/thoughts-on-openai-acquiring-astral)). Marsh
@@ -47,7 +47,7 @@ Vale o mapa antes dos comandos, porque as três ocupam camadas diferentes:
 ## uv: o ambiente
 
 O [uv](https://docs.astral.sh/uv/) é um binário único que não depende de um Python já
-instalado — ele mesmo baixa as versões de Python que você pedir.
+instalado, ele mesmo baixa as versões de Python que você pedir.
 
 ```bash
 # macOS / Linux
@@ -67,11 +67,11 @@ uv run python app.py      # roda no ambiente, sem ativar venv na mão
 **A favor**
 
 - é a peça mais madura das três;
-- a velocidade é real — o que o pip levava minutos, leva segundos;
+- a velocidade é real, o que o pip levava minutos, leva segundos;
 - o *lockfile* (`uv.lock`) torna o ambiente reproduzível;
 - o `uv python pin` acaba com o "funciona na minha máquina" por versão de Python.
 
-**Contra — as issues que você vai encontrar**
+**Contra, as issues que você vai encontrar**
 
 - o ponto fraco é **monorepo**: os *workspaces* não lidam com requisitos conflitantes
   — `pydantic<2` num pacote e `pydantic>=2` noutro não compartilham um *lockfile*
@@ -105,7 +105,7 @@ ignore = ["E501"]
 **A favor**
 
 - consolida flake8, black, isort, pyupgrade e mais plugins numa ferramenta só (900+ regras);
-- a velocidade muda o hábito — como roda instantâneo, você checa o tempo todo, não só no fim;
+- a velocidade muda o hábito, como roda instantâneo, você checa o tempo todo, não só no fim;
 - é a menos controversa das três: quase todo projeto Python novo já a adota sem discussão.
 
 **Contra**
@@ -128,17 +128,17 @@ uvx pyrefly suppress                 # marca os erros atuais, p/ tratar só os n
 
 **A favor**
 
-- velocidade absurda — a Meta checa os ~20 milhões de linhas do Instagram em 13 segundos,
+- velocidade absurda, a Meta checa os ~20 milhões de linhas do Instagram em 13 segundos,
   10 a 50 vezes mais rápido que mypy e pyright em bases grandes;
 - **checa também o código sem anotação de tipo, por padrão** — o mypy, de fábrica, pula
   funções não anotadas, o que faz um projeto sem tipos parecer "limpo" sem ter sido
   checado; o Pyrefly checa mesmo assim, inferindo o que consegue. É mais honesto.
 
-**Contra — as arestas reais**
+**Contra, as arestas reais**
 
 - é a peça mais nova e menos assentada das três;
 - atrito concreto com o próprio Ruff: o comentário de supressão do Pyrefly é lido pela
-  regra `ERA001` do Ruff como "código comentado" e sinalizado — as duas brigam
+  regra `ERA001` do Ruff como "código comentado" e sinalizado, as duas brigam
   ([issue #19713](https://github.com/astral-sh/ruff/issues/19713));
 - é notadamente **menos estrito** que os concorrentes: tolera partes não tipadas de um
   jeito que quem quer rigor máximo pode achar frouxo.
@@ -151,7 +151,7 @@ considerar — ao custo de o ty ser ainda mais novo que o Pyrefly.
 
 ## Montando o projeto inteiro
 
-O ganho de coesão fica claro no arquivo único que sobra — um só `pyproject.toml`
+O ganho de coesão fica claro no arquivo único que sobra, um só `pyproject.toml`
 descreve o projeto, as dependências e a configuração das três ferramentas:
 
 ```toml
@@ -190,17 +190,17 @@ uv run python -m pytest    # testes
 
 Depois de contextualizar cada uma, o veredito honesto de setembro de 2026:
 
-- **uv:** adote sem hesitar em projeto único — está maduro e o ganho é imediato. Em
+- **uv:** adote sem hesitar em projeto único, está maduro e o ganho é imediato. Em
   monorepo, teste os *workspaces* contra o seu caso antes de comprometer.
 - **Ruff:** a escolha mais segura das três. Não há bom motivo para começar um projeto
   novo com flake8 e black separados hoje.
 - **Pyrefly:** ótimo, rápido e honesto com código não tipado, mas é onde a poeira ainda
-  não assentou — o atrito com o Ruff e a existência do ty (agora sob o mesmo dono do uv
+  não assentou, o atrito com o Ruff e a existência do ty (agora sob o mesmo dono do uv
   e do Ruff) tornam essa a decisão a revisar daqui a alguns meses.
 
 O que não muda é a direção do ecossistema: ferramenta rápida, configuração num arquivo
 só, menos peças entre você e o código. A compra da Astral pela OpenAI é sinal de que
-essa direção virou ativo estratégico — o que traz recursos e, ao mesmo tempo, a
+essa direção virou ativo estratégico, o que traz recursos e, ao mesmo tempo, a
 pergunta de sempre sobre concentração. Vale acompanhar; não vale esperar. As
 ferramentas estão prontas para uso diário hoje.
 

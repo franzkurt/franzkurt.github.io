@@ -22,7 +22,7 @@ sys.getsizeof(1)     # 28 bytes
 ```
 
 Vinte e oito bytes para guardar o número 1, contra os 8 de um inteiro de 64 bits
-em C. E não é só espaço — é que somar dois deles envolve alocar um terceiro.
+em C. E não é só espaço, é que somar dois deles envolve alocar um terceiro.
 
 Existe um truque de quarenta anos para evitar isso. Ele funciona, é usado em
 OCaml, V8 e SpiderMonkey, e o CPython **não pode adotá-lo**. O motivo é a parte
@@ -33,7 +33,7 @@ mais interessante.
 ## Os bits que sobram em todo ponteiro
 
 Alocadores de memória devolvem endereços alinhados. Se todo objeto começa num
-múltiplo de 8, então todo endereço termina em três zeros binários — porque é
+múltiplo de 8, então todo endereço termina em três zeros binários, porque é
 isso que múltiplo de 8 significa.
 
 Esses bits estão lá, em todo ponteiro do seu programa, sem fazer nada.
@@ -105,7 +105,7 @@ add_heap:
         ret
 ```
 
-Dez instruções, duas leituras da memória, três escritas — e uma **chamada ao
+Dez instruções, duas leituras da memória, três escritas, e uma **chamada ao
 `malloc`**, cujo custo não aparece nessa contagem porque está do outro lado da
 chamada.
 
@@ -125,11 +125,11 @@ recebe um valor precisa conferir a etiqueta antes de desreferenciar. Isso se
 espalha por cada função do runtime.
 
 **O heap ainda existe.** Inteiro grande não cabe em 63 bits e continua alocado, o
-que significa que o caminho antigo não some — ele ganha um companheiro.
+que significa que o caminho antigo não some, ele ganha um companheiro.
 
 ## Por que o CPython não faz isso
 
-Aqui está a parte que eu acho mais instrutiva, e que liga com o resto do blog.
+A parte mais instrutiva liga com o resto do blog.
 
 O impedimento não é técnico no sentido de difícil. É **contratual**. A API C do
 CPython entrega o `PyObject*` cru para qualquer extensão, e as extensões
@@ -143,7 +143,7 @@ ctypes.c_ssize_t.from_address(id(x)).value    # 3 — o refcount de x
 
 Aquilo leu o contador de referências de um inteiro lendo direto o endereço dele.
 Se o ponteiro de `x` passasse a ser um número etiquetado, essa leitura acessaria
-memória inválida — e não é um truque meu: é o que **toda extensão em C faz**,
+memória inválida, e não é um truque meu: é o que **toda extensão em C faz**,
 porque é o que a API sempre ofereceu.
 
 É o argumento da [tríade parte 2](/2026/09/triade-por-que-o-c-sustenta-tudo/)
@@ -164,7 +164,7 @@ min(faixa), max(faixa), len(faixa)
 # (-5, 256, 262)
 ```
 
-Duzentos e sessenta e dois inteiros — de −5 a 256 — existem uma vez só e são
+Duzentos e sessenta e dois inteiros, de −5 a 256 — existem uma vez só e são
 compartilhados. Criar o número 7 não aloca nada; devolve um ponteiro para um
 objeto que já estava lá.
 
@@ -172,10 +172,10 @@ objeto que já estava lá.
 A [parte 1 da série de tipos](/2026/08/tipos-em-python-por-dentro/) mostra que
 essa faixa está crescendo: no `main` do CPython o limite já subiu para 1024.
 
-## O que fica
+## Por que o CPython ficou de fora dessa
 
 **Representação é decisão de arquitetura, não de otimização.** Etiquetar ponteiro
-muda o que um inteiro *é* — e por isso precisa ser decidido antes de existir
+muda o que um inteiro *é*, e por isso precisa ser decidido antes de existir
 ecossistema, não depois.
 
 **Interface pública é o que congela o projeto.** O CPython consegue trocar o
@@ -191,7 +191,7 @@ bloqueada por um contrato de trinta anos.
 ## Referências
 
 - [Small objects and pointer tagging](https://bernsteinbear.com/blog/small-objects/) — Max Bernstein, o texto que originou este
-- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c) — o `PyLongObject` que é alocado
-- [`pycore_runtime_structs.h`](https://github.com/python/cpython/blob/main/Include/internal/pycore_runtime_structs.h) — os inteiros pequenos pré-alocados
-- [Value tagging — OCaml](https://dev.realworldocaml.org/runtime-memory-layout.html) — o esquema num runtime que o adotou desde o início
-- [`ctypes`](https://docs.python.org/3/library/ctypes.html) — como se lê a memória de um objeto direto do endereço
+- [`Objects/longobject.c`](https://github.com/python/cpython/blob/main/Objects/longobject.c), o `PyLongObject` que é alocado
+- [`pycore_runtime_structs.h`](https://github.com/python/cpython/blob/main/Include/internal/pycore_runtime_structs.h), os inteiros pequenos pré-alocados
+- [Value tagging — OCaml](https://dev.realworldocaml.org/runtime-memory-layout.html), o esquema num runtime que o adotou desde o início
+- [`ctypes`](https://docs.python.org/3/library/ctypes.html), como se lê a memória de um objeto direto do endereço

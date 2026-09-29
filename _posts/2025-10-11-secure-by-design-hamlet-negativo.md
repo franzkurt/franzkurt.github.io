@@ -41,7 +41,7 @@ O sistema estava tentando **pagar dinheiro de verdade** ao Joe Tester.
 Essa é a abertura de [*Secure by
 Design*](https://www.manning.com/books/secure-by-design), de Daniel Deogun, Dan
 Bergh Johnsson e Daniel Sawano. É um caso real de um cliente deles, com o ramo
-trocado para preservar o sigilo — não eram livros, e eles fazem questão de dizer
+trocado para preservar o sigilo, não eram livros, e eles fazem questão de dizer
 que a Amazon teve um bug parecido lá por 2000.
 
 ## A parte que custa dinheiro
@@ -55,7 +55,7 @@ Hamlet negativo, e a conta fecha em duzentos e sete.
 
 O boato sobre a "funcionalidade estranha" tinha se espalhado. Muita gente usava.
 A loja havia, sem querer, distribuído **vales-desconto de faça-você-mesmo**, e o
-prejuízo foi significativo — e irrecuperável na prática, embora desse para
+prejuízo foi significativo, e irrecuperável na prática, embora desse para
 identificar quem tinha se beneficiado.
 
 Agora repare no que **não** aconteceu. Nenhum invasor entrou. Nenhum dado vazou.
@@ -72,7 +72,7 @@ A tese do livro está na distinção entre as duas palavras, e a ilustração hi
 
 Na noite de 25 de março daquele ano, o banco sueco Öst-Götha está prestes a ser
 assaltado. O cabo Nils Strid e o ferreiro Lars Ekström chegam à porta. A porta
-externa está trancada — mas a chave pende de um prego do lado de fora, para quem
+externa está trancada, mas a chave pende de um prego do lado de fora, para quem
 souber onde olhar. O banco também tinha investido em fechaduras de altíssima
 qualidade para o cofre, praticamente impossíveis de arrombar.
 
@@ -156,7 +156,7 @@ morar**.
 
 ## Falha de negócio não é exceção
 
-Se eu tivesse que eleger um capítulo, seria este — e o argumento é desarmante de
+Se eu tivesse que eleger um capítulo, seria este, e o argumento é desarmante de
 tão simples:
 
 > *Because exceptions represent something exceptional (the name kind of gives it
@@ -164,7 +164,7 @@ tão simples:
 > them as exceptions.*
 
 Saldo insuficiente numa transferência é **comum**. Não é excepcional. Logo, não é
-exceção — é um resultado possível da operação, do mesmo jeito que o sucesso é.
+exceção, é um resultado possível da operação, do mesmo jeito que o sucesso é.
 
 Até aqui parece questão de estilo. O que transforma isso em segurança é a
 consequência. Se "nenhuma conta encontrada" (falha de negócio) e "banco de dados

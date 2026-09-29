@@ -41,7 +41,7 @@ formato ser compatível não diz nada sobre o conteúdo ser executável.
 ## O que o assert está dizendo
 
 Vale ler o nome da variável, porque ele entrega a causa inteira:
-`n_outputs_max` — o número máximo de saídas por forward pass.
+`n_outputs_max`, o número máximo de saídas por forward pass.
 
 Um modelo autorregressivo produz **um token por forward**. O runtime dimensiona o
 buffer de saída para esse caso, porque é o único que ele conhece.
@@ -70,7 +70,7 @@ llama-diffusion-cli -m llada-q4.gguf -p "..." \
   --diffusion-steps 32 --diffusion-block-length 32 -n 32 --temp 0
 ```
 
-E aqui vai a armadilha seguinte, para poupar sua tarde. Sem
+A armadilha seguinte, para poupar sua tarde. Sem
 `--diffusion-block-length` **nem** `--diffusion-eps`, ele aborta com:
 
 ```
@@ -103,5 +103,5 @@ propriedade do runtime, não do arquivo**.
 
 Antes de supor que um modelo novo roda na sua ferramenta, o teste barato é ler o
 `general.architecture` do GGUF e procurar essa string no código do runtime. Se
-ela não estiver lá, nenhum flag vai resolver — e o `create` aceitar não é
+ela não estiver lá, nenhum flag vai resolver, e o `create` aceitar não é
 evidência de nada, porque ele nunca executou o grafo.

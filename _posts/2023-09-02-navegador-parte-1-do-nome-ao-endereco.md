@@ -21,7 +21,7 @@ distintas, cada uma com seus próprios modos de falhar, e a maior parte dos
 programadores que escrevem para a web nunca precisou olhar nenhuma delas.
 
 Esta série abre as seis, na ordem em que acontecem. Tudo que está aqui foi
-medido nesta máquina — um Debian com Chromium, falando com este blog, que fica
+medido nesta máquina, um Debian com Chromium, falando com este blog, que fica
 hospedado no GitHub Pages. Os números são reais e os comandos estão no texto,
 para você rodar contra o seu próprio alvo.
 
@@ -67,7 +67,7 @@ total=0.096415s saltos=1
 
 **156 ms contra 96 ms.** O redirecionamento não custa "um cabeçalho a mais": ele
 custa uma conexão inteira jogada fora — resolução, handshake TCP, aperto de
-mão TLS — só para receber a instrução de fazer tudo de novo no outro esquema.
+mão TLS, só para receber a instrução de fazer tudo de novo no outro esquema.
 Sessenta milissegundos, sempre, na primeira visita de todo mundo que digita sem
 o `https`.
 
@@ -109,7 +109,7 @@ casa.
 
 ## O nome não devolve *um* endereço
 
-Aqui está uma coisa que quase todo diagrama de "como funciona o DNS" simplifica
+Quase todo diagrama de "como funciona o DNS" simplifica isto
 demais. O nome não resolve para um endereço:
 
 ```
@@ -160,8 +160,8 @@ Forçando cada família, o tempo de conexão é o mesmo — 29,7 ms pelo IPv4 co
 
 ## O elo que ninguém autentica
 
-Vale registrar onde este primeiro passo é frágil. A resposta do DNS chegou em
-UDP, em texto claro, sem assinatura. Qualquer um no caminho — o café, o
+Este primeiro passo é frágil num ponto. A resposta do DNS chegou em
+UDP, em texto claro, sem assinatura. Qualquer um no caminho, o café, o
 provedor, o roteador comprometido — pode responder antes do servidor de verdade
 e mandar o seu navegador para o endereço que quiser.
 
@@ -171,10 +171,10 @@ conseguir apresentar um certificado válido para esse nome. A conexão morre com
 erro em vez de abrir uma página falsa.
 
 As defesas no próprio DNS existem — DNSSEC assina as respostas, DoH e DoT
-cifram o transporte — mas a adoção é irregular, e o que efetivamente protege a
+cifram o transporte, mas a adoção é irregular, e o que efetivamente protege a
 sua navegação é a etapa que vem agora.
 
-## O que fica
+## Do nome ao endereço, em resumo
 
 **Metade do trabalho acontece antes de qualquer pacote sair.** Decidir se é
 busca ou endereço, normalizar, converter para punycode, consultar HSTS: tudo
@@ -193,9 +193,9 @@ com o custo de cada ida e volta medido separadamente.
 
 ## Referências
 
-- [URL Living Standard (WHATWG)](https://url.spec.whatwg.org/) — o parser de URL que todo navegador implementa
-- [RFC 8305 — Happy Eyeballs versão 2](https://www.rfc-editor.org/rfc/rfc8305.txt) — a corrida entre IPv6 e IPv4
-- [RFC 6797 — HTTP Strict Transport Security](https://www.rfc-editor.org/rfc/rfc6797.txt) — o HSTS e a lista de pré-carregamento
-- [hstspreload.org](https://hstspreload.org/) — a lista embutida nos navegadores
-- [RFC 1035 — Domain Names](https://www.rfc-editor.org/rfc/rfc1035.txt) — o formato do pacote de DNS
-- [How browsers work (Tali Garsiel e Paul Irish)](https://web.dev/articles/howbrowserswork) — a referência clássica sobre o resto do caminho
+- [URL Living Standard (WHATWG)](https://url.spec.whatwg.org/), o parser de URL que todo navegador implementa
+- [RFC 8305 — Happy Eyeballs versão 2](https://www.rfc-editor.org/rfc/rfc8305.txt), a corrida entre IPv6 e IPv4
+- [RFC 6797 — HTTP Strict Transport Security](https://www.rfc-editor.org/rfc/rfc6797.txt), o HSTS e a lista de pré-carregamento
+- [hstspreload.org](https://hstspreload.org/), a lista embutida nos navegadores
+- [RFC 1035 — Domain Names](https://www.rfc-editor.org/rfc/rfc1035.txt), o formato do pacote de DNS
+- [How browsers work (Tali Garsiel e Paul Irish)](https://web.dev/articles/howbrowserswork), a referência clássica sobre o resto do caminho

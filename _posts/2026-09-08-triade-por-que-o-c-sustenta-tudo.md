@@ -37,20 +37,20 @@ A lista é previsível e vale enunciar: o kernel do Linux, o CPython, o SQLite, 
 Redis, o nginx, o git, o PostgreSQL, o OpenSSL, o FFmpeg, a própria libc. Quase
 toda a infraestrutura que executa software hoje.
 
-Mas o volume de código é o argumento fraco, porque volume se substitui — com
+Mas o volume de código é o argumento fraco, porque volume se substitui, com
 esforço, com anos, mas se substitui. O argumento forte é outro.
 
 ## O C é o vocabulário que todos falam
 
 Quando o Python chama uma função em C, ele não precisa saber nada sobre C como
 **linguagem**. Ele precisa saber como passar argumentos em registradores, onde o
-retorno aparece, e quem limpa a pilha. Isso é a **ABI** — a interface binária de
-aplicação — e a do C virou o padrão de fato de cada plataforma.
+retorno aparece, e quem limpa a pilha. Isso é a **ABI**, a interface binária de
+aplicação, e a do C virou o padrão de fato de cada plataforma.
 
 A consequência é que a ABI do C não é *uma* forma de linguagens conversarem. É
 **a** forma.
 
-Repare no que isso significa nas linguagens que você conhece:
+Isso significa, nas linguagens que você conhece:
 
 - A [parte 3](/2026/09/triade-custo-da-fronteira/) desta série mede quatro
   caminhos do Python para código nativo. **Os quatro atravessam a ABI do C.**
@@ -60,12 +60,12 @@ Repare no que isso significa nas linguagens que você conhece:
   C.
 
 O kernel reforça isso do outro lado. A fronteira entre o seu programa e o sistema
-operacional é descrita em cabeçalhos C — são 155 arquivos `.h` só na raiz do
+operacional é descrita em cabeçalhos C, são 155 arquivos `.h` só na raiz do
 `/usr/include` numa instalação Debian comum. Para pedir um arquivo ao Linux,
 qualquer linguagem monta uma chamada no formato do C.
 
 **O C ocupa a posição de língua franca.** E língua franca não se substitui por ser
-melhor — se substitui quando todo mundo muda de idioma ao mesmo tempo, o que não
+melhor, se substitui quando todo mundo muda de idioma ao mesmo tempo, o que não
 costuma acontecer.
 
 ## As escolhas de 1972 que produziram isso
@@ -91,7 +91,7 @@ assunto da [parte 1](/2026/09/triade-undefined-behavior/): a linguagem presume
 que você não errou, e otimiza com base nisso.
 
 Essas três decisões, juntas, produzem uma linguagem que **cabe em qualquer lugar**
-e não impõe nada. É a propriedade certa para uma camada de base — e é a errada
+e não impõe nada. É a propriedade certa para uma camada de base, e é a errada
 para quase tudo o que se constrói em cima dela.
 
 ## O que isso cobrou
@@ -101,15 +101,15 @@ Não vale contar a vitória sem a conta, e ela está medida.
 O Google publicou os números do Android depois de migrar parte do sistema para
 Rust: vulnerabilidades de segurança de memória caíram de **mais de 75% do total
 para menos de 20%**, com densidade cerca de mil vezes menor no código Rust que no
-equivalente em C e C++. Isso não é opinião sobre linguagem — é contagem de falha
+equivalente em C e C++. Isso não é opinião sobre linguagem, é contagem de falha
 em produção, e já apareceu [aqui antes](/2026/09/python-e-rust-duas-apostas/).
 
-Ou seja: a mesma propriedade que fez o C caber em todo lugar — não impor nada, não
-verificar nada — é a que produz a classe de defeito mais cara que existe.
+Ou seja: a mesma propriedade que fez o C caber em todo lugar, não impor nada, não
+verificar nada, é a que produz a classe de defeito mais cara que existe.
 
 ## Por que o Rust não tentou substituí-lo de frente
 
-E aqui está o desfecho que eu acho mais instrutivo desta parte.
+O desfecho mais instrutivo desta parte vem agora.
 
 O Rust foi desenhado para ocupar o espaço do C, e a estratégia dele **não** foi
 criar um ecossistema separado. Foi o contrário: `extern "C"`, `#[repr(C)]`,
@@ -123,7 +123,7 @@ extensões de Python.
 Substituir a língua franca de uma vez era impossível. Falar a língua franca com
 outro sotaque, não.
 
-## O que fica
+## Por que o C continua no meio de tudo
 
 Três coisas que eu levo desta parte.
 
@@ -140,7 +140,7 @@ interface. Que é, aliás, exatamente o que está acontecendo.
 
 ## Referências
 
-- [Rust FFI: `extern "C"`](https://doc.rust-lang.org/nomicon/ffi.html) — como o Rust fala a ABI do C
-- [System V AMD64 ABI](https://gitlab.com/x86-psABIs/x86-64-ABI) — a convenção de chamada que todo mundo implementa no Linux
-- [Rust in Android: move fast and fix things](https://blog.google/security/rust-in-android-move-fast-fix-things/) — os números de segurança de memória
-- [Linux kernel: Rust](https://docs.kernel.org/rust/) — a documentação da integração
+- [Rust FFI: `extern "C"`](https://doc.rust-lang.org/nomicon/ffi.html), como o Rust fala a ABI do C
+- [System V AMD64 ABI](https://gitlab.com/x86-psABIs/x86-64-ABI), a convenção de chamada que todo mundo implementa no Linux
+- [Rust in Android: move fast and fix things](https://blog.google/security/rust-in-android-move-fast-fix-things/), os números de segurança de memória
+- [Linux kernel: Rust](https://docs.kernel.org/rust/), a documentação da integração

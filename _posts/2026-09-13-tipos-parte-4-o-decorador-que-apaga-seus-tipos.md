@@ -18,7 +18,7 @@ aviso.
 O ponto de partida veio de
 [Justin A. Ellis](https://jellis18.github.io/post/2023-01-15-advanced-python-types/);
 os exemplos abaixo foram reescritos e conferidos aqui, no Python 3.13.5 com
-mypy 2.3.1 **e** pyright 1.1.414 — os dois verificadores concordam em cada caso
+mypy 2.3.1 **e** pyright 1.1.414, os dois verificadores concordam em cada caso
 mostrado.
 
 <!--more-->
@@ -58,7 +58,7 @@ soma("isso", "nao e float")
 ```
 
 **O mypy aprovou.** E o pyright também, que relata o mesmo de outro jeito:
-`Type of "soma" is "(...) -> Any"`, zero erros. Não porque falharam — porque,
+`Type of "soma" is "(...) -> Any"`, zero erros. Não porque falharam, porque,
 depois do decorador, `soma` é literalmente `(*Any, **Any) -> Any`. A assinatura que você escreveu foi
 substituída pela do invólucro, e `Callable[..., Any]` é a forma de dizer
 "qualquer coisa".
@@ -69,7 +69,7 @@ mais usada do módulo, e não tem nenhuma.
 ## `ParamSpec`: a variável que carrega a lista de parâmetros
 
 `TypeVar` captura **um** tipo. O que falta aqui é capturar uma *assinatura
-inteira* — nome, posição, valor padrão, tudo — e devolvê-la do outro lado. É o
+inteira* — nome, posição, valor padrão, tudo, e devolvê-la do outro lado. É o
 que a [PEP 612](https://peps.python.org/pep-0612/) trouxe no 3.10:
 
 ```python
@@ -105,7 +105,7 @@ devolve uma função com a mesma interface deve usar `ParamSpec`. Se você digit
 
 O segundo caso é o oposto: não perder informação, e sim **exigir** o mínimo.
 
-Uma função `maior` genérica não deve aceitar qualquer coisa — só o que sabe se
+Uma função `maior` genérica não deve aceitar qualquer coisa, só o que sabe se
 comparar. E não deve exigir uma classe base, pelo motivo que a
 [parte 3](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/) discutiu:
 isso obrigaria todo mundo a herdar de algo seu.
@@ -138,7 +138,7 @@ error: Value of type variable "T" of "maior" cannot be "SemOrdem"
 Não é `object` na saída, não é `Any`: é `list[int]` quando entrou `list[int]`.
 Quem chama continua podendo indexar o retorno.
 
-Vale notar o paralelo, porque ele ajuda a fixar: isso é a mesma ideia de
+O paralelo, porque ele ajuda a fixar: isso é a mesma ideia de
 *trait bound* do Rust — "aceito qualquer tipo que implemente esta capacidade" —
 e o blog já
 [comparou as duas linguagens](/2026/09/python-e-rust-duas-apostas/) por outros
@@ -149,7 +149,7 @@ e o blog já
 O terceiro caso é o único em que genérico não resolve: a função tem **formas
 diferentes**, e o tipo de saída depende de qual você usou.
 
-O exemplo canônico é o decorador que funciona das duas maneiras — com e sem
+O exemplo canônico é o decorador que funciona das duas maneiras, com e sem
 argumento:
 
 ```python
@@ -174,7 +174,7 @@ def cronometra(f=None, *, relator=None):
     ...                                        # a implementação, uma só
 ```
 
-As duas primeiras não têm corpo — são declarações para o verificador. A terceira
+As duas primeiras não têm corpo, são declarações para o verificador. A terceira
 é o código que roda. E o resultado é que as duas formas chegam do outro lado
 inteiras:
 
@@ -191,7 +191,7 @@ arrependimento: **use `@overload` com parcimônia, só quando genérico não dá
 conta.**
 
 Cada sobrecarga é uma assinatura a mais para alguém ler, e o corpo único precisa
-atender a todas elas — sem ajuda do verificador, porque a implementação fica
+atender a todas elas, sem ajuda do verificador, porque a implementação fica
 fora do que as sobrecargas declaram. Duas formas genuinamente distintas
 justificam. Três variações do mesmo parâmetro, normalmente, são um `TypeVar` que
 faltou.
@@ -199,13 +199,13 @@ faltou.
 E a ressalva maior, que vale para a série toda: nada disso é sobre velocidade.
 A anotação não chega ao bytecode, e
 [nem o `int` mais explícito acelera uma soma](/2023/06/anotar-int-nao-deixa-o-python-rapido/).
-O que essas três construções mudam é **quando** o erro aparece — e, no caso do
+O que essas três construções mudam é **quando** o erro aparece, e, no caso do
 decorador, se ele aparece.
 
 ## Referências
 
 - [Some Advanced Typing Concepts in Python](https://jellis18.github.io/post/2023-01-15-advanced-python-types/) — Justin A. Ellis, o texto que originou este
-- [PEP 612 — Parameter Specification Variables](https://peps.python.org/pep-0612/) — o `ParamSpec`
-- [PEP 673 — Self Type](https://peps.python.org/pep-0673/) — o `Self` usado no protocolo
+- [PEP 612 — Parameter Specification Variables](https://peps.python.org/pep-0612/), o `ParamSpec`
+- [PEP 673 — Self Type](https://peps.python.org/pep-0673/), o `Self` usado no protocolo
 - [PEP 544 — Protocols](https://peps.python.org/pep-0544/) — protocolo como limite de `TypeVar`
-- [`typing.overload`](https://docs.python.org/3/library/typing.html#typing.overload) — a documentação, com as regras de resolução
+- [`typing.overload`](https://docs.python.org/3/library/typing.html#typing.overload), a documentação, com as regras de resolução

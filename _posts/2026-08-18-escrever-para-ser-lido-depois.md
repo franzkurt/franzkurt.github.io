@@ -17,8 +17,8 @@ veterano com pressa tem que atravessar o passo a passo; e a explicação, que é
 
 O [Diátaxis](https://diataxis.fr/) resolve isso separando os quatro. Escrito por
 Daniele Procida em 2020, virou a base da documentação da Django e da Canonical.
-Este texto percorre os quatro com o que cada um **não pode** fazer — que é a
-parte útil e a que quase todo mundo pula — e depois o que muda agora que boa
+Este texto percorre os quatro com o que cada um **não pode** fazer, que é a
+parte útil e a que quase todo mundo pula, e depois o que muda agora que boa
 parte dos seus leitores não é humana.
 
 <!--more-->
@@ -33,7 +33,7 @@ teórico. Fazer, ou pensar.
 **Ele serve à aquisição ou à aplicação?** A pessoa está estudando para adquirir
 uma habilidade, ou trabalhando e aplicando a que já tem.
 
-Cruzando as duas, saem quatro tipos — e só quatro:
+Cruzando as duas, saem quatro tipos, e só quatro:
 
 | Tipo | Informa | Serve à | Em uma frase |
 |---|---|---|---|
@@ -47,14 +47,14 @@ Cruzando as duas, saem quatro tipos — e só quatro:
 > *A tutorial is an experience that takes place under the guidance of a tutor.*
 
 A definição parece inofensiva e não é. Ela transfere a responsabilidade inteira
-para quem escreve. No Diátaxis, o professor responde por tudo — o que o aluno vai
+para quem escreve. No Diátaxis, o professor responde por tudo, o que o aluno vai
 adquirir, quais atividades vai executar, e se vai dar certo. **A única
 responsabilidade do aluno é prestar atenção.**
 
 Isso tem três consequências duras:
 
 **O tutorial tem que funcionar. Sempre, para todos.** Se falha em uma máquina com
-uma versão diferente, o contrato se quebra — e o aluno conclui que o problema é
+uma versão diferente, o contrato se quebra, e o aluno conclui que o problema é
 ele, não o texto. Tutorial é a única parte da documentação que precisa ser
 testada como se fosse código.
 
@@ -104,7 +104,7 @@ e achar o seu problema.
 Uma última regra, e é a que separa guia bom de guia inútil: **o guia trata de
 problemas do mundo real, não de máquina**. "Como fazer deploy em produção com
 rollback" é um problema. "Como usar o comando `deploy`" é documentação de
-máquina disfarçada de guia — isso é referência.
+máquina disfarçada de guia, isso é referência.
 
 ## Referência: um mapa, não um roteiro
 
@@ -126,7 +126,7 @@ Duas coisas que valem saber:
 
 **A estrutura da referência deve espelhar a estrutura do produto.** Se o código
 tem módulos, a referência tem seções por módulo. Não se inventa organização para
-referência — a organização já existe, e inventar outra obriga o leitor a manter
+referência, a organização já existe, e inventar outra obriga o leitor a manter
 dois mapas na cabeça.
 
 **Documentação gerada automaticamente é referência, e só isso.** Muita gente
@@ -137,7 +137,7 @@ está tentando conseguir.
 
 ## Explicação: a mais difícil, e a que só você pode escrever
 
-Explicação é orientada ao entendimento. Ela se lê longe do teclado — a atividade
+Explicação é orientada ao entendimento. Ela se lê longe do teclado, a atividade
 associada não é fazer nem consultar, é **refletir**.
 
 Três coisas que ela faz e nenhuma das outras faz:
@@ -154,7 +154,7 @@ Três coisas que ela faz e nenhuma das outras faz:
 E é a mais difícil de escrever por um motivo estrutural, não por falta de talento:
 **ela não tem fronteira natural**. O tutorial acaba quando o aluno aprendeu o que
 se propôs. O guia acaba quando o problema foi resolvido. A referência acaba quando
-o sistema acabou. A explicação não acaba nunca sozinha — quem escreve precisa
+o sistema acabou. A explicação não acaba nunca sozinha, quem escreve precisa
 *decidir* onde ela termina, e essa arbitrariedade é desconfortável.
 
 A dica de título ajuda a impor essa fronteira: use algo que aceite um **"sobre"**
@@ -163,7 +163,7 @@ não é explicação, é guia com roupa errada.
 
 Vale o alerta sobre o custo de não escrevê-la. Sem explicação, a pessoa fica com
 uma prática **ansiosa**: ela consegue executar, os comandos funcionam, e ela não
-sabe por quê — então cada situação nova é um abismo. É o estado de quem copiou do
+sabe por quê, então cada situação nova é um abismo. É o estado de quem copiou do
 Stack Overflow e reza para não precisar mudar nada.
 
 ## Agora o que muda com agentes
@@ -197,17 +197,17 @@ deliberada e o motivo não está escrito em lugar nenhum, o agente vai encontrar
 escolha, achar que é descuido, e "consertar". Um parágrafo dizendo *"usamos fila
 em vez de chamada direta porque o provedor derruba conexões acima de 30 s"* não
 está lá para ensinar ninguém: está lá para que a decisão não seja desfeita por
-alguém — humano ou não — que só vê o resultado e não vê a alternativa descartada.
+alguém — humano ou não, que só vê o resultado e não vê a alternativa descartada.
 
-Repare que é exatamente o tipo que as equipes mais deixam de escrever, por parecer
+É exatamente o tipo que as equipes mais deixam de escrever, por parecer
 o menos urgente. Ele virou o mais caro de não ter.
 
 ## A armadilha do tutorial
 
-E aqui as duas partes deste texto se encontram, porque o perigo do tutorial para
+As duas partes deste texto se encontram, porque o perigo do tutorial para
 agentes é **consequência direta das regras dele**.
 
-O tutorial simplifica de propósito — é a natureza dele. E como ele não pode
+O tutorial simplifica de propósito, é a natureza dele. E como ele não pode
 explicar nem oferecer alternativas, os avisos aparecem como prosa solta ao redor
 do código:
 
@@ -218,7 +218,7 @@ do código:
 > Não se preocupe com tratamento de erro por enquanto.
 
 Um humano lê isso e registra. Um agente recupera o **bloco de código**, e o aviso
-— que estava uma linha acima, em prosa — não vem junto ou não pesa o bastante. O
+— que estava uma linha acima, em prosa, não vem junto ou não pesa o bastante. O
 atalho pedagógico vira **código de produção**, com a autenticação pulada.
 
 A defesa não é escrever menos tutorial. É garantir que o tutorial **nunca seja a
@@ -229,7 +229,7 @@ copiado. A referência precisa existir, separada, dizendo o que é de verdade.
 ## No seu repositório, hoje
 
 Se você mantém um `CLAUDE.md`, um `AGENTS.md` ou equivalente, ele provavelmente
-tem a doença do README — com o agravante de ser carregado em **todo** contexto,
+tem a doença do README, com o agravante de ser carregado em **todo** contexto,
 ocupando espaço mesmo quando nada ali é relevante.
 
 Três ajustes que valem mais que reescrever tudo:
@@ -281,8 +281,8 @@ de reorganização de documentação: o branch gigante que ninguém termina.
 O Diátaxis separa duas qualidades, e a diferença é útil bem além de documentação.
 
 **Qualidade funcional** é o que se mede contra o mundo: precisão, completude,
-consistência, utilidade. São critérios independentes — um texto pode ser preciso
-sem ser completo — e verificáveis.
+consistência, utilidade. São critérios independentes, um texto pode ser preciso
+sem ser completo, e verificáveis.
 
 **Qualidade profunda** é o que se mede contra a necessidade humana: o texto flui,
 é agradável de usar, cai bem. Essas não se isolam uma da outra, e não se

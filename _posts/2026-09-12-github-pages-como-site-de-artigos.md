@@ -9,7 +9,7 @@ audio_duracao: "9:59"
 
 Criar um site no GitHub Pages leva um minuto: um repositório, um `index.html`, e o
 endereço `usuario.github.io` está no ar. O problema aparece no segundo dia, quando
-você quer publicar o segundo artigo — e percebe que hospedar uma página HTML e ter
+você quer publicar o segundo artigo, e percebe que hospedar uma página HTML e ter
 um blog são coisas diferentes.
 
 Um blog precisa de listagem que se atualiza sozinha, feed RSS, páginas de tags,
@@ -37,7 +37,7 @@ graça e sem manutenção**. Tudo o que segue vem daí.
 
 Antes de qualquer Jekyll, há um detalhe que decide o endereço do site: **o nome do
 repositório**. O GitHub trata de forma especial um repositório chamado
-`<seu-usuario>.github.io` — com o mesmo nome do seu perfil.
+`<seu-usuario>.github.io`, com o mesmo nome do seu perfil.
 
 | Nome do repositório | Endereço do site | `baseurl` no config |
 |---|---|---|
@@ -76,7 +76,7 @@ O Jekyll monta o site a partir de convenções de pastas. O esqueleto de um blog
 
 Só o `_config.yml`, o `index.html` e a pasta `_posts/` são obrigatórios para ter um
 blog no ar; o resto é o que dá forma a ele. As pastas com `_` na frente são
-especiais para o Jekyll — ele as lê para montar o site, mas não as copia cruas para
+especiais para o Jekyll, ele as lê para montar o site, mas não as copia cruas para
 a saída.
 
 Um `_config.yml` mínimo já funcional:
@@ -101,7 +101,7 @@ O `permalink` acima faz cada artigo virar um endereço limpo como
 
 ## Os quatro plugins que importam
 
-O GitHub Pages não roda qualquer plugin Jekyll — só uma lista homologada. Sair dela
+O GitHub Pages não roda qualquer plugin Jekyll, só uma lista homologada. Sair dela
 força o build para Actions, exatamente o que queremos evitar. Quatro plugins dessa
 lista resolvem quase tudo:
 
@@ -156,7 +156,7 @@ Três detalhes economizam tempo depois:
 ## Os limites reais, em números
 
 "De graça" tem letra miúda, e é melhor conhecê-la antes de precisar. Os limites do
-GitHub Pages são todos *soft* — o GitHub avisa ou reduz a velocidade, não derruba o
+GitHub Pages são todos *soft*, o GitHub avisa ou reduz a velocidade, não derruba o
 site nem manda fatura:
 
 | Limite | Valor |
@@ -168,7 +168,7 @@ site nem manda fatura:
 Para um blog de texto, esses números são enormes. Um artigo com imagens pesa
 dezenas de KB; estourar 100 GB de banda exigiria centenas de milhares de visitas por
 mês. O limite de 10 builds por hora só incomodaria quem dá `push` a cada dois
-minutos — e nem se aplica quando o site é publicado por um workflow próprio.
+minutos, e nem se aplica quando o site é publicado por um workflow próprio.
 
 Uma ressalva que vale saber: repositório **público** no plano Free tem tudo isso de
 graça. Tornar o repositório privado passa a exigir um plano pago para o Pages
@@ -182,7 +182,7 @@ controle". Vale entender o que se perde:
 O build nativo do Pages não consome nada. O deploy que aparece na aba Actions de um
 site Jekyll clássico roda em runner padrão, que em repositório público é gratuito e
 ilimitado. No instante em que você troca por um workflow próprio, ganha flexibilidade
-e passa a ter uma peça a mais para manter — que quebra quando uma dependência muda,
+e passa a ter uma peça a mais para manter, que quebra quando uma dependência muda,
 quando um token expira, quando a sintaxe do YAML fica obsoleta.
 
 A regra prática: **só migre para Actions quando precisar de um plugin fora da lista
@@ -209,13 +209,13 @@ podman run --rm -it -v "$PWD":/srv -w /srv -p 4000:4000 \
 
 O detalhe que poupa uma surpresa: o Pages usa uma versão específica do Jekyll e dos
 plugins. Fixar essas versões no `Gemfile` com a gem `github-pages` faz o build local
-bater com o de produção — o que você vê é o que sobe.
+bater com o de produção, o que você vê é o que sobe.
 
-## O que fica
+## O caminho mais curto até o primeiro artigo
 
 No fim, a stack inteira é: Markdown nos `_posts/`, quatro plugins no `_config.yml`, e
 `git push`. Sem servidor para administrar, sem pipeline para consertar, sem conta
 mensal. O site se reconstrói sozinho no lugar onde já mora.
 
-É pouca engenharia para um blog que dura anos — e essa é exatamente a intenção. O
+É pouca engenharia para um blog que dura anos, e essa é exatamente a intenção. O
 trabalho que você não faz é o trabalho que não quebra.

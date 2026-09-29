@@ -10,7 +10,7 @@ audio_duracao: "11:45"
 O Python 3.14 saiu em 7 de outubro de 2025 e a manchete foi o free threading deixar
 de ser experimento: a [PEP 779](https://peps.python.org/pep-0779/) declarou o build
 sem GIL oficialmente suportado. É uma mudança grande, mas não é a que você vai
-encontrar primeiro — as que aparecem no dia a dia são menores e mais imediatas.
+encontrar primeiro, as que aparecem no dia a dia são menores e mais imediatas.
 
 Este texto tem duas partes: um resumo do que mudou e, depois, a conta honesta do
 free threading, com um benchmark que rodei nos dois builds.
@@ -98,7 +98,7 @@ produção que travou e você não sabe onde, isso muda o jogo. Dá para desliga
   na biblioteca padrão, dentro de um novo pacote `compression` que também reexporta
   `gzip`, `lzma`, `bz2` e `zlib`.
 - **`return` dentro de `finally`** agora emite `SyntaxWarning`
-  ([PEP 765](https://peps.python.org/pep-0765/)) — ele engole exceções, e quase
+  ([PEP 765](https://peps.python.org/pep-0765/)), ele engole exceções, e quase
   sempre é bug.
 - **`multiprocessing` passou a usar `forkserver` por padrão** no Linux, em vez de
   `fork`. Mais seguro com threads, mas muda o comportamento de quem dependia de
@@ -109,12 +109,12 @@ produção que travou e você não sabe onde, isso muda o jogo. Dá para desliga
 ## Free threading: o que o benchmark mostra
 
 Peguei um trabalho puramente CPU-bound — contar primos por divisão sucessiva até
-300.000 — e dividi entre N threads com `ThreadPoolExecutor`. Sem I/O, sem espera:
+300.000, e dividi entre N threads com `ThreadPoolExecutor`. Sem I/O, sem espera:
 exatamente o caso em que o GIL sempre foi o teto.
 
 Um detalhe do desenho que muda o resultado: a divisão do trabalho é **intercalada**,
 não em faixas contíguas. Testar se 299.999 é primo custa muito mais que testar 3, e
-com faixas contíguas a última thread receberia o dobro de trabalho da primeira — o
+com faixas contíguas a última thread receberia o dobro de trabalho da primeira, o
 speedup medido sairia menor por desbalanceamento, não por causa do GIL.
 
 ```python
@@ -159,7 +159,7 @@ certa, e mesmo assim não há paralelismo. Volto nisso na próxima seção.
 
 **O primeiro toolchain que usei estava errado.** Minha primeira medição comparava a
 imagem Debian (com GIL) contra o build do `uv` (free-threaded), e o free-threaded
-saiu mais rápido até com uma thread — o que não faz sentido. Não fazia: eram
+saiu mais rápido até com uma thread, o que não faz sentido. Não fazia: eram
 compiladores e flags diferentes. Só a segunda rodada, com os dois builds da mesma
 origem, mede o que diz medir. Se você for repetir esse benchmark, controle isso
 antes de acreditar no número.
@@ -180,7 +180,7 @@ memória.
 
 Uma ressalva sobre a primeira linha da tabela: no build free-threaded, uma thread
 foi **mais rápida** que no build com GIL (0,60 s contra 0,72 s). Não generalize a
-partir disso — é um microbenchmark de aritmética inteira, sem extensão C e sem
+partir disso, é um microbenchmark de aritmética inteira, sem extensão C e sem
 estado compartilhado. A medição ampla que vale é a da documentação oficial, e ela
 diz o contrário: de 1% a 8% mais lento.
 
@@ -232,12 +232,12 @@ a diferença é que agora ele erra em produção.
 
 ## O estado das dependências
 
-Aqui está a parte que decide se dá para adotar, e o caso do **mypy** ilustra bem os
+A parte que decide se dá para adotar vem agora, e o caso do **mypy** ilustra bem os
 dois lados.
 
 O mypy é compilado com mypyc, e a versão compilada é 3 a 5 vezes mais rápida que a
 interpretada. Enquanto não existiram wheels `cp314t`, instalar mypy num build
-free-threaded devolvia silenciosamente a versão pura em Python — o CI não quebrava,
+free-threaded devolvia silenciosamente a versão pura em Python, o CI não quebrava,
 só ficava várias vezes mais lento, e a causa não aparecia em lugar nenhum. Hoje o
 mypy publica wheels compiladas para `cp314t` (a partir da 1.20), então esse caso
 específico está resolvido; mas o suporte a free threading no mypyc segue marcado
@@ -285,7 +285,7 @@ with InterpreterPoolExecutor(max_workers=4) as ex:
 ```
 
 Custa mais que thread e menos que processo, e o isolamento significa que corrida de
-memória compartilhada simplesmente não existe — você paga na serialização do que
+memória compartilhada simplesmente não existe, você paga na serialização do que
 atravessa a fronteira.
 
 ## O que eu faria
@@ -301,4 +301,4 @@ atravessa a fronteira.
 
 A pergunta que resolve a decisão não é "o GIL acabou?". É "eu tenho trabalho
 CPU-bound que hoje está espremido em um núcleo?". Se a resposta for não, o 3.14
-ainda tem bastante coisa boa para você — só não é essa.
+ainda tem bastante coisa boa para você, só não é essa.

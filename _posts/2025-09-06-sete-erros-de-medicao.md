@@ -24,7 +24,7 @@ pedir confiança sem oferecer nada em troca.
 ## O experimento, antes dos erros
 
 Vale descrever o experimento, porque quatro dos sete erros são consequência
-direta de como ele foi montado — e não fazem sentido no vazio.
+direta de como ele foi montado, e não fazem sentido no vazio.
 
 Eu estava atrás de duas perguntas. A primeira: **parâmetros de inferência mudam
 o acerto num conjunto de avaliações com gabarito?** A segunda: **como um modelo
@@ -36,7 +36,7 @@ restrição não é detalhe de bastidor: ela é a causa do primeiro erro e o mot
 metade das decisões de projeto.
 
 **Do lado autorregressivo, o motor foi o [Ollama](https://ollama.com).** A
-escolha é pragmática — ele resolve download, quantização e servidor num comando
+escolha é pragmática, ele resolve download, quantização e servidor num comando
 só, e expõe uma API HTTP local. Os modelos avaliados foram quatro, de 8 a 9
 bilhões de parâmetros, um de cada vez: carregar dois ao mesmo tempo não caberia.
 
@@ -47,21 +47,21 @@ Três detalhes do Ollama importam para o resto do texto:
 daí.
 
 **A resposta da API traz `eval_count` e `eval_duration`** — quantos tokens foram
-realmente gerados e quanto tempo a geração levou. Guarde esses dois campos; eles
+realmente gerados e quanto tempo a geração levou. Esses dois campos importam: eles
 voltam adiante, e o que eles têm a dizer é a parte mais desconfortável do texto.
 
 **O default de contexto é baixo e o corte é silencioso.** Quando a conversa passa
-do limite, o Ollama descarta o começo sem erro e sem aviso — o que, num
+do limite, o Ollama descarta o começo sem erro e sem aviso, o que, num
 experimento com prompt longo, é uma variável escondida.
 
 Já **do lado da difusão** não há Ollama: ele não executa esses modelos. O motor
 foi a `llama-diffusion-cli`, um binário separado do llama.cpp, com uma interface
-bem diferente — e é dessa diferença que saem os erros 4 e 5.
+bem diferente, e é dessa diferença que saem os erros 4 e 5.
 
 Por cima disso tudo, duas peças que eu mesmo escrevi: um **guard de RAM**, que
 recusa qualquer modelo acima de 55% da memória física, e um **juiz determinístico
 de qualidade**, para decidir sem humano e sem LLM se uma saída degradou. As duas
-aparecem na lista de erros — o guard porque foi contornado, o juiz porque errou
+aparecem na lista de erros, o guard porque foi contornado, o juiz porque errou
 nos dois sentidos antes de acertar.
 
 ## Os sete, em uma tabela
@@ -94,7 +94,7 @@ palavras**.
 Pare um segundo nessa consequência. Eu teria coletado quatro medições, rotuladas
 32, 64, 128 e 256 tokens, que eram **o mesmo ponto medido quatro vezes**. A curva
 sairia plana. Uma curva plana, nesse experimento, significa exatamente uma coisa:
-que a razão steps/token *não* é invariante — que os steps necessários não
+que a razão steps/token *não* é invariante, que os steps necessários não
 escalam com o comprimento.
 
 Ou seja: o erro não ia produzir ruído. Ia produzir **a negação limpa e
@@ -109,12 +109,12 @@ depois.
 
 `--diffusion-block-length` não fixa o tamanho da saída: é a granularidade do
 denoising. A CLI encadeia blocos até esgotar o `-n`. Com block length 32 saíram
-156, 320 e 336 tokens em probes diferentes — o eixo continuava solto, agora por
+156, 320 e 336 tokens em probes diferentes, o eixo continuava solto, agora por
 outro motivo.
 
 O que me convenceu da correção falsa foi o teste que usei para validá-la: rodei
 com 8 steps. Com tão poucos steps a saída satura e o encadeamento de blocos não
-aparece — o teste passou porque estava no regime em que o defeito é invisível.
+aparece, o teste passou porque estava no regime em que o defeito é invisível.
 Escolhi um caso de teste rápido e barato, e barato aqui significou *cego para o
 que eu queria testar*.
 
@@ -152,7 +152,7 @@ O quinto é o mais sorrateiro da lista. A `llama-diffusion-cli` escreve **tudo e
 stderr**: os logs e o texto gerado. O `stdout` tem 0 bytes.
 
 Ler o stdout devolve string vazia. E string vazia, para o juiz automático de
-qualidade, não é erro — é uma saída que ele pontua como **100/100 de
+qualidade, não é erro, é uma saída que ele pontua como **100/100 de
 degeneração**. Reprovada.
 
 O experimento inteiro teria concluído: "nenhum número de steps produz saída
@@ -180,7 +180,7 @@ A primeira versão, com três sinais, deu **0,0** para isto:
 > paisão esperando a outros por recursos."
 
 Nenhuma palavra adjacente idêntica, nenhum trigrama em loop, nenhuma sílaba
-duplicada — e obviamente quebrado. A degeneração aqui é de *proximidade*: a
+duplicada, e obviamente quebrado. A degeneração aqui é de *proximidade*: a
 mesma raiz reaparece perto demais. Daí o quarto sinal, `near_repeats`.
 
 Que imediatamente reprovou **código correto**, a 10,5/100:
@@ -192,7 +192,7 @@ def reverse_string(s):
 ```
 
 `reverse_string` aparece no `def`, na docstring e na chamada. Isso não é
-degeneração — é a aparência normal de código. Medir prosa e código com a mesma
+degeneração, é a aparência normal de código. Medir prosa e código com a mesma
 régua reprova saída boa. A correção foi separar os dois antes de medir.
 
 O detalhe que importa: um juiz com falso positivo **escolheria steps
@@ -234,12 +234,12 @@ A conclusão prática dos sete não é "revise mais". É mais específica:
 **O erro de medição não se detecta lendo o código.** Cada um desses sete estava
 em código que eu tinha escrito, lido e considerado correto. Eles se detectam
 quando um número impossível aparece — tempo caindo com comprimento crescente,
-curva perfeitamente plana, código reprovado por um juiz de prosa — e alguém para
+curva perfeitamente plana, código reprovado por um juiz de prosa, e alguém para
 para perguntar *por que este número é possível*.
 
 E o guard tem que morar no **ponto de entrada**, não dentro de um dos caminhos.
 O limite de RAM do primeiro erro protegia quem entrava por um script; uma
-inferência lançada por fora passou direto e estourou a memória de novo — não pelo
+inferência lançada por fora passou direto e estourou a memória de novo, não pelo
 peso do modelo, mas porque sem `-c` explícito o servidor aloca o contexto de
 treino inteiro em quatro slots, gigabytes de cache. A regra que sobrou é chata e
 funciona: nenhuma inferência fora dos dois pontos de entrada que têm o guard.

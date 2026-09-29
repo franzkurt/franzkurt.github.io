@@ -7,7 +7,7 @@ description: "Um emoji que quadruplica uma string, uma chave que fica inalcanç�
 
 Um caso de canto bem escolhido não é curiosidade de trivia. Ele é a prova de que
 você entendeu o mecanismo: se a implementação é de um jeito, então **este**
-comportamento estranho tem que acontecer — e acontece.
+comportamento estranho tem que acontecer, e acontece.
 
 Este texto reúne quinze deles. Os sete primeiros saem de como o CPython
 representa os [tipos não-compostos](/2026/08/tipos-em-python-por-dentro/); os oito
@@ -46,7 +46,7 @@ print(a is b)   # True
 ```
 
 Dá `True`. Não porque 257 foi cacheado, mas porque o compilador **desduplica
-constantes iguais dentro do mesmo code object** — as duas linhas viram uma
+constantes iguais dentro do mesmo code object**, as duas linhas viram uma
 referência só na tabela de constantes da função ou do módulo.
 
 No REPL cada linha é compilada separadamente, então são dois objetos e o
@@ -68,7 +68,7 @@ Quase quatro vezes, por um caractere. E fatiar devolve a largura menor: `s[:999]
 volta a 1.040 bytes.
 
 Quem monta identificadores ou chaves concatenando texto de usuário está sujeito
-a isto — um emoji num campo faz a string inteira pagar 4 bytes por caractere.
+a isto, um emoji num campo faz a string inteira pagar 4 bytes por caractere.
 
 ### 4. `NaN` é diferente de si mesmo, e ainda assim está na lista
 
@@ -174,7 +174,7 @@ limpar o antigo.
 ```
 
 Parece que set ordena. Não ordena. É que `hash(n) == n` para inteiro pequeno, e
-a posição na tabela é o hash módulo o tamanho — então eles caem em ordem
+a posição na tabela é o hash módulo o tamanho, então eles caem em ordem
 crescente por acidente. Ponha um inteiro grande ou uma string no meio e a
 ilusão desaparece.
 
@@ -210,7 +210,7 @@ False
 (1, ['guardado'])
 ```
 
-O valor continua lá, contado no `len`, visível no `values()` — e **inalcançável
+O valor continua lá, contado no `len`, visível no `values()`, e **inalcançável
 pela chave**. Nenhuma exceção. É a razão técnica pela qual chave de dict deve ser
 imutável, e o modo de falha é silencioso: você não perde o dado, perde o caminho
 até ele.
@@ -226,7 +226,7 @@ Como `1 == 1.0 == True` e os três têm o mesmo hash, são a **mesma chave**. E
 repare no resultado: a chave que fica é a **primeira** (o `1`, do tipo `int`), o
 valor que fica é o **último**. Inserir não substitui a chave, só o valor.
 
-O mesmo vale para `{0.0: 'a', -0.0: 'b'}` — uma entrada só.
+O mesmo vale para `{0.0: 'a', -0.0: 'b'}`, uma entrada só.
 
 ### 14. O primeiro item de um dict custa 160 bytes
 
@@ -262,7 +262,7 @@ Relendo a lista de uma vez, três padrões aparecem.
 
 **A identidade vaza por todo lado.** O cache de inteiros, o `in` que testa `is`
 antes de `==`, o `{nan, nan}` com um elemento e o `{float('nan'), float('nan')}`
-com dois — em todos, o resultado depende de **qual objeto** é, não de qual valor.
+com dois, em todos, o resultado depende de **qual objeto** é, não de qual valor.
 Python esconde ponteiros até a hora em que não esconde.
 
 **Igualdade e hash mandam mais que tipo.** `1`, `1.0` e `True` são a mesma chave.
@@ -280,8 +280,8 @@ gastar a tarde procurando o que quebrou.
 
 ## Referências
 
-- [Floating-Point Arithmetic: Issues and Limitations](https://docs.python.org/3/tutorial/floatingpoint.html) — o tutorial oficial sobre por que `0.1 + 0.2` não dá `0.3`
-- [PEP 393 — Flexible String Representation](https://peps.python.org/pep-0393/) — por que uma string muda de tamanho conforme o conteúdo
-- [`sys.getsizeof`](https://docs.python.org/3/library/sys.html#sys.getsizeof) — a medida usada aqui, e as ressalvas dela
-- [`tracemalloc`](https://docs.python.org/3/library/tracemalloc.html) — o que usar quando `getsizeof` mede a coisa errada
+- [Floating-Point Arithmetic: Issues and Limitations](https://docs.python.org/3/tutorial/floatingpoint.html), o tutorial oficial sobre por que `0.1 + 0.2` não dá `0.3`
+- [PEP 393 — Flexible String Representation](https://peps.python.org/pep-0393/), por que uma string muda de tamanho conforme o conteúdo
+- [`sys.getsizeof`](https://docs.python.org/3/library/sys.html#sys.getsizeof), a medida usada aqui, e as ressalvas dela
+- [`tracemalloc`](https://docs.python.org/3/library/tracemalloc.html), o que usar quando `getsizeof` mede a coisa errada
 - [Design and History FAQ](https://docs.python.org/3/faq/design.html) — vários destes casos de canto respondidos pelos mantenedores

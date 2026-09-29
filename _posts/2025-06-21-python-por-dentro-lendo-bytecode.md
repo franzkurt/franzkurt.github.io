@@ -10,7 +10,7 @@ audio_duracao: "5:38"
 *Parte da série **Python in-depth**, sobre o funcionamento interno do Python. Se
 os termos **token**, **bytecode**, **opcode** ou **pilha** não forem familiares,
 a [parte 0](/2025/05/python-por-dentro-parte-0-o-mapa/) apresenta todos eles em
-linguagem simples — e é lá que está o índice das partes e dos aprofundamentos.*
+linguagem simples, e é lá que está o índice das partes e dos aprofundamentos.*
 
 As duas partes anteriores cobriram
 [como o fonte vira bytecode](/2025/06/python-por-dentro-do-fonte-ao-bytecode/) e
@@ -60,7 +60,7 @@ L2:  END_FOR
 Três coisas para reparar.
 
 **O `for` não existe.** O que existe é `GET_ITER`, que pede um iterador ao
-objeto, e `FOR_ITER`, que tenta puxar o próximo item — e **salta para fora**
+objeto, e `FOR_ITER`, que tenta puxar o próximo item, e **salta para fora**
 quando acabou. O corpo termina em `JUMP_BACKWARD`, voltando ao começo. Laço é
 salto para trás, e foi assim que a instrução se chamou desde sempre.
 
@@ -94,12 +94,12 @@ E os três custam coisas bem distintas:
 
 É daí que vem o conselho antigo de "copie a global para uma local dentro do laço
 quente". Ele não é superstição: `LOAD_FAST` lê uma posição de array, `LOAD_GLOBAL`
-consulta uma tabela hash — e se o nome não estiver no módulo, consulta uma
+consulta uma tabela hash, e se o nome não estiver no módulo, consulta uma
 segunda, a dos builtins.
 
 Há um detalhe bonito escondido aí. O compilador **não consegue distinguir** uma
 global de um builtin: ambas viram `LOAD_GLOBAL`, porque a diferença só é
-conhecida quando o programa roda. Guarde isso — é a pergunta que a próxima parte responde.
+conhecida quando o programa roda. Isso importa: é a pergunta que a próxima parte responde.
 
 ## A compreensão, e o que mudou nela
 
@@ -189,7 +189,7 @@ quinto milésimo de segundo.
 
 ---
 
-*Próxima parte: o interpretador que se especializa sozinho — como o Python 3.11
+*Próxima parte: o interpretador que se especializa sozinho, como o Python 3.11
 ficou substancialmente mais rápido sem trocar de arquitetura.*
 
 ## Referências

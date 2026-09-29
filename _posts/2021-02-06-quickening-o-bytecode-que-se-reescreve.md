@@ -16,7 +16,7 @@ A [parte 1](/2021/01/cache-inline-como-o-interpretador-aprende/) terminou com um
 dívida. O cache inline resolve a busca cara, mas mesmo quando ele **acerta** você
 paga duas coisas:
 
-1. perguntar se o cache está preenchido — um desvio, toda vez;
+1. perguntar se o cache está preenchido, um desvio, toda vez;
 2. chamar através de um ponteiro guardado — chamada indireta, que em muitos
    processadores custa bem mais que uma direta.
 
@@ -33,9 +33,9 @@ interpretador troca uma pela outra no fluxo de bytecode.
 
 Em vez de um `ADD` que consulta cache, você tem:
 
-- `ADD` — a genérica, que ainda não sabe nada;
-- `ADD_INT` — a que assume inteiro e só confere isso;
-- `ADD_CACHED` — a que assume que o cache está preenchido.
+- `ADD`, a genérica, que ainda não sabe nada;
+- `ADD_INT`, a que assume inteiro e só confere isso;
+- `ADD_CACHED`, a que assume que o cache está preenchido.
 
 E a regra que torna tudo barato é um **invariante**, não uma verificação:
 
@@ -50,7 +50,7 @@ o nome da instrução.
 ## Em C, o esqueleto
 
 Bernstein mostra o mecanismo com um interpretador de brinquedo. O essencial é
-a última linha de cada caso — a que altera o próprio programa:
+a última linha de cada caso, a que altera o próprio programa:
 
 ```c
 case ADD: {
@@ -83,7 +83,7 @@ case ADD_INT: {
 }
 ```
 
-Repare que não há otimizador, não há compilação, não há passe de análise. Há uma
+Não há otimizador, não há compilação, não há passe de análise. Há uma
 instrução que, ao executar, decide qual instrução ela deveria ter sido.
 
 ## A máquina de estados, no seu Python
@@ -137,7 +137,7 @@ descobre que errou, **desfaz a aposta**, e depois aposta de novo quando o padrã
 volta.
 
 É por isso que essa família de otimização funciona num interpretador e não num
-compilador antecipado. Não é que o interpretador saiba mais — é que ele pode
+compilador antecipado. Não é que o interpretador saiba mais, é que ele pode
 errar e corrigir. O compilador antecipado precisa estar certo na primeira vez,
 para todo programa que venha a usar aquele módulo, para sempre.
 
@@ -148,7 +148,7 @@ O preço da diferença, mínimo de 9 repetições de 2 milhões de chamadas:
 | `BINARY_OP_ADD_INT` | 24,2 ns |
 | `BINARY_OP` genérico | 49,3 ns |
 
-## O que fica
+## Por que reescrever o bytecode compensa
 
 **A informação pode morar no nome da instrução, não só no dado.** É a sacada, e
 ela é geral: sempre que você conferir a mesma condição num laço quente, existe a
@@ -166,11 +166,11 @@ está medindo outro programa — mais um item para a lista dos
 Falta a última peça, e é a mais física das três: mesmo com a instrução certa,
 somar dois inteiros no Python ainda mexe na memória, porque todo inteiro é um
 objeto alocado. A [parte 3](/2021/02/ponteiro-etiquetado-e-o-preco-do-int/) é
-sobre o truque que evita isso — e sobre por que o CPython não pode usá-lo.
+sobre o truque que evita isso, e sobre por que o CPython não pode usá-lo.
 
 ## Referências
 
 - [Inline caching: quickening](https://bernsteinbear.com/blog/inline-caching-quickening/) — Max Bernstein, o texto que originou este
-- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/) — a especialização e a desespecialização no CPython
-- [InternalDocs/interpreter.md](https://github.com/python/cpython/blob/main/InternalDocs/interpreter.md) — as famílias de instruções, documentadas
+- [PEP 659 — Specializing Adaptive Interpreter](https://peps.python.org/pep-0659/), a especialização e a desespecialização no CPython
+- [InternalDocs/interpreter.md](https://github.com/python/cpython/blob/main/InternalDocs/interpreter.md), as famílias de instruções, documentadas
 - [Efficient Interpretation using Quickening](https://publications.sba-research.org/publications/dls10.pdf) — Stefan Brunthaler, DLS 2010, o trabalho de origem do termo (PDF)

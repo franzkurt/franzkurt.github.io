@@ -86,7 +86,7 @@ E um *skill file*, no exemplo que ele mostra, é uma página de instrução em p
 quando uma gravação de reunião chegar, transcreva com rótulo de quem fala,
 extraia os compromissos assumidos, quem assumiu e o prazo, confira cada pessoa
 citada contra a biblioteca, arquive o resumo aqui e a transcrição ali, e **se
-algo contradisser o que já acreditamos, sinalize — não sobrescreva**.
+algo contradisser o que já acreditamos, sinalize, não sobrescreva**.
 
 Daí sai o teste que eu achei o mais útil da palestra inteira:
 
@@ -104,7 +104,7 @@ e eu concordo com a força da afirmação.
 
 Existem dois lugares onde a computação pode acontecer, e confundi-los é o
 problema. **Espaço latente** é onde vivem julgamento, gosto e a leitura do que
-alguém quis dizer num pedido vago — isso mora no modelo, e você guia com um
+alguém quis dizer num pedido vago, isso mora no modelo, e você guia com um
 arquivo Markdown. **Espaço determinístico** é aritmética, consulta SQL, contagem —
 isso mora em código, que o Markdown chama.
 
@@ -119,7 +119,7 @@ silêncio, porque não se parece com saída de medição — parece decoração.
 ## A ressalva que dura vinte segundos
 
 Entre a arquitetura e o como-fazer, há um parágrafo curto que, na minha leitura, é
-a coisa mais importante da palestra — e ele passa rápido demais:
+a coisa mais importante da palestra, e ele passa rápido demais:
 
 > Um brain que ninguém cura é **um depósito de lixo com busca ótima**. A
 > recuperação vai trazer um fato velho com total confiança. Uma skill ruim
@@ -129,12 +129,12 @@ A prescrição vem junto, também de passagem: *"proveniência em cada fato, che
 de contradição quando informação nova colide com a velha, e um bibliotecário cujo
 trabalho de verdade é **podar**."*
 
-Aqui está a minha divergência de ênfase, e é a razão de eu ter escrito este texto
+Minha divergência de ênfase é esta, e é a razão de eu ter escrito este texto
 em vez de só recomendar o vídeo.
 
 **Esse parágrafo não é uma nota de rodapé. É o problema inteiro.**
 
-O modo de falha de um sistema desses não é esquecer — é **lembrar com confiança
+O modo de falha de um sistema desses não é esquecer, é **lembrar com confiança
 de algo que nunca foi verdade**. E recuperação não distingue as duas coisas: um
 fato errado bem indexado chega com exatamente a mesma autoridade de um certo.
 Pior, ele chega *mais* convincente, porque veio da sua própria biblioteca, e você
@@ -144,7 +144,7 @@ E há uma assimetria que a palestra não menciona. **Tudo no modelo escala menos
 verificação.** Ingestão escala, indexação escala, recuperação escala, redação
 escala. Conferir se a afirmação bate com a fonte continua sendo alguém abrindo o
 texto original e procurando a frase literal. É o gargalo, e ele não tem
-automação — nem a promessa de uma.
+automação, nem a promessa de uma.
 
 Vale ser concreto sobre como o erro se parece, porque ele não parece erro. O caso
 típico não é uma afirmação absurda: é uma afirmação **plausível e no espírito
@@ -159,7 +159,7 @@ Para quem quiser experimentar, a parte prática da palestra é curta e vale
 traduzir:
 
 1. **Hoje à noite:** escolha um *harness* e rode um agente na sua máquina.
-2. **Neste fim de semana:** comece a biblioteca. Não um arquivo grandioso — uma
+2. **Neste fim de semana:** comece a biblioteca. Não um arquivo grandioso, uma
    pasta de Markdown. Uma página por projeto e por pessoa com quem você trabalha,
    com o que vocês estão construindo, o que ela valoriza, o que você deve a ela.
 3. **A primeira skill:** pegue a tarefa que você faz toda semana e mais detesta.
@@ -176,7 +176,7 @@ falhou."**
 A curva prometida é honesta, o que é raro numa palestra de conferência: semana 1 é
 um brinquedo e você conserta mais do que economiza; semana 4 o volante engata;
 semana 12 a biblioteca responde antes de você terminar de perguntar. E *"a maioria
-que tentar vai desistir na semana dois"* — que eu acho o dado mais realista do
+que tentar vai desistir na semana dois"*, que eu acho o dado mais realista do
 conjunto.
 
 ## A segunda metade: de quem é a sua competência
@@ -188,7 +188,7 @@ extraído da sua cabeça, escrito e executável**. E o mesmo arquivo é dois fut
 opostos dependendo de uma variável: quem o controla.
 
 O exemplo é uma engenheira de suporte fictícia, Maya, que em dois anos ensina
-quarenta skills aos agentes dela — como triar um incidente crítico às duas da
+quarenta skills aos agentes dela, como triar um incidente crítico às duas da
 manhã, como segurar um cliente prestes a cancelar, como escrever um post-mortem
 que de fato evita o próximo. Quarenta arquivos que são o julgamento dela, dois
 anos de construção, num disco.
@@ -205,7 +205,7 @@ ferramentas, e era isso que os fazia livres. A fábrica quebrou isso, porque o
 tear pertencia ao moinho. Quem trabalha com conhecimento se achava a salvo porque
 suas ferramentas moravam na cabeça, onde ninguém confisca. **Skill file acaba com
 essa proteção**: pela primeira vez, a sua cognição pode ser extraída, versionada e
-possuída — e a única pergunta é por quem.
+possuída, e a única pergunta é por quem.
 
 ## O que eu acho que se sustenta, e o que não
 
@@ -219,7 +219,7 @@ dele à objeção óbvia é a melhor frase da palestra:
 
 **Se sustenta também**, e merece crédito: ele desinfla o próprio número. Ao dizer
 que produz 400 vezes mais que em 2013, ele mesmo aplica os descontos — *"assuma
-que metade é andaime, assuma que estou me gabando"* — e chega a 8 vezes no piso.
+que metade é andaime, assuma que estou me gabando"*, e chega a 8 vezes no piso.
 Palestra que ataca o próprio dado antes que a plateia ataque é rara.
 
 **Não se sustenta na proporção em que foi dito:** a curadoria como parágrafo de
