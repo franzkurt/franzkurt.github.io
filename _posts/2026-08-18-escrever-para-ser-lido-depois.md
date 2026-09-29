@@ -58,7 +58,7 @@ uma versão diferente, o contrato se quebra — e o aluno conclui que o problema
 ele, não o texto. Tutorial é a única parte da documentação que precisa ser
 testada como se fosse código.
 
-**O tutorial não é lugar de explicação.** Essa é a regra que mais dói, porque a
+**O tutorial não é lugar de explicação.** Essa é a regra mais difícil de aceitar, porque a
 vontade de explicar é enorme. Se no meio do passo a passo você escreve *"note que
 usamos um ambiente virtual porque o Python instala pacotes globalmente por
 padrão, o que causa..."* — pare. O aluno não tem contexto para absorver isso

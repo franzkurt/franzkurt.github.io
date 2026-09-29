@@ -1,5 +1,5 @@
 ---
-title: "Cinco livros, quatro distâncias — parte 2: onde o seu código realmente dói"
+title: "Cinco livros, quatro distâncias: parte 2, o que o histórico do repositório conta"
 date: 2026-09-16 10:00:00 -0300
 tags: [livros, arquitetura, python]
 description: "Os três livros da parte 1 dizem como o código deveria ser. Os dois do Adam Tornhill dizem que a sua opinião sobre qual parte do seu sistema está pior provavelmente está errada — e mostram como medir."
@@ -34,7 +34,7 @@ as mudanças no código já escrito? *"Iteration two, at the latest."* A manuten
 começa na segunda iteração, o que significa que se entra em modo de manutenção
 imediatamente.
 
-A resposta à pergunta de onde dói, por sua vez, não está no código que você lê.
+A resposta a essa pergunta, por sua vez, não está no código que você lê.
 Está no histórico do git. As técnicas centrais:
 
 - **Hotspots** — cruzar complexidade com frequência de mudança. O módulo mais
@@ -55,7 +55,7 @@ Architecture e Secure by Design te dão um ideal; a tendência natural é aplic�
 onde você *acha* que o código está ruim. E esse palpite é notoriamente ruim —
 costuma apontar para o que você leu por último ou para o que te irritou na
 semana passada. Tornhill troca o palpite por evidência: o repositório já sabe
-onde dói, e você nunca perguntou.
+qual é o trecho mais custoso, e você nunca perguntou.
 
 Uma ressalva de honestidade: Tornhill é fundador e CTO do CodeScene, produto
 comercial que faz exatamente essas análises. O livro não é um folheto — as
@@ -135,7 +135,7 @@ rendendo.
 
 O *X-Rays* eu deixaria por último, e não por ser o menos importante. Ele responde
 uma pergunta que só aparece depois que as outras foram respondidas: você já sabe
-onde dói, já sabe qual fronteira faltou, já tentou consertar — e o problema
+qual é o trecho mais custoso, já sabe qual fronteira faltou, já tentou consertar, e o problema
 voltou. É aí que a resposta "não era o código, era quanta gente mexia nele ao
 mesmo tempo" faz sentido, e não antes.
 

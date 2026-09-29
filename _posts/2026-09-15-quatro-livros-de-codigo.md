@@ -23,7 +23,7 @@ está pior provavelmente está errada — e mostra como medir.
 | A linha | Python Fluente | Estou usando a linguagem ou lutando contra ela? |
 | O sistema | Clean Architecture | O que aqui é decisão e o que é detalhe? |
 | O adversário | Secure by Design | Este bug consegue sequer existir? |
-| A história | Your Code as a Crime Scene | Onde dói de verdade neste repositório? |
+| A história | Your Code as a Crime Scene | Qual trecho deste repositório custa mais caro? |
 | A história, mais longe | Software Design X-Rays | E quanto disso é problema de código, afinal? |
 
 Esta parte cobre as três primeiras distâncias. A última — a que mede em vez de
@@ -203,7 +203,7 @@ As três distâncias acima têm uma coisa em comum: elas dizem como o código
 inexprimível, o data model da linguagem — e todas valem para código em geral.
 
 A quarta distância faz o oposto. Ela não prescreve nada: pega o **seu**
-repositório, lê o histórico dele, e responde onde dói de verdade. E a resposta
+repositório, lê o histórico dele, e responde qual trecho custa mais caro. E a resposta
 costuma contradizer o seu palpite, que é justamente o que a torna útil.
 
 É o assunto da [parte 2](/2026/09/quatro-livros-de-codigo-parte-2/), com os dois

@@ -1,5 +1,5 @@
 ---
-title: "GitHub Pages e Jekyll: o que cada um faz, e onde dói"
+title: "GitHub Pages e Jekyll: o que cada um faz"
 date: 2026-09-14 10:00:00 -0300
 tags: [jekyll, github-pages, site-estatico, infraestrutura]
 description: "Um site estático hospedado de graça, com build no servidor de outra pessoa. Este texto separa o que é Jekyll do que é GitHub Pages, mede o que esse arranjo entrega, e mostra as três armadilhas que me custaram tempo."
