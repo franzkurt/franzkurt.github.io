@@ -101,7 +101,7 @@ Há um detalhe bonito escondido aí. O compilador **não consegue distinguir** u
 global de um builtin: ambas viram `LOAD_GLOBAL`, porque a diferença só é
 conhecida quando o programa roda. Isso importa: é a pergunta que a próxima parte responde.
 
-## A compreensão, e o que mudou nela
+## O que mudou na compreensão de lista
 
 Agora o achado que motivou este texto. Desmonte uma compreensão trivial:
 

@@ -84,7 +84,7 @@ o servidor não tem, e manda sem compressão nenhuma. Brotli costuma render mais
 15 a 20% sobre o gzip em HTML, e aqui esse ganho simplesmente não existe. É o
 tipo de coisa que você só descobre medindo, porque o navegador não reclama.
 
-## O cache, e o que ele custa quando acerta
+## Quanto custa um cache que acerta
 
 `cache-control: max-age=600` autoriza o navegador a reusar a cópia local por dez
 minutos **sem perguntar nada**. Essa é a única forma de cache que é realmente

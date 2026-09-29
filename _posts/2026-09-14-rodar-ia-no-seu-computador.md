@@ -11,7 +11,7 @@ Dá para instalar um modelo de linguagem no seu computador e conversar com ele s
 conta, sem mensalidade e sem conexão com a internet. O processo leva uns quinze
 minutos e não exige saber programar.
 
-Este texto é a parte prática: como instalar, o que baixar, o que esperar do
+Aqui vem a parte prática: como instalar, o que baixar, o que esperar do
 resultado. Não entra no mérito de a inteligência artificial ser boa ou ruim para
 o mundo, é um assunto legítimo, mas é outro assunto. Aqui o objetivo é só que
 você consiga rodar uma no seu notebook e decidir por conta própria se serve para
@@ -130,7 +130,7 @@ e sai da conversa digitando `/bye`.
 A primeira resposta demora alguns segundos a mais que as seguintes, é o modelo
 sendo carregado na memória. Depois disso o ritmo fica constante.
 
-## O que esperar, e o que não esperar
+## Expectativas realistas
 
 Vale calibrar a expectativa antes de tirar conclusão, porque o modelo que roda no
 seu notebook e o que roda no servidor de uma empresa grande não estão na mesma

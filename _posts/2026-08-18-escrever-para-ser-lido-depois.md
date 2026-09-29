@@ -17,7 +17,7 @@ veterano com pressa tem que atravessar o passo a passo; e a explicação, que é
 
 O [Diátaxis](https://diataxis.fr/) resolve isso separando os quatro. Escrito por
 Daniele Procida em 2020, virou a base da documentação da Django e da Canonical.
-Este texto percorre os quatro com o que cada um **não pode** fazer, que é a
+Vou percorrer os quatro pelo que cada um **não pode** fazer, que é a
 parte útil e a que quase todo mundo pula, e depois o que muda agora que boa
 parte dos seus leitores não é humana.
 
@@ -42,7 +42,7 @@ Cruzando as duas, saem quatro tipos, e só quatro:
 | **Referência** | cognição | aplicação | "o que é, exatamente" |
 | **Explicação** | cognição | aquisição | "por que é assim" |
 
-## Tutorial: você é o professor, e a culpa é sua
+## Tutorial: a culpa é sempre sua
 
 > *A tutorial is an experience that takes place under the guidance of a tutor.*
 
@@ -135,7 +135,7 @@ quatro. A gerada é excelente naquilo que faz e não substitui nenhuma das outra
 três, porque ela **não sabe** por que as decisões foram tomadas nem o que alguém
 está tentando conseguir.
 
-## Explicação: a mais difícil, e a que só você pode escrever
+## Explicação: ninguém escreve por você
 
 Explicação é orientada ao entendimento. Ela se lê longe do teclado, a atividade
 associada não é fazer nem consultar, é **refletir**.

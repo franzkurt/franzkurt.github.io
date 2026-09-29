@@ -23,7 +23,7 @@ de cada uma.
 
 <!--more-->
 
-## A conta, medida
+## A conta que ninguém faz
 
 Vinte e cinco conexões novas contra o servidor deste blog, uma de cada vez, com
 o `curl` reportando quando cada etapa terminou. Medianas:
@@ -108,7 +108,7 @@ resposta é essencialmente de graça**. Acima, cada dobra da janela custa uma id
 e volta. É a razão técnica por trás do conselho de manter o HTML inicial pequeno
 — não é sobre largura de banda, é sobre quantas vezes você vai esperar.
 
-## O TLS por cima, e o que ele resolve
+## O que o TLS resolve
 
 Terminado o TCP, o navegador tem um cano confiável para uma máquina que ele
 ainda não sabe quem é. O TLS resolve isso, e no TLS 1.3 resolve em **uma** ida e
@@ -165,7 +165,7 @@ página falsa.
 O DNS continua sem autenticação — a diferença é que ele deixou de importar para
 essa ameaça.
 
-## Retomada: o que ela economiza, e o que não
+## Retomada de sessão: o que ela poupa
 
 Sessões de TLS podem ser retomadas. Guardando o estado de uma conexão anterior e
 apresentando-o na seguinte, o servidor confirma:
@@ -206,7 +206,7 @@ vez por conexão**, não uma vez por recurso, e é exatamente por isso que o
 HTTP/2, que enfia tudo numa conexão só, é o assunto da
 [parte 3](/2023/09/navegador-parte-3-http/).
 
-## Três idas e voltas, e o que cada uma compra
+## Onde vão os 98 milissegundos
 
 **Três idas e voltas antes do primeiro byte.** TCP, TLS, pedido. Nesta medição,
 94 ms de preparo para 3,8 ms de transferência.

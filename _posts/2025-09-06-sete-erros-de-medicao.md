@@ -9,7 +9,7 @@ O bug que quebra é barato. Ele para o programa, aparece no log, alguém consert
 O caro é o outro: o que devolve um número **plausível**, passa por toda a
 pipeline, entra numa tabela e vira conclusão.
 
-Este texto é o registro de sete erros desse tipo, todos cometidos numa
+O que vem abaixo é o registro de sete erros desse tipo, todos cometidos numa
 investigação só — medições de desempenho e qualidade de modelos de linguagem
 rodando em máquina local. Nenhum dos sete levantou exceção. Todos devolveram
 número. **Cinco teriam produzido uma conclusão coerente e errada**, e um deles
@@ -64,7 +64,7 @@ de qualidade**, para decidir sem humano e sem LLM se uma saída degradou. As dua
 aparecem na lista de erros, o guard porque foi contornado, o juiz porque errou
 nos dois sentidos antes de acertar.
 
-## Os sete, em uma tabela
+## Os sete erros lado a lado
 
 | # | O erro | O que devolveu em vez de exceção |
 |---|---|---|

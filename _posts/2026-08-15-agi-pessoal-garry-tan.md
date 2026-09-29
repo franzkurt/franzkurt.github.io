@@ -16,11 +16,11 @@ A palestra tem duas metades. A primeira é uma arquitetura, com o sistema dele
 aberto no GitHub. A segunda é um argumento político sobre de quem é a sua
 competência quando ela vira arquivo executável.
 
-Este texto cobre as duas, e acrescenta o que eu acho que a palestra subestima.
+Cubro as duas abaixo, e acrescento o que eu acho que a palestra subestima.
 
 <!--more-->
 
-## A tese, em uma equação
+## A tese como equação
 
 Tan chama o que propõe de **AGI pessoal**, e faz questão de separar isso do que
 as empresas vendem com nome parecido:
@@ -153,7 +153,7 @@ certo da fonte**, com um número específico que a fonte não traz. O sinal de a
 que sustenta o "trinta por cento" não contém número nenhum, o número foi
 parafraseado para dentro.
 
-## O como-fazer, em cinco passos
+## Cinco passos para tirar do papel
 
 Para quem quiser experimentar, a parte prática da palestra é curta e vale
 traduzir:
@@ -207,7 +207,7 @@ suas ferramentas moravam na cabeça, onde ninguém confisca. **Skill file acaba 
 essa proteção**: pela primeira vez, a sua cognição pode ser extraída, versionada e
 possuída, e a única pergunta é por quem.
 
-## O que eu acho que se sustenta, e o que não
+## Onde concordo e onde discordo
 
 **Se sustenta:** a assimetria entre modelo alugado e contexto próprio. Isso é
 verdade e é subestimado. Cada modelo melhor que sai é um upgrade grátis para o

@@ -11,7 +11,7 @@ Rust. O **Ruff** também. O núcleo do Pydantic, o Polars, o orjson, os
 tokenizadores do Hugging Face — todos Rust.
 
 Não é coincidência nem moda. É consequência de decisões de projeto tomadas há
-muito tempo, em direções opostas, e que cobraram preços diferentes. Este texto é
+muito tempo, em direções opostas, e que cobraram preços diferentes. O que segue é
 sobre quais foram essas decisões, o que cada uma comprou, e como elas acabam
 aparecendo na arquitetura de projetos que nunca escreveram uma linha da outra
 linguagem.

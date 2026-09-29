@@ -15,7 +15,7 @@ aconteceu e em que ordem, como vimos nos
 num fio único é **uma** forma de organizar isso. Existem outras, e algumas
 resolvem problemas que a cadeia cria.
 
-Este texto percorre seis alternativas — algumas em produção há anos, outras ainda
+Vou percorrer seis alternativas — algumas em produção há anos, outras ainda
 mais promessa que rede, e termina numa proposta que não muda o formato do grafo:
 muda o que uma transação contém.
 

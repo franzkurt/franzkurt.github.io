@@ -25,7 +25,7 @@ dissecar, e o cuidado que faz a diferença entre conferir e se enganar.
 
 <!--more-->
 
-## As duas ferramentas, e a diferença entre elas
+## Uma captura, outra pergunta
 
 **`tcpdump`** captura. Ele pede à placa de rede uma cópia de cada quadro que
 passa, aplica um filtro e grava ou imprime. O filtro é compilado para **BPF** —

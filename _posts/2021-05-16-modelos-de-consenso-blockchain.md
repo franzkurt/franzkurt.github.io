@@ -18,7 +18,8 @@ traidores, enviando mensagens contraditórias de propósito.
 A pergunta é: existe um protocolo que faça os generais leais chegarem à mesma
 decisão, mesmo com traidores entre eles?
 
-Cada modelo de consenso é uma resposta diferente a essa pergunta. Este texto
+Cada modelo de consenso é uma resposta diferente a essa pergunta. O que vem
+a seguir
 percorre os principais, e o que cada um cobra.
 
 <!--more-->

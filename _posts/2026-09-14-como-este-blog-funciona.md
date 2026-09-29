@@ -45,7 +45,7 @@ O texto começa aqui.
 A regra que organiza tudo: arquivos em `_posts/` viram artigos, e o nome do
 arquivo precisa ser `AAAA-MM-DD-titulo.md`. Isso volta como armadilha mais adiante.
 
-## GitHub Pages é o que hospeda, e o que impõe as regras
+## GitHub Pages hospeda, e impõe as regras
 
 GitHub Pages é hospedagem estática gratuita. Você dá `git push`, e eles rodam o
 Jekyll e publicam. Não há servidor para manter, certificado para renovar nem

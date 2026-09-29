@@ -26,7 +26,7 @@ A alternativa é fazer a conta no seu próprio computador. O navegador moderno j
 tem tudo que é preciso: lê arquivos do disco, faz criptografia, decodifica
 imagem, roda WebAssembly. Falta só alguém escrever a página.
 
-## A afirmação, medida
+## Testando a afirmação
 
 "Roda no seu computador" é fácil de dizer. Testei do jeito mais direto que achei:
 carreguei a página, **cortei a rede**, todo pedido a partir dali passa a ser
@@ -135,7 +135,7 @@ Quase 2,7 MB, uma vez, e depois fica em cache. Mas repare na direção: o que ve
 é o **modelo**; a sua imagem continua parada. É o oposto de um serviço de OCR,
 onde a imagem viaja e o modelo fica.
 
-## Validadores: o dígito verificador, não uma lista
+## Validadores: aritmética, não consulta
 
 "Validar CPF" não consulta nada, não há base de dados envolvida, e nenhum site
 sério teria acesso a uma. O que se valida é **aritmética**: os dois últimos
@@ -179,7 +179,7 @@ O que o token garante não é sigilo, é **integridade**: a terceira parte é um
 assinatura, e alterar o conteúdo invalida a assinatura. Daí a regra prática:
 nunca ponha dado sensível dentro de um JWT. Abrir um não é quebrar nada.
 
-## QR e código de barras, nos dois sentidos
+## QR e código de barras: gerar e ler
 
 Gerar usa o `qrcode-generator`; ler imagem usa o `jsQR`; e há uma versão que
 abre a câmera e decodifica ao vivo, quadro a quadro, pela API de mídia do
@@ -190,7 +190,7 @@ quebrava com **acento**. Ela escolhia o tamanho do QR contando caracteres, e
 depois codificava em UTF-8, onde "ã" ocupa dois bytes. Com acento, o conteúdo
 não cabia no tamanho escolhido.
 
-## E o resto, em uma linha
+## O resto, rapidamente
 
 Planilhas (XLSX ↔ JSON ↔ CSV) pela biblioteca `xlsx`; leitores de **NFe**,
 **CT-e** e **SPED Fiscal**, que são formatos que só importam aqui e por isso

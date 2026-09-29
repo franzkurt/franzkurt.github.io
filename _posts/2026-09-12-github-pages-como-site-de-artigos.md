@@ -13,7 +13,7 @@ você quer publicar o segundo artigo, e percebe que hospedar uma página HTML e 
 um blog são coisas diferentes.
 
 Um blog precisa de listagem que se atualiza sozinha, feed RSS, páginas de tags,
-meta tags para o Google e um jeito de escrever em texto em vez de HTML. Este texto
+meta tags para o Google e um jeito de escrever em texto em vez de HTML. O que vem abaixo
 é o caminho até lá, com uma restrição que muda todas as decisões: **nada de
 GitHub Actions para manter**.
 

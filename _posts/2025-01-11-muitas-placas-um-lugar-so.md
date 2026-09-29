@@ -148,7 +148,7 @@ num lugar bem concreto: preciso dos outros não por gentileza, mas por limitaç�
 de ótica. Discordância deixa de ser ameaça e vira a única ferramenta disponível
 para ver o que me escapa.
 
-## A sala vazia, e o que de fato temos em comum
+## A sala vazia
 
 Tem um segundo momento na conversa que segue a mesma direção. Petry pergunta o
 que há de mais importante numa sala. Ouve a lista esperada — objetos, história,

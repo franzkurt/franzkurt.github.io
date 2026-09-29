@@ -22,7 +22,7 @@ Mesmo conteúdo, **quatro vezes mais memória** no set e no dict. Não é
 desperdício: é o preço da busca em tempo constante, e saber de onde ele vem muda
 a escolha.
 
-Este texto é sobre as três estruturas por dentro, e sobre como o dict mudou de
+Vou abrir as três estruturas por dentro, e contar como o dict mudou de
 forma no Python 3.6, de um jeito que reduziu o tamanho dele e, de quebra, deu
 ordem de inserção a todo mundo.
 
@@ -30,7 +30,7 @@ ordem de inserção a todo mundo.
 
 ## Quais são os tipos compostos
 
-Este texto trata dos tipos que guardam **uma coleção**, e não um valor, os
+O assunto são os tipos que guardam **uma coleção**, e não um valor, os
 escalares ficam [no outro](/2026/08/tipos-em-python-por-dentro/). São oito
 embutidos, e organizá-los por quatro propriedades já resolve a maior parte das
 dúvidas de escolha:

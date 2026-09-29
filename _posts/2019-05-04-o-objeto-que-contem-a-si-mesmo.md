@@ -97,7 +97,7 @@ copiou, e ao reencontrar o original aponta para a cópia já feita:
 'list'
 ```
 
-## Por que tupla e set não conseguem, e o que isso ensina
+## A lição que tupla e set deixam
 
 Lista e dicionário se auto-referenciam porque são **mutáveis**: dá para criar
 vazio e depois inserir a si mesmo. Tupla não:

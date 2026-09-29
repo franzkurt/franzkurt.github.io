@@ -9,7 +9,7 @@ Quando se decide rodar um modelo de linguagem localmente, três nomes aparecem:
 Ollama, RamaLama e o llama-server. À primeira vista parecem concorrentes fazendo a
 mesma coisa. Não são, ou não exatamente. Os três empacotam o **mesmo motor** de
 formas diferentes, e a escolha certa depende do que você valoriza: facilidade,
-isolamento ou controle. Este texto tenta ir além da folha de propaganda de cada um,
+isolamento ou controle. Vou tentar ir além da folha de propaganda de cada um,
 até os detalhes que só aparecem depois de uma semana de uso.
 
 <!--more-->

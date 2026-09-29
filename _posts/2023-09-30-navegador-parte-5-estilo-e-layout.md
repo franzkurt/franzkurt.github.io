@@ -107,7 +107,7 @@ tocados, não a forma do seletor.**
 inteira. Pôr a classe no menor ancestral comum é a otimização que vale, e ela
 não aparece em nenhuma tabela de "seletores rápidos".
 
-## O layout, e o pior erro de desempenho que se comete em JavaScript
+## Layout thrashing: o erro que custa mil vezes
 
 Calculado o estilo, o layout dá a cada caixa posição e tamanho. É recursivo: o
 pai define a própria largura, posiciona os filhos, e a altura do pai sai da soma

@@ -11,7 +11,7 @@ O ferramental do Python tem fama de bagunça: um programa para o ambiente virtua
 outro para instalar pacotes, um para formatar, um para o *lint*, um para checar
 tipos, cada um com sua configuração e sua lentidão. Nos últimos anos, três
 ferramentas escritas em Rust vêm substituindo essa pilha: **uv** para o ambiente,
-**Ruff** para a higiene do código e **Pyrefly** para os tipos. Este texto monta um
+**Ruff** para a higiene do código e **Pyrefly** para os tipos. Vou montar um
 projeto do zero com as três, mas antes situa de onde elas vêm, porque isso mudou
 recentemente e afeta a aposta.
 

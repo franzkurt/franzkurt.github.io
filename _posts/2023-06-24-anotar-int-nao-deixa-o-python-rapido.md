@@ -80,7 +80,7 @@ lugar, a mesma cascata de verificações que o interpretador já faz. Bernstein
 descreve o despacho de operador binário do CPython pedindo ao leitor apenas que
 diga *"ooh"*, *"aah"* e *"wow, so many if-statements"*.
 
-## O interpretador resolve isso, e a solução explica o problema
+## Como o interpretador resolve isso
 
 O detalhe que fecha o raciocínio, e que eu não vi no texto original: **o CPython
 já faz essa otimização.** Só que em tempo de execução.
@@ -125,7 +125,7 @@ Um compilador antecipado não tem essa saída. Ele precisa estar certo na primei
 vez, para sempre, para todo programa que venha a importar aquele módulo. É a
 diferença entre apostar podendo desistir e apostar sem poder.
 
-## As outras travas, medidas
+## Medindo as outras travas
 
 O problema da subclasse é o mais elegante, mas não está sozinho.
 

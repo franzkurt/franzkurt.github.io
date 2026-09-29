@@ -26,7 +26,7 @@ definidas em
 [`Python/bytecodes.c`](https://github.com/python/cpython/blob/main/Python/bytecodes.c),
 numa linguagem de domínio criada só para isso, e o interpretador sai dali.
 
-Este texto é sobre a escolha de arquitetura desse laço, e sobre uma explicação
+O assunto aqui é a escolha de arquitetura desse laço, e sobre uma explicação
 muito repetida que não sobreviveu quando eu fui medir.
 
 <!--more-->

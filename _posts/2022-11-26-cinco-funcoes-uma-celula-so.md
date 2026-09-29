@@ -96,7 +96,7 @@ Isso explica os três casos de uma vez, explica por que o bytecode é igual, e d
 critério prático: **conte quantos escopos o seu laço cria.** Um laço não cria
 escopo por iteração, nem `for`, nem compreensão. Uma chamada de função cria.
 
-## O detalhe que mudou no 3.12, e o que não mudou
+## O que o 3.12 mudou (e o que continua igual)
 
 Registro porque confunde. Desde a [PEP 709](https://peps.python.org/pep-0709/),
 compreensões são embutidas na função que as contém, e a variável do laço não

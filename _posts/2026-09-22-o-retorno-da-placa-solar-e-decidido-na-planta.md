@@ -14,7 +14,7 @@ saiu um script que você pode rodar na sua casa, está no fim, junto com o víde
 
 <!--more-->
 
-## A lei, e a data que separa dois mundos
+## A data que separa dois mundos
 
 A [Lei 14.300/2022](https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2022/lei/L14300.htm)
 dividiu quem gera energia em casa em dois grupos, e o critério não é o tamanho

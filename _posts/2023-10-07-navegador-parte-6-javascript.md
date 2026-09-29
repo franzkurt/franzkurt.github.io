@@ -95,7 +95,7 @@ nenhum quadro é desenhado, a aba congela. Um laço `while(true)` faz o mesmo de
 forma óbvia; uma cadeia de promessas que se realimenta faz o mesmo de forma
 discreta, e é muito mais fácil de escrever sem querer.
 
-## `setTimeout(f, 0)` não é 0, e a partir da quinta vez nem tenta
+## Por que `setTimeout(f, 0)` vira 4 ms
 
 Encadeando doze `setTimeout(…, 0)`, um chamando o próximo, e medindo o intervalo
 real:
@@ -188,7 +188,7 @@ essas etapas, e ele as refaz na próxima alteração.
 O ciclo fecha a série. A página não é um resultado, é um estado que é
 reconstruído, parcialmente, sessenta vezes por segundo, enquanto durar a aba.
 
-## Uma thread, e o orçamento que ela tem
+## Dezesseis milissegundos e sete décimos
 
 **Uma thread para tudo.** Análise, estilo, layout, pintura e o seu código. O
 paralelismo real está na rede, no compositor e nos workers.

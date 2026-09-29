@@ -15,7 +15,7 @@ em [medição](/2025/09/sete-erros-de-medicao/), em
 [regra de negócio](/2025/10/secure-by-design-hamlet-negativo/) e em
 [auditoria](/2026/08/agi-pessoal-garry-tan/).
 
-Este texto é sobre a forma mais pura dele, uma camada abaixo de tudo: o
+Vou tratar da forma mais pura dele, uma camada abaixo de tudo: o
 comportamento indefinido do C. Não é bug do compilador, não é erro de quem
 escreveu. É a linguagem funcionando como especificada, e o resultado é código
 que compila sem aviso, roda sem erro, e responde errado.

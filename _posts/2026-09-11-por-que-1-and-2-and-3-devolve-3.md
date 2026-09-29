@@ -17,7 +17,7 @@ Abra o Python e digite:
 Nenhum dos dois devolveu `True`. E não é curiosidade de canto: é como `and` e
 `or` funcionam sempre, inclusive no `if` que você escreveu hoje.
 
-Este texto mede o comportamento e desce até o bytecode, onde a explicação acaba
+Medi o comportamento e desci até o bytecode, onde a explicação acaba
 sendo uma instrução só. Um [segundo texto](/2026/09/nan-nao-e-igual-a-nan/) trata
 do outro lado, os tipos que fazem o operador parecer mentir.
 
@@ -45,7 +45,7 @@ Confira contra a medição:
 Na penúltima: três valores falsos, e o resultado é o último, uma tupla
 vazia, não `False`.
 
-## O bytecode explica, e a explicação é uma instrução
+## Uma instrução explica tudo
 
 Desmontando `a and b`:
 
@@ -107,7 +107,7 @@ que explodiria:
 Nenhum `ZeroDivisionError`. O `or` achou `'x'` verdadeiro e parou, o `1/0` nunca
 rodou. O `POP_JUMP_IF_TRUE` do bytecode pulou por cima dele.
 
-## O idioma que isso permite, e a armadilha dele
+## Um idioma útil com armadilha embutida
 
 Como `or` devolve o operando, ele vira um valor padrão:
 
@@ -191,7 +191,7 @@ not a == b        # True   — é not (a == b)
 (not a) == b      # False  — outra coisa
 ```
 
-## A regra, em uma frase
+## A regra numa frase só
 
 **`and` e `or` são operadores de seleção, não de lógica booleana.** Eles
 escolhem um dos operandos e o entregam inteiro, com tipo e tudo. `not` é o único

@@ -13,7 +13,7 @@ reclamar, e o `ollama run` morre em algo assim:
 GGML_ASSERT(n_outputs_max <= cparams.n_outputs_max) failed
 ```
 
-A mensagem não ajuda. Este texto existe porque a explicação é curta, é
+A mensagem não ajuda. Escrevi isto porque a explicação é curta, é
 estrutural, e eu não achei em lugar nenhum quando precisei dela.
 
 <!--more-->

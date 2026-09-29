@@ -13,7 +13,7 @@ origem de metade dos mal-entendidos sobre a linguagem.
 A primeira é o **tipo em tempo de execução**: todo objeto carrega um ponteiro
 para o seu tipo, e é isso que decide o que `+` faz. A segunda é a **anotação de
 tipo**: `def f(x: int) -> str`, que o interpretador guarda e **não usa para
-nada**. Este texto trata das duas, na ordem, e a parte interessante é que a
+nada**. Vou tratar das duas, na ordem, e a parte interessante é que a
 segunda não afeta a primeira em ponto algum.
 
 Vou ao código do CPython onde for possível, porque a maior parte das surpresas
@@ -24,7 +24,7 @@ escritas e comentadas.
 
 ## Quais são os tipos não-compostos
 
-Antes de descer ao CPython, vale delimitar o terreno. Este texto trata dos tipos
+Antes de descer ao CPython, vale delimitar o terreno. O assunto são os tipos
 que **não são contêineres** — os que guardam um valor, não uma coleção. Lista,
 dict e set ficam [no outro texto](/2026/08/lista-set-dict-por-dentro/), porque as
 decisões de implementação deles são de outra natureza.

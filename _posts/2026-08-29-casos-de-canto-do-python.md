@@ -9,7 +9,7 @@ Um caso de canto bem escolhido não é curiosidade de trivia. Ele é a prova de 
 você entendeu o mecanismo: se a implementação é de um jeito, então **este**
 comportamento estranho tem que acontecer, e acontece.
 
-Este texto reúne quinze deles. Os sete primeiros saem de como o CPython
+Reuni quinze deles. Os sete primeiros saem de como o CPython
 representa os [tipos não-compostos](/2026/08/tipos-em-python-por-dentro/); os oito
 seguintes, do layout das [estruturas de dados](/2026/08/lista-set-dict-por-dentro/).
 Os dois textos, mais o de [type hints](/2026/08/type-hints-aceite-o-geral-devolva-o-especifico/),

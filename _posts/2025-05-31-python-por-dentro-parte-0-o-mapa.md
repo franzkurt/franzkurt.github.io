@@ -24,11 +24,11 @@ do texto que os originou:
 [o objeto que contém a si mesmo](/2019/05/o-objeto-que-contem-a-si-mesmo/).*
 
 Você escreve um arquivo, digita `python programa.py`, aperta enter, e algo
-acontece. Este texto é sobre esse *algo*.
+acontece. É sobre esse *algo* que vou falar.
 
 Ele abre a série **Python in-depth**, que desce bem fundo no funcionamento do
 Python, e esta parte existe para que **não seja preciso saber nada de antemão**
-para acompanhar. Este texto é o mapa e o vocabulário; as partes seguintes gastam uma
+para acompanhar. Aqui ficam o mapa e o vocabulário; as partes seguintes gastam uma
 seção inteira em cada caixinha dele.
 
 Se você é estagiário, está no primeiro emprego, ou simplesmente nunca pensou
@@ -86,7 +86,7 @@ Essa última é a que mais gente estranha, então vale insistir: no nível do
 bytecode **não existem variáveis nomeadas nas operações**. Existe uma pilha, e as
 instruções empurram e puxam coisas dela.
 
-## O caminho completo, em cinco passos
+## Os cinco passos do caminho
 
 Com o vocabulário, o caminho fica legível:
 

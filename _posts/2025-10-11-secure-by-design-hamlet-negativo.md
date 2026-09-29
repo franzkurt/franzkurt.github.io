@@ -65,7 +65,7 @@ mandava. As regras violadas não eram técnicas; eram regras de negócio. O livr
 chama isso de **quebra de integridade de negócio**, e a observação incômoda é que
 nenhuma ferramenta de varredura tem como encontrar.
 
-## Segurança é uma preocupação, não uma feature
+## Segurança não é feature
 
 A tese do livro está na distinção entre as duas palavras, e a ilustração histórica
 é de 1854.

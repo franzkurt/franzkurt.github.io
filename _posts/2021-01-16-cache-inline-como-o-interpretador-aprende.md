@@ -44,7 +44,7 @@ vê `Pedido`, outro que só vê `Cliente`, e os dois estarem certos.
 Se isso vale, existe uma otimização óbvia: guarde a resposta ali mesmo, ao lado
 da instrução.
 
-## O cache, em três estados
+## Os três estados do cache
 
 A ideia é anexar a cada instrução um espacinho de memória com duas coisas:
 

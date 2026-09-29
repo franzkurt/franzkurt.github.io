@@ -28,7 +28,7 @@ E dá para ver acontecendo.
 
 <!--more-->
 
-## A demonstração, em três comandos
+## Três comandos que mostram
 
 ```python
 import dis
