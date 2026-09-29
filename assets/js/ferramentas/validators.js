@@ -73,9 +73,64 @@ class ValidatorUtils {
     return ufs.includes(m[1]);
   }
 
+  /* O número único do CNJ é NNNNNNN-DD.AAAA.J.TR.OOOO, TUDO em dígitos.
+   * A versão anterior exigia [A-Z]{2} no lugar do tribunal, então rejeitava
+   * todo processo real e aceitava "1234567-89.2024.8.SP.0100", que não existe.
+   * E conferia só o formato: o dígito DD vem do módulo 97 (Res. CNJ 65/2008)
+   * e é ele que diz se o número é possível. */
   static validateCNJ(cnj) {
-    const regex = /^\d{7}-\d{2}\.\d{4}\.\d\.[A-Z]{2}\.\d{4}$/i;
-    return regex.test(String(cnj).trim());
+    const d = String(cnj ?? '').replace(/\D/g, '');
+    if (d.length !== 20) return false;
+    const informado = d.slice(7, 9);
+    const base = d.slice(0, 7) + d.slice(9) + '00';
+    const esperado = String(98n - (BigInt(base) % 97n)).padStart(2, '0');
+    return informado === esperado;
+  }
+
+  /* Calcula o dígito verificador a partir das outras partes. */
+  static digitoCNJ(sequencial, ano, segmento, tribunal, origem) {
+    const base = String(sequencial).padStart(7, '0') + String(ano).padStart(4, '0')
+               + String(segmento) + String(tribunal).padStart(2, '0')
+               + String(origem).padStart(4, '0') + '00';
+    return String(98n - (BigInt(base) % 97n)).padStart(2, '0');
+  }
+
+  /* Quebra o número e diz o que cada pedaço significa. É o que o profissional
+   * quer ver: de qual tribunal veio e de que ano é, sem consultar nada. */
+  static decodeCNJ(cnj) {
+    const d = String(cnj ?? '').replace(/\D/g, '');
+    if (d.length !== 20) throw new Error(`o número tem ${d.length} dígitos; o padrão CNJ tem 20`);
+    const seq = d.slice(0, 7), dv = d.slice(7, 9), ano = d.slice(9, 13),
+          j = d.slice(13, 14), tr = d.slice(14, 16), orig = d.slice(16);
+    const SEGMENTOS = {
+      '1': 'Supremo Tribunal Federal', '2': 'Conselho Nacional de Justiça',
+      '3': 'Superior Tribunal de Justiça', '4': 'Justiça Federal',
+      '5': 'Justiça do Trabalho', '6': 'Justiça Eleitoral',
+      '7': 'Justiça Militar da União', '8': 'Justiça Estadual',
+      '9': 'Justiça Militar Estadual',
+    };
+    /* Códigos de tribunal da Justiça Estadual (Res. CNJ 65/2008), na ordem
+     * oficial. Sergipe é 25 e São Paulo é 26 — inverter os dois faz todo
+     * processo paulista, que é o volume maior do país, sair rotulado errado. */
+    const UF = ['','AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG',
+                'PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SE','SP','TO'];
+    let tribunal;
+    if (j === '8' || j === '9') tribunal = `TJ${UF[+tr] || '?'} (tribunal ${tr})`;
+    else if (j === '5') tribunal = `TRT da ${+tr}ª Região`;
+    else if (j === '4') tribunal = `TRF da ${+tr}ª Região`;
+    else if (j === '6') tribunal = `TRE${UF[+tr] || '?'} (tribunal ${tr})`;
+    else tribunal = tr === '00' ? 'tribunal superior (sem subdivisão)' : `código ${tr}`;
+    const valido = ValidatorUtils.validateCNJ(d);
+    return {
+      formatado: `${seq}-${dv}.${ano}.${j}.${tr}.${orig}`,
+      valido,
+      digito_esperado: ValidatorUtils.digitoCNJ(seq, ano, j, tr, orig),
+      digito_informado: dv,
+      sequencial: seq, ano: +ano,
+      segmento: SEGMENTOS[j] || `desconhecido (${j})`,
+      tribunal,
+      unidade_origem: orig === '0000' ? 'sem unidade informada' : `unidade ${orig}`,
+    };
   }
 
   static validateCEP(cep) {

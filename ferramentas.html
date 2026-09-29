@@ -236,6 +236,7 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="extractors" onclick="openTool('extract-all')"><div class="card-icon">🗂️</div><div class="card-name">Extrair Tudo</div><div class="card-desc">CPF, CNPJ, CEP, e-mails, telefones e mais de um texto</div></div>
 
   <div class="grid-header" data-header="crypto">🔐 Criptografia &amp; Segurança</div>
+  <div class="card" data-group="crypto" onclick="openTool('cofre')"><div class="card-icon">🔐</div><div class="card-name">Cofre de Arquivo</div><div class="card-desc">Cifra com senha em AES-256-GCM, e abre de volta</div></div>
   <div class="card" data-group="crypto" onclick="openTool('hash')"><div class="card-icon">🔑</div><div class="card-name">Calculadora de Hash</div><div class="card-desc">SHA-256, SHA-1, MD5, HMAC-SHA256</div></div>
   <div class="card" data-group="crypto" onclick="openTool('jwt')"><div class="card-icon">🎫</div><div class="card-name">Inspector JWT</div><div class="card-desc">Decodifica e analisa tokens JWT</div></div>
   <div class="card" data-group="crypto" onclick="openTool('base64')"><div class="card-icon">🔠</div><div class="card-name">Base64</div><div class="card-desc">Codifica e decodifica Base64 / URL-safe</div></div>
@@ -248,7 +249,18 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="card" data-group="sheets" onclick="openTool('json-xlsx')"><div class="card-icon">📤</div><div class="card-name">JSON → XLSX</div><div class="card-desc">Exporta array JSON para planilha Excel</div></div>
   <div class="card" data-group="sheets" onclick="openTool('csv-xlsx')"><div class="card-icon">📊</div><div class="card-name">CSV → XLSX</div><div class="card-desc">Gera planilha do Excel a partir de CSV</div></div>
 
+  <div class="grid-header" data-header="imagem">🖼️ Imagens</div>
+  <div class="card" data-group="imagem" onclick="openTool('img-compress')"><div class="card-icon">🗜️</div><div class="card-name">Comprimir Imagem</div><div class="card-desc">Reduz o peso mantendo a aparência, e converte formato</div></div>
+  <div class="card" data-group="imagem" onclick="openTool('img-exif')"><div class="card-icon">🧹</div><div class="card-name">Limpar Metadados</div><div class="card-desc">Tira GPS, modelo do aparelho e data escondidos na foto</div></div>
+  <div class="grid-header" data-header="profissional">⚖️ Profissional &amp; Financeiro</div>
+  <div class="card" data-group="profissional" onclick="openTool('cnj')"><div class="card-icon">⚖️</div><div class="card-name">Decodificar CNJ</div><div class="card-desc">Confere o dígito e diz tribunal, ano e segmento</div></div>
+  <div class="card" data-group="profissional" onclick="openTool('prazo')"><div class="card-icon">📅</div><div class="card-name">Prazo Processual</div><div class="card-desc">Dias úteis do CPC, pulando feriado e recesso</div></div>
+  <div class="card" data-group="profissional" onclick="openTool('boleto')"><div class="card-icon">🧾</div><div class="card-name">Ler Boleto</div><div class="card-desc">Extrai vencimento, valor e banco da linha digitável</div></div>
+  <div class="card" data-group="profissional" onclick="openTool('financiamento')"><div class="card-icon">🏦</div><div class="card-name">Financiamento</div><div class="card-desc">Tabela SAC e PRICE, parcela a parcela</div></div>
   <div class="grid-header" data-header="utils">🛠 Utilidades</div>
+  <div class="card" data-group="utils" onclick="openTool('formatador')"><div class="card-icon">🧱</div><div class="card-name">Formatar JSON/XML/SQL</div><div class="card-desc">Indenta, valida e aponta o erro com linha e coluna</div></div>
+  <div class="card" data-group="utils" onclick="openTool('texto-analise')"><div class="card-icon">📊</div><div class="card-name">Analisar Texto</div><div class="card-desc">Palavras, frases, tempo de leitura e densidade</div></div>
+  <div class="card" data-group="utils" onclick="openTool('gravador')"><div class="card-icon">🎥</div><div class="card-name">Gravar Tela</div><div class="card-desc">Grava tela ou câmera em arquivo, sem enviar nada</div></div>
   <div class="card" data-group="utils" onclick="openTool('uuid')"><div class="card-icon">🆔</div><div class="card-name">UUID Generator</div><div class="card-desc">Gera e valida UUIDs v4 em lote</div></div>
   <div class="card" data-group="utils" onclick="openTool('checksum')"><div class="card-icon">🧮</div><div class="card-name">Checksums</div><div class="card-desc">CRC32, Luhn, EAN-13, ISBN, Módulo 11</div></div>
   <div class="card" data-group="utils" onclick="openTool('timestamp')"><div class="card-icon">⏱️</div><div class="card-name">Epoch e Data</div><div class="card-desc">Epoch em qualquer unidade, ISO e dd/mm/aaaa, nos dois sentidos</div></div>
@@ -278,6 +290,10 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
 <script src="/assets/js/ferramentas/xml-utils.js"></script>
 <script src="/assets/js/ferramentas/sped-utils.js"></script>
 <script src="/assets/js/ferramentas/validators.js"></script>
+<script src="/assets/js/ferramentas/imagem-utils.js"></script>
+<script src="/assets/js/ferramentas/formato-utils.js"></script>
+<script src="/assets/js/ferramentas/financas-utils.js"></script>
+<script src="/assets/js/ferramentas/cofre-utils.js"></script>
 <script src="/assets/js/ferramentas/qr-utils.js"></script>
 <script src="/assets/js/ferramentas/crypto-utils.js"></script>
 <script src="/assets/js/ferramentas/jwt-utils.js"></script>
@@ -376,7 +392,7 @@ const COMO_FUNCIONA = {
   "entrada": "Um número ou código para conferir o dígito verificador.",
   "saida": "Se o dígito bate: Luhn para cartão, EAN-13 para código de barras, ISBN para livro."
  },
-  "timestamp": {
+ "timestamp": {
   "entrada": "Qualquer coisa que represente um instante: epoch em segundos, milissegundos, microssegundos ou nanossegundos (a unidade é detectada sozinha), data ISO como 2024-01-15T10:30:00Z, ou o formato brasileiro 15/01/2024 14:30.",
   "saida": "O mesmo instante em doze formatos ao mesmo tempo — os quatro epochs, ISO em UTC e no seu fuso, RFC 1123, por extenso, dia da semana, quanto tempo faz, e o dia do ano. Data que não existe no calendário, como 31/02, é recusada em vez de virar 2 de março."
  },
@@ -519,6 +535,46 @@ const COMO_FUNCIONA = {
  "date-calc": {
   "entrada": "Duas datas para a diferença, ou uma data e um prazo em dias, horas e minutos para somar.",
   "saida": "A diferença em anos, meses, semanas, dias, horas, minutos e segundos — ou a data resultante da soma."
+ },
+ "img-compress": {
+  "entrada": "Uma foto ou imagem, mais a qualidade desejada e, se quiser, um limite de largura ou altura.",
+  "saida": "A mesma imagem menor, no formato que você escolher (JPEG, PNG ou WebP), com o quanto ela encolheu. Recomprimir descarta todos os metadados de quebra."
+ },
+ "img-exif": {
+  "entrada": "Uma foto JPEG que você vai publicar ou enviar.",
+  "saida": "A mesma foto, pixel por pixel idêntica, sem a localização de GPS, o modelo do aparelho nem a data. Se a foto já estava limpa, ela diz isso em vez de devolver um arquivo igual."
+ },
+ "cnj": {
+  "entrada": "O número de um processo judicial, com ou sem pontuação.",
+  "saida": "Se o dígito verificador bate pelo módulo 97, e o que cada pedaço significa: ano, segmento da Justiça, tribunal e unidade de origem."
+ },
+ "prazo": {
+  "entrada": "A data de início e quantos dias o prazo tem.",
+  "saida": "A data de vencimento contando dias úteis como manda o CPC, com a lista do que foi pulado e por quê. Feriado estadual e municipal não entram, e a ferramenta avisa."
+ },
+ "boleto": {
+  "entrada": "A linha digitável de um boleto (47 dígitos) ou de uma conta de luz, água ou telefone (48).",
+  "saida": "Vencimento, valor, banco emissor e se os dígitos verificadores batem. Não consulta banco nenhum: lê o que está escrito no próprio código, então não sabe se foi pago."
+ },
+ "financiamento": {
+  "entrada": "Valor financiado, taxa ao ano e prazo em meses.",
+  "saida": "As tabelas SAC e PRICE lado a lado, com a parcela mês a mês, o total de juros de cada uma e quanto a PRICE custa a mais."
+ },
+ "cofre": {
+  "entrada": "Um arquivo qualquer e uma senha, para cifrar; ou um arquivo .cofre e a senha, para abrir.",
+  "saida": "O arquivo cifrado em AES-256-GCM, com a chave derivada da senha por PBKDF2. Senha errada e arquivo adulterado falham do mesmo jeito, e não dá para distinguir os dois."
+ },
+ "formatador": {
+  "entrada": "JSON, XML ou SQL em uma linha só, ou bagunçado.",
+  "saida": "O mesmo conteúdo indentado e legível. Se estiver inválido, o erro vem com a linha e a coluna em vez da posição em caracteres."
+ },
+ "texto-analise": {
+  "entrada": "Qualquer texto.",
+  "saida": "Contagem de caracteres, palavras, frases e parágrafos, o tempo estimado de leitura e as palavras mais frequentes com a densidade de cada uma."
+ },
+ "gravador": {
+  "entrada": "Escolha gravar a tela ou a câmera, com ou sem áudio, e clique em gravar.",
+  "saida": "Um arquivo de vídeo para baixar. A gravação acontece no seu computador e nada é enviado para lugar nenhum."
  }
 };
 
@@ -568,6 +624,16 @@ function output(id, text, type = '') {
   const el = document.getElementById(id);
   el.textContent = text;
   el.className = 'output-box' + (type ? ' ' + type : '');
+}
+
+function baixarBlob(blob, nome) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = nome;
+  a.click();
+  /* revogar na hora corta o download em alguns navegadores; o atraso curto
+     dá tempo de a transferência começar antes de a URL morrer. */
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
 
 function copyText(id) {
@@ -2565,6 +2631,313 @@ TOOL_INIT['timestamp'] = () => {
     if (e.key === 'Enter') window.runTs();
   });
   window.runTsAgora();
+};
+
+
+// ---- Comprimir imagem ----
+TOOLS['img-compress'] = () => `
+<div class="tool-header"><div class="tool-title">🗜️ Comprimir Imagem</div><div class="tool-subtitle">Canvas nativo, sem biblioteca externa</div></div>
+<div class="form-section">
+  <label>Imagem</label><input type="file" id="ic-file" accept="image/*">
+  <div class="row" style="margin-top:12px">
+    <div><label>Formato</label><select id="ic-fmt"></select></div>
+    <div><label>Qualidade</label><input type="number" id="ic-q" value="75" min="1" max="100" step="5"></div>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <div><label>Largura máxima (0 = manter)</label><input type="number" id="ic-w" value="0" min="0"></div>
+    <div><label>Altura máxima (0 = manter)</label><input type="number" id="ic-h" value="0" min="0"></div>
+  </div>
+  <div class="btn-group">${btn('Comprimir', 'runIC()')}</div>
+</div>
+<div class="form-section">${outBlock('ic-out')}</div>`;
+TOOL_INIT['img-compress'] = () => {
+  const sel = document.getElementById('ic-fmt');
+  const NOMES = {'image/jpeg':'JPEG','image/png':'PNG','image/webp':'WebP','image/avif':'AVIF'};
+  ImagemUtils.formatosDisponiveis().forEach(m => sel.appendChild(
+    Object.assign(document.createElement('option'), { value:m, textContent:NOMES[m]||m })));
+  window.runIC = async () => {
+    const f = document.getElementById('ic-file').files[0];
+    if (!f) return output('ic-out', 'escolha uma imagem primeiro', 'error');
+    output('ic-out', 'processando…');
+    try {
+      const r = await ImagemUtils.comprimir(f, {
+        formato: sel.value,
+        qualidade: Math.min(1, Math.max(0.01, +document.getElementById('ic-q').value / 100)),
+        larguraMax: +document.getElementById('ic-w').value,
+        alturaMax: +document.getElementById('ic-h').value });
+      baixarBlob(r.blob, f.name.replace(/\.[^.]+$/, '') + '.' + sel.value.split('/')[1]);
+      output('ic-out',
+        `antes:  ${(r.bytes_antes/1024).toFixed(1)} kB  ${r.largura_original}×${r.altura_original}\n` +
+        `depois: ${(r.bytes_depois/1024).toFixed(1)} kB  ${r.largura}×${r.altura}\n` +
+        `reducao: ${(r.reducao*100).toFixed(1)}%\nmetadados: removidos pela recompressao\n\nbaixado.`,
+        r.reducao > 0 ? 'success' : 'error');
+    } catch (e) { output('ic-out', e.message, 'error'); }
+  };
+};
+
+// ---- Limpar metadados ----
+TOOLS['img-exif'] = () => `
+<div class="tool-header"><div class="tool-title">🧹 Limpar Metadados</div><div class="tool-subtitle">Tira EXIF e GPS sem recomprimir a foto</div></div>
+<div class="form-section">
+  <label>Foto JPEG</label><input type="file" id="ie-file" accept="image/jpeg">
+  <div class="btn-group">${btn('Inspecionar', 'runIEInfo()', 'btn-secondary')} ${btn('Limpar e baixar', 'runIE()')}</div>
+</div>
+<div class="form-section">${outBlock('ie-out')}</div>`;
+TOOL_INIT['img-exif'] = () => {
+  window.runIEInfo = async () => {
+    const f = document.getElementById('ie-file').files[0];
+    if (!f) return output('ie-out', 'escolha uma foto primeiro', 'error');
+    try {
+      const i = await ImagemUtils.info(f);
+      output('ie-out', `tipo: ${i.tipo}\ntamanho: ${(i.bytes/1024).toFixed(1)} kB\n` +
+        `dimensoes: ${i.largura}×${i.altura} (${i.megapixels} MP)\n` +
+        `metadados: ${i.tem_metadados ? 'SIM — esta foto carrega dados ocultos' : 'nenhum encontrado'}`,
+        i.tem_metadados ? 'error' : 'success');
+    } catch (e) { output('ie-out', e.message, 'error'); }
+  };
+  window.runIE = async () => {
+    const f = document.getElementById('ie-file').files[0];
+    if (!f) return output('ie-out', 'escolha uma foto primeiro', 'error');
+    try {
+      const r = await ImagemUtils.limparMetadados(f);
+      if (r.ja_estava_limpa) return output('ie-out', 'esta foto ja estava limpa — nada a remover', 'success');
+      baixarBlob(r.blob, f.name.replace(/\.[^.]+$/, '') + '-limpa.jpg');
+      output('ie-out', `blocos removidos: ${r.blocos_removidos.join(', ')}\n` +
+        `antes:  ${(r.bytes_antes/1024).toFixed(1)} kB\ndepois: ${(r.bytes_depois/1024).toFixed(1)} kB\n\nbaixado.`, 'success');
+    } catch (e) { output('ie-out', e.message, 'error'); }
+  };
+};
+
+// ---- CNJ ----
+TOOLS['cnj'] = () => `
+<div class="tool-header"><div class="tool-title">⚖️ Decodificar CNJ</div><div class="tool-subtitle">Confere o digito e abre o numero</div></div>
+<div class="form-section">
+  <label>Numero do processo</label>
+  <input type="text" id="cnj-in" placeholder="0001234-71.2024.8.26.0100">
+  <div class="btn-group">${btn('Decodificar', 'runCNJ()')}</div>
+</div>
+<div class="form-section">${outBlock('cnj-out')}</div>`;
+TOOL_INIT['cnj'] = () => {
+  window.runCNJ = () => {
+    try {
+      const r = ValidatorUtils.decodeCNJ(document.getElementById('cnj-in').value);
+      output('cnj-out',
+        `${r.formatado}\n\n` +
+        `digito:   ${r.valido ? 'confere' : 'NAO CONFERE — informado ' + r.digito_informado + ', esperado ' + r.digito_esperado}\n` +
+        `ano:      ${r.ano}\nsegmento: ${r.segmento}\ntribunal: ${r.tribunal}\norigem:   ${r.unidade_origem}`,
+        r.valido ? 'success' : 'error');
+    } catch (e) { output('cnj-out', e.message, 'error'); }
+  };
+  document.getElementById('cnj-in').addEventListener('keydown', e => { if (e.key === 'Enter') runCNJ(); });
+};
+
+// ---- Prazo processual ----
+TOOLS['prazo'] = () => `
+<div class="tool-header"><div class="tool-title">📅 Prazo Processual</div><div class="tool-subtitle">Dias uteis do CPC, feriados nacionais e recesso</div></div>
+<div class="form-section">
+  <div class="row">
+    <div><label>Inicio da contagem</label><input type="date" id="pz-ini"></div>
+    <div><label>Dias</label><input type="number" id="pz-dias" value="15" min="1"></div>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <div><label>Contagem</label><select id="pz-tipo"><option value="uteis">dias uteis (art. 219)</option><option value="corridos">dias corridos</option></select></div>
+    <div><label>Recesso forense</label><select id="pz-rec"><option value="1">considerar (20/12 a 20/01)</option><option value="0">ignorar</option></select></div>
+  </div>
+  <div class="btn-group">${btn('Calcular', 'runPZ()')}</div>
+</div>
+<div class="form-section">${outBlock('pz-out')}</div>`;
+TOOL_INIT['prazo'] = () => {
+  document.getElementById('pz-ini').value = new Date().toISOString().slice(0,10);
+  window.runPZ = () => {
+    try {
+      const r = PrazoUtils.contar(document.getElementById('pz-ini').value,
+        +document.getElementById('pz-dias').value, {
+          uteis: document.getElementById('pz-tipo').value === 'uteis',
+          recessoForense: document.getElementById('pz-rec').value === '1' });
+      const lista = r.pulados.slice(0, 20).map(x => `  ${x.data}  ${x.motivo}`).join('\n');
+      output('pz-out', `vencimento: ${r.vencimento}\ncontagem: ${r.contagem}\n` +
+        `dias pulados: ${r.dias_pulados}\n\n${lista}${r.pulados.length > 20 ? '\n  …' : ''}\n\n⚠ ${r.aviso}`, 'success');
+    } catch (e) { output('pz-out', e.message, 'error'); }
+  };
+};
+
+// ---- Boleto ----
+TOOLS['boleto'] = () => `
+<div class="tool-header"><div class="tool-title">🧾 Ler Boleto</div><div class="tool-subtitle">Le o que esta escrito no codigo, sem consultar banco</div></div>
+<div class="form-section">
+  <label>Linha digitavel (47 ou 48 digitos)</label>
+  <input type="text" id="bo-in" placeholder="34191.09008 61713.957000 00001.000010 1 99990000012345">
+  <div class="btn-group">${btn('Decodificar', 'runBO()')}</div>
+</div>
+<div class="form-section">${outBlock('bo-out')}</div>`;
+TOOL_INIT['boleto'] = () => {
+  window.runBO = () => {
+    try {
+      const r = BoletoUtils.decodificar(document.getElementById('bo-in').value);
+      const confere = r.campos_conferem ?? r.blocos_conferem;
+      const linhas = Object.entries(r).filter(([k]) => !k.startsWith('digitos_'))
+        .map(([k, v]) => `${k.replace(/_/g,' ').padEnd(22)} ${typeof v === 'object' ? JSON.stringify(v) : v}`);
+      output('bo-out', linhas.join('\n') + (confere ? '' : '\n\n⚠ os digitos verificadores NAO batem'), confere ? 'success' : 'error');
+    } catch (e) { output('bo-out', e.message, 'error'); }
+  };
+  document.getElementById('bo-in').addEventListener('keydown', e => { if (e.key === 'Enter') runBO(); });
+};
+
+// ---- Financiamento ----
+TOOLS['financiamento'] = () => `
+<div class="tool-header"><div class="tool-title">🏦 Financiamento</div><div class="tool-subtitle">SAC e PRICE lado a lado</div></div>
+<div class="form-section">
+  <div class="row">
+    <div><label>Valor financiado (R$)</label><input type="number" id="fi-v" value="300000" step="1000"></div>
+    <div><label>Taxa ao ano (%)</label><input type="number" id="fi-t" value="9" step="0.1"></div>
+  </div>
+  <div class="row" style="margin-top:12px"><div><label>Prazo (meses)</label><input type="number" id="fi-m" value="360" min="1"></div><div></div></div>
+  <div class="btn-group">${btn('Calcular', 'runFI()')}</div>
+</div>
+<div class="form-section">${outBlock('fi-out')}</div>`;
+TOOL_INIT['financiamento'] = () => {
+  const br = v => v.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+  window.runFI = () => {
+    try {
+      const c = FinanciamentoUtils.comparar(+document.getElementById('fi-v').value,
+        +document.getElementById('fi-t').value, +document.getElementById('fi-m').value);
+      const cab = 'sistema   1a parcela      ultima     total de juros\n' + '-'.repeat(52);
+      const linhas = ['sac','price'].map(k => {
+        const t = c[k];
+        return `${t.sistema.padEnd(9)}${br(t.primeira_parcela).padStart(12)}${br(t.ultima_parcela).padStart(13)}${br(t.total_juros).padStart(18)}`;
+      });
+      const amostra = c.sac.linhas.filter((_,i) => i===0 || (i+1)%60===0 || i===c.sac.linhas.length-1)
+        .map(l => `  mes ${String(l.mes).padStart(3)}  SAC ${br(l.parcela).padStart(11)}  PRICE ${br(c.price.linhas[l.mes-1].parcela).padStart(11)}`);
+      output('fi-out', `${cab}\n${linhas.join('\n')}\n\n` +
+        `taxa mensal equivalente: ${c.sac.taxa_mensal_equivalente.toFixed(4)}%\n` +
+        `a PRICE cobra ${br(c.diferenca_juros)} a mais de juros\n\n${amostra.join('\n')}`, 'success');
+    } catch (e) { output('fi-out', e.message, 'error'); }
+  };
+};
+
+// ---- Cofre ----
+TOOLS['cofre'] = () => `
+<div class="tool-header"><div class="tool-title">🔐 Cofre de Arquivo</div><div class="tool-subtitle">AES-256-GCM com chave derivada da senha</div></div>
+<div class="form-section">
+  <label>Arquivo</label><input type="file" id="cf-file">
+  <label style="margin-top:12px">Senha</label><input type="password" id="cf-senha" placeholder="minimo 8 caracteres">
+  <div class="btn-group">${btn('Cifrar', 'runCFEnc()')} ${btn('Abrir .cofre', 'runCFDec()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('cf-out')}</div>`;
+TOOL_INIT['cofre'] = () => {
+  const pega = () => {
+    const f = document.getElementById('cf-file').files[0];
+    const s = document.getElementById('cf-senha').value;
+    if (!f) throw new Error('escolha um arquivo');
+    if (!s) throw new Error('digite a senha');
+    return [f, s];
+  };
+  window.runCFEnc = async () => {
+    try { const [f, s] = pega(); output('cf-out', 'cifrando…');
+      const r = await CofreUtils.cifrar(f, s);
+      baixarBlob(r.blob, r.nome);
+      output('cf-out', `${r.algoritmo}\n${r.iteracoes.toLocaleString('pt-BR')} iteracoes de PBKDF2\n` +
+        `${r.bytes_antes} -> ${r.bytes_depois} bytes\n\nbaixado como ${r.nome}`, 'success');
+    } catch (e) { output('cf-out', e.message, 'error'); }
+  };
+  window.runCFDec = async () => {
+    try { const [f, s] = pega(); output('cf-out', 'abrindo…');
+      const r = await CofreUtils.decifrar(f, s);
+      baixarBlob(r.blob, r.nome);
+      output('cf-out', `aberto: ${r.bytes} bytes\nbaixado como ${r.nome}`, 'success');
+    } catch (e) { output('cf-out', e.message, 'error'); }
+  };
+};
+
+// ---- Formatador ----
+TOOLS['formatador'] = () => `
+<div class="tool-header"><div class="tool-title">🧱 Formatar JSON / XML / SQL</div><div class="tool-subtitle">Indenta, valida e aponta a linha do erro</div></div>
+<div class="form-section">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('fm','json',this)">JSON</button>
+    <button class="tab" onclick="switchTab('fm','xml',this)">XML</button>
+    <button class="tab" onclick="switchTab('fm','sql',this)">SQL</button>
+  </div>
+  <div id="fm-json" class="tab-content active"></div>
+  <div id="fm-xml" class="tab-content"></div>
+  <div id="fm-sql" class="tab-content"></div>
+  <label>Entrada</label><textarea id="fm-in" rows="8" placeholder='{"a":1,"b":[2,3]}'></textarea>
+  <div class="btn-group">${btn('Formatar', 'runFM()')} ${btn('Minificar', 'runFM(true)', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('fm-out')}</div>`;
+TOOL_INIT['formatador'] = () => {
+  window.__fmTipo = 'json';
+  const orig = window.switchTab;
+  window.switchTab = (p, id, el) => { orig(p, id, el); if (p === 'fm') window.__fmTipo = id; };
+  window.runFM = (min) => {
+    const txt = document.getElementById('fm-in').value;
+    if (!txt.trim()) return output('fm-out', 'cole alguma coisa primeiro', 'error');
+    try {
+      const t = window.__fmTipo;
+      const r = t === 'json' ? FormatoUtils.json(txt, { minificar: !!min })
+              : t === 'xml'  ? FormatoUtils.xml(txt) : FormatoUtils.sql(txt);
+      const meta = t === 'json' ? `\n\n— ${r.chaves} chaves, profundidade ${r.profundidade}, raiz ${r.tipo_raiz}`
+                 : t === 'xml' ? `\n\n— raiz <${r.raiz}>, ${r.elementos} elementos` : '';
+      output('fm-out', r.texto + meta, 'success');
+    } catch (e) { output('fm-out', e.message, 'error'); }
+  };
+};
+
+// ---- Analisar texto ----
+TOOLS['texto-analise'] = () => `
+<div class="tool-header"><div class="tool-title">📊 Analisar Texto</div><div class="tool-subtitle">Contagem, tempo de leitura e densidade</div></div>
+<div class="form-section">
+  <label>Texto</label><textarea id="ta-in" rows="9" placeholder="cole o texto aqui"></textarea>
+  <div class="row" style="margin-top:12px"><div><label>Palavras por minuto</label><input type="number" id="ta-ppm" value="200" min="50"></div><div></div></div>
+  <div class="btn-group">${btn('Analisar', 'runTA()')}</div>
+</div>
+<div class="form-section">${outBlock('ta-out')}</div>`;
+TOOL_INIT['texto-analise'] = () => {
+  window.runTA = () => {
+    const r = TextoUtils.analisar(document.getElementById('ta-in').value,
+      { ppm: +document.getElementById('ta-ppm').value || 200 });
+    if (!r.palavras) return output('ta-out', 'cole algum texto primeiro', 'error');
+    const top = r.mais_frequentes.map(x => `  ${x.palavra.padEnd(20)} ${String(x.vezes).padStart(3)}x  ${x.densidade}%`).join('\n');
+    output('ta-out',
+      `caracteres:        ${r.caracteres}\nsem espaco:        ${r.caracteres_sem_espaco}\n` +
+      `palavras:          ${r.palavras}\nfrases:            ${r.frases}\nparagrafos:        ${r.paragrafos}\n` +
+      `palavras/frase:    ${r.media_palavras_por_frase}\ntempo de leitura:  ${r.tempo_de_leitura}\n\n` +
+      `mais frequentes:\n${top}`, 'success');
+  };
+};
+
+// ---- Gravador ----
+TOOLS['gravador'] = () => `
+<div class="tool-header"><div class="tool-title">🎥 Gravar Tela</div><div class="tool-subtitle">MediaRecorder nativo, nada sai da maquina</div></div>
+<div class="form-section">
+  <div class="row">
+    <div><label>Fonte</label><select id="gv-fonte"><option value="tela">tela</option><option value="camera">camera</option></select></div>
+    <div><label>Audio</label><select id="gv-audio"><option value="1">com audio</option><option value="0">sem audio</option></select></div>
+  </div>
+  <div class="btn-group">${btn('Gravar', 'runGVStart()')} ${btn('Parar e baixar', 'runGVStop()', 'btn-secondary')}</div>
+</div>
+<div class="form-section">${outBlock('gv-out')}</div>`;
+TOOL_INIT['gravador'] = () => {
+  window.__gv = null;
+  if (!GravadorUtils.suportado())
+    return output('gv-out', 'este navegador nao grava tela', 'error');
+  output('gv-out', 'formatos disponiveis: ' + GravadorUtils.formatos().join(', '));
+  window.runGVStart = async () => {
+    if (window.__gv) return output('gv-out', 'ja esta gravando', 'error');
+    try {
+      window.__gv = await GravadorUtils.iniciar({
+        fonte: document.getElementById('gv-fonte').value,
+        audio: document.getElementById('gv-audio').value === '1' });
+      output('gv-out', `gravando em ${window.__gv.formato}…\nclique em Parar quando terminar`, 'success');
+    } catch (e) { window.__gv = null; output('gv-out', e.message, 'error'); }
+  };
+  window.runGVStop = async () => {
+    if (!window.__gv) return output('gv-out', 'nao ha gravacao em andamento', 'error');
+    const g = window.__gv; window.__gv = null;
+    const blob = await g.parar();
+    baixarBlob(blob, 'gravacao-' + Date.now() + '.webm');
+    output('gv-out', `pronto: ${(blob.size/1048576).toFixed(1)} MB baixados`, 'success');
+  };
 };
 
 // ---- Timezone ----
