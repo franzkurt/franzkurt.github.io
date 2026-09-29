@@ -139,6 +139,12 @@ description: "Caixa de ferramentas que roda inteira no navegador: PDF, QR, hash,
 #ferramentas .file-chip { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 6px; }
 #ferramentas .file-chip-remove { cursor: pointer; color: var(--text2); font-size: 14px; }
 #ferramentas .file-chip-remove:hover { color: var(--red); }
+  #ferramentas .tool-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  #ferramentas .tool-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  #ferramentas .tool-table tr:last-child td { border-bottom: 0; }
+  #ferramentas .tool-table td:first-child { width: 11rem; color: var(--text2); }
+  #ferramentas .tool-table code { background: var(--bg2); padding: 2px 6px; border-radius: var(--radius-sm); word-break: break-all; }
+
 #ferramentas .output-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: var(--text); min-height: 80px; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto; line-height: 1.6; }
 #ferramentas .output-box.success { border-color: var(--green); }
 #ferramentas .output-box.error { border-color: var(--red); color: var(--red); }
@@ -245,7 +251,7 @@ body:has(#ferramentas) main.wrap { max-width: 1440px; padding-inline: 0; }
   <div class="grid-header" data-header="utils">🛠 Utilidades</div>
   <div class="card" data-group="utils" onclick="openTool('uuid')"><div class="card-icon">🆔</div><div class="card-name">UUID Generator</div><div class="card-desc">Gera e valida UUIDs v4 em lote</div></div>
   <div class="card" data-group="utils" onclick="openTool('checksum')"><div class="card-icon">🧮</div><div class="card-name">Checksums</div><div class="card-desc">CRC32, Luhn, EAN-13, ISBN, Módulo 11</div></div>
-  <div class="card" data-group="utils" onclick="openTool('timestamp')"><div class="card-icon">⏱️</div><div class="card-name">Timestamp</div><div class="card-desc">Converte datas Unix, ISO e formatos locais</div></div>
+  <div class="card" data-group="utils" onclick="openTool('timestamp')"><div class="card-icon">⏱️</div><div class="card-name">Epoch e Data</div><div class="card-desc">Epoch em qualquer unidade, ISO e dd/mm/aaaa, nos dois sentidos</div></div>
   <div class="card" data-group="utils" onclick="openTool('timezone')"><div class="card-icon">🌍</div><div class="card-name">Timezone</div><div class="card-desc">Converte horários entre fusos e verifica horário comercial</div></div>
   <div class="card" data-group="utils" onclick="openTool('slug')"><div class="card-icon">🔗</div><div class="card-name">Slug Generator</div><div class="card-desc">Gera slugs URL-safe a partir de texto</div></div>
   <div class="card" data-group="utils" onclick="openTool('date-calc')"><div class="card-icon">📆</div><div class="card-name">Calculadora de Datas</div><div class="card-desc">Diferença entre datas e soma de prazo</div></div>
@@ -370,9 +376,9 @@ const COMO_FUNCIONA = {
   "entrada": "Um número ou código para conferir o dígito verificador.",
   "saida": "Se o dígito bate: Luhn para cartão, EAN-13 para código de barras, ISBN para livro."
  },
- "timestamp": {
-  "entrada": "Um timestamp Unix, ou uma data.",
-  "saida": "A mesma data nos dois formatos, no seu fuso e em UTC."
+  "timestamp": {
+  "entrada": "Qualquer coisa que represente um instante: epoch em segundos, milissegundos, microssegundos ou nanossegundos (a unidade é detectada sozinha), data ISO como 2024-01-15T10:30:00Z, ou o formato brasileiro 15/01/2024 14:30.",
+  "saida": "O mesmo instante em doze formatos ao mesmo tempo — os quatro epochs, ISO em UTC e no seu fuso, RFC 1123, por extenso, dia da semana, quanto tempo faz, e o dia do ano. Data que não existe no calendário, como 31/02, é recusada em vez de virar 2 de março."
  },
  "timezone": {
   "entrada": "Uma data e hora, e o fuso de origem.",
@@ -2471,35 +2477,94 @@ TOOL_INIT['checksum'] = () => {
 
 // ---- Timestamp ----
 TOOLS['timestamp'] = () => `
-<div class="tool-header"><div class="tool-title">⏱️ Timestamp</div><div class="tool-subtitle">Conversão de datas e fusos</div></div>
+<div class="tool-header"><div class="tool-title">⏱️ Epoch e data</div><div class="tool-subtitle">Cola qualquer coisa: epoch em qualquer unidade, ISO, ou dd/mm/aaaa</div></div>
 <div class="form-section">
-  <div class="btn-group" style="margin-bottom:14px">${btn('Agora', 'runTsNow()')}</div>
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('ts','unix',this)">Unix → Data</button>
-    <button class="tab" onclick="switchTab('ts','iso',this)">ISO → Unix</button>
+  <label>Entrada</label>
+  <input type="text" id="ts-in" placeholder="1700000000  ·  1700000000000  ·  2024-01-15T10:30:00Z  ·  15/01/2024 14:30">
+  <div class="btn-group" style="margin-top:12px">
+    ${btn('Converter', 'runTs()')}
+    ${btn('Agora', 'runTsAgora()', 'btn-secondary')}
+    ${btn('Início do dia', 'runTsDia(0)', 'btn-secondary')}
+    ${btn('Fim do dia', 'runTsDia(1)', 'btn-secondary')}
   </div>
-  <div id="ts-unix" class="tab-content active">
-    <label>Unix timestamp (segundos)</label>
-    <input type="number" id="ts-unix-in" placeholder="1700000000">
-    <div class="btn-group">${btn('Converter', 'runTsUnix()')}</div>
-  </div>
-  <div id="ts-iso" class="tab-content">
-    <label>Data ISO ou string</label>
-    <input type="text" id="ts-iso-in" placeholder="2024-01-15T10:30:00">
-    <div class="btn-group">${btn('Converter', 'runTsISO()')}</div>
-  </div>
+  <div id="ts-aviso" style="margin-top:10px"></div>
 </div>
-<div class="form-section">${outBlock('ts-out')}</div>`;
+<div class="form-section">
+  <div class="output-label">Resultado <button class="copy-btn" onclick="copyTsTudo()">📋 copiar tudo</button></div>
+  <div id="ts-tabela"></div>
+</div>`;
+
 TOOL_INIT['timestamp'] = () => {
-  window.runTsNow = () => output('ts-out', JSON.stringify(TimestampUtils.now(), null, 2), 'success');
-  window.runTsUnix = () => {
-    const val = parseInt(document.getElementById('ts-unix-in').value);
-    try { output('ts-out', JSON.stringify(TimestampUtils.fromUnix(val), null, 2), 'success'); } catch(e) { output('ts-out', e.message, 'error'); }
+  const LINHAS = [
+    ['epoch_s',   'Epoch (segundos)'],
+    ['epoch_ms',  'Epoch (milissegundos)'],
+    ['epoch_us',  'Epoch (microssegundos)'],
+    ['epoch_ns',  'Epoch (nanossegundos)'],
+    ['iso_utc',   'ISO 8601 (UTC)'],
+    ['iso_local', 'ISO 8601 (seu fuso)'],
+    ['rfc_utc',   'RFC 1123 (UTC)'],
+    ['local',     'Local'],
+    ['no_fuso',   'Por extenso'],
+    ['dia_da_semana', 'Dia da semana'],
+    ['relativo',  'Relativo a agora'],
+    ['dia_do_ano','Dia do ano'],
+  ];
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  const desenha = (r) => {
+    const aviso = document.getElementById('ts-aviso');
+    if (r.unidade && r.certeza === 'baixa') {
+      aviso.innerHTML = '<div class="output-box error">Número pequeno demais para eu ter certeza da unidade. ' +
+        'Interpretei como <b>segundos</b>; se era milissegundos, acrescente os zeros.</div>';
+    } else if (r.unidade) {
+      aviso.innerHTML = '<div class="output-box success">Detectado: ' + esc(r.origem) + '</div>';
+    } else {
+      aviso.innerHTML = '<div class="output-box success">Lido como ' + esc(r.origem) + '</div>';
+    }
+    document.getElementById('ts-tabela').innerHTML =
+      '<table class="tool-table"><tbody>' +
+      LINHAS.map(([k, rot]) =>
+        '<tr><td style="white-space:nowrap;opacity:.75">' + rot + '</td>' +
+        '<td><code>' + esc(r[k]) + '</code></td></tr>').join('') +
+      '</tbody></table>';
+    window.__tsAtual = r;
   };
-  window.runTsISO = () => {
-    const val = document.getElementById('ts-iso-in').value;
-    try { output('ts-out', JSON.stringify(TimestampUtils.fromString(val), null, 2), 'success'); } catch(e) { output('ts-out', e.message, 'error'); }
+
+  const erro = (msg) => {
+    document.getElementById('ts-aviso').innerHTML = '<div class="output-box error">' + esc(msg) + '</div>';
+    document.getElementById('ts-tabela').innerHTML = '';
+    window.__tsAtual = null;
   };
+
+  window.runTs = () => {
+    try { desenha(TimestampUtils.parseQualquer(document.getElementById('ts-in').value)); }
+    catch (e) { erro(e.message); }
+  };
+  window.runTsAgora = () => {
+    document.getElementById('ts-in').value = Date.now();
+    window.runTs();
+  };
+  window.runTsDia = (fim) => {
+    try {
+      const base = document.getElementById('ts-in').value.trim();
+      const r = TimestampUtils.parseQualquer(base || Date.now());
+      const d = new Date(r.epoch_ms);
+      d.setHours(fim ? 23 : 0, fim ? 59 : 0, fim ? 59 : 0, fim ? 999 : 0);
+      document.getElementById('ts-in').value = d.getTime();
+      window.runTs();
+    } catch (e) { erro(e.message); }
+  };
+  window.copyTsTudo = () => {
+    const r = window.__tsAtual;
+    if (!r) return;
+    const txt = LINHAS.map(([k, rot]) => rot.padEnd(24) + r[k]).join('\n');
+    navigator.clipboard.writeText(txt);
+  };
+
+  document.getElementById('ts-in').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.runTs();
+  });
+  window.runTsAgora();
 };
 
 // ---- Timezone ----
