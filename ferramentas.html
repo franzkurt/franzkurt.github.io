@@ -2962,11 +2962,20 @@ TOOL_INIT['timezone'] = () => {
     toSel.appendChild(Object.assign(document.createElement('option'), { value: z, textContent: z, selected: z === 'America/Sao_Paulo' }));
   });
   window.runTZ = () => {
-    const raw = document.getElementById('tz-input').value.trim() || new Date().toISOString();
-    const input = raw !== '' && !isNaN(raw) ? parseInt(raw) : raw;
+    const raw = document.getElementById('tz-input').value.trim() || String(Date.now());
+    const entrada = raw !== '' && !isNaN(raw) ? parseInt(raw, 10) : raw;
     const from = document.getElementById('tz-from').value;
     const to = document.getElementById('tz-to').value;
-    try { output('tz-out', JSON.stringify(TimezoneUtils.convert(input, from, to), null, 2), 'success'); } catch(e) { output('tz-out', e.message, 'error'); }
+    try {
+      const r = TimezoneUtils.convert(entrada, from, to);
+      const sinal = r.diferenca_horas >= 0 ? '+' : '';
+      output('tz-out',
+        `como li a entrada: ${r.interpretacao}\n\n` +
+        `em ${r.from}\n  ${r.na_origem}\n\n` +
+        `em ${r.to}\n  ${r.converted}${r.offset}\n  ${r.formatted}\n\n` +
+        `diferença: ${sinal}${r.diferenca_horas} h\n` +
+        `mesmo instante em epoch: ${r.epoch_s}\nUTC: ${r.original}`, 'success');
+    } catch(e) { output('tz-out', e.message, 'error'); }
   };
   window.runTZBusiness = () => {
     const input = document.getElementById('tz-input').value.trim() || new Date().toISOString();
